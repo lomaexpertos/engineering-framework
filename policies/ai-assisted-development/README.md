@@ -3,7 +3,12 @@
 Consulta este dominio cuando un agente tome decisiones, modifique código o declare
 una tarea terminada.
 
-## Enrutamiento planeado
+## Routing
+
+- Evaluación, planeación y ejecución de cambios de infraestructura:
+  [`infrastructure-change-safety.md`](infrastructure-change-safety.md).
+
+## Planned coverage
 
 - Conducta general: `agent-behavior.md`.
 - Carga progresiva de conocimiento: `context-management.md`.

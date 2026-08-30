@@ -3,14 +3,20 @@
 Consulta este dominio para cambios relacionados con confidencialidad, integridad,
 identidad, exposición o recuperación.
 
-## Enrutamiento planeado
+## Routing
 
-- Secretos y credenciales: `secrets.md`.
-- Cifrado en tránsito o reposo: `encryption.md`.
-- Exposición y segmentación: `networking.md`.
-- Identidad, privilegios y autorización: `access-control.md`.
-- Riesgo de dependencias: `dependencies.md`.
-- Respaldo y restauración: `backups.md`.
+| Tarea | Policies aplicables |
+| --- | --- |
+| Crear, consumir, registrar o transportar secretos | [`secrets.md`](secrets.md) |
+| Versionar secretos productivos con SOPS y age | [`sops-age.md`](sops-age.md) |
+| Mantener dotenv cifrado y sus contratos | [`encrypted-environment-contract.md`](encrypted-environment-contract.md) |
 
-Estos documentos se incorporarán incrementalmente. Hasta entonces, este router no
-debe interpretarse como una Policy completa.
+## Planned coverage
+
+Los siguientes temas continúan planeados y todavía no constituyen Policies vigentes:
+
+- `encryption.md` para cifrado general en tránsito y reposo;
+- `networking.md` para exposición y segmentación;
+- `access-control.md` para identidad, autorización y privilegios;
+- `dependencies.md` para supply chain;
+- `backups.md` para respaldo y restauración.

@@ -15,10 +15,5 @@ detalle productivo.
    producción cuando mantienen aislamiento y propósito.
 4. Una estrategia productiva como blue/green **SHOULD NOT** reproducirse fuera de
    producción salvo que la prueba evalúe específicamente esa estrategia.
-5. Cuando un ambiente restaure una base que depende de extensiones, tipos u operadores,
-   **MUST** disponer de versiones compatibles y validar esas capacidades antes y
-   después de la restauración.
-6. Una comprobación de conectividad del motor **MUST NOT** considerarse evidencia de
-   que una restauración terminó correctamente.
-7. Un restore parcial **MUST** marcar el ambiente como fallido y conservar diagnóstico
-   suficiente para destruirlo o repararlo explícitamente.
+5. La paridad de motores, extensiones y restauraciones de base de datos **MUST** cumplir
+   [`../../database/deployment-compatibility.md`](../../database/deployment-compatibility.md).

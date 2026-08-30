@@ -39,6 +39,6 @@ realidad y enlazar la Policy corporativa aplicable.
 
 ## Adoption
 
-Adoptar este layout **MUST NOT** interpretarse como autorización para mover archivos,
-rotar credenciales, reescribir tareas programadas, reemitir certificados o cambiar
-comportamiento operativo. Esas acciones requieren alcance y aprobación propios.
+Adoptar este layout **MUST NOT** interpretarse como autorización para ejecutar la
+migración. Evaluación, planeación y ejecución deben cumplir
+[`../ai-assisted-development/infrastructure-change-safety.md`](../ai-assisted-development/infrastructure-change-safety.md).
