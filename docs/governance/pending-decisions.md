@@ -6,26 +6,14 @@ Policy vigente.
 
 ## Decisions required
 
+Las decisiones de aplicabilidad originales quedaron aceptadas en
+[`decisions/0004-infrastructure-policy-applicability.md`](decisions/0004-infrastructure-policy-applicability.md).
+Permanecen por definir únicamente estos contratos de implementación:
+
 | Decision | Why it matters | Recommended default |
 | --- | --- | --- |
-| Alcance de SOPS + age | Debe definirse si es el único mecanismo permitido o un perfil aprobado entre varios. | Mantenerlo obligatorio solo para secretos productivos versionados como archivos. |
-| Layout `infra/deploy/` | Puede ser universal para servicios desplegables pero innecesario para librerías o repositorios sin runtime. | Aplicarlo condicionalmente a repositorios que administren deployments. |
-| Paths de Compose | Falta decidir si `compose/core.yml` y `compose/standalone/` son contrato corporativo o convención de un perfil Docker Compose. | Tratarlos como perfil condicional, no como regla universal. |
-| Uso del sufijo `.example` | El estándar fuente lo prohíbe para datos operativos, pero muchos proyectos pueden usarlo legítimamente como contrato consumidor. | Prohibirlo solo cuando el archivo pretenda representar configuración operativa real. |
-| Metadata de Policies | Faltan identificador estable, status, owners, versión de introducción y aplicabilidad legible por herramientas. | Diseñar un front matter mínimo antes de la primera release estable. |
-| Excepciones | La Policy de precedencia define datos mínimos, pero falta formato, ubicación y aprobación corporativa ejecutable. | Definir schema y check antes de habilitar excepciones automatizadas. |
-
-## Content to move into Skills
-
-El contenido fuente siguiente es procedimental y **MUST NOT** duplicarse dentro de
-Policies:
-
-- `infrastructure-change`: evaluar, generar, adoptar y migrar infraestructura con plan
-  aprobado;
-- `deployment`: ejecutar prechecks, despliegue, validación, cutover y recuperación;
-- `manage-secrets`: alta, rotación, renombre, eliminación y cambio de recipients.
-
-Estas Skills todavía no están implementadas.
+| Schema de metadata de Policies | Falta convertir la metadata aprobada en un contrato legible por herramientas. | Front matter mínimo con identificador estable, status, owners, versión de introducción y aplicabilidad. |
+| Schema de excepciones | Ya se aprobaron sus datos mínimos, pero faltan formato, ubicación y reglas de aprobación verificables. | Un archivo estructurado por repositorio consumidor y JSON Schema compartido. |
 
 ## Enforcement to implement
 

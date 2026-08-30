@@ -29,10 +29,10 @@ autosuficiente, auditable y reproducible después de un `git pull`.
 
 ## Estado
 
-La fase **Foundation** está establecida y el primer vertical de infraestructura ya
-contiene Policies segmentadas y navegables. Skills, distribución automática y
-compliance se incorporarán por incrementos posteriores; los temas planeados no se
-presentan como instrucciones vigentes.
+La fase **Foundation** está establecida. El framework contiene Policies segmentadas y
+28 Skills corporativas con routing progresivo. La distribución automática y compliance
+se incorporarán en los siguientes incrementos; hasta entonces, las Skills existen como
+fuente central pero todavía no se sincronizan a consumidores.
 
 ## Mapa del repositorio
 
@@ -49,7 +49,7 @@ presentan como instrucciones vigentes.
 
 ## Roadmap inmediato
 
-1. Resolver las decisiones registradas en `docs/governance/pending-decisions.md`.
-2. Implementar Skills operativas sin duplicar contenido normativo.
-3. Construir el artefacto de distribución y la automatización con GitHub App.
-4. Incorporar manifest de integridad, comando de verificación y CI reutilizable.
+1. Resolver metadata de Policies y el schema de excepciones.
+2. Construir el artefacto de distribución y la automatización con GitHub App.
+3. Incorporar manifest de integridad, comando de verificación y CI reutilizable.
+4. Ampliar Policies y enforcement conforme aparezcan decisiones corporativas reales.

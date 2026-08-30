@@ -5,3 +5,4 @@ en el Engineering Framework. No son Policies ni deben distribuirse como reglas a
 repositorios consumidores.
 
 - [`berhok-infrastructure-standards.md`](berhok-infrastructure-standards.md)
+- [`installed-skills-refactoring.md`](installed-skills-refactoring.md)

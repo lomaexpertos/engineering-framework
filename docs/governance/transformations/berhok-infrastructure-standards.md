@@ -12,14 +12,14 @@ no copia el paquete como una unidad monolítica.
 | --- | --- | --- |
 | `README.md`: lenguaje normativo | `policies/README.md` | Convención común existente. |
 | `README.md`: orden de lectura | Routers de `policies/infrastructure/` | Reemplazado por routing por tarea. |
-| `README.md`: primera lectura e instalación | `policies/ai-assisted-development/infrastructure-change-safety.md` | Solo límites normativos; el workflow queda pendiente. |
+| `README.md`: primera lectura e instalación | `policies/ai-assisted-development/infrastructure-change-safety.md` | Límites normativos; el workflow vive en Skills. |
 | `README.md`: estructura y directorios condicionales | `policies/infrastructure/repository-layout.md` | Policy canónica. |
 | `README.md`: contrato documental | `policies/infrastructure/repository-layout.md` | Integrado sin datos propios de Berhok. |
 | `README.md`: regla de adopción | `policies/ai-assisted-development/infrastructure-change-safety.md` | Separación entre evaluación, plan y ejecución. |
 | `configuration-secrets-and-state.md`: clasificación | `policies/infrastructure/configuration.md` | Configuración y ownership. |
 | `configuration-secrets-and-state.md`: SOPS y age | `policies/security/sops-age.md` | Estándar técnico condicionado por aplicabilidad. |
 | `configuration-secrets-and-state.md`: cuatro representaciones | `policies/security/encrypted-environment-contract.md` | Contrato normativo canónico. |
-| `configuration-secrets-and-state.md`: evolución de variables | Skill futura `manage-secrets` | Procedimiento, no Policy. |
+| `configuration-secrets-and-state.md`: evolución de variables | Skill `manage-secrets` | Procedimiento publicado, no Policy. |
 | `configuration-secrets-and-state.md`: gates | Policy de contrato y checks futuros | Requisito normativo más enforcement pendiente. |
 | `configuration-secrets-and-state.md`: local y preview | `policies/security/secrets.md` | Credenciales efímeras condicionadas. |
 | `configuration-secrets-and-state.md`: configuración pública | `policies/infrastructure/configuration.md` | Policy canónica. |
@@ -32,12 +32,12 @@ no copia el paquete como una unidad monolítica.
 | `local-and-preview.md`: paridad | `policies/infrastructure/environments/parity.md` | Policy compartida. |
 | `local-and-preview.md`: capacidades de base de datos | `policies/database/deployment-compatibility.md` | Fuente canónica transversal. |
 | `production-deployment.md`: unidades y documentación | `policies/infrastructure/environments/production.md` | Policy específica del ambiente. |
-| `production-deployment.md`: convenciones de rutas | `policies/infrastructure/repository-layout.md` | Generalizado; paths de Compose quedan pendientes. |
-| `production-deployment.md`: entrypoints | `policies/infrastructure/deployment/automation.md` | Policy canónica. |
+| `production-deployment.md`: convenciones de rutas | `policies/infrastructure/repository-layout.md` | Generalizado; paths de Compose aplican solo a ese perfil. |
+| `production-deployment.md`: entrypoints | `policies/infrastructure/deployment/automation.md` y `implement-deployment-automation` | Policy canónica más workflow publicado. |
 | `production-deployment.md`: edge y tráfico | `policies/infrastructure/deployment/traffic-management.md` | Policy condicional. |
 | `production-deployment.md`: salud y recuperación | `policies/infrastructure/health-checks.md` y `policies/infrastructure/deployment/rollback.md` | Separado por trigger operativo. |
 | `validation-and-adoption.md`: modos y autoridad | `policies/ai-assisted-development/infrastructure-change-safety.md` | Límites normativos. |
-| `validation-and-adoption.md`: generación y adopción | Skill futura `infrastructure-change` | Workflow pendiente. |
+| `validation-and-adoption.md`: generación y adopción | Skill `infra-adopt-framework` | Workflow publicado. |
 | `validation-and-adoption.md`: validación del manifest | Checks futuros | Enforcement pendiente. |
 
 ## Result
