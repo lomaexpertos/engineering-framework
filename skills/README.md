@@ -72,7 +72,7 @@ criterios reales de decisión y verificación.
 
 ## Distribución
 
-`skills/<nombre>/` es la única fuente. El artefacto de release copia el directorio
-completo —incluyendo `SKILL.md` y sus referencias— a `.agents/skills/<nombre>/` y
+`skills/<nombre>/` es la única fuente. El workflow central copia el directorio completo
+—incluyendo `SKILL.md` y sus referencias— a `.agents/skills/<nombre>/` y
 `.claude/skills/<nombre>/`. Las diferencias inevitables entre plataformas deben
-resolverse en tooling o metadata compatible, no manteniendo dos Skills.
+resolverse en el workflow o metadata compatible, no manteniendo dos Skills.

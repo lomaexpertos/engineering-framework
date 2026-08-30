@@ -23,7 +23,7 @@ Permanecen por definir únicamente estos contratos de implementación:
 - Detección de secretos en Git, logs y artefactos.
 - Validación de rutas, relaciones, documentación y enlaces del layout de infraestructura.
 - Check de que entrypoints declarados proporcionen diagnóstico y validación.
-- Manifest de integridad para el contenido distribuido en `engineering/corporate/`.
+- Metadata de integridad generada por el workflow para el contenido corporativo.
 
 ## Corporate content still missing
 
@@ -42,8 +42,8 @@ el contrato de emisión y la configuración de runtime que sí corresponde al co
 
 ## Distribution work deferred
 
-En esta transformación no se implementó el builder ni el bot. Sigue pendiente generar
-en cada consumidor únicamente:
+En esta transformación no se implementó el workflow central ni la GitHub App. Sigue
+pendiente generar en cada consumidor únicamente:
 
 ```text
 engineering/corporate/
@@ -55,3 +55,6 @@ engineering/corporate/
 También permanece pendiente copiar cada Skill publicada desde una única fuente hacia
 `.agents/skills/` y `.claude/skills/`. El contenido de `engineering/project/` queda
 fuera del alcance actual por decisión explícita.
+
+La arquitectura del workflow, configuración del bot, registro de consumidores y
+documentación de gobierno permanecen exclusivamente en este repositorio.

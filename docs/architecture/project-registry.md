@@ -22,5 +22,5 @@ En la primera implementación, una release MAJOR requerirá revisión manual aun
 hasta demostrar una necesidad transversal, porque aumentaría combinaciones y reduciría
 la consistencia entre consumidores.
 
-El publisher debe rechazar entradas duplicadas, repositorios con formato inválido y
+El workflow debe rechazar entradas duplicadas, repositorios con formato inválido y
 campos desconocidos antes de obtener credenciales o modificar repositorios externos.

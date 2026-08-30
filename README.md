@@ -24,8 +24,11 @@ autosuficiente, auditable y reproducible después de un `git pull`.
 - Separación entre normas, procedimientos, realidad documentada y enforcement.
 - SemVer y versiones inmutables; nunca se consume `main` dinámicamente.
 - Vendoring automático mediante branch y Pull Request, nunca push directo a `main`.
+- Un workflow central y una GitHub App realizan la distribución; los consumidores no
+  instalan ni ejecutan herramientas del framework.
 - Una fuente de Skills distribuida a Codex y Claude Code.
-- Las particularidades de producto permanecen en `engineering/project/`.
+- La documentación operativa del framework permanece en este repositorio y no se
+  inyecta en consumidores.
 
 ## Estado
 
@@ -50,6 +53,6 @@ fuente central pero todavía no se sincronizan a consumidores.
 ## Roadmap inmediato
 
 1. Resolver metadata de Policies y el schema de excepciones.
-2. Construir el artefacto de distribución y la automatización con GitHub App.
-3. Incorporar manifest de integridad, comando de verificación y CI reutilizable.
+2. Implementar el workflow central de distribución con GitHub App.
+3. Incorporar validaciones de integridad y CI reutilizable sin CLI consumidora.
 4. Ampliar Policies y enforcement conforme aparezcan decisiones corporativas reales.
