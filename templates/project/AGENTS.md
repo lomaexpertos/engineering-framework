@@ -8,6 +8,9 @@ Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni document
 - Arquitectura y realidad de este proyecto: `engineering/project/README.md`.
 - Workflows corporativos para Codex: `.agents/skills/`.
 - Workflows corporativos para Claude Code: `.claude/skills/`.
+- Cambios a `AGENTS.md`, READMEs, índices o routing documental: consulta
+  `engineering/corporate/policies/ai-assisted-development/context-management.md` y
+  usa `configure-agent-context`; para revisión read-only usa `audit-agent-context`.
 
 ## Precedencia
 

@@ -12,3 +12,6 @@ Interfaces previstas:
 
 No se agregan scripts vacíos durante Foundation. Cada comando se incorporará con su
 contrato, pruebas e idempotencia en la fase correspondiente.
+
+Los workflows previstos y su criterio de incorporación están documentados en
+[`../.github/workflows/README.md`](../.github/workflows/README.md).

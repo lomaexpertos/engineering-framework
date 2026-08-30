@@ -10,6 +10,13 @@ criterios reales de decisión y verificación.
 
 ## Catálogo publicado
 
+### Contexto y gobernanza
+
+| Skill | Propósito |
+| --- | --- |
+| [`configure-agent-context`](configure-agent-context/SKILL.md) | Inicializar, adelgazar o recablear el contexto del repositorio. |
+| [`audit-agent-context`](audit-agent-context/SKILL.md) | Auditar progressive disclosure sin modificar archivos. |
+
 ### Infraestructura y operación
 
 | Skill | Propósito |
