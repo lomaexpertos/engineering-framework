@@ -1,0 +1,7 @@
+# Source transformations
+
+Estos documentos conservan trazabilidad entre material previo y su ubicación canónica
+en el Engineering Framework. No son Policies ni deben distribuirse como reglas a los
+repositorios consumidores.
+
+- [`berhok-infrastructure-standards.md`](berhok-infrastructure-standards.md)
