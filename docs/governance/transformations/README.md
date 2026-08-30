@@ -6,3 +6,4 @@ repositorios consumidores.
 
 - [`berhok-infrastructure-standards.md`](berhok-infrastructure-standards.md)
 - [`installed-skills-refactoring.md`](installed-skills-refactoring.md)
+- [`installed-skills-capability-audit.md`](installed-skills-capability-audit.md)

@@ -20,4 +20,4 @@ Producir evidencia externa actual y aplicable, no recomendaciones genéricas.
 7. Entregar conclusiones trazables con enlaces cercanos a cada afirmación.
 
 No presentar una práctica externa como decisión corporativa o del proyecto. La
-selección del TO-BE pertenece a `spec-define`.
+selección del TO-BE pertenece a `spec-definir`.

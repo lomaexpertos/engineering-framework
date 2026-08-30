@@ -15,7 +15,10 @@ Entregar comportamiento útil con el cambio mínimo completo y verificable.
 4. Clasificar riesgos: UI, datos, seguridad, integración distribuida, estado crítico,
    infraestructura y operación.
 
-Si existe una spec aprobada y planificada, usar `spec-implement`. Para el componente
+Si el cambio cruza áreas o su nivel de rigor no es evidente, leer
+[references/risk-routing.md](references/risk-routing.md) antes de implementar.
+
+Si existe una spec aprobada y planificada, usar `spec-implementar`. Para el componente
 especializado del cambio, aplicar la Skill correspondiente sin duplicar su workflow.
 
 ## Workflow

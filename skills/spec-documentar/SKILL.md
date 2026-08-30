@@ -19,7 +19,7 @@ reutilizable, no una solución futura.
 - Reportar defectos o inconsistencias detectados; no corregirlos dentro de este flujo.
 - Mantener los documentos en español salvo una convención explícita del proyecto.
 - No crear un expediente permanente solo porque una iniciativa necesite investigar su
-  punto de partida. Ese AS-IS local pertenece a `spec-analyze`.
+  punto de partida. Ese AS-IS local pertenece a `spec-analizar` o `spec-definir`.
 
 ## Identificar el alcance
 
@@ -104,12 +104,12 @@ discrepancia hasta identificar la autoridad correcta.
 
 ## Integración con Specs
 
-Después de `spec-implement`, crear o actualizar documentación cuando cambien
+Después de `spec-implementar`, crear o actualizar documentación cuando cambien
 materialmente invariantes, procesos, flujos, estados, datos, contratos, eventos, jobs,
 permisos o dependencias. Cambios cosméticos o internos sin efecto permanente no lo
 requieren.
 
-`spec-analyze`, `spec-plan` y `spec-implement` deben consultar primero el índice. Si un
+`spec-analizar`, `spec-planear` y `spec-implementar` deben consultar primero el índice. Si un
 snapshot vigente cubre el área y coincide con el comportamiento actual, reutilizarlo y
 verificar directamente solo las zonas tocadas, inciertas o desactualizadas.
 

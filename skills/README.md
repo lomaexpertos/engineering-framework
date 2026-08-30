@@ -25,14 +25,14 @@ criterios reales de decisión y verificación.
 
 | Skill | Propósito |
 | --- | --- |
-| [`explore-domain`](explore-domain/SKILL.md) | Aprender conceptos y vocabulario. |
+| [`explorador-de-dominio`](explorador-de-dominio/SKILL.md) | Aprender un dominio, cuestionar supuestos y evaluar preparación. |
 | [`research-best-practices`](research-best-practices/SKILL.md) | Investigar evidencia externa actual. |
 | [`discover-business-process`](discover-business-process/SKILL.md) | Reconstruir un proceso AS-IS. |
-| [`spec-analyze`](spec-analyze/SKILL.md) | Analizar AS-IS, brechas y preguntas de una iniciativa. |
-| [`spec-define`](spec-define/SKILL.md) | Definir TO-BE y requisitos verificables. |
-| [`spec-clarify`](spec-clarify/SKILL.md) | Integrar decisiones en una spec. |
-| [`spec-plan`](spec-plan/SKILL.md) | Crear plan, tareas y estrategia de pruebas. |
-| [`spec-implement`](spec-implement/SKILL.md) | Ejecutar una spec planificada. |
+| [`spec-analizar`](spec-analizar/SKILL.md) | Analizar AS-IS, brechas y preguntas de una iniciativa sin decidir el TO-BE. |
+| [`spec-definir`](spec-definir/SKILL.md) | Crear el expediente y definir TO-BE y requisitos verificables. |
+| [`spec-clarificar`](spec-clarificar/SKILL.md) | Integrar decisiones en una spec. |
+| [`spec-planear`](spec-planear/SKILL.md) | Crear plan, tareas y estrategia de pruebas. |
+| [`spec-implementar`](spec-implementar/SKILL.md) | Ejecutar una spec planificada. |
 | [`spec-documentar`](spec-documentar/SKILL.md) | Mantener documentación AS-IS permanente. |
 
 ### Implementación
@@ -59,7 +59,7 @@ criterios reales de decisión y verificación.
 
 | Skill | Propósito |
 | --- | --- |
-| [`code-review`](code-review/SKILL.md) | Revisar cambios generales por evidencia. |
+| [`branch-quality-review`](branch-quality-review/SKILL.md) | Auditar ramas, cambios o áreas con rigor proporcional al riesgo. |
 | [`security-review`](security-review/SKILL.md) | Auditar amenazas y controles de seguridad. |
 | [`data-integrity-review`](data-integrity-review/SKILL.md) | Auditar concurrencia, idempotencia e integridad. |
 

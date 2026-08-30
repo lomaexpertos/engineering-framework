@@ -1,9 +1,9 @@
 ---
-name: spec-analyze
+name: spec-analizar
 description: "Usar para analizar una iniciativa concreta: inspeccionar su AS-IS, evidencia, dependencias, prácticas relevantes, brechas y preguntas antes de definir el TO-BE. No usar para implementar ni aprobar requisitos."
 ---
 
-# Spec Analyze
+# Spec Analizar
 
 Construir el expediente de análisis de una iniciativa sin adelantar decisiones.
 
