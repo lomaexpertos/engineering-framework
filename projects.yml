@@ -1,0 +1,7 @@
+schema_version: 1
+# Example:
+# projects:
+#   - repository: company/example
+#     enabled: true
+#     auto_merge: true
+projects: []

@@ -1,0 +1,14 @@
+# ADR-0002: Progressive disclosure
+
+- Status: Accepted
+- Date: 2026-08-30
+
+## Decision
+
+`AGENTS.md` será un router compacto. READMEs intermedios dirigirán al agente hacia
+Policies, Skills y documentación específicas según la tarea.
+
+## Consequences
+
+El catálogo puede crecer sin cargar contexto irrelevante permanentemente. Todo nuevo
+documento debe quedar accesible desde un router canónico y evitar duplicación.
