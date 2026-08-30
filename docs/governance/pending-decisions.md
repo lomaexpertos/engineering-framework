@@ -31,11 +31,14 @@ Los estándares fuente no alcanzan para publicar Policies completas de:
 
 - infrastructure as code;
 - containers;
-- observability más allá de health checks;
 - encryption general en tránsito y reposo;
 - networking;
 - access control;
 - backups y restauración organizacional.
+
+La plataforma central de recolección, almacenamiento y consulta de observabilidad
+permanece deliberadamente fuera del repositorio aplicativo. El framework solo define
+el contrato de emisión y la configuración de runtime que sí corresponde al consumidor.
 
 ## Distribution work deferred
 

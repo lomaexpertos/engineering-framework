@@ -25,7 +25,7 @@ criterios reales de decisión y verificación.
 | [`infra-adopt-framework`](infra-adopt-framework/SKILL.md) | Migrar un repositorio al layout corporativo. |
 | [`implement-deployment-automation`](implement-deployment-automation/SKILL.md) | Crear automatización sin desplegar. |
 | [`manage-secrets`](manage-secrets/SKILL.md) | Gestionar el ciclo de vida de secretos. |
-| [`add-observability`](add-observability/SKILL.md) | Incorporar señales operativas. |
+| [`add-observability`](add-observability/SKILL.md) | Incorporar señales y trazabilidad de operaciones críticas. |
 | [`investigate-production-incident`](investigate-production-incident/SKILL.md) | Investigar incidentes sin asumir autoridad operativa. |
 
 ### Dominio y especificaciones

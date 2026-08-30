@@ -16,9 +16,12 @@ Proteger invariantes y efectos únicos antes de optimizar conveniencia.
 5. Aplicar autorización sobre el recurso y transición concretos, no solo sobre la ruta.
 6. Mantener escritura de estado y registro del efecto en una frontera consistente.
 7. Diseñar compensación o reconciliación cuando exista un sistema externo.
-8. Incorporar auditoría y observabilidad sin exponer datos sensibles.
-9. Probar carreras, doble envío, reintento, fallo intermedio y transición inválida.
-10. Verificar que fallar sea seguro y que no se confirme éxito parcial.
+8. Definir eventos correlacionados que permitan reconstruir decisiones, valores
+   intermedios y resultado; usar `add-observability` si cambia la instrumentación.
+9. Mantener auditoría durable separada cuando el dominio la requiera y no registrar
+   secretos, credenciales o datos que no aportan al diagnóstico.
+10. Probar carreras, doble envío, reintento, fallo intermedio y transición inválida.
+11. Verificar que fallar sea seguro y que no se confirme éxito parcial.
 
 ## Entrega
 

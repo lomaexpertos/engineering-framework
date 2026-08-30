@@ -14,6 +14,7 @@ router; no obliga a cargar todo el dominio.
 | Elegir estrategia, automatizar o ejecutar un deployment | [`deployment/`](deployment/README.md) |
 | Definir o revisar señales de salud | [`health-checks.md`](health-checks.md) |
 | Agregar logs, métricas, trazas, dashboards o alertas | [`observability.md`](observability.md) |
+| Configurar logs de contenedores Docker productivos | [`container-logging.md`](container-logging.md) |
 | Cambiar secretos productivos | `policies/security/README.md` |
 | Cambiar esquema durante un deployment | `policies/database/deployment-compatibility.md` |
 
