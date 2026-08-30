@@ -1,6 +1,6 @@
 ---
 name: database-data-change
-description: "Usar para backfills, reparaciones, transformaciones o eliminaciones de datos existentes. Exige alcance verificable, SQL set-based, prechecks, validación y recuperación."
+description: "Implementa backfills, reparaciones, transformaciones o eliminaciones de datos con alcance, prechecks, validación y recuperación verificables."
 ---
 
 # Database Data Change

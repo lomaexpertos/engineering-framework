@@ -1,6 +1,6 @@
 ---
 name: spec-planear
-description: Convierte una spec bajo engineering/specs/ en un plan técnico, tareas y estrategia de pruebas para ERP grandes o sistemas brownfield. Usar cuando el usuario pida planear, aterrizar o descomponer una implementación, consumiendo AS-IS, Best Practices y brechas cuando existan, pero planificando únicamente el TO-BE y las brechas de implementación aprobadas.
+description: Convierte una spec bajo engineering/specs/ en plan técnico, tareas y estrategia de pruebas, cubriendo únicamente el TO-BE y las brechas aprobadas.
 ---
 
 # Spec Planear

@@ -1,6 +1,6 @@
 ---
 name: spec-documentar
-description: "Preserva como referencia permanente el estado actual de un módulo, dominio, submódulo, proceso o flujo con evidencia trazable del repositorio. Usar para crear o actualizar una línea base reutilizable en engineering/ después de investigar o implementar; no usar para el AS-IS limitado a una iniciativa."
+description: "Documenta permanentemente el AS-IS de un módulo, dominio, proceso o flujo con evidencia trazable. No usar para el análisis temporal de una sola iniciativa."
 ---
 
 # Spec Documentar

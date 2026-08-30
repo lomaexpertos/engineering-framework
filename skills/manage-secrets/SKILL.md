@@ -1,6 +1,6 @@
 ---
 name: manage-secrets
-description: "Usar para crear, rotar, renombrar o retirar secretos, archivos SOPS, recipients age y contratos consumidores. No usar para configuración pública, despliegues ni para revelar valores sensibles."
+description: "Crea, rota, renombra o retira secretos, archivos SOPS, recipients age y contratos consumidores. No despliega ni revela valores sensibles."
 ---
 
 # Manage Secrets

@@ -1,6 +1,6 @@
 ---
 name: optimize-performance
-description: "Usar para diagnosticar y mejorar latencia, throughput, memoria, CPU, I/O o carga de base de datos con mediciones reproducibles. No usar para refactorizar por intuición sin un problema observado."
+description: "Mejora latencia, throughput, memoria, CPU, I/O o carga mediante mediciones reproducibles. No optimiza por intuición sin un problema observado."
 ---
 
 # Optimize Performance

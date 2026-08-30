@@ -1,6 +1,6 @@
 ---
 name: spec-definir
-description: Crea o actualiza expedientes ligeros para iniciativas funcionales o técnicas en ERP grandes y sistemas brownfield. Usar cuando el usuario quiera investigar el AS-IS particular de un cambio, contrastarlo con Best Practices, decidir un TO-BE, analizar brechas o convertir una mejora, integración o proceso futuro en requisitos verificables bajo engineering/specs/.
+description: Crea o actualiza una spec bajo engineering/specs/, separando AS-IS, Best Practices y TO-BE para convertir una iniciativa en requisitos verificables antes de planear.
 ---
 
 # Spec Definir

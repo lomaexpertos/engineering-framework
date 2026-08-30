@@ -1,6 +1,6 @@
 ---
 name: optimize-database-query
-description: "Usar para diagnosticar y optimizar una consulta o patrón de acceso mediante planes, cardinalidad, índices y medición. No usar para cambiar resultados funcionales ni crear índices por intuición."
+description: "Optimiza consultas mediante planes, cardinalidad, índices y medición. No cambia resultados funcionales ni crea índices por intuición."
 ---
 
 # Optimize Database Query

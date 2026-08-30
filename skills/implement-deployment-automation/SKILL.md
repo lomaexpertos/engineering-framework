@@ -1,6 +1,6 @@
 ---
 name: implement-deployment-automation
-description: Crea o modifica automatización versionada de deployments productivos bajo infra/deploy/production, incluyendo deployment.yaml, scripts Bash, Docker Compose, runtime, health checks y recuperación. Usar cuando se pidan archivos deterministas que una persona o sistema autorizado ejecutará después. No usar para ejecutar deployments ni para migrar por completo un repositorio legado al framework de infraestructura.
+description: Crea automatización versionada bajo infra/deploy/production para ejecución posterior autorizada. Incluye manifest, scripts, runtime, salud y recuperación; no ejecuta deployments ni migra todo un repositorio legado.
 ---
 
 # Implement Deployment Automation

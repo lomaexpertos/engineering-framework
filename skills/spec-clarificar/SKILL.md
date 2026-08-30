@@ -1,6 +1,6 @@
 ---
 name: spec-clarificar
-description: Resuelve y consolida preguntas de una spec existente bajo engineering/specs/ antes de planear. Usar cuando el usuario responda, aclare, descarte o cambie decisiones, integrándolas en el TO-BE de spec.md y actualizando preguntas, checklist, clarificaciones y estados de brechas sin confundir evidencia AS-IS ni Best Practices con decisiones aprobadas.
+description: Consolida respuestas y decisiones en una spec existente antes de planear, actualizando TO-BE, preguntas, clarificaciones y brechas sin reescribir AS-IS ni Best Practices.
 ---
 
 # Spec Clarificar

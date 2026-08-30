@@ -1,6 +1,6 @@
 ---
 name: research-best-practices
-description: "Usar para investigar prácticas actuales, regulación, estándares o alternativas técnicas con fuentes externas autoritativas. No usar para decidir automáticamente el TO-BE de un proyecto."
+description: "Investiga prácticas, regulación, estándares o alternativas técnicas con fuentes autoritativas. No decide automáticamente el TO-BE."
 ---
 
 # Research Best Practices

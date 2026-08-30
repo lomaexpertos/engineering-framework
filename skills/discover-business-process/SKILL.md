@@ -1,6 +1,6 @@
 ---
 name: discover-business-process
-description: "Usar para reconstruir un proceso AS-IS desde entrevistas, transcripciones, documentos y evidencia operativa, identificando actores, variantes, vacíos y contradicciones. No usar para diseñar el TO-BE."
+description: "Reconstruye un proceso AS-IS desde entrevistas, documentos y evidencia, identificando actores, variantes, vacíos y contradicciones. No diseña el TO-BE."
 ---
 
 # Discover Business Process

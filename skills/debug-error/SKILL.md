@@ -1,6 +1,6 @@
 ---
 name: debug-error
-description: "Usar para reproducir, aislar y explicar un error de software y, cuando se solicite, implementar la corrección mínima con prueba de regresión. No usar para incidentes productivos activos."
+description: "Reproduce y aísla errores; si se solicita, implementa la corrección mínima con regresión. No usar para incidentes productivos activos."
 ---
 
 # Debug Error

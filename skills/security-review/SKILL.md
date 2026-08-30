@@ -1,6 +1,6 @@
 ---
 name: security-review
-description: "Usar para revisar autenticación, autorización, secretos, exposición, entrada no confiable, criptografía, dependencias o límites de confianza con enfoque explícito de seguridad."
+description: "Audita autenticación, autorización, secretos, exposición, entradas no confiables, criptografía, dependencias y límites de confianza."
 ---
 
 # Security Review

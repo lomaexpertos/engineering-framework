@@ -1,6 +1,6 @@
 ---
 name: add-observability
-description: "Usar para incorporar o mejorar logs, métricas, trazas, health checks, dashboards o alertas que permitan detectar y diagnosticar comportamiento operativo."
+description: "Agrega o mejora logs, métricas, trazas, health checks, dashboards o alertas para diagnóstico y respuesta operativa."
 ---
 
 # Add Observability

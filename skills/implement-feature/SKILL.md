@@ -1,6 +1,6 @@
 ---
 name: implement-feature
-description: "Usar para implementar una capacidad de producto de extremo a extremo cuando no exista una spec formal obligatoria. Coordina código, contratos, pruebas y documentación; deriva riesgos especializados a otras Skills."
+description: "Implementa una capacidad de producto de extremo a extremo sin spec formal obligatoria; coordina código, contratos, pruebas y Skills de riesgo."
 ---
 
 # Implement Feature

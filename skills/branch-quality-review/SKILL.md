@@ -1,6 +1,6 @@
 ---
 name: branch-quality-review
-description: Revisa ramas completas, pull requests, commits, patches o áreas con riesgos combinados y genera un reporte trazable. Usar para auditoría general, revisión antes de entregar o cuando deban coordinarse varias dimensiones; usar security-review o data-integrity-review si el encargo está limitado exclusivamente a uno de esos dominios.
+description: Audita ramas, PRs, commits, patches o áreas con riesgos combinados y genera un reporte trazable. Usar para revisión general; usar security-review o data-integrity-review para un único dominio.
 ---
 
 # Branch Quality Review

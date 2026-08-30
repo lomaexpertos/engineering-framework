@@ -1,6 +1,6 @@
 ---
 name: explorador-de-dominio
-description: Enseña interactivamente un dominio y evalúa si existe comprensión suficiente para tomar decisiones o especificar. Usar para tutoría, mapa conceptual, variantes, puntos ciegos y revisión crítica; usar workflows focalizados cuando el único resultado sea documentar un proceso AS-IS o investigar fuentes externas.
+description: Enseña un dominio y evalúa preparación para decidir o especificar. Usar para tutoría, mapas, variantes, puntos ciegos y revisión crítica; no para producir únicamente un AS-IS o investigación externa.
 ---
 
 # Explorador de dominio

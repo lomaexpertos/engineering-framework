@@ -1,6 +1,6 @@
 ---
 name: implement-critical-state-change
-description: "Usar para modificar pagos, saldos, inventario, folios, autorización u otro estado de negocio donde duplicados, concurrencia o pérdida de integridad tengan impacto material."
+description: "Implementa cambios en pagos, saldos, inventario, folios u otros estados críticos protegiendo integridad, concurrencia e idempotencia."
 ---
 
 # Implement Critical State Change

@@ -1,6 +1,6 @@
 ---
 name: spec-implementar
-description: Implementa una spec planificada bajo engineering/specs/ con trazabilidad proporcional para ERP grandes y sistemas brownfield. Usar cuando el usuario pida ejecutar un slug existente, validando el TO-BE y las brechas aprobadas contra su AS-IS, aplicando estándares, ejecutando pruebas y actualizando la arquitectura permanente cuando cambie materialmente el módulo.
+description: Implementa una spec planificada bajo engineering/specs/ con trazabilidad, Policies, pruebas y actualización documental. No resuelve silenciosamente decisiones abiertas.
 ---
 
 # Spec Implementar

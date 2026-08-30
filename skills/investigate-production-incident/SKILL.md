@@ -1,6 +1,6 @@
 ---
 name: investigate-production-incident
-description: "Usar para investigar un incidente productivo activo o reciente, construir timeline, evaluar impacto e hipótesis y proponer mitigación segura. No autoriza cambios operativos ni acceso a secretos."
+description: "Investiga incidentes productivos, construye timeline y propone mitigación segura. No autoriza cambios operativos ni acceso a secretos."
 ---
 
 # Investigate Production Incident

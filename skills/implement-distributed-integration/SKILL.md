@@ -1,6 +1,6 @@
 ---
 name: implement-distributed-integration
-description: "Usar para implementar APIs entre servicios, webhooks, colas, eventos o integraciones externas donde importen contratos, reintentos, idempotencia, orden y fallas parciales."
+description: "Implementa APIs entre servicios, webhooks, colas, eventos o integraciones externas con contratos, reintentos, idempotencia y fallas parciales."
 ---
 
 # Implement Distributed Integration

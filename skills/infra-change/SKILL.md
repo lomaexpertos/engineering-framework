@@ -1,6 +1,6 @@
 ---
 name: infra-change
-description: "Usar para modificar infraestructura ya adoptada: Compose, configuración, scripts, manifests, health checks o recursos declarativos. No usar para migrar todo el layout, gestionar secretos ni ejecutar deployments."
+description: "Modifica infraestructura ya adoptada: Compose, configuración, scripts, manifests, salud o recursos. No migra todo el layout, gestiona secretos ni despliega."
 ---
 
 # Infra Change

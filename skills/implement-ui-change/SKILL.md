@@ -1,6 +1,6 @@
 ---
 name: implement-ui-change
-description: "Usar para crear o modificar pantallas, componentes, layouts, formularios, navegación o interacción en una aplicación existente. Exige inspeccionar y reutilizar patrones UI antes de crear otros."
+description: "Crea o modifica pantallas, componentes, layouts, formularios o navegación reutilizando patrones UI existentes antes de introducir otros."
 ---
 
 # Implement UI Change

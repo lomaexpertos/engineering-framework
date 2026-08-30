@@ -1,6 +1,6 @@
 ---
 name: database-routine-change
-description: "Usar para crear o modificar funciones, procedimientos, triggers, rutinas permanentes o scripts SQL operativos con lógica procedural. No usar para una consulta aislada o un cambio solo de esquema."
+description: "Crea o modifica funciones, procedimientos, triggers o rutinas SQL permanentes. No usar para consultas aisladas ni cambios solo de esquema."
 ---
 
 # Database Routine Change

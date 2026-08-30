@@ -1,6 +1,6 @@
 ---
 name: infra-adopt-framework
-description: "Usar para evaluar y migrar un repositorio legado al layout corporativo infra/deploy, consolidando rutas, ambientes, manifests, documentación y automatización. No usar para un cambio aislado ni para desplegar."
+description: "Migra un repositorio legado al layout infra/deploy, consolidando ambientes, manifests, documentación y automatización. No usar para cambios aislados ni deployments."
 ---
 
 # Infra Adopt Framework

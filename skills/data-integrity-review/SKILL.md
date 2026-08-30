@@ -1,6 +1,6 @@
 ---
 name: data-integrity-review
-description: "Usar para auditar pagos, saldos, inventario, folios, webhooks o estados críticos frente a concurrencia, duplicados, reintentos, transacciones y fallas parciales."
+description: "Audita pagos, saldos, inventario, folios, webhooks o estados críticos frente a concurrencia, duplicados, reintentos y fallas parciales."
 ---
 
 # Data Integrity Review

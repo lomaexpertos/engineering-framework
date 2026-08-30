@@ -1,6 +1,6 @@
 ---
 name: database-schema-change
-description: "Usar para crear o modificar tablas, columnas, relaciones, constraints, índices o vistas. Aplica convenciones de esquema, compatibilidad de deployment y entrega SQL manual."
+description: "Crea o modifica tablas, columnas, relaciones, constraints, índices o vistas con integridad, compatibilidad y entrega SQL controlada."
 ---
 
 # Database Schema Change
