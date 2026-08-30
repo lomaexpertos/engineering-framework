@@ -28,5 +28,6 @@ se convierta en una modificación operativa no autorizada.
 10. Durante la ejecución, cada fase **MUST** conservar trazabilidad con el plan y
     evidencia de validación antes de avanzar.
 
-El procedimiento detallado de evaluación, generación y adopción pertenecerá a la Skill
-`infrastructure-change`; esta Policy define únicamente sus límites obligatorios.
+El procedimiento detallado de adopción pertenecerá a `infra-adopt-framework`; los
+cambios posteriores usarán `infra-change`. Esta Policy define únicamente sus límites
+obligatorios.

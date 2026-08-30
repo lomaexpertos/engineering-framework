@@ -30,6 +30,9 @@ Todo archivo consumido por un deployment **MUST** clasificarse como uno de estos
    requeridas.
 6. Los cambios incompatibles de configuración **MUST** definir el orden de rollout y
    su efecto sobre versiones que puedan coexistir.
+7. El sufijo `.example` **MAY** utilizarse para un contrato consumidor o ejemplo
+   deliberado, pero **MUST NOT** sustituir un archivo que represente configuración
+   operativa correcta para su ambiente.
 
 Los valores secretos se rigen por `policies/security/secrets.md`; el estado generado
 se rige por [`runtime-state.md`](runtime-state.md).

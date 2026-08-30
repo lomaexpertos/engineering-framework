@@ -2,13 +2,14 @@
 
 Consulta este dominio para cualquier cambio de interfaz o experiencia de usuario.
 
-## Enrutamiento planeado
+## Routing
 
-- Cambios visuales o de layout: `ui-consistency.md` y `component-reuse.md`.
-- Formularios y captura de datos: `forms.md` y `accessibility.md`.
-- Flujos entre pantallas: `navigation.md`.
-- Adaptación por dispositivo: `responsive-design.md`.
+- Pantallas, componentes, layouts, interacción, accesibilidad y responsive:
+  [`ui-consistency.md`](ui-consistency.md).
+- Antes de crear un componente o patrón nuevo:
+  [`../ai-assisted-development/reuse-before-create.md`](../ai-assisted-development/reuse-before-create.md).
 
-La Policy transversal **reuse before create** se incorporará en
-`../ai-assisted-development/reuse-before-create.md`; la Skill operativa asociada será
-`implement-ui-change`.
+## Planned coverage
+
+Formularios y navegación tendrán Policies separadas cuando exista un contrato
+corporativo adicional que no esté cubierto por consistencia UI.

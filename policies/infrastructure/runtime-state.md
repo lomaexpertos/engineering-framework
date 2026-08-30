@@ -11,8 +11,8 @@ o quede parcialmente publicado.
    transacciones y archivos descifrados **MUST** tratarse como estado runtime.
 2. El estado runtime **MUST NOT** almacenarse dentro del checkout como fuente de
    configuración ni incorporarse a Git.
-3. Cada ambiente **MUST** declarar dónde persiste el estado que necesita sobrevivir
-   una ejecución.
+3. Cada ambiente **MUST** declarar un `RUNTIME_DIR` explícito para el estado que
+   necesita sobrevivir una ejecución. El directorio final **MUST** llamarse `runtime`.
 4. El estado **MUST** escribirse solo después de validar la operación que representa.
 5. Una actualización de varios archivos relacionados **MUST** publicarse como conjunto
    recuperable; no debe mezclar partes de versiones distintas.
@@ -24,3 +24,7 @@ o quede parcialmente publicado.
    al finalizar, incluso cuando la operación falle.
 9. Los respaldos de estado runtime **MUST** tener ubicación, retención y procedimiento
    de restauración documentados.
+10. Temporales operativos **MUST** crearse bajo `RUNTIME_DIR`, no en rutas globales
+    como `/tmp`.
+11. Cuando `RUNTIME_DIR` contenga secretos materializados, **MUST** ubicarse fuera del
+    checkout y cumplir las Policies de seguridad aplicables.

@@ -1,5 +1,16 @@
 # Infrastructure repository layout
 
+## Applicability
+
+Esta Policy aplica a repositorios que administran deployments. Instalar el Engineering
+Framework en una librería o en un repositorio que todavía no administra su deployment
+**MUST NOT** exigir la creación de `infra/deploy/` ni producir incumplimiento por su
+ausencia.
+
+Un repositorio legado que sí administra deployments pero aún no adoptó el layout
+**SHOULD** documentar su estructura vigente y planear la adopción. La migración
+**MUST NOT** ejecutarse implícitamente al instalar o actualizar el framework.
+
 ## Purpose
 
 Establecer una estructura predecible para infraestructura sin organizarla por
@@ -24,6 +35,16 @@ tecnología ni crear capacidades que el proyecto no utiliza.
    precauciones o recuperación y no pueden expresarse con seguridad mediante un
    comando autocontenido.
 8. Archivos y directorios propios del framework **SHOULD** usar lowercase kebab-case.
+
+## Docker Compose profile
+
+Cuando un deployment use Docker Compose:
+
+- el stack principal **SHOULD** ubicarse en `compose/core.yml`; y
+- las unidades con ciclo operativo independiente **SHOULD** ubicarse bajo
+  `compose/standalone/`.
+
+Estas rutas **MUST NOT** exigirse a proyectos que utilicen otro runtime.
 
 ## Documentation contract
 

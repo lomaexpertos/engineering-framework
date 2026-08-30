@@ -1,5 +1,29 @@
 # Deployment automation
 
+## Applicability
+
+Este contrato aplica cuando un repositorio adoptó el layout corporativo y administra
+un deployment productivo mediante Bash. Otros runtimes deben conservar los requisitos
+de seguridad equivalentes, pero no están obligados a copiar una interfaz incompatible.
+
+## Canonical entrypoint
+
+El entrypoint productivo **MUST** vivir en:
+
+```text
+infra/deploy/production/scripts/deploy.sh
+```
+
+Su interfaz pública **MUST** ser:
+
+```text
+deploy.sh <precheck|install|release|status|diagnose|rollback> <unidad> [versión]
+```
+
+Los módulos compartidos **MUST** vivir bajo `scripts/lib/`. Los helpers privilegiados
+**MAY** vivir bajo `scripts/privileged/` únicamente cuando su alcance sea cerrado y
+esté documentado.
+
 ## Requirements
 
 Un entrypoint productivo **MUST**:
@@ -29,3 +53,6 @@ Un entrypoint productivo **MUST**:
 - Diagnóstico y logs **MUST NOT** exponer secretos.
 - Repetir una operación exitosa **SHOULD** converger al mismo estado sin trabajo
   destructivo innecesario.
+- La automatización **MUST NOT** escribir fuera de la raíz del repositorio y del
+  `RUNTIME_DIR` declarado. Durante su ejecución, todo estado mutable **MUST** escribirse
+  bajo `RUNTIME_DIR`, no sobre fuentes versionadas.
