@@ -5,14 +5,18 @@ una tarea terminada.
 
 ## Routing
 
+- Inspección, alcance, causa raíz y conflictos:
+  [`agent-behavior.md`](agent-behavior.md).
+- Descubrimiento progresivo y separación de conocimiento:
+  [`context-management.md`](context-management.md).
 - Evaluación, planeación y ejecución de cambios de infraestructura:
   [`infrastructure-change-safety.md`](infrastructure-change-safety.md).
 - Creación de componentes, patrones o abstracciones:
   [`reuse-before-create.md`](reuse-before-create.md).
+- Evidencia antes de declarar una tarea terminada:
+  [`validation-before-completion.md`](validation-before-completion.md).
+- Actualización de fuentes documentales canónicas:
+  [`documentation-maintenance.md`](documentation-maintenance.md).
 
-## Planned coverage
-
-- Conducta general: `agent-behavior.md`.
-- Carga progresiva de conocimiento: `context-management.md`.
-- Evidencia antes de terminar: `validation-before-completion.md`.
-- Actualización de fuentes canónicas: `documentation-maintenance.md`.
+No agregar aquí reglas exclusivas de una herramienta o proyecto; esas diferencias se
+resuelven en tooling de distribución o documentación local.

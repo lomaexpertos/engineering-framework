@@ -17,9 +17,12 @@ un tipo compatible con el contrato de identidades del proyecto.
 
 1. Los registros de negocio **MUST** utilizar borrado lógico mediante `status` durante
    su operación normal.
-2. El borrado físico **MAY** utilizarse para tablas temporales, cargas efímeras o datos
+2. `status` **SHOULD** representar únicamente existencia lógica mediante valores
+   equivalentes a `activo` y `eliminado`. Estados del proceso **MUST** usar un campo
+   semántico como `status_pago`, `status_venta` o el contexto correspondiente.
+3. El borrado físico **MAY** utilizarse para tablas temporales, cargas efímeras o datos
    cuyo ciclo de vida exija eliminación real.
-3. Cualquier otro borrado físico **MUST** tener una necesidad explícita, alcance
+4. Cualquier otro borrado físico **MUST** tener una necesidad explícita, alcance
    verificable y evaluación de integridad y recuperación.
-4. El borrado lógico **MUST NOT** sustituir obligaciones legales de eliminación de
+5. El borrado lógico **MUST NOT** sustituir obligaciones legales de eliminación de
    datos cuando estas apliquen.
