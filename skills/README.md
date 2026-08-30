@@ -21,6 +21,7 @@ criterios reales de decisión y verificación.
 | `deployment` | Preparar y ejecutar una liberación | Expansión |
 | `infrastructure-change` | Modificar infraestructura reproducible | Expansión |
 | `security-review` | Evaluar amenazas y controles aplicables | Expansión |
+| `manage-secrets` | Incorporar, rotar o retirar secretos de forma segura | Expansión |
 | `add-observability` | Incorporar señales operativas útiles | Expansión |
 
 ## Distribución

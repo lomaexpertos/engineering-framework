@@ -29,10 +29,10 @@ autosuficiente, auditable y reproducible después de un `git pull`.
 
 ## Estado
 
-El repositorio se encuentra en la fase **Foundation**. La estructura, contratos y
-decisiones fundamentales están definidos, pero el catálogo normativo y operativo se
-implementará por verticales revisables, no mediante placeholders que aparenten ser
-instrucciones vigentes.
+La fase **Foundation** está establecida y el primer vertical de infraestructura ya
+contiene Policies segmentadas y navegables. Skills, distribución automática y
+compliance se incorporarán por incrementos posteriores; los temas planeados no se
+presentan como instrucciones vigentes.
 
 ## Mapa del repositorio
 
@@ -49,7 +49,7 @@ instrucciones vigentes.
 
 ## Roadmap inmediato
 
-1. Completar Foundation y validar su estructura.
-2. Implementar el primer vertical: cuatro Policies y dos Skills reales.
+1. Resolver las decisiones registradas en `docs/governance/pending-decisions.md`.
+2. Implementar Skills operativas sin duplicar contenido normativo.
 3. Construir el artefacto de distribución y la automatización con GitHub App.
 4. Incorporar manifest de integridad, comando de verificación y CI reutilizable.
