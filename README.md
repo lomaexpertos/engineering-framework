@@ -30,7 +30,7 @@ autosuficiente, auditable y reproducible después de un `git pull`.
 ## Estado
 
 La fase **Foundation** está establecida. El framework contiene Policies segmentadas y
-28 Skills corporativas con routing progresivo. La distribución automática y compliance
+30 Skills corporativas con routing progresivo. La distribución automática y compliance
 se incorporarán en los siguientes incrementos; hasta entonces, las Skills existen como
 fuente central pero todavía no se sincronizan a consumidores.
 
