@@ -2,26 +2,26 @@
 
 ## Trigger and ownership
 
-La distribución es responsabilidad exclusiva de un GitHub workflow de este
-repositorio. No requiere una CLI, instalación local ni acciones manuales de los
-desarrolladores consumidores.
+La distribución es responsabilidad exclusiva de un GitHub workflow manual de este
+repositorio. No requiere una CLI, instalación local ni acciones de los desarrolladores
+consumidores.
 
-Un merge a `main` detona el workflow central. Si el árbol distribuible no cambió, el
-workflow termina sin abrir PRs. Si cambió, la versión declarada en `VERSION` identifica
-la actualización que recibirán los consumidores.
+Cada push o merge a `main` ejecuta validación. El mantenedor inicia después
+`publish-framework.yml` mediante `workflow_dispatch` desde `main`; el workflow vuelve
+a validar antes de obtener credenciales. `VERSION` identifica la actualización que
+recibirán los consumidores.
 
 ## Central workflow
 
-1. Validar estructura, Policies, Skills, enlaces y consistencia de `VERSION`.
-2. Preparar, dentro del job, una copia determinista del contenido permitido.
-3. Obtener un installation token temporal mediante la GitHub App corporativa.
-4. Iterar únicamente repositorios habilitados en `projects.yml`.
-5. Crear o actualizar una branch de actualización en cada consumidor.
-6. Copiar Policies, metadata mínima, Skills para ambos agentes,
+1. Confirmar que el dispatch usa `main` y validar la fuente.
+2. Resolver únicamente repositorios habilitados de la organización configurada.
+3. Obtener un installation token temporal y limitado a esos repositorios.
+4. Crear o actualizar una branch determinista en cada consumidor.
+5. Copiar Policies, metadata mínima, Skills para ambos agentes,
    `FRAMEWORK_VERSION` y el routing corporativo acordado para `AGENTS.md`.
-7. Crear o actualizar el Pull Request del bot.
-8. Solicitar auto-merge cuando esté habilitado.
-9. Permitir que branch protection integre solo después de CI y eliminar la branch al
+6. Crear o actualizar el Pull Request del bot.
+7. Solicitar auto-merge cuando esté habilitado, excepto para actualizaciones MAJOR.
+8. Permitir que branch protection integre solo después de CI y eliminar la branch al
    completar el merge.
 
 Los scripts auxiliares que necesite el workflow viven en este repositorio y son una
@@ -45,6 +45,11 @@ engineering/corporate/metadata/**
 `skills/<nombre>/` se copia completo y sin mantener variantes manuales, incluyendo
 `SKILL.md` y `references/` cuando existan.
 
+`engineering/corporate/metadata/installation.json` guarda exclusivamente versión,
+repositorio fuente y nombres de Skills administradas. Esa lista permite retirar una
+Skill corporativa sin borrar Skills propias del consumidor; no es un manifest general
+ni contiene checksums.
+
 No se distribuyen `docs/architecture/`, `docs/governance/`, `projects.yml`, workflows,
 credenciales, tooling interno ni documentación sobre cómo opera el bot.
 
@@ -61,6 +66,6 @@ preserva conversación, auditoría y estabilidad de URLs.
 
 ## Seguridad
 
-El workflow central usa una GitHub App con `Contents: read/write`,
+El workflow manual usa una GitHub App con `Contents: read/write`,
 `Pull requests: read/write` y `Metadata: read`. No usará PATs personales ni hará push
 directo a la rama protegida.

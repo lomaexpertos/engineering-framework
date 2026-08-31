@@ -7,7 +7,7 @@ lo que realmente se verifica.
 ## Familias previstas
 
 - [`framework-version/`](framework-version/README.md): versión instalada y
-  compatibilidad del manifest.
+  consistencia de metadata.
 - [`framework-integrity/`](framework-integrity/README.md): archivos administrados y
   checksums.
 - [`policy-validation/`](policy-validation/README.md): formato, enlaces y metadata

@@ -11,8 +11,11 @@ Responsabilidades previstas:
 - aplicar los cambios a checkouts temporales de consumidores; y
 - apoyar al workflow que crea branches y Pull Requests mediante GitHub App.
 
-No se agregan scripts vacíos durante Foundation. Cada helper se incorpora con pruebas
-e idempotencia cuando el workflow realmente lo necesite.
+[`validate-framework.mjs`](validate-framework.mjs) implementa las validaciones locales
+del workflow central sin dependencias externas. `resolve-projects.mjs` valida el
+registro, `sync-consumer.mjs` aplica la copia sin borrar Skills locales y
+`publish-projects.sh` coordina Git y Pull Requests en el runner. Las pruebas viven en
+`test-distribution.mjs`.
 
 Los workflows previstos y su criterio de incorporación están documentados en
 [`../.github/workflows/README.md`](../.github/workflows/README.md).

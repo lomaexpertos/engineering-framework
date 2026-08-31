@@ -2,12 +2,12 @@
 
 Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni documentación.
 
-## Routing
+<!-- engineering-framework:start -->
+## Corporate engineering framework
 
-- Reglas corporativas vendorizadas: `engineering/corporate/policies/README.md`.
-- Arquitectura y realidad de este proyecto: `engineering/project/README.md`.
-- Workflows corporativos para Codex: `.agents/skills/`.
-- Workflows corporativos para Claude Code: `.claude/skills/`.
+- Reglas corporativas: `engineering/corporate/policies/README.md`.
+- Skills corporativas para Codex: `.agents/skills/`.
+- Skills corporativas para Claude Code: `.claude/skills/`.
 - Cambios a `AGENTS.md`, READMEs, índices o routing documental: consulta
   `engineering/corporate/policies/ai-assisted-development/context-management.md` y
   usa `configure-agent-context`; para revisión read-only usa `audit-agent-context`.
@@ -21,3 +21,4 @@ Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni document
 
 No debilites una Policy corporativa silenciosamente. Reporta conflictos y exige una
 excepción documentada antes de continuar con la decisión afectada.
+<!-- engineering-framework:end -->

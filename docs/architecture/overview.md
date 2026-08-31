@@ -4,7 +4,7 @@
 
 1. **Fuente:** Policies, Skills, plantillas y checks versionados en este repositorio.
 2. **Versión:** `VERSION` identifica el contenido corporativo publicado.
-3. **Workflow central:** valida el merge, prepara las copias y coordina la distribución.
+3. **Workflows centrales:** validan `main` y publican manualmente las copias.
 4. **GitHub App:** crea branches y Pull Requests en los consumidores autorizados.
 5. **Consumer:** conserva físicamente Policies, metadata y Skills de una versión.
 6. **CI consumidor:** valida el PR antes de que auto-merge lo integre a `main`.

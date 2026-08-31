@@ -23,9 +23,10 @@ autosuficiente, auditable y reproducible después de un `git pull`.
 - Progressive disclosure: los agentes cargan solo el contexto relevante.
 - Separación entre normas, procedimientos, realidad documentada y enforcement.
 - SemVer y versiones inmutables; nunca se consume `main` dinámicamente.
-- Vendoring automático mediante branch y Pull Request, nunca push directo a `main`.
-- Un workflow central y una GitHub App realizan la distribución; los consumidores no
-  instalan ni ejecutan herramientas del framework.
+- Vendoring automatizado iniciado manualmente, mediante branch y Pull Request; nunca
+  push directo a `main`.
+- Los workflows centrales y una GitHub App realizan la distribución; los consumidores
+  no instalan ni ejecutan herramientas del framework.
 - Una fuente de Skills distribuida a Codex y Claude Code.
 - La documentación operativa del framework permanece en este repositorio y no se
   inyecta en consumidores.
@@ -33,9 +34,9 @@ autosuficiente, auditable y reproducible después de un `git pull`.
 ## Estado
 
 La fase **Foundation** está establecida. El framework contiene Policies segmentadas y
-30 Skills corporativas con routing progresivo. La distribución automática y compliance
-se incorporarán en los siguientes incrementos; hasta entonces, las Skills existen como
-fuente central pero todavía no se sincronizan a consumidores.
+30 Skills corporativas con routing progresivo. La validación se ejecuta en `main` y la
+publicación manual puede sincronizar consumidores mediante GitHub App. Todavía falta
+registrar repositorios reales y ejecutar el primer Pull Request remoto.
 
 ## Mapa del repositorio
 
@@ -53,6 +54,6 @@ fuente central pero todavía no se sincronizan a consumidores.
 ## Roadmap inmediato
 
 1. Resolver metadata de Policies y el schema de excepciones.
-2. Implementar el workflow central de distribución con GitHub App.
+2. Registrar un consumidor piloto y validar el Pull Request del bot.
 3. Incorporar validaciones de integridad y CI reutilizable sin CLI consumidora.
 4. Ampliar Policies y enforcement conforme aparezcan decisiones corporativas reales.

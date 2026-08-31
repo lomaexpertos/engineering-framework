@@ -5,10 +5,10 @@
 
 ## Decision
 
-Después de un merge a `main`, un workflow de este repositorio copiará físicamente la
-versión aplicable a cada consumidor mediante Pull Request de una GitHub App. No se
-usarán submodules, referencias dinámicas a `main`, PATs personales ni push directo a
-la rama protegida.
+Después de validar `main`, el mantenedor podrá ejecutar manualmente un workflow que
+copiará físicamente la versión aplicable a cada consumidor mediante Pull Request de
+una GitHub App. No se usarán submodules, referencias dinámicas a `main`, PATs
+personales ni push directo a la rama protegida.
 
 ## Consequences
 

@@ -1,0 +1,69 @@
+name: Publish Engineering Framework
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: engineering-framework-publication
+  cancel-in-progress: false
+
+jobs:
+  publish-framework:
+    name: publish-framework
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Require main branch
+        run: |
+          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo "Publication must run from main; selected ref: $GITHUB_REF" >&2
+            exit 1
+          fi
+
+      - name: Checkout framework
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Validate framework source
+        run: node tooling/validate-framework.mjs
+
+      - name: Test consumer synchronization
+        run: node tooling/test-distribution.mjs
+
+      - name: Resolve consumer repositories
+        id: consumer-projects
+        env:
+          ENGINEERING_FRAMEWORK_CONSUMER_ORGANIZATION: ${{ vars.ENGINEERING_FRAMEWORK_CONSUMER_ORGANIZATION }}
+          ENGINEERING_FRAMEWORK_PROJECTS_OUTPUT: ${{ runner.temp }}/engineering-framework-projects.tsv
+        run: node tooling/resolve-projects.mjs
+
+      - name: Create GitHub App token
+        if: steps.consumer-projects.outputs.count != '0'
+        id: app-token
+        uses: actions/create-github-app-token@v3.2.0
+        with:
+          client-id: ${{ vars.ENGINEERING_FRAMEWORK_GITHUB_APP_CLIENT_ID }}
+          private-key: ${{ secrets.ENGINEERING_FRAMEWORK_GITHUB_APP_PRIVATE_KEY }}
+          owner: ${{ vars.ENGINEERING_FRAMEWORK_CONSUMER_ORGANIZATION }}
+          repositories: ${{ steps.consumer-projects.outputs.repositories }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Publish consumer updates
+        if: steps.consumer-projects.outputs.count != '0'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          ENGINEERING_FRAMEWORK_APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
+          ENGINEERING_FRAMEWORK_PROJECTS_FILE: ${{ runner.temp }}/engineering-framework-projects.tsv
+          ENGINEERING_FRAMEWORK_ROOT: ${{ github.workspace }}
+        run: bash tooling/publish-projects.sh
+
+      - name: Report empty registry
+        if: steps.consumer-projects.outputs.count == '0'
+        run: echo "No enabled consumer repositories are configured in projects.yml."
