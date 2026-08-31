@@ -11,6 +11,48 @@ function ensureDirectory(directory) {
   fs.mkdirSync(directory, { recursive: true });
 }
 
+function assertPathHasNoSymlinks(target, consumerRoot) {
+  const resolvedConsumer = path.resolve(consumerRoot);
+  const resolvedTarget = path.resolve(target);
+  const relative = path.relative(resolvedConsumer, resolvedTarget);
+
+  if (!relative || relative.startsWith("..") || path.isAbsolute(relative)) {
+    if (resolvedTarget !== resolvedConsumer) {
+      throw new Error(`managed path escapes consumer checkout: ${resolvedTarget}`);
+    }
+  }
+
+  let current = resolvedConsumer;
+  for (const segment of relative.split(path.sep).filter(Boolean)) {
+    current = path.join(current, segment);
+    if (!fs.existsSync(current)) {
+      break;
+    }
+    if (fs.lstatSync(current).isSymbolicLink()) {
+      throw new Error(`managed path contains a symbolic link: ${current}`);
+    }
+  }
+}
+
+function assertTreeHasNoSymlinks(root) {
+  const pending = [root];
+
+  while (pending.length > 0) {
+    const current = pending.pop();
+    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+      const candidate = path.join(current, entry.name);
+      if (entry.isSymbolicLink()) {
+        throw new Error(`distributable source contains a symbolic link: ${candidate}`);
+      }
+      if (entry.isDirectory()) {
+        pending.push(candidate);
+      } else if (!entry.isFile()) {
+        throw new Error(`distributable source contains a special file: ${candidate}`);
+      }
+    }
+  }
+}
+
 function removeManagedPath(target, consumerRoot) {
   const resolvedTarget = path.resolve(target);
   const resolvedConsumer = path.resolve(consumerRoot);
@@ -38,6 +80,10 @@ function readPreviousManagedSkills(consumerRoot) {
     if (typeof skill !== "string" || !/^[a-z0-9][a-z0-9-]*$/.test(skill)) {
       throw new Error(`${metadataPath} contiene un nombre de Skill inseguro`);
     }
+  }
+
+  if (new Set(metadata.managed_skills).size !== metadata.managed_skills.length) {
+    throw new Error(`${metadataPath} contiene managed_skills duplicados`);
   }
 
   return metadata.managed_skills;
@@ -99,6 +145,30 @@ export function syncConsumer(consumerDirectory) {
   }
 
   const version = fs.readFileSync(path.join(frameworkRoot, "VERSION"), "utf8").trim();
+  if (!/^(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)$/.test(version)) {
+    throw new Error(`VERSION no contiene SemVer válido: ${version}`);
+  }
+
+  const managedPaths = [
+    "AGENTS.md",
+    "FRAMEWORK_VERSION",
+    "engineering",
+    "engineering/corporate",
+    "engineering/corporate/metadata",
+    "engineering/corporate/metadata/installation.json",
+    ".agents",
+    ".agents/skills",
+    ".claude",
+    ".claude/skills",
+  ];
+  for (const managedPath of managedPaths) {
+    assertPathHasNoSymlinks(path.join(consumerRoot, managedPath), consumerRoot);
+  }
+
+  assertTreeHasNoSymlinks(path.join(frameworkRoot, "policies"));
+  assertTreeHasNoSymlinks(path.join(frameworkRoot, "skills"));
+  console.log(`[sync] Preflight passed for consumer ${consumerRoot}.`);
+
   const skillNames = fs
     .readdirSync(path.join(frameworkRoot, "skills"), { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
@@ -128,6 +198,7 @@ export function syncConsumer(consumerDirectory) {
   const corporateRoot = path.join(consumerRoot, "engineering/corporate");
   removeManagedPath(corporateRoot, consumerRoot);
   ensureDirectory(path.join(corporateRoot, "metadata"));
+  console.log(`[sync] Copying corporate Policies for framework ${version}.`);
   fs.cpSync(path.join(frameworkRoot, "policies"), path.join(corporateRoot, "policies"), {
     recursive: true,
   });
@@ -147,6 +218,7 @@ export function syncConsumer(consumerDirectory) {
         schema_version: 1,
         framework_version: version,
         source_repository: process.env.GITHUB_REPOSITORY || "engineering-framework",
+        source_commit: process.env.GITHUB_SHA || null,
         managed_skills: skillNames,
       },
       null,
@@ -166,12 +238,14 @@ export function syncConsumer(consumerDirectory) {
         { recursive: true },
       );
     }
+    console.log(`[sync] Installed ${skillNames.length} Skills under ${skillRoot}.`);
   }
 
   fs.writeFileSync(path.join(consumerRoot, "FRAMEWORK_VERSION"), `${version}\n`);
   updateAgentsFile(consumerRoot);
 
-  console.log(`Synchronized Engineering Framework ${version} into ${consumerRoot}.`);
+  console.log(`[sync] Updated FRAMEWORK_VERSION and corporate AGENTS routing.`);
+  console.log(`[sync] Synchronized Engineering Framework ${version} into ${consumerRoot}.`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
