@@ -7,6 +7,11 @@ import { parseProjects } from "./resolve-projects.mjs";
 import { syncConsumer } from "./sync-consumer.mjs";
 
 const frameworkRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const originalGitHubRepository = process.env.GITHUB_REPOSITORY;
+const originalGitHubSha = process.env.GITHUB_SHA;
+
+delete process.env.GITHUB_REPOSITORY;
+delete process.env.GITHUB_SHA;
 
 function write(file, content) {
   fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -104,7 +109,26 @@ try {
   );
   const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf8"));
   assert.deepEqual(metadata.managed_skills, expectedSkills);
+  assert.equal(metadata.source_repository, "engineering-framework");
   assert.equal(metadata.source_commit, null);
+
+  const provenanceConsumer = path.join(testRoot, "provenance-consumer");
+  const expectedSourceRepository = "lomaexpertos/engineering-framework";
+  const expectedSourceCommit = "0123456789abcdef0123456789abcdef01234567";
+  fs.mkdirSync(path.join(provenanceConsumer, ".git"), { recursive: true });
+  process.env.GITHUB_REPOSITORY = expectedSourceRepository;
+  process.env.GITHUB_SHA = expectedSourceCommit;
+  syncConsumer(provenanceConsumer);
+  const provenanceMetadata = JSON.parse(
+    fs.readFileSync(
+      path.join(provenanceConsumer, "engineering/corporate/metadata/installation.json"),
+      "utf8",
+    ),
+  );
+  assert.equal(provenanceMetadata.source_repository, expectedSourceRepository);
+  assert.equal(provenanceMetadata.source_commit, expectedSourceCommit);
+  delete process.env.GITHUB_REPOSITORY;
+  delete process.env.GITHUB_SHA;
 
   metadata.managed_skills.push("obsolete-corporate-skill");
   fs.writeFileSync(metadataPath, `${JSON.stringify(metadata, null, 2)}\n`);
@@ -163,6 +187,16 @@ try {
   assert.throws(() => syncConsumer(symlinkConsumer), /symbolic link/);
   assert.deepEqual(fs.readdirSync(symlinkTarget), []);
 } finally {
+  if (originalGitHubRepository === undefined) {
+    delete process.env.GITHUB_REPOSITORY;
+  } else {
+    process.env.GITHUB_REPOSITORY = originalGitHubRepository;
+  }
+  if (originalGitHubSha === undefined) {
+    delete process.env.GITHUB_SHA;
+  } else {
+    process.env.GITHUB_SHA = originalGitHubSha;
+  }
   fs.rmSync(testRoot, { recursive: true, force: true });
 }
 
