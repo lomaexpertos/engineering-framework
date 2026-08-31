@@ -1,4 +1,4 @@
 # Framework version check
 
-Reservado para validar `FRAMEWORK_VERSION`, formato SemVer y compatibilidad con el
-manifest de distribución. Se implementará en la fase Compliance.
+Reservado para validar `FRAMEWORK_VERSION`, formato SemVer y consistencia con la
+metadata que genere el workflow central. Se implementará en la fase Compliance.

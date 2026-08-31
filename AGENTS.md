@@ -23,6 +23,11 @@ para la tarea actual.
 - Para validaciones automáticas, consulta [`checks/README.md`](checks/README.md).
 - Para scripts de construcción o sincronización, consulta
   [`tooling/README.md`](tooling/README.md).
+- Para crear, adelgazar o recablear `AGENTS.md`, READMEs, índices o arquitectura de
+  contexto, consulta
+  [`policies/ai-assisted-development/context-management.md`](policies/ai-assisted-development/context-management.md)
+  y usa `configure-agent-context`; para auditar sin modificar, usa
+  `audit-agent-context`.
 
 ## Precedencia
 

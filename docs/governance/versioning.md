@@ -1,7 +1,12 @@
 # Versioning
 
-El framework usa Semantic Versioning. `VERSION`, el tag `vX.Y.Z` y la versión del
-artefacto deben coincidir.
+El framework usa Semantic Versioning. `VERSION` es la autoridad de la actualización
+publicada manualmente desde `main`. Si se crea un tag, **MUST** usar `vX.Y.Z` y
+coincidir con `VERSION`.
+
+Todo cambio al árbol distribuible **MUST** actualizar `VERSION`. Un merge que modifica
+solo documentación o automatización interna **MAY** conservarla; una publicación
+idempotente no abre PRs cuando el consumidor ya tiene el mismo contenido.
 
 - **PATCH:** erratas, enlaces, metadata o aclaraciones sin cambio material de
   obligación, procedimiento o contrato distribuido.

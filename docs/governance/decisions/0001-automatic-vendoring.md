@@ -5,12 +5,13 @@
 
 ## Decision
 
-Las releases se copiarán físicamente a cada repositorio consumidor mediante Pull
-Request automatizado. No se usarán submodules ni referencias dinámicas a `main` como
-mecanismo inicial.
+Después de validar `main`, el mantenedor podrá ejecutar manualmente un workflow que
+copiará físicamente la versión aplicable a cada consumidor mediante Pull Request de
+una GitHub App. No se usarán submodules, referencias dinámicas a `main`, PATs
+personales ni push directo a la rama protegida.
 
 ## Consequences
 
 Cada commit consumidor contiene exactamente lo aplicado y funciona tras `git pull`.
-El framework debe generar manifests, distinguir ownership y prevenir modificaciones
-silenciosas del contenido corporativo.
+Los detalles del workflow y del bot permanecen internos. El consumidor recibe solo
+contenido corporativo, Skills duplicadas para ambos agentes y versión explícita.

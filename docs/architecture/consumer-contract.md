@@ -7,12 +7,10 @@ project/
 ├── AGENTS.md
 ├── FRAMEWORK_VERSION
 ├── engineering/
-│   ├── corporate/
-│   │   ├── policies/
-│   │   └── metadata/
-│   │       └── manifest.json
-│   └── project/
-│       └── README.md
+│   └── corporate/
+│       ├── README.md
+│       ├── policies/
+│       └── metadata/
 ├── .agents/skills/
 └── .claude/skills/
 ```
@@ -20,12 +18,15 @@ project/
 ## Ownership
 
 - `engineering/corporate/`, `.agents/skills/` corporativas y `.claude/skills/`
-  corporativas son salidas administradas por el framework.
-- `engineering/project/` es documentación local y nunca se reemplaza durante sync.
-- `AGENTS.md` combina un router corporativo estable con routing local. La estrategia
-  exacta de actualización se definirá antes de implementar el sincronizador para no
+  corporativas son salidas administradas por el bot.
+- `AGENTS.md` combina un router corporativo estable con routing local. El workflow
+  solo podrá crearlo o actualizar una región corporativa delimitada; **MUST NOT**
   sobrescribir instrucciones propias.
 - `FRAMEWORK_VERSION` identifica exactamente la release aplicada.
+- `engineering/corporate/metadata/` queda reservado para procedencia e integridad
+  generadas. `installation.json` conserva la versión y los nombres de Skills que el
+  bot puede reemplazar o retirar; no requiere una CLI consumidora.
 
-Todo archivo corporativo distribuido debe declarar su procedencia mediante metadata
-o encabezado generado, y quedar cubierto por `manifest.json`.
+La documentación propia del framework —arquitectura de distribución, configuración
+del bot, registro de proyectos y gobierno— **MUST NOT** copiarse al consumidor.
+`engineering/project/` queda fuera del alcance de esta fase.

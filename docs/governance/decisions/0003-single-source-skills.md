@@ -5,8 +5,8 @@
 
 ## Decision
 
-Cada Skill corporativa tendrá una sola fuente en `skills/`. El build copiará ese
-contenido a `.agents/skills/` y `.claude/skills/` en el consumidor.
+Cada Skill corporativa tendrá una sola fuente en `skills/`. El workflow central
+copiará ese contenido a `.agents/skills/` y `.claude/skills/` en el consumidor.
 
 ## Consequences
 

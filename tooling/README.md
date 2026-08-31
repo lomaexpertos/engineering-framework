@@ -1,14 +1,21 @@
 # Tooling
 
-El tooling construirá una distribución determinista desde una release del framework,
-la verificará y sincronizará los repositorios registrados en `projects.yml`.
+Aquí vivirán únicamente scripts internos invocados por los GitHub workflows de este
+repositorio. No constituyen una CLI pública ni se copian a repositorios consumidores.
 
-Interfaces previstas:
+Responsabilidades previstas:
 
-- `build`: producir el árbol vendorizable y su manifest de integridad.
-- `verify`: comprobar el framework fuente o una instalación consumidora.
-- `sync`: aplicar una distribución en un checkout consumidor.
-- `publish`: coordinar branches y Pull Requests mediante GitHub App.
+- validar la fuente antes de publicar;
+- preparar el árbol permitido de Policies y Skills;
+- copiar una misma Skill a `.agents/skills/` y `.claude/skills/`;
+- aplicar los cambios a checkouts temporales de consumidores; y
+- apoyar al workflow que crea branches y Pull Requests mediante GitHub App.
 
-No se agregan scripts vacíos durante Foundation. Cada comando se incorporará con su
-contrato, pruebas e idempotencia en la fase correspondiente.
+[`validate-framework.mjs`](validate-framework.mjs) implementa las validaciones locales
+del workflow central sin dependencias externas. `resolve-projects.mjs` valida el
+registro, `sync-consumer.mjs` aplica la copia sin borrar Skills locales y
+`publish-projects.sh` coordina Git y Pull Requests en el runner. Las pruebas viven en
+`test-distribution.mjs`.
+
+Los workflows previstos y su criterio de incorporación están documentados en
+[`../.github/workflows/README.md`](../.github/workflows/README.md).

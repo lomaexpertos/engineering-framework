@@ -1,0 +1,42 @@
+name: Validate Engineering Framework
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-framework:
+    name: validate-framework
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout framework
+        uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Determine changed files
+        env:
+          VALIDATION_BASE_SHA: ${{ github.event.before }}
+        run: |
+          changed_files="$RUNNER_TEMP/engineering-framework-changed-files"
+          : > "$changed_files"
+
+          if [[ "$VALIDATION_BASE_SHA" =~ ^[0-9a-fA-F]{40}$ ]] &&
+             [[ ! "$VALIDATION_BASE_SHA" =~ ^0+$ ]]; then
+            git diff --name-only "$VALIDATION_BASE_SHA" "$GITHUB_SHA" > "$changed_files"
+          fi
+
+      - name: Validate framework source
+        env:
+          VALIDATION_CHANGED_FILES_PATH: ${{ runner.temp }}/engineering-framework-changed-files
+        run: node tooling/validate-framework.mjs
+
+      - name: Test consumer synchronization
+        run: node tooling/test-distribution.mjs

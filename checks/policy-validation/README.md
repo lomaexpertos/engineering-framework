@@ -1,4 +1,5 @@
 # Policy validation
 
-Reservado para validar estructura normativa, metadata y referencias internas. Se
-implementará incrementalmente junto con el catálogo de Policies.
+La validación inicial comprueba routing y referencias internas mediante
+[`../../tooling/validate-framework.mjs`](../../tooling/validate-framework.mjs). La
+metadata normativa se incorporará incrementalmente junto con su contrato.

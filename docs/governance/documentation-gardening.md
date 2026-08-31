@@ -1,10 +1,19 @@
 # Documentation gardening
 
-- Cada tema debe tener una única fuente canónica y un owner identificable.
-- Un documento reemplazado se elimina o queda marcado como deprecated con enlace a
-  su reemplazo y fecha de retiro.
-- Los routers se actualizan en el mismo cambio que agrega, mueve o elimina contenido.
-- Los nombres describen dominio y propósito; no se permiten cajones como `misc.md`,
-  `notes.md` o `new-rules.md`.
-- No se copia texto normativo entre Policies; se referencia su fuente canónica.
-- Enlaces internos, rutas de routers y metadata se validarán automáticamente.
+Las fuentes normativas son
+[`context-management.md`](../../policies/ai-assisted-development/context-management.md)
+y
+[`documentation-maintenance.md`](../../policies/ai-assisted-development/documentation-maintenance.md).
+Este documento no las duplica; registra el enfoque de mantenimiento y enforcement.
+
+## Maintenance workflow
+
+- Auditar periódicamente routing, fuentes huérfanas, duplicación y vigencia con
+  `audit-agent-context`.
+- Aplicar consolidación, adelgazamiento y recableado con `configure-agent-context`.
+- Mantener ownership y revisión proporcionales a la autoridad del documento.
+- Incorporar validación automática de enlaces, rutas, metadata, tamaños orientativos y
+  paridad de Skills durante la fase Compliance.
+
+La automatización detectará estructura y divergencias deterministas. La autoridad,
+ambigüedad semántica y calidad del routing seguirán requiriendo revisión contextual.

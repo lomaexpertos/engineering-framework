@@ -1,0 +1,29 @@
+---
+name: implement-critical-state-change
+description: "Implementa cambios en pagos, saldos, inventario, folios u otros estados críticos protegiendo integridad, concurrencia e idempotencia."
+---
+
+# Implement Critical State Change
+
+Proteger invariantes y efectos únicos antes de optimizar conveniencia.
+
+## Workflow
+
+1. Identificar fuente de verdad, invariantes, estados permitidos y transiciones.
+2. Mapear actores, permisos, fronteras transaccionales y efectos externos.
+3. Analizar concurrencia, reintentos, duplicados, orden y recuperación parcial.
+4. Definir idempotencia y unicidad en la capa que pueda garantizarla.
+5. Aplicar autorización sobre el recurso y transición concretos, no solo sobre la ruta.
+6. Mantener escritura de estado y registro del efecto en una frontera consistente.
+7. Diseñar compensación o reconciliación cuando exista un sistema externo.
+8. Definir eventos correlacionados que permitan reconstruir decisiones, valores
+   intermedios y resultado; usar `add-observability` si cambia la instrumentación.
+9. Mantener auditoría durable separada cuando el dominio la requiera y no registrar
+   secretos, credenciales o datos que no aportan al diagnóstico.
+10. Probar carreras, doble envío, reintento, fallo intermedio y transición inválida.
+11. Verificar que fallar sea seguro y que no se confirme éxito parcial.
+
+## Entrega
+
+Explicar invariantes protegidas, estrategia de concurrencia e idempotencia, evidencia
+de pruebas y escenarios que aún requieren control operativo.

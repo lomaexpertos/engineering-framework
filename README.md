@@ -23,16 +23,20 @@ autosuficiente, auditable y reproducible después de un `git pull`.
 - Progressive disclosure: los agentes cargan solo el contexto relevante.
 - Separación entre normas, procedimientos, realidad documentada y enforcement.
 - SemVer y versiones inmutables; nunca se consume `main` dinámicamente.
-- Vendoring automático mediante branch y Pull Request, nunca push directo a `main`.
+- Vendoring automatizado iniciado manualmente, mediante branch y Pull Request; nunca
+  push directo a `main`.
+- Los workflows centrales y una GitHub App realizan la distribución; los consumidores
+  no instalan ni ejecutan herramientas del framework.
 - Una fuente de Skills distribuida a Codex y Claude Code.
-- Las particularidades de producto permanecen en `engineering/project/`.
+- La documentación operativa del framework permanece en este repositorio y no se
+  inyecta en consumidores.
 
 ## Estado
 
-El repositorio se encuentra en la fase **Foundation**. La estructura, contratos y
-decisiones fundamentales están definidos, pero el catálogo normativo y operativo se
-implementará por verticales revisables, no mediante placeholders que aparenten ser
-instrucciones vigentes.
+La fase **Foundation** está establecida. El framework contiene Policies segmentadas y
+30 Skills corporativas con routing progresivo. La validación se ejecuta en `main` y la
+publicación manual puede sincronizar consumidores mediante GitHub App. Todavía falta
+registrar repositorios reales y ejecutar el primer Pull Request remoto.
 
 ## Mapa del repositorio
 
@@ -49,7 +53,7 @@ instrucciones vigentes.
 
 ## Roadmap inmediato
 
-1. Completar Foundation y validar su estructura.
-2. Implementar el primer vertical: cuatro Policies y dos Skills reales.
-3. Construir el artefacto de distribución y la automatización con GitHub App.
-4. Incorporar manifest de integridad, comando de verificación y CI reutilizable.
+1. Resolver metadata de Policies y el schema de excepciones.
+2. Registrar un consumidor piloto y validar el Pull Request del bot.
+3. Incorporar validaciones de integridad y CI reutilizable sin CLI consumidora.
+4. Ampliar Policies y enforcement conforme aparezcan decisiones corporativas reales.
