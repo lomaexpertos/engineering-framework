@@ -1,4 +1,5 @@
 name: Publish Engineering Framework
+run-name: Publish Engineering Framework from ${{ github.ref_name }} by ${{ github.actor }}
 
 on:
   workflow_dispatch:
@@ -14,27 +15,88 @@ jobs:
   publish-framework:
     name: publish-framework
     runs-on: ubuntu-latest
+    timeout-minutes: 45
 
     steps:
+      - name: Initialize publication log
+        env:
+          PUBLICATION_REF: ${{ github.ref }}
+          PUBLICATION_SHA: ${{ github.sha }}
+          PUBLICATION_ACTOR: ${{ github.actor }}
+          PUBLICATION_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          {
+            echo "# Engineering Framework publication"
+            echo
+            echo "- Run: [${GITHUB_RUN_ID}](${PUBLICATION_RUN_URL})"
+            echo "- Actor: \`${PUBLICATION_ACTOR}\`"
+            echo "- Requested ref: \`${PUBLICATION_REF}\`"
+            echo "- Immutable source SHA: \`${PUBLICATION_SHA}\`"
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          echo "::group::Publication context"
+          echo "Run: ${PUBLICATION_RUN_URL}"
+          echo "Actor: ${PUBLICATION_ACTOR}"
+          echo "Requested ref: ${PUBLICATION_REF}"
+          echo "Immutable source SHA: ${PUBLICATION_SHA}"
+          echo "::endgroup::"
+
       - name: Require main branch
         run: |
           if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
-            echo "Publication must run from main; selected ref: $GITHUB_REF" >&2
+            echo "::error title=Invalid publication ref::Publication must run from main; selected ref: ${GITHUB_REF}"
+            exit 1
+          fi
+          echo "Validated publication ref: ${GITHUB_REF}."
+
+      - name: Checkout immutable framework snapshot
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Verify runner and source snapshot
+        run: |
+          set -euo pipefail
+
+          actual_sha="$(git rev-parse HEAD)"
+          if [[ "$actual_sha" != "$GITHUB_SHA" ]]; then
+            echo "::error title=Source mismatch::Expected ${GITHUB_SHA}, checked out ${actual_sha}."
             exit 1
           fi
 
-      - name: Checkout framework
-        uses: actions/checkout@v7.0.1
-        with:
-          ref: main
-          fetch-depth: 0
-          persist-credentials: false
+          echo "::group::Runtime versions"
+          echo "Source SHA: ${actual_sha}"
+          node --version
+          git --version
+          gh --version
+          echo "bash ${BASH_VERSION}"
+          echo "::endgroup::"
 
       - name: Validate framework source
         run: node tooling/validate-framework.mjs
 
       - name: Test consumer synchronization
         run: node tooling/test-distribution.mjs
+
+      - name: Test publication orchestration
+        run: node tooling/test-publication.mjs
+
+      - name: Validate registry configuration
+        env:
+          ENGINEERING_FRAMEWORK_CONSUMER_ORGANIZATION: ${{ vars.ENGINEERING_FRAMEWORK_CONSUMER_ORGANIZATION }}
+        run: |
+          if [[ -z "$ENGINEERING_FRAMEWORK_CONSUMER_ORGANIZATION" ]]; then
+            echo "::error title=Missing repository variable::ENGINEERING_FRAMEWORK_CONSUMER_ORGANIZATION is not configured."
+            exit 1
+          fi
+          if [[ ! "$ENGINEERING_FRAMEWORK_CONSUMER_ORGANIZATION" =~ ^[A-Za-z0-9_.-]+$ ]]; then
+            echo "::error title=Invalid organization::ENGINEERING_FRAMEWORK_CONSUMER_ORGANIZATION has an unsupported format."
+            exit 1
+          fi
+          echo "Consumer organization: ${ENGINEERING_FRAMEWORK_CONSUMER_ORGANIZATION}."
 
       - name: Resolve consumer repositories
         id: consumer-projects
@@ -43,10 +105,34 @@ jobs:
           ENGINEERING_FRAMEWORK_PROJECTS_OUTPUT: ${{ runner.temp }}/engineering-framework-projects.tsv
         run: node tooling/resolve-projects.mjs
 
-      - name: Create GitHub App token
+      - name: Validate GitHub App configuration
+        if: steps.consumer-projects.outputs.count != '0'
+        env:
+          ENGINEERING_FRAMEWORK_GITHUB_APP_CLIENT_ID: ${{ vars.ENGINEERING_FRAMEWORK_GITHUB_APP_CLIENT_ID }}
+          ENGINEERING_FRAMEWORK_GITHUB_APP_PRIVATE_KEY: ${{ secrets.ENGINEERING_FRAMEWORK_GITHUB_APP_PRIVATE_KEY }}
+        run: |
+          missing=0
+          if [[ -z "$ENGINEERING_FRAMEWORK_GITHUB_APP_CLIENT_ID" ]]; then
+            echo "::error title=Missing repository variable::ENGINEERING_FRAMEWORK_GITHUB_APP_CLIENT_ID is not configured."
+            missing=1
+          fi
+          if [[ -z "$ENGINEERING_FRAMEWORK_GITHUB_APP_PRIVATE_KEY" ]]; then
+            echo "::error title=Missing repository secret::ENGINEERING_FRAMEWORK_GITHUB_APP_PRIVATE_KEY is not configured."
+            missing=1
+          elif [[ "$ENGINEERING_FRAMEWORK_GITHUB_APP_PRIVATE_KEY" != *"BEGIN"*"PRIVATE KEY"* ]] ||
+               [[ "$ENGINEERING_FRAMEWORK_GITHUB_APP_PRIVATE_KEY" != *"END"*"PRIVATE KEY"* ]]; then
+            echo "::error title=Invalid private key::ENGINEERING_FRAMEWORK_GITHUB_APP_PRIVATE_KEY does not look like a PEM private key."
+            missing=1
+          fi
+          if (( missing != 0 )); then
+            exit 1
+          fi
+          echo "GitHub App inputs are present; secret contents were not logged."
+
+      - name: Create scoped GitHub App token
         if: steps.consumer-projects.outputs.count != '0'
         id: app-token
-        uses: actions/create-github-app-token@v3.2.0
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
           client-id: ${{ vars.ENGINEERING_FRAMEWORK_GITHUB_APP_CLIENT_ID }}
           private-key: ${{ secrets.ENGINEERING_FRAMEWORK_GITHUB_APP_PRIVATE_KEY }}
@@ -66,4 +152,25 @@ jobs:
 
       - name: Report empty registry
         if: steps.consumer-projects.outputs.count == '0'
-        run: echo "No enabled consumer repositories are configured in projects.yml."
+        run: |
+          echo "No enabled consumer repositories are configured in projects.yml."
+          {
+            echo "## Consumer results"
+            echo
+            echo "No enabled consumers were configured; no GitHub App token was requested."
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Finalize publication summary
+        if: always()
+        env:
+          PUBLICATION_JOB_STATUS: ${{ job.status }}
+        run: |
+          {
+            echo "## Workflow outcome"
+            echo
+            echo "- Status: **${PUBLICATION_JOB_STATUS}**"
+            echo "- Logs: inspect the first failed step and its \`::error\` annotation."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          echo "Publication workflow finished with status: ${PUBLICATION_JOB_STATUS}."

@@ -25,7 +25,8 @@ project/
 - `FRAMEWORK_VERSION` identifica exactamente la release aplicada.
 - `engineering/corporate/metadata/` queda reservado para procedencia e integridad
   generadas. `installation.json` conserva la versión y los nombres de Skills que el
-  bot puede reemplazar o retirar; no requiere una CLI consumidora.
+  bot puede reemplazar o retirar, además del repositorio y SHA fuente exactos; no
+  requiere una CLI consumidora.
 
 La documentación propia del framework —arquitectura de distribución, configuración
 del bot, registro de proyectos y gobierno— **MUST NOT** copiarse al consumidor.

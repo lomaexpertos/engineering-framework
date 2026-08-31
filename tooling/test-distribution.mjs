@@ -21,6 +21,27 @@ function directoryNames(directory) {
     .sort();
 }
 
+function treeSnapshot(directory) {
+  const snapshot = new Map();
+
+  function walk(current) {
+    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+      const absolute = path.join(current, entry.name);
+      const relative = path.relative(directory, absolute);
+      if (entry.isDirectory()) {
+        walk(absolute);
+      } else if (entry.isFile()) {
+        snapshot.set(relative, fs.readFileSync(absolute, "utf8"));
+      } else {
+        throw new Error(`unexpected test entry: ${absolute}`);
+      }
+    }
+  }
+
+  walk(directory);
+  return [...snapshot.entries()].sort(([left], [right]) => left.localeCompare(right));
+}
+
 assert.deepEqual(parseProjects("schema_version: 1\nprojects: []\n"), []);
 assert.deepEqual(
   parseProjects(
@@ -59,6 +80,12 @@ try {
 
   assert.deepEqual(codexSkills, expectedSkills);
   assert.deepEqual(claudeSkills, expectedSkills);
+  for (const skillName of expectedSkills) {
+    assert.deepEqual(
+      treeSnapshot(path.join(consumer, ".agents/skills", skillName)),
+      treeSnapshot(path.join(consumer, ".claude/skills", skillName)),
+    );
+  }
   assert.ok(fs.existsSync(path.join(consumer, ".agents/skills/project-local/SKILL.md")));
   assert.ok(fs.existsSync(path.join(consumer, ".claude/skills/project-local/SKILL.md")));
   assert.ok(fs.existsSync(path.join(consumer, "engineering/corporate/policies/README.md")));
@@ -77,6 +104,7 @@ try {
   );
   const metadata = JSON.parse(fs.readFileSync(metadataPath, "utf8"));
   assert.deepEqual(metadata.managed_skills, expectedSkills);
+  assert.equal(metadata.source_commit, null);
 
   metadata.managed_skills.push("obsolete-corporate-skill");
   fs.writeFileSync(metadataPath, `${JSON.stringify(metadata, null, 2)}\n`);
@@ -106,6 +134,34 @@ try {
     "project-owned collision\n",
   );
   assert.throws(() => syncConsumer(collisionConsumer), /colisiona/);
+
+  const malformedAgentsConsumer = path.join(testRoot, "malformed-agents-consumer");
+  fs.mkdirSync(path.join(malformedAgentsConsumer, ".git"), { recursive: true });
+  write(
+    path.join(malformedAgentsConsumer, "AGENTS.md"),
+    "<!-- engineering-framework:start -->\nincomplete\n",
+  );
+  assert.throws(() => syncConsumer(malformedAgentsConsumer), /marcadores/);
+
+  const duplicateMetadataConsumer = path.join(testRoot, "duplicate-metadata-consumer");
+  fs.mkdirSync(path.join(duplicateMetadataConsumer, ".git"), { recursive: true });
+  syncConsumer(duplicateMetadataConsumer);
+  const duplicateMetadataPath = path.join(
+    duplicateMetadataConsumer,
+    "engineering/corporate/metadata/installation.json",
+  );
+  const duplicateMetadata = JSON.parse(fs.readFileSync(duplicateMetadataPath, "utf8"));
+  duplicateMetadata.managed_skills.push(duplicateMetadata.managed_skills[0]);
+  fs.writeFileSync(duplicateMetadataPath, `${JSON.stringify(duplicateMetadata, null, 2)}\n`);
+  assert.throws(() => syncConsumer(duplicateMetadataConsumer), /duplicados/);
+
+  const symlinkConsumer = path.join(testRoot, "symlink-consumer");
+  const symlinkTarget = path.join(testRoot, "symlink-target");
+  fs.mkdirSync(path.join(symlinkConsumer, ".git"), { recursive: true });
+  fs.mkdirSync(symlinkTarget, { recursive: true });
+  fs.symlinkSync(symlinkTarget, path.join(symlinkConsumer, ".agents"));
+  assert.throws(() => syncConsumer(symlinkConsumer), /symbolic link/);
+  assert.deepEqual(fs.readdirSync(symlinkTarget), []);
 } finally {
   fs.rmSync(testRoot, { recursive: true, force: true });
 }

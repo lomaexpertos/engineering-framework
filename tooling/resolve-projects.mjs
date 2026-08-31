@@ -156,6 +156,11 @@ function run() {
   fs.appendFileSync(githubOutput, `count=${enabledProjects.length}\n`);
   writeMultilineOutput(githubOutput, "repositories", repositoryNames);
   console.log(`Resolved ${enabledProjects.length} enabled consumer repositories.`);
+  for (const project of enabledProjects) {
+    console.log(
+      `- ${project.repository}: auto_merge=${String(project.auto_merge)}`,
+    );
+  }
 }
 
 const invokedFile = process.argv[1] ? pathToFileURL(process.argv[1]).href : "";

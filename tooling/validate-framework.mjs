@@ -134,6 +134,7 @@ runCheck("Required structure", () => {
     "tooling/resolve-projects.mjs",
     "tooling/sync-consumer.mjs",
     "tooling/test-distribution.mjs",
+    "tooling/test-publication.mjs",
   ];
 
   for (const requiredPath of requiredPaths) {
@@ -145,6 +146,45 @@ runCheck("Required structure", () => {
   for (const entry of fs.readdirSync("policies", { withFileTypes: true })) {
     if (entry.isDirectory() && !fs.existsSync(path.join("policies", entry.name, "README.md"))) {
       addFailure("Required structure", `policies/${entry.name}/ no tiene README.md`);
+    }
+  }
+});
+
+runCheck("Workflow contracts", () => {
+  const publication = fs.readFileSync(
+    ".github/workflows/publish-framework.yml",
+    "utf8",
+  );
+  const validation = fs.readFileSync(
+    ".github/workflows/validate-framework.yml",
+    "utf8",
+  );
+
+  const requiredPublicationFragments = [
+    "workflow_dispatch:",
+    "ref: ${{ github.sha }}",
+    "timeout-minutes:",
+    "tooling/test-publication.mjs",
+    "if: always()",
+  ];
+  for (const fragment of requiredPublicationFragments) {
+    if (!publication.includes(fragment)) {
+      addFailure("Workflow contracts", `publish-framework.yml no contiene ${fragment}`);
+    }
+  }
+
+  for (const [file, content] of [
+    ["publish-framework.yml", publication],
+    ["validate-framework.yml", validation],
+  ]) {
+    for (const match of content.matchAll(/^\s*uses:\s*([^\s#]+)/gm)) {
+      const reference = match[1];
+      if (!/@[0-9a-f]{40}$/.test(reference)) {
+        addFailure(
+          "Workflow contracts",
+          `.github/workflows/${file} usa una Action sin SHA completo: ${reference}`,
+        );
+      }
     }
   }
 });
@@ -255,6 +295,31 @@ runCheck("Source ownership", () => {
   for (const file of files) {
     if (forbiddenPrefixes.some((prefix) => file.startsWith(prefix))) {
       addFailure("Source ownership", `${file} es una copia consumidora dentro de la fuente`);
+    }
+  }
+});
+
+runCheck("Distributable file safety", () => {
+  const roots = ["policies", "skills", "templates/project"];
+  const pending = roots.map((root) => path.resolve(root));
+
+  while (pending.length > 0) {
+    const current = pending.pop();
+    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
+      const candidate = path.join(current, entry.name);
+      if (entry.isSymbolicLink()) {
+        addFailure(
+          "Distributable file safety",
+          `${path.relative(repositoryRoot, candidate)} es un symbolic link`,
+        );
+      } else if (entry.isDirectory()) {
+        pending.push(candidate);
+      } else if (!entry.isFile()) {
+        addFailure(
+          "Distributable file safety",
+          `${path.relative(repositoryRoot, candidate)} no es un archivo regular`,
+        );
+      }
     }
   }
 });
