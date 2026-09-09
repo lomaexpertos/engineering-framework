@@ -31,7 +31,8 @@ Verificar siempre:
 - **Reforzado:** toca persistencia, autorización, integración, migración, asincronía o
   compatibilidad. Exige pruebas de frontera y revisión del radio de impacto.
 - **Alto:** dinero, fiscalidad, nómina, secretos, datos irreversibles o efectos
-  distribuidos de alto impacto. Exige invariantes explícitas, escenarios de falla,
-  recuperación y `branch-quality-review` antes de entregar.
+  distribuidos de alto impacto. Exige invariantes explícitas, escenarios de falla y
+  recuperación; usar `branch-quality-review` cuando se prepare la entrega, el usuario
+  lo solicite o una Policy lo exija.
 
 El tamaño del diff no reduce por sí mismo el rigor.

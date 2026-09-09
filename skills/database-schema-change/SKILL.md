@@ -20,8 +20,10 @@ Evolucionar estructura preservando integridad y compatibilidad.
 3. Definir PK, FK, restricciones, acciones referenciales, auditoría e índices.
 4. Evaluar locks, volumen, defaults, backfill y coexistencia entre versiones.
 5. Separar expansión, adopción y retiro cuando un cambio no sea compatible en un paso.
-6. Preparar SQL literal con prechecks, aplicación y validación; usar migración en código
-   solo por solicitud explícita.
+6. Preparar por defecto un único SQL literal bajo `database/migrations/`, con
+   prechecks, aplicación y validación; usar una migration nativa sólo por solicitud
+   explícita o cuando el contrato de despliegue vigente la requiera, sin duplicar
+   formatos por iniciativa propia.
 7. Definir roll-forward, respaldo y recuperación para cambios no reversibles.
 8. Validar sintaxis y estructura contra el motor real sin ejecutar en producción.
 

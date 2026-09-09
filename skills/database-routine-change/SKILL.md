@@ -15,7 +15,8 @@ Mantener lógica de base de datos explícita, acotada y verificable.
 4. Definir entradas, salidas, efectos, errores, reentrancia y comportamiento concurrente.
 5. Preferir SQL estático; justificar control procedural o SQL dinámico.
 6. Evitar efectos ocultos, recursión de triggers y privilegios mayores a los necesarios.
-7. Preparar creación o reemplazo, grants, prechecks y validación como SQL literal.
+7. Preparar por defecto creación o reemplazo, grants, prechecks y validación en un
+   único SQL literal bajo `database/routines/`.
 8. Probar nulidad, duplicados, error intermedio, permisos y volumen esperado.
 9. Documentar dependencias y orden de deployment sin ejecutar en producción.
 

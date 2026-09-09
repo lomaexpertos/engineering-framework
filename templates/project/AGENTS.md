@@ -8,6 +8,8 @@ Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni document
 - Reglas corporativas: `engineering/corporate/policies/README.md`.
 - Skills corporativas para Codex: `.agents/skills/`.
 - Skills corporativas para Claude Code: `.claude/skills/`.
+- Layout de documentación, specs y revisiones del proyecto:
+  `engineering/corporate/policies/ai-assisted-development/project-artifact-layout.md`.
 - Cambios a `AGENTS.md`, READMEs, índices o routing documental: consulta
   `engineering/corporate/policies/ai-assisted-development/context-management.md` y
   usa `configure-agent-context`; para revisión read-only usa `audit-agent-context`.

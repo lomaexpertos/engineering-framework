@@ -12,3 +12,6 @@ Aplica a operaciones que puedan repetirse, competir o producir efectos únicos o
 4. Pagos, saldos, inventarios, reservas y folios **MUST** impedir doble efecto y pérdida silenciosa ante carreras.
 5. La consistencia con un sistema externo **MUST** incluir reconciliación, compensación o intervención operativa explícita cuando no exista atomicidad distribuida.
 6. Las pruebas **MUST** cubrir los interleavings y reintentos relevantes, no solo ejecuciones secuenciales.
+7. La estrategia **SHOULD** ser el control efectivo más sencillo para la invariante.
+   Locks, colas, outbox, sagas o serialización adicional **MUST NOT** imponerse sin un
+   conflicto o frontera distribuida que los justifique.

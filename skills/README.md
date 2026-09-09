@@ -35,10 +35,8 @@ criterios reales de decisión y verificación.
 | [`explorador-de-dominio`](explorador-de-dominio/SKILL.md) | Aprender un dominio, cuestionar supuestos y evaluar preparación. |
 | [`research-best-practices`](research-best-practices/SKILL.md) | Investigar evidencia externa actual. |
 | [`discover-business-process`](discover-business-process/SKILL.md) | Reconstruir un proceso AS-IS. |
-| [`spec-analizar`](spec-analizar/SKILL.md) | Analizar AS-IS, brechas y preguntas de una iniciativa sin decidir el TO-BE. |
-| [`spec-definir`](spec-definir/SKILL.md) | Crear el expediente y definir TO-BE y requisitos verificables. |
-| [`spec-clarificar`](spec-clarificar/SKILL.md) | Integrar decisiones en una spec. |
-| [`spec-planear`](spec-planear/SKILL.md) | Crear plan, tareas y estrategia de pruebas. |
+| [`spec-definir`](spec-definir/SKILL.md) | Definir o refinar el TO-BE y sus requisitos verificables. |
+| [`spec-planear`](spec-planear/SKILL.md) | Crear un plan técnico proporcional y verificable. |
 | [`spec-implementar`](spec-implementar/SKILL.md) | Ejecutar una spec planificada. |
 | [`spec-documentar`](spec-documentar/SKILL.md) | Mantener documentación AS-IS permanente. |
 
@@ -66,9 +64,15 @@ criterios reales de decisión y verificación.
 
 | Skill | Propósito |
 | --- | --- |
-| [`branch-quality-review`](branch-quality-review/SKILL.md) | Auditar ramas, cambios o áreas con rigor proporcional al riesgo. |
+| [`branch-quality-review`](branch-quality-review/SKILL.md) | Decidir si una rama, PR o patch es entregable con evidencia. |
 | [`security-review`](security-review/SKILL.md) | Auditar amenazas y controles de seguridad. |
 | [`data-integrity-review`](data-integrity-review/SKILL.md) | Auditar concurrencia, idempotencia e integridad. |
+
+### Git
+
+| Skill | Propósito |
+| --- | --- |
+| [`gitcommit`](gitcommit/SKILL.md) | Crear commits locales lógicos, seguros y semánticos. |
 
 ## Distribución
 

@@ -19,12 +19,10 @@ fuera del alcance de una migración aprobada.
 
 1. UUIDv7 **SHOULD** ser el identificador predeterminado cuando el motor y el proyecto
    dispongan de generación validada.
-2. Cuando UUIDv7 no sea razonable, un Nano ID **MAY** utilizarse con al menos 14
-   caracteres, un alfabeto seguro para sus consumidores y una restricción de unicidad.
-3. La longitud y el alfabeto **MUST** revisarse contra el volumen esperado y el riesgo
-   de colisión; 14 caracteres es un mínimo, no una garantía universal.
-4. Un identificador autoincremental **SHOULD NOT** utilizarse salvo que las opciones
+2. Cuando UUIDv7 no sea razonable, UUIDv4 **SHOULD** ser la alternativa para conservar
+   el mismo tipo y representación entre PK, FK y consumidores.
+3. Un identificador autoincremental **SHOULD NOT** utilizarse salvo que las opciones
    anteriores no sean viables y la razón quede documentada.
-5. La autorización **MUST NOT** depender de que un identificador sea difícil de
+4. La autorización **MUST NOT** depender de que un identificador sea difícil de
    adivinar. Si existe un autoincremento interno, **MUST NOT** exponerse como único
    control de acceso en URLs o contratos externos.

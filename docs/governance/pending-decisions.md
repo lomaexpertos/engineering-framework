@@ -53,9 +53,15 @@ engineering/corporate/
 ```
 
 Cada Skill se copia desde una sola fuente hacia `.agents/skills/` y
-`.claude/skills/`. El contenido de `engineering/project/` queda fuera del alcance
-actual por decisión explícita. Sigue pendiente registrar consumidores reales y probar
-el primer Pull Request remoto.
+`.claude/skills/`. Los namespaces `engineering/docs/`, `engineering/specs/` y
+`engineering/quality-review/` pertenecen al proyecto y no son administrados por el
+bot. Sigue pendiente registrar consumidores reales y probar el primer Pull Request
+remoto.
 
 La arquitectura del workflow, configuración del bot, registro de consumidores y
 documentación de gobierno permanecen exclusivamente en este repositorio.
+
+Después del primer piloto exitoso deben desactivarse las copias personales homónimas
+de Skills corporativas en los equipos adoptados. Codex no fusiona Skills de distinto
+scope con el mismo nombre; mantener ambas activas introduce routing ambiguo y consume
+el presupuesto de discovery.

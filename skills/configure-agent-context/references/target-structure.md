@@ -5,12 +5,14 @@
 ```text
 AGENTS.md
 ├── engineering/corporate/policies/README.md
-├── engineering/project/README.md
+├── engineering/docs/index.md                 # cuando exista contenido
 ├── .agents/skills/
 └── .claude/skills/
 ```
 
 Los routers inferiores se agregan por dominio solo cuando exista contenido real.
+`engineering/specs/` y `engineering/quality-review/` contienen artefactos de trabajo,
+no sustituyen el router de documentación vigente.
 
 ## `AGENTS.md` raíz
 

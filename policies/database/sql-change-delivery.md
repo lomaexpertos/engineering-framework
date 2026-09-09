@@ -14,5 +14,9 @@
 ## Automated migrations
 
 Una migración implementada mediante código o un framework **MAY** prepararse cuando el
-usuario la solicite explícitamente. Esa forma de entrega **MUST** conservar los mismos
-controles de integridad, compatibilidad, validación y trazabilidad que el SQL manual.
+usuario la solicite explícitamente o el contrato de despliegue vigente del proyecto la
+requiera. Esa forma de entrega **MUST** conservar los mismos controles de integridad,
+compatibilidad, validación y trazabilidad que el SQL manual.
+
+El agente **MUST NOT** generar simultáneamente SQL manual y una migration de framework
+para el mismo cambio salvo solicitud explícita y una razón operativa documentada.

@@ -18,6 +18,9 @@
   distribuyen a consumidores.
 - En consumidores, `engineering/corporate/` y las copias corporativas de Skills son
   administradas por el bot.
+- En consumidores, `engineering/docs/`, `engineering/specs/` y
+  `engineering/quality-review/` son propiedad del proyecto y se crean únicamente
+  cuando exista contenido real.
 - `checks/` verifica; `tooling/` solo auxilia al workflow central.
 
 ## Progressive disclosure

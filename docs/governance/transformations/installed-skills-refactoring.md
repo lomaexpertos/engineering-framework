@@ -1,5 +1,9 @@
 # Installed Skills refactoring
 
+> Snapshot histórico del 2026-08-30. Las decisiones modificadas por la reconciliación
+> posterior se documentan en
+> [`2026-09-09-skills-reconciliation.md`](2026-09-09-skills-reconciliation.md).
+
 ## Source
 
 Skills locales analizadas el 2026-08-30:
