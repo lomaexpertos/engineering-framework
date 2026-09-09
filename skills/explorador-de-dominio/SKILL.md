@@ -13,8 +13,8 @@ Ayudar a la persona a adquirir criterio de negocio, no solo a recopilar definici
   un proceso AS-IS desde entrevistas o evidencia operativa, sin tutoría completa.
 - Usar `research-best-practices` cuando el entregable sea una investigación externa
   trazable, sin mapa de aprendizaje ni evaluación de preparación.
-- Usar `spec-analizar` para el AS-IS y brechas de una iniciativa concreta, y
-  `spec-definir` para convertir decisiones aprobadas en TO-BE y requisitos.
+- Usar `spec-definir` cuando la exploración pertenezca a una iniciativa concreta y
+  deba convertirse en AS-IS proporcional, brechas, TO-BE y requisitos aprobados.
 
 ## Principios obligatorios
 

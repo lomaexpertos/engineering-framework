@@ -8,3 +8,4 @@
 - [`0006-deployment-automation-skill.md`](0006-deployment-automation-skill.md)
 - [`0007-agent-context-safeguards.md`](0007-agent-context-safeguards.md)
 - [`0008-project-artifact-layout.md`](0008-project-artifact-layout.md)
+- [`0009-proportional-spec-workflow.md`](0009-proportional-spec-workflow.md)
