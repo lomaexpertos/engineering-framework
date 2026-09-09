@@ -72,6 +72,12 @@ try {
   write(path.join(consumer, "AGENTS.md"), "# Project instructions\n\nKeep this local rule.\n");
   write(path.join(consumer, ".agents/skills/project-local/SKILL.md"), "local codex skill\n");
   write(path.join(consumer, ".claude/skills/project-local/SKILL.md"), "local claude skill\n");
+  write(path.join(consumer, "engineering/docs/index.md"), "# Project docs\n");
+  write(path.join(consumer, "engineering/specs/20260909_example/spec.md"), "# Spec\n");
+  write(
+    path.join(consumer, "engineering/quality-review/20260909_example/review.md"),
+    "# Review\n",
+  );
 
   syncConsumer(consumer);
 
@@ -94,6 +100,23 @@ try {
   assert.ok(fs.existsSync(path.join(consumer, ".agents/skills/project-local/SKILL.md")));
   assert.ok(fs.existsSync(path.join(consumer, ".claude/skills/project-local/SKILL.md")));
   assert.ok(fs.existsSync(path.join(consumer, "engineering/corporate/policies/README.md")));
+  assert.equal(
+    fs.readFileSync(path.join(consumer, "engineering/docs/index.md"), "utf8"),
+    "# Project docs\n",
+  );
+  assert.equal(
+    fs.readFileSync(path.join(consumer, "engineering/specs/20260909_example/spec.md"), "utf8"),
+    "# Spec\n",
+  );
+  assert.equal(
+    fs.readFileSync(
+      path.join(consumer, "engineering/quality-review/20260909_example/review.md"),
+      "utf8",
+    ),
+    "# Review\n",
+  );
+  assert.ok(!fs.existsSync(path.join(consumer, "engineering/architecture")));
+  assert.ok(!fs.existsSync(path.join(consumer, "engineering/project")));
   assert.equal(
     fs.readFileSync(path.join(consumer, "FRAMEWORK_VERSION"), "utf8"),
     fs.readFileSync(path.join(frameworkRoot, "VERSION"), "utf8"),
@@ -144,6 +167,21 @@ try {
   syncConsumer(consumer);
   assert.ok(!fs.existsSync(path.join(consumer, ".agents/skills/obsolete-corporate-skill")));
   assert.ok(!fs.existsSync(path.join(consumer, ".claude/skills/obsolete-corporate-skill")));
+  assert.equal(
+    fs.readFileSync(path.join(consumer, "engineering/docs/index.md"), "utf8"),
+    "# Project docs\n",
+  );
+  assert.equal(
+    fs.readFileSync(path.join(consumer, "engineering/specs/20260909_example/spec.md"), "utf8"),
+    "# Spec\n",
+  );
+  assert.equal(
+    fs.readFileSync(
+      path.join(consumer, "engineering/quality-review/20260909_example/review.md"),
+      "utf8",
+    ),
+    "# Review\n",
+  );
   assert.equal(
     (fs
       .readFileSync(path.join(consumer, "AGENTS.md"), "utf8")

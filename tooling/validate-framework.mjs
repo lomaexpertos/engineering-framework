@@ -126,6 +126,7 @@ runCheck("Required structure", () => {
     "README.md",
     "VERSION",
     "docs/architecture/distribution.md",
+    "policies/ai-assisted-development/project-artifact-layout.md",
     "policies/README.md",
     "projects.yml",
     "skills/README.md",
@@ -211,6 +212,10 @@ runCheck("Skill contracts", () => {
     addFailure("Skill contracts", "no hay Skills publicadas");
   }
 
+  const declaredNames = new Set();
+  const normalizedDescriptions = new Map();
+  const discoveryEntries = [];
+
   for (const skillName of skillDirectories) {
     const skillFile = path.join("skills", skillName, "SKILL.md");
     if (!fs.existsSync(skillFile)) {
@@ -236,6 +241,44 @@ runCheck("Skill contracts", () => {
     }
     if (!description || description === '""' || description === "''") {
       addFailure("Skill contracts", `${skillFile} no tiene description`);
+    }
+
+    if (declaredName) {
+      if (declaredNames.has(declaredName)) {
+        addFailure("Skill contracts", `nombre declarado duplicado: ${declaredName}`);
+      }
+      declaredNames.add(declaredName);
+    }
+
+    if (description) {
+      const normalizedDescription = description
+        .replace(/^["']|["']$/g, "")
+        .replace(/\s+/g, " ")
+        .trim();
+      const previousSkill = normalizedDescriptions.get(normalizedDescription);
+      if (previousSkill) {
+        addFailure(
+          "Skill contracts",
+          `${skillName} y ${previousSkill} tienen descriptions equivalentes`,
+        );
+      }
+      normalizedDescriptions.set(normalizedDescription, skillName);
+      discoveryEntries.push(`${skillName}: ${normalizedDescription} (${skillFile})`);
+    }
+
+    const openAiMetadata = path.join("skills", skillName, "agents/openai.yaml");
+    if (fs.existsSync(openAiMetadata)) {
+      const metadata = fs.readFileSync(openAiMetadata, "utf8");
+      if (!/^interface:\s*$/m.test(metadata)) {
+        addFailure("Skill contracts", `${openAiMetadata} no contiene interface`);
+      }
+      const invocationPolicy = metadata.match(/^\s*allow_implicit_invocation:\s*(\S+)/m)?.[1];
+      if (invocationPolicy && !["true", "false"].includes(invocationPolicy)) {
+        addFailure(
+          "Skill contracts",
+          `${openAiMetadata} contiene allow_implicit_invocation inválido`,
+        );
+      }
     }
 
     const skillRoot = path.resolve("skills", skillName);
@@ -264,6 +307,58 @@ runCheck("Skill contracts", () => {
   }
   for (const skill of unknownInCatalog) {
     addFailure("Skill contracts", `skills/README.md referencia una Skill inexistente: ${skill}`);
+  }
+
+  const discoveryBudget = discoveryEntries.join("\n").length;
+  if (discoveryBudget > 8000) {
+    addFailure(
+      "Skill contracts",
+      `catálogo de discovery usa ${discoveryBudget} caracteres; máximo 8000`,
+    );
+  }
+});
+
+runCheck("Canonical contracts", () => {
+  const liveRoutingFiles = files.filter(
+    (file) =>
+      (file.startsWith("skills/") || file.startsWith("templates/project/")) &&
+      file.endsWith(".md"),
+  );
+  const retiredTerms = [
+    "engineering/architecture/",
+    "engineering/project/",
+    "spec-analizar",
+    "spec-clarificar",
+  ];
+
+  for (const file of liveRoutingFiles) {
+    const content = fs.readFileSync(file, "utf8");
+    for (const term of retiredTerms) {
+      if (content.includes(term)) {
+        addFailure("Canonical contracts", `${file} conserva referencia retirada: ${term}`);
+      }
+    }
+  }
+
+  const schemaConventions = fs.readFileSync(
+    "policies/database/schema-conventions.md",
+    "utf8",
+  );
+  if (!schemaConventions.includes("UUIDv4") || schemaConventions.includes("Nano ID")) {
+    addFailure("Canonical contracts", "schema-conventions no usa UUIDv4 como fallback único");
+  }
+
+  const sqlLayout = fs.readFileSync("policies/database/sql-artifact-layout.md", "utf8");
+  if (!sqlLayout.includes("migrations/<YYYYMMDD_nombre_descriptivo>.sql")) {
+    addFailure("Canonical contracts", "sql-artifact-layout no declara el archivo SQL único");
+  }
+  if (sqlLayout.includes("migrations/<YYYYMMDD_nombre_descriptivo>/")) {
+    addFailure("Canonical contracts", "sql-artifact-layout conserva el paquete SQL anterior");
+  }
+
+  const documentationSkill = fs.readFileSync("skills/spec-documentar/SKILL.md", "utf8");
+  if (!documentationSkill.includes("engineering/docs/<modulo>/README.md")) {
+    addFailure("Canonical contracts", "spec-documentar no usa engineering/docs por módulo");
   }
 });
 

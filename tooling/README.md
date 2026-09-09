@@ -19,5 +19,19 @@ registro, `sync-consumer.mjs` aplica la copia sin borrar Skills locales y
 temporal y una GitHub CLI simulada, incluyendo preflight sin mutaciones, primera
 publicación y reutilización del PR.
 
+## Validación local
+
+Construir y ejecutar siempre la imagen de validación; no requiere instalar Node ni las
+dependencias del proyecto en el host:
+
+```bash
+docker build --target validation -t engineering-framework-validation:local .
+docker run --rm engineering-framework-validation:local
+```
+
+La imagen usa Node 22, Bash y Git con versiones reproducibles desde una base explícita,
+ejecuta como usuario no root y corre validación estructural, distribución y publicación
+simulada.
+
 Los workflows previstos y su criterio de incorporación están documentados en
 [`../.github/workflows/README.md`](../.github/workflows/README.md).
