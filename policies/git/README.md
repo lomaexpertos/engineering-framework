@@ -3,9 +3,9 @@
 Consulta este dominio para cambios relacionados con trazabilidad y colaboración en
 repositorios.
 
-## Enrutamiento planeado
+## Routing
 
-- Estrategia de ramas: `branching.md`.
-- Atomicidad y mensajes: `commits.md`.
-- Revisión y merge: `pull-requests.md`.
-- Archivos y estado del repositorio: `repository-hygiene.md`.
+- Creación, nombres y protección de ramas: [`branching.md`](branching.md).
+- Atomicidad, staging y mensajes: [`commits.md`](commits.md).
+- Descripción, validación y merge: [`pull-requests.md`](pull-requests.md).
+- Archivos sensibles, generados y estado local: [`repository-hygiene.md`](repository-hygiene.md).

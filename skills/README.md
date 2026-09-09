@@ -68,6 +68,12 @@ criterios reales de decisión y verificación.
 | [`security-review`](security-review/SKILL.md) | Auditar amenazas y controles de seguridad. |
 | [`data-integrity-review`](data-integrity-review/SKILL.md) | Auditar concurrencia, idempotencia e integridad. |
 
+### Git
+
+| Skill | Propósito |
+| --- | --- |
+| [`gitcommit`](gitcommit/SKILL.md) | Crear commits locales lógicos, seguros y semánticos. |
+
 ## Distribución
 
 `skills/<nombre>/` es la única fuente. El workflow central copia el directorio completo
