@@ -1,5 +1,10 @@
 # Installed Skills capability audit
 
+> Snapshot histórico del 2026-08-30. No usar sus “decisiones prevalecientes” como
+> contrato vigente cuando difieran de
+> [`2026-09-09-skills-reconciliation.md`](2026-09-09-skills-reconciliation.md) o de las
+> Policies actuales.
+
 Fecha de revisión: 2026-08-30.
 
 ## Objetivo

@@ -28,15 +28,19 @@ autosuficiente, auditable y reproducible después de un `git pull`.
 - Los workflows centrales y una GitHub App realizan la distribución; los consumidores
   no instalan ni ejecutan herramientas del framework.
 - Una fuente de Skills distribuida a Codex y Claude Code.
+- Repositorios personales pueden incubar propuestas, pero no funcionan como una
+  segunda fuente corporativa ni mantienen copias homónimas activas en consumidores.
 - La documentación operativa del framework permanece en este repositorio y no se
   inyecta en consumidores.
 
 ## Estado
 
 La fase **Foundation** está establecida. El framework contiene Policies segmentadas y
-30 Skills corporativas con routing progresivo. La validación se ejecuta en `main` y la
-publicación manual puede sincronizar consumidores mediante GitHub App. Todavía falta
-registrar repositorios reales y ejecutar el primer Pull Request remoto.
+29 Skills corporativas con routing progresivo. El ciclo de specs, la revisión de ramas,
+los contratos SQL y el layout de artefactos fueron reconciliados en la versión 1.0.0.
+La validación se ejecuta en `main` y la publicación manual puede sincronizar
+consumidores mediante GitHub App. Todavía falta registrar repositorios reales y
+ejecutar el primer Pull Request remoto.
 
 ## Mapa del repositorio
 
