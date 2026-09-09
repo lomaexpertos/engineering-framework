@@ -7,3 +7,9 @@
 3. DDD, patrones, capas o abstracciones adicionales **MAY** utilizarse cuando el dominio o la variación real los justifique; **MUST NOT** introducirse por preferencia estética.
 4. Las reglas de negocio **MUST** residir en una autoridad canónica identificable y **MUST NOT** duplicarse de forma divergente entre controladores, UI, jobs o integraciones.
 5. Una modificación material de límites, contratos o decisiones arquitectónicas **MUST** actualizar la documentación canónica aplicable.
+6. Un cambio **MUST** seguir el paradigma dominante del proyecto y **MUST NOT**
+   convertir un sistema legacy a DDD, otra arquitectura o un framework distinto fuera
+   del alcance aprobado.
+7. Interfaces, factories, repositories y capas adicionales **SHOULD** introducirse
+   únicamente cuando protejan una frontera, respondan a variación real o formen parte
+   de una convención vigente; **SHOULD NOT** existir como delegación sin contrato.
