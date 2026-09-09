@@ -1,176 +1,130 @@
 ---
 name: branch-quality-review
-description: Audita ramas, PRs, commits, patches o áreas con riesgos combinados y genera un reporte trazable. Usar para revisión general; usar security-review o data-integrity-review para un único dominio.
+description: Revisa una rama, PR, rango de commits o patch contra su base para decidir si es entregable. Reporta defectos con evidencia y separa bloqueantes, recomendaciones y mejoras opcionales; no audita todo el repositorio.
 ---
 
 # Branch Quality Review
 
-Ejecutar una auditoría técnica orientada a riesgo. Usar el cambio solicitado como punto de entrada y el repositorio como contexto: un diff pequeño puede afectar escritores, consumidores, contratos o invariantes existentes fuera del diff.
+Evaluar si un cambio cumple su objetivo y puede entregarse con seguridad. La meta no
+es encontrar la mayor cantidad de problemas, sino identificar los defectos que
+realmente cambian la decisión de merge y separar el resto por su valor.
 
-Revisar el código en modo de solo lectura. No modificar código, migraciones, pruebas ni configuración. La única escritura persistente permitida en el árbol es el reporte dentro de `engineering/quality-review/<slug>/`. Las validaciones pueden escribir artefactos efímeros dentro de contenedores, volúmenes descartables o directorios temporales fuera del árbol; no deben ensuciar archivos versionados.
+La revisión es de solo lectura sobre el código. No modificar código, pruebas,
+migraciones ni configuración. La única escritura permitida es el reporte de revisión.
 
-## Resolver el alcance
+## Alcance
 
-Aceptar cualquiera de estas modalidades:
+1. Identificar la rama o artefacto solicitado, su base real, el rango de commits y el
+   diff completo. Si la base o el rango no son evidentes, leer
+   [review-workflow.md](references/review-workflow.md).
+2. Entender el objetivo mediante la solicitud, criterios de aceptación, convenciones
+   vigentes y código directamente relacionado.
+3. Revisar primero las superficies modificadas y ampliar al código vecino sólo para
+   comprobar una interacción, contrato o riesgo concreto.
+4. Evaluar comportamiento, seguridad, integridad, concurrencia, consultas,
+   compatibilidad, arquitectura, UX y pruebas únicamente donde el cambio toque esas
+   superficies.
 
-- **Rama:** comparar la rama actual o indicada contra su base real.
-- **PR, commits o patch:** revisar el rango o artefacto entregado.
-- **Dirigida:** revisar archivos, módulo, flujo o preocupación indicada aunque `HEAD` esté en `main` y no exista diff.
-- **Repositorio:** revisar una superficie amplia cuando el usuario lo pida explícitamente.
+No reportar deuda preexistente salvo que el cambio la agrave o dependa de ella para
+funcionar. No convertir la revisión en una auditoría general del repositorio ni exigir
+cambios ajenos a su objetivo.
 
-No exigir una rama de feature. Si el usuario dice “revisa Stripe, saldos e inventarios”, traducirlo a superficies de código, presets y controles; buscar los flujos relacionados aunque no hayan cambiado en la rama actual.
+No usar subagentes por defecto. Delegar partes de la revisión solamente cuando el
+usuario solicite trabajo paralelo y existan superficies suficientemente independientes.
 
-Si el alcance sigue ambiguo después de inspeccionar el repo y la ambigüedad cambia materialmente las conclusiones, hacer una pregunta breve. No bloquear por detalles inferibles.
+## Referencias condicionales
 
-## Cargar referencias
+- Si el cambio toca autenticación, permisos, SQL, migraciones, dinero, estado
+  compartido o concurrencia, leer
+  [security-sql-concurrency.md](references/security-sql-concurrency.md).
+- Si toca pantallas, componentes, formularios, navegación o UX, leer
+  [frontend-ux-review.md](references/frontend-ux-review.md).
+- No cargar referencias de áreas que el cambio no afecte.
 
-Leer siempre:
+## Umbral de evidencia
 
-- [review-workflow.md](references/review-workflow.md)
-- [risk-routing-and-presets.md](references/risk-routing-and-presets.md)
-- [core-correctness-and-architecture.md](references/core-correctness-and-architecture.md)
-- [security-review.md](references/security-review.md)
-- [report-format.md](references/report-format.md)
+Cada hallazgo debe explicar:
 
-Leer según los presets activados:
+- el cambio observado, con archivo y línea cuando sea posible;
+- las condiciones concretas que activan el problema;
+- el comportamiento incorrecto o impacto probable;
+- la evidencia y las protecciones existentes consideradas;
+- la corrección mínima razonable.
 
-- Integridad, concurrencia, saldos, inventarios, folios o idempotencia: [concurrency-idempotency-integrity.md](references/concurrency-idempotency-integrity.md).
-- Pagos, Stripe, webhooks, jobs, colas o proveedores: [distributed-payments-and-integrations.md](references/distributed-payments-and-integrations.md).
-- SQL, dinero, fechas, contratos, migraciones, backfills o volumen: [data-contracts-and-migrations.md](references/data-contracts-and-migrations.md).
-- Frontend, formularios, componentes o flujos de usuario: [frontend-ux-review.md](references/frontend-ux-review.md).
-- Pruebas, CI, observabilidad, despliegue o recuperación: [testing-operability.md](references/testing-operability.md).
-- Asignación de trabajo especializado: [review-lanes.md](references/review-lanes.md).
+Un patrón sospechoso, una posibilidad teórica o una preferencia de diseño no
+constituyen por sí solos un defecto. Si falta información para confirmar el impacto,
+registrarla como pregunta o limitación, no como hallazgo. No existe una cuota mínima:
+una revisión correcta puede terminar sin hallazgos.
 
-No dejar controles importantes únicamente en `review-lanes.md`: los presets aplican también cuando no haya subagentes.
+## Clasificación
 
-## Flujo obligatorio
+### Bloqueante
 
-1. Resolver modalidad, objetivo, base si aplica y artefactos incluidos.
-2. Determinar stack, versiones, motor de datos, arquitectura y convenciones locales.
-3. Leer documentación relevante en `engineering/` y convenciones raíz como `README`, `CONTRIBUTING`, `ARCHITECTURE` o `DDD`.
-4. Detectar activos, fronteras, invariantes, escritores, consumidores y efectos laterales relacionados con el alcance.
-5. Traducir automáticamente señales del código y énfasis del usuario a presets y nivel de rigor.
-6. Registrar antes de profundizar qué presets se activaron y por qué.
-7. Revisar el diff o superficie indicada y seguir el radio de impacto fuera de ella hasta obtener evidencia suficiente.
-8. Ejecutar validaciones seguras y relevantes cuando el entorno lo permita. Usar la infraestructura oficial y aislada del proyecto; no instalar dependencias ni alterar código para hacer pasar checks.
-9. Consolidar hallazgos, eliminar duplicados y calibrar severidad y confianza.
-10. Generar un reporte que muestre hallazgos y cobertura, incluyendo lo no verificable.
+Bloquear únicamente cuando la rama introduzca o agrave un defecto con escenario
+realista, impacto material, protección insuficiente y evidencia de confianza alta.
+Ejemplos habituales son incumplir aceptación, corromper datos, omitir autorización,
+romper una invariante concurrente, introducir una vulnerabilidad explotable, quebrar
+un contrato consumido o dejar fallando una validación relevante.
 
-## Routing automático
+La severidad potencial no basta si el escenario es especulativo. Una prueba nueva
+faltante tampoco bloquea por sí sola, salvo regla explícita o ausencia de otra
+evidencia razonable para un flujo crítico.
 
-Aplicar siempre los presets base definidos en `risk-routing-and-presets.md`. Añadir presets por:
+### Recomendado
 
-- nombres y lenguaje del usuario;
-- rutas, módulos, tablas, endpoints y eventos tocados;
-- tecnologías y proveedores detectados;
-- invariantes y activos potencialmente afectados;
-- escritores y consumidores fuera del diff;
-- historial, incidentes, specs y documentación disponible.
+Usar esta categoría para un problema concreto introducido por el cambio cuyo impacto
+sea limitado, poco probable o recuperable. Puede incluir casos borde plausibles,
+observabilidad insuficiente, pruebas valiosas faltantes, deuda nueva próxima o
+problemas de rendimiento y UX que no impidan el objetivo.
 
-El énfasis del usuario agrega profundidad, nunca elimina el baseline. No permitir que un preset explícito o automático desactive controles más amplios necesarios para encontrar el mismo riesgo.
+### Opcional
 
-## Integridad como gate obligatorio
+Reservar esta categoría para refactors, alternativas arquitectónicas, nombres,
+componentización u optimizaciones sin impacto demostrado. Incluir como máximo cinco y
+dejar explícito que no requieren acción para entregar.
 
-Cuando exista estado crítico, no concluir “sin hallazgos” hasta documentar:
+## Calibración
 
-- la invariante y autoridad del dato;
-- todos los escritores encontrados mediante una búsqueda razonable, junto con accesos externos o escritores que no pudieron verificarse;
-- la frontera transaccional real;
-- la estrategia de concurrencia elegida y por qué protege la invariante;
-- el comportamiento ante duplicado, retry, timeout, orden distinto y fallo parcial;
-- constraints, locks, versiones o operaciones atómicas relevantes;
-- reconciliación, reparación o recálculo disponible;
-- evidencia de pruebas concurrentes o la limitación que impidió ejecutarlas.
+- **Concurrencia:** exigir escritor plausible, invariante vulnerable y protección
+  insuficiente; considerar constraints, operaciones atómicas, control optimista y
+  transacciones antes de prescribir locks.
+- **SQL y rendimiento:** demostrar multiplicación de trabajo o degradación con ruta y
+  volumen realistas; no exigir índices, caché o batching por intuición.
+- **Arquitectura:** aplicar reglas declaradas del repositorio; otra preferencia de
+  patrón es opcional mientras no rompa una frontera o cause un defecto.
+- **Frontend y UX:** distinguir riesgo para datos o acciones críticas de una mejora de
+  experiencia protegida correctamente por backend.
+- **Pruebas:** una prueba existente rota puede bloquear; una prueba faltante suele ser
+  recomendación según el riesgo.
+- **Mantenibilidad:** no exigir Strategy, Factory, Repository, interfaces ni
+  componentes reutilizables sin variación, convención o costo concreto.
 
-No exigir `SELECT ... FOR UPDATE` como receta universal. Evaluar la estrategia contra el conflicto real.
+## Validaciones
 
-## Niveles de rigor
+Usar primero análisis del diff y comprobaciones de solo lectura. Ejecutar pruebas o
+análisis estático enfocados cuando puedan confirmar un comportamiento material y
+exista infraestructura aislada del proyecto. Una validación no ejecutada se registra
+como limitación, no automáticamente como defecto.
 
-Seleccionar automáticamente:
-
-- **Baseline:** cambio interno de bajo impacto y sin activos sensibles.
-- **Standard:** aplicación web, API, persistencia o integración con riesgo normal; usarlo por defecto si hay duda.
-- **High assurance:** dinero, saldos, inventario, folios, identidad, permisos privilegiados, datos sensibles, cumplimiento o procesos difíciles de revertir.
-
-El nivel determina profundidad y evidencia, no la cantidad de texto. Una revisión estática no debe afirmar cumplimiento integral de un estándar externo.
-
-## Subagentes
-
-Cuando la plataforma y las instrucciones activas lo permitan, asignar agentes por presets y fronteras independientes, no sólo por cantidad de archivos. Mantener un integrador responsable de alcance, contradicciones, deduplicación y reporte.
-
-Cada lane debe devolver:
-
-- controles aplicados;
-- evidencia inspeccionada;
-- hallazgos con severidad y confianza;
-- controles sin hallazgo;
-- limitaciones o asuntos no verificables.
-
-No dejar procesos pendientes al cerrar.
-
-## Evidencia y severidad
-
-Cada hallazgo debe incluir ubicación, comportamiento observado, escenario de fallo o abuso, impacto, dirección de corrección, preset que lo detectó y confianza.
-
-Calibrar severidad por impacto, probabilidad, alcance, reversibilidad y evidencia:
-
-- **Crítica:** explotación o corrupción grave plausible con exposición inmediata o recuperación muy costosa.
-- **Alta:** bug, bypass o inconsistencia probable que debe bloquear entrega.
-- **Media:** riesgo real acotado o defensa insuficiente que conviene resolver antes de considerar estable.
-- **Baja:** mejora con impacto limitado y demostrable.
-
-No convertir preferencias, patrones arquitectónicos o cobertura nominal en bloqueantes sin un daño concreto.
-
-## Criterios bloqueantes
-
-Marcar como no entregable, entre otros, cuando exista riesgo probable de:
-
-- corrupción, pérdida, doble aplicación o inconsistencia de datos;
-- carrera sobre saldos, stock, inventario, pólizas, folios, cupos o límites;
-- cobro, reembolso, webhook o job duplicable sin protección adecuada;
-- bypass de autenticación, autorización, tenant, ownership o segregación de funciones;
-- injection, ejecución no confiable, SSRF, path traversal o exposición sensible;
-- commit parcial, evento perdido o estado distribuido sin recuperación viable;
-- migración destructiva o backfill no reanudable con impacto material;
-- ruptura incompatible de contrato o despliegue;
-- falta de pruebas o evidencia en comportamiento financiero, crítico o irreversible.
-
-## Reporte
+## Reporte y veredicto
 
 Crear exactamente un reporte por ejecución en:
 
 ```text
-engineering/quality-review/<slug>/YYYY-MM-DD-HHMM-branch-quality-review.md
+engineering/quality-review/<YYYYMMDD_nombre_descriptivo>/YYYY-MM-DD-HHMM-branch-quality-review.md
 ```
 
-Tratar `engineering/quality-review/` como namespace fijo y usar una carpeta de expediente con este formato:
+Reutilizar el slug de una spec relacionada. En otro caso, derivarlo del cambio con la
+fecha de creación y `snake_case` ASCII. El reporte debe incluir metadata y alcance,
+veredicto, bloqueantes, recomendaciones, mejoras opcionales, preguntas, validaciones,
+limitaciones y un plan mínimo únicamente para los bloqueantes.
 
-```text
-YYYYMMDD_nombre_descriptivo
-```
+Usar uno de estos veredictos:
 
-Usar la fecha de creación del expediente en la zona horaria del proyecto o, si no está definida, la del entorno. Mantener esa fecha al agregar revisiones posteriores al mismo expediente. Escribir el nombre descriptivo en `snake_case`, con minúsculas, números y guiones bajos, sin espacios, acentos ni `ñ`. Reutilizar la carpeta si representa el mismo alcance; si en la misma fecha existe otra revisión distinta con igual nombre, añadir `_02`, `_03` o el siguiente consecutivo disponible.
+- **No entregable:** existe al menos un bloqueante demostrado.
+- **Entregable con recomendaciones:** no hay bloqueantes, pero existen correcciones
+  valiosas no obligatorias.
+- **Entregable:** no se encontraron defectos materiales.
 
-Reutilizar exactamente el slug de una spec relacionada cuando ya cumpla la convención. No renombrar desde esta skill carpetas legadas ni otros artefactos de `engineering/`; si conservar un slug anterior es necesario para no fragmentar un expediente existente, registrar la excepción y su ruta en el reporte. Cuando no exista una spec relacionada, derivar el nombre de la rama, PR, módulo o preocupación revisada.
-
-El reporte debe declarar modalidad de alcance, rigor, presets detectados, motivo de activación, cobertura por dominio, hallazgos, decisión de entrega, validaciones, limitaciones y plan de corrección.
-
-Usar estos estados de cobertura:
-
-- `hallazgo`
-- `revisado-sin-hallazgos`
-- `no-aplicable`
-- `no-verificable`
-
-No usar “sin hallazgos” como sinónimo de “no revisado”.
-
-## Checklist final
-
-- Confirmar alcance, base o superficie dirigida.
-- Confirmar contexto detectado, rigor y presets activados.
-- Confirmar que el radio de impacto incluyó escritores y consumidores relevantes fuera del diff.
-- Confirmar matriz de cobertura y evidencia.
-- Separar hallazgos bloqueantes, no bloqueantes y preguntas.
-- Ordenar correcciones por dependencia.
-- Declarar validaciones ejecutadas y riesgos residuales.
-- Confirmar ruta del reporte y ausencia de cambios al código revisado.
+Si no hay bloqueantes, afirmar que recomendaciones y mejoras opcionales no impiden el
+merge ni convertirlas en una lista obligatoria de tareas.

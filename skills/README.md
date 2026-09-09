@@ -64,7 +64,7 @@ criterios reales de decisión y verificación.
 
 | Skill | Propósito |
 | --- | --- |
-| [`branch-quality-review`](branch-quality-review/SKILL.md) | Auditar ramas, cambios o áreas con rigor proporcional al riesgo. |
+| [`branch-quality-review`](branch-quality-review/SKILL.md) | Decidir si una rama, PR o patch es entregable con evidencia. |
 | [`security-review`](security-review/SKILL.md) | Auditar amenazas y controles de seguridad. |
 | [`data-integrity-review`](data-integrity-review/SKILL.md) | Auditar concurrencia, idempotencia e integridad. |
 
