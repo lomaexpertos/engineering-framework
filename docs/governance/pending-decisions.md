@@ -53,9 +53,10 @@ engineering/corporate/
 ```
 
 Cada Skill se copia desde una sola fuente hacia `.agents/skills/` y
-`.claude/skills/`. El contenido de `engineering/project/` queda fuera del alcance
-actual por decisión explícita. Sigue pendiente registrar consumidores reales y probar
-el primer Pull Request remoto.
+`.claude/skills/`. Los namespaces `engineering/docs/`, `engineering/specs/` y
+`engineering/quality-review/` pertenecen al proyecto y no son administrados por el
+bot. Sigue pendiente registrar consumidores reales y probar el primer Pull Request
+remoto.
 
 La arquitectura del workflow, configuración del bot, registro de consumidores y
 documentación de gobierno permanecen exclusivamente en este repositorio.

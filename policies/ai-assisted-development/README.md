@@ -9,6 +9,8 @@ una tarea terminada.
   [`agent-behavior.md`](agent-behavior.md).
 - Descubrimiento progresivo y separación de conocimiento:
   [`context-management.md`](context-management.md).
+- Ubicación y ownership de documentación, specs y revisiones del proyecto:
+  [`project-artifact-layout.md`](project-artifact-layout.md).
 - Evaluación, planeación y ejecución de cambios de infraestructura:
   [`infrastructure-change-safety.md`](infrastructure-change-safety.md).
 - Creación de componentes, patrones o abstracciones:

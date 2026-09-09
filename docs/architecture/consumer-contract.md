@@ -7,10 +7,13 @@ project/
 ├── AGENTS.md
 ├── FRAMEWORK_VERSION
 ├── engineering/
-│   └── corporate/
-│       ├── README.md
-│       ├── policies/
-│       └── metadata/
+│   ├── corporate/                 # administrado por el bot
+│   │   ├── README.md
+│   │   ├── policies/
+│   │   └── metadata/
+│   ├── docs/                      # propiedad del proyecto, opcional
+│   ├── specs/                     # propiedad del proyecto, opcional
+│   └── quality-review/            # propiedad del proyecto, opcional
 ├── .agents/skills/
 └── .claude/skills/
 ```
@@ -30,4 +33,6 @@ project/
 
 La documentación propia del framework —arquitectura de distribución, configuración
 del bot, registro de proyectos y gobierno— **MUST NOT** copiarse al consumidor.
-`engineering/project/` queda fuera del alcance de esta fase.
+El bot **MUST NOT** crear, reemplazar ni retirar `engineering/docs/`,
+`engineering/specs/` o `engineering/quality-review/`. Sus contratos de ubicación se
+distribuyen como Policy, pero su contenido pertenece al proyecto.
