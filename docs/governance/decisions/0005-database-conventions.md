@@ -1,6 +1,6 @@
 # ADR-0005: Initial database conventions
 
-- Status: Accepted
+- Status: Superseded by ADR-0010
 - Date: 2026-08-30
 
 ## Decision
