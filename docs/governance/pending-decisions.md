@@ -55,8 +55,8 @@ engineering/corporate/
 Cada Skill se copia desde una sola fuente hacia `.agents/skills/` y
 `.claude/skills/`. Los namespaces `engineering/docs/`, `engineering/specs/` y
 `engineering/quality-review/` pertenecen al proyecto y no son administrados por el
-bot. Hay dos consumidores habilitados en `projects.yml`; sigue pendiente probar el
-primer Pull Request remoto.
+bot. `berhok-logistics` está habilitado y `timbrado` permanece registrado pero
+deshabilitado en `projects.yml`; sigue pendiente probar el primer Pull Request remoto.
 
 La arquitectura del workflow, configuración del bot, registro de consumidores y
 documentación de gobierno permanecen exclusivamente en este repositorio.
