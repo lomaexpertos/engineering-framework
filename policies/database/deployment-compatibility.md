@@ -26,5 +26,7 @@ capacidades requeridas por el runtime.
 9. Un estado parcial **MUST** marcar la operación como fallida y conservar diagnóstico
    suficiente para recuperación explícita.
 
-Las reglas generales de diseño, integridad y cambios destructivos se incorporarán en
-las demás Policies del dominio de base de datos.
+Las reglas generales de diseño, integridad y cambios destructivos se definen en
+[`schema-conventions.md`](schema-conventions.md),
+[`relational-integrity.md`](relational-integrity.md) y
+[`data-change-safety.md`](data-change-safety.md).

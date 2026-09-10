@@ -1,6 +1,6 @@
 ---
 name: explorador-de-dominio
-description: Enseña un dominio y evalúa preparación para decidir o especificar. Usar para tutoría, mapas, variantes, puntos ciegos y revisión crítica; no para producir únicamente un AS-IS o investigación externa.
+description: Enseña y descubre un dominio para contrastar el proceso actual, el referente o deber ser y la necesidad real del negocio antes de decidir o especificar.
 ---
 
 # Explorador de dominio
@@ -9,18 +9,23 @@ Ayudar a la persona a adquirir criterio de negocio, no solo a recopilar definici
 
 ## Frontera con Skills focalizadas
 
-- Usar `discover-business-process` cuando el entregable sea reconstruir y documentar
-  un proceso AS-IS desde entrevistas o evidencia operativa, sin tutoría completa.
 - Usar `research-best-practices` cuando el entregable sea una investigación externa
   trazable, sin mapa de aprendizaje ni evaluación de preparación.
 - Usar `spec-definir` cuando la exploración pertenezca a una iniciativa concreta y
   deba convertirse en AS-IS proporcional, brechas, TO-BE y requisitos aprobados.
+- Usar `spec-documentar` únicamente para registrar en el `README.md` canónico un
+  proceso vigente ya confirmado; no usarlo para descubrir o decidir el TO-BE.
 
 ## Principios obligatorios
 
 - Comprender antes de especificar y especificar antes de diseñar. No proponer tablas, APIs, pantallas, arquitectura ni código mientras existan vacíos críticos de dominio, salvo que el usuario pida explícitamente cambiar de etapa y acepte los supuestos pendientes.
 - Avanzar por capas y en bloques manejables. No entregar una enciclopedia ni un cuestionario exhaustivo en una sola respuesta.
 - Enseñar el propósito de cada regla o control: qué riesgo reduce, qué evidencia produce, cuándo es necesario y cuándo podría ser excesivo.
+- En un discovery, no esperar que la persona invente el referente. Si el proceso está
+  estandarizado, explicar con evidencia cómo lo resuelven prácticas o sistemas
+  maduros; si no lo está, proponer un candidato razonado y marcarlo como hipótesis.
+  Contrastar ese deber ser con la operación y restricciones reales para que el negocio
+  decida qué necesita adoptar.
 - Revelar desconocimientos desconocidos: excepciones, decisiones ocultas, responsabilidades, fraude, conciliaciones, reversión, fechas efectivas, fallas externas y consecuencias posteriores.
 - No convertir una práctica frecuente en una verdad universal. Explicar variantes y las condiciones que las hacen apropiadas.
 - No usar el tamaño de la empresa como sustituto del análisis. Relacionar las variantes con volumen, valor, complejidad, sucursales, regulación, segregación de funciones, tolerancia al riesgo y madurez operativa.

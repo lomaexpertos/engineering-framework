@@ -119,6 +119,9 @@ fecha de creación y `snake_case` ASCII. El reporte debe incluir metadata y alca
 veredicto, bloqueantes, recomendaciones, mejoras opcionales, preguntas, validaciones,
 limitaciones y un plan mínimo únicamente para los bloqueantes.
 
+El reporte es evidencia temporal: no crear ni actualizar índices o routers permanentes
+únicamente para enlazarlo.
+
 Usar uno de estos veredictos:
 
 - **No entregable:** existe al menos un bloqueante demostrado.

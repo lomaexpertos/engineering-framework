@@ -40,5 +40,11 @@ engineering/
 8. No deben crearse directorios ni documentos vacíos para representar capacidades que
    el proyecto todavía no utiliza.
 
+Los expedientes bajo `engineering/specs/` y `engineering/quality-review/` son
+artefactos de trabajo o evidencia temporal. No requieren un índice permanente ni
+enlaces individuales desde routers de larga vida. Si contienen conocimiento que deba
+seguir vigente después del trabajo, éste debe incorporarse a `engineering/docs/`, una
+Policy o un ADR según su autoridad.
+
 Las reglas específicas para SQL literal pertenecen al dominio `database/`; las rutas
 de infraestructura pertenecen a `infrastructure/repository-layout.md`.

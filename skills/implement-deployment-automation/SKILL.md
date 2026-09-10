@@ -1,6 +1,6 @@
 ---
 name: implement-deployment-automation
-description: Crea automatización versionada bajo infra/deploy/production para ejecución posterior autorizada. Incluye manifest, scripts, runtime, salud y recuperación; no ejecuta deployments ni migra todo un repositorio legado.
+description: Crea automatización Bash bajo infra/deploy/production para backends, APIs o servicios desplegados en servidores fijos administrados por el repositorio. No aplica a desktop, mobile, frontends cliente ni plataformas sin ese modelo de deployment.
 ---
 
 # Implement Deployment Automation
@@ -8,17 +8,22 @@ description: Crea automatización versionada bajo infra/deploy/production para e
 Crear automatización operable, idempotente y auditable sin modificar ningún ambiente
 externo.
 
+Aplicar esta Skill únicamente cuando el repositorio administre el deployment de un
+backend, API o servicio en servidores fijos y haya adoptado Bash como entrypoint. Para
+desktop, mobile, paquetes instalables, frontends cliente o plataformas cuyo deployment
+no pertenezca al repositorio, conservar el mecanismo propio del proyecto y no crear
+`deploy.sh`.
+
 ## Límites
 
 - Editar únicamente artefactos versionados dentro del repositorio.
 - No ejecutar el entrypoint creado o modificado.
 - No usar SSH, `docker compose up`, recargas, APIs cloud ni comandos privilegiados.
 - Permitir solo validaciones locales sin efectos operativos y que no revelen secretos.
-- Tratar una adopción estructural completa como trabajo de `infra-adopt-framework`,
-  cuando esa Skill esté publicada, no como una modificación ordinaria de
-  automatización.
-- Tratar alta, rotación o retiro de secretos como trabajo de `manage-secrets`, cuando
-  esa Skill esté publicada y esa sea la finalidad principal.
+- Tratar una adopción estructural completa como trabajo de `infra-adopt-framework`, no
+  como una modificación ordinaria de automatización.
+- Tratar alta, rotación o retiro de secretos como trabajo de `manage-secrets` cuando
+  esa sea la finalidad principal.
 
 ## Routing de contexto
 
@@ -46,9 +51,7 @@ Antes de editar:
 5. comprobar si el repositorio ya adoptó `infra/deploy/`.
 
 Si falta el layout completo y el objetivo real es migrar el repositorio, detener esta
-Skill y recomendar `infra-adopt-framework` cuando esté disponible. Mientras no lo
-esté, reportar que la adopción sigue pendiente. No crear una segunda ruta de
-deployment.
+Skill y usar `infra-adopt-framework`. No crear una segunda ruta de deployment.
 
 ## Decisiones previas
 

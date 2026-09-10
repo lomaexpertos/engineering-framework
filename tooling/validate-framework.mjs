@@ -329,6 +329,7 @@ runCheck("Canonical contracts", () => {
     "engineering/project/",
     "spec-analizar",
     "spec-clarificar",
+    "discover-business-process",
   ];
 
   for (const file of liveRoutingFiles) {

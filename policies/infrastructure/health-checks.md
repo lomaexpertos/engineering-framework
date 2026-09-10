@@ -20,5 +20,5 @@ cambio puede considerarse exitoso.
 6. Las comprobaciones **MUST NOT** mostrar secretos ni datos sensibles en su salida.
 7. Un fallo **MUST** producir diagnóstico suficiente y un código de salida inequívoco.
 
-Esta Policy cubre salud operativa. Métricas, logs, trazas, SLO y alertamiento se
-definirán posteriormente en `policies/infrastructure/observability.md`.
+Esta Policy cubre salud operativa. Métricas, logs, trazas, SLO y alertamiento se rigen
+por [`observability.md`](observability.md).

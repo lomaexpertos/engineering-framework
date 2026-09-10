@@ -23,7 +23,7 @@ criterios reales de decisión y verificación.
 | --- | --- |
 | [`infra-change`](infra-change/SKILL.md) | Modificar infraestructura ya adoptada. |
 | [`infra-adopt-framework`](infra-adopt-framework/SKILL.md) | Migrar un repositorio al layout corporativo. |
-| [`implement-deployment-automation`](implement-deployment-automation/SKILL.md) | Crear automatización sin desplegar. |
+| [`implement-deployment-automation`](implement-deployment-automation/SKILL.md) | Automatizar con Bash deployments de servidor fijo sin ejecutarlos. |
 | [`manage-secrets`](manage-secrets/SKILL.md) | Gestionar el ciclo de vida de secretos. |
 | [`add-observability`](add-observability/SKILL.md) | Incorporar señales y trazabilidad de operaciones críticas. |
 | [`investigate-production-incident`](investigate-production-incident/SKILL.md) | Investigar incidentes sin asumir autoridad operativa. |
@@ -32,9 +32,8 @@ criterios reales de decisión y verificación.
 
 | Skill | Propósito |
 | --- | --- |
-| [`explorador-de-dominio`](explorador-de-dominio/SKILL.md) | Aprender un dominio, cuestionar supuestos y evaluar preparación. |
+| [`explorador-de-dominio`](explorador-de-dominio/SKILL.md) | Contrastar proceso actual, referente y necesidad real del negocio. |
 | [`research-best-practices`](research-best-practices/SKILL.md) | Investigar evidencia externa actual. |
-| [`discover-business-process`](discover-business-process/SKILL.md) | Reconstruir un proceso AS-IS. |
 | [`spec-definir`](spec-definir/SKILL.md) | Definir o refinar el TO-BE y sus requisitos verificables. |
 | [`spec-planear`](spec-planear/SKILL.md) | Crear un plan técnico proporcional y verificable. |
 | [`spec-implementar`](spec-implementar/SKILL.md) | Ejecutar una spec planificada. |

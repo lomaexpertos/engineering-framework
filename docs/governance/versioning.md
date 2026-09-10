@@ -19,3 +19,9 @@ idempotente no abre PRs cuando el consumidor ya tiene el mismo contenido.
 Cuando exista duda entre PATCH y MINOR, cualquier cambio que pueda alterar una
 decisión de implementación se trata como MINOR. Los MAJOR requieren revisión humana;
 la configuración de auto-merge debe poder deshabilitarse por release o consumidor.
+
+Antes de la primera publicación efectiva de una versión, una corrección **MAY** avanzar
+como PATCH aunque retire contenido que ningún consumidor recibió. La ausencia de
+ejecuciones de publicación y de instalaciones de esa versión **MUST** verificarse y
+quedar visible en el cambio. Después de distribuirla, aplican sin excepción las reglas
+de compatibilidad anteriores.

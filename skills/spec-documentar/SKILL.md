@@ -64,9 +64,9 @@ Explicar, con las secciones que resulten útiles:
 - fecha y commit contra los que se verificó el contenido.
 
 Priorizar explicaciones duraderas sobre inventarios exhaustivos de clases, columnas o
-líneas de código. Añadir diagramas o archivos separados, como `negocio.md`,
-`flujos.md` o `tecnico.md`, sólo cuando hagan el contenido sustancialmente más claro;
-enlazarlos desde el `README.md` y evitar duplicación.
+líneas de código. Concentrar toda la documentación del módulo en su `README.md`; por
+ahora no crear archivos separados como `negocio.md`, `flujos.md` o `tecnico.md`. Los
+diagramas necesarios deben integrarse en el mismo `README.md`.
 
 No inventar razones históricas. Distinguir una decisión confirmada de una explicación
 inferida. Si código, pruebas, documentación previa y decisiones aprobadas se

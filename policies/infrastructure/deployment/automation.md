@@ -3,8 +3,11 @@
 ## Applicability
 
 Este contrato aplica cuando un repositorio adoptó el layout corporativo y administra
-un deployment productivo mediante Bash. Otros runtimes deben conservar los requisitos
-de seguridad equivalentes, pero no están obligados a copiar una interfaz incompatible.
+mediante Bash el deployment productivo de un backend, API o servicio en servidores
+fijos. No aplica a desktop, mobile, paquetes instalables, frontends cliente ni
+plataformas cuyo deployment no pertenezca al repositorio. Otros runtimes de servidor
+deben conservar requisitos de seguridad equivalentes, pero no están obligados a copiar
+una interfaz incompatible.
 
 ## Canonical entrypoint
 

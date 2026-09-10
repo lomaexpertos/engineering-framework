@@ -23,7 +23,9 @@ necesario para la tarea actual, sin perder autoridad, alcance ni trazabilidad.
 5. Un directorio con varios documentos vigentes **SHOULD** tener un README o índice cuando el nombre de los archivos no permita descubrir de forma inequívoca cuál aplica.
 6. Cada documento **MUST** tener un propósito, alcance y autoridad distinguibles. Un mismo archivo **SHOULD NOT** mezclar normas corporativas, realidad del proyecto, procedimientos e historial.
 7. Una regla o explicación canónica **MUST NOT** copiarse en varios routers. Los routers **MUST** resumir el propósito y enlazar la fuente.
-8. Un documento nuevo **MUST** quedar alcanzable desde un router canónico en el mismo cambio; documentos huérfanos **MUST NOT** considerarse parte efectiva del contexto.
+8. Una fuente vigente y de larga vida —Policy, estándar, Skill, router, documentación
+   canónica o ADR— **MUST** quedar alcanzable desde un router canónico en el mismo
+   cambio.
 9. Material condicional, ejemplos extensos, plantillas y checklists **SHOULD** vivir en referencias cargables y consultarse solo cuando apliquen.
 10. Dos documentos vigentes **MUST NOT** reclamar autoridad canónica sobre el mismo contrato sin una precedencia explícita.
 11. Nombres genéricos como `misc.md`, `notes.md`, `important.md`, `new-rules.md` o `final.md` **MUST NOT** utilizarse como fuentes permanentes.
@@ -32,6 +34,18 @@ necesario para la tarea actual, sin perder autoridad, alcance ni trazabilidad.
 14. Enlaces rotos, rutas obsoletas y referencias a documentos retirados **MUST** corregirse en el mismo cambio que mueve o elimina contenido.
 15. La descripción de una Skill **MUST** comenzar por su caso de uso y distinguir límites relevantes con el mínimo texto suficiente para activación fiable.
 16. El catálogo **SHOULD** validar el costo agregado de nombres, descripciones y rutas contra el presupuesto de descubrimiento del agente soportado; medir solo las descripciones **MUST NOT** considerarse evidencia suficiente.
+
+## Artefactos sin routing permanente
+
+Specs, planes, preguntas, trazabilidad de implementación, reportes de revisión,
+auditorías, notas de investigación y timelines de incidentes **MAY** permanecer sin un
+enlace desde los routers permanentes mientras sean evidencia temporal, tengan una
+ubicación conocida y no reclamen autoridad vigente.
+
+Estos artefactos **MUST NOT** obligar a mantener catálogos acumulativos. Cuando una
+decisión o explicación temporal se convierta en conocimiento estable, su contenido
+vigente **MUST** trasladarse o resumirse en la Policy, estándar, ADR o documentación
+canónica correspondiente y quedar enlazado desde su router.
 
 ## Size guardrails
 
