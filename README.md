@@ -54,6 +54,8 @@ todavía falta ejecutar el primer Pull Request remoto.
 - [`templates/project/`](templates/project/README.md): archivos administrados o
   sugeridos para repositorios consumidores.
 - [`projects.yml`](projects.yml): registro de consumidores autorizados.
+- [`CONSUMER_STRUCTURE.md`](CONSUMER_STRUCTURE.md): vista de carpetas y catálogos
+  sincronizados en cada consumidor.
 
 ## Roadmap inmediato
 
