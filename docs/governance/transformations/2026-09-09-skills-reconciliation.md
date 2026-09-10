@@ -11,16 +11,21 @@ Esta transformación sustituye las conclusiones vigentes de
 `installed-skills-refactoring.md` y `installed-skills-capability-audit.md` en los temas
 que enumera. Los documentos anteriores permanecen como evidencia histórica.
 
+La depuración se versiona como `1.0.1` porque, al realizarla, `1.0.0` no tenía tags ni
+ejecuciones de `publish-framework.yml`; por tanto, ninguna instalación oficial había
+distribuido la Skill retirada.
+
 ## Mapping
 
 | Fuente revisada | Resultado corporativo |
 | --- | --- |
 | `spec-definir` | Adoptada en forma ligera; integra análisis proporcional y aclaraciones posteriores. |
 | `spec-clarificar` | Retirada; no cambia trigger, autoridad ni salida respecto de `spec-definir`. |
-| `spec-analizar` del framework | Retirada; su capacidad queda en `spec-definir`, `discover-business-process` y `spec-documentar`. |
+| `spec-analizar` del framework | Retirada; su capacidad queda en `spec-definir`, `explorador-de-dominio` y `spec-documentar`. |
+| `discover-business-process` | Retirada en 1.0.1; el discovery guiado pertenece a `explorador-de-dominio` y la documentación vigente a `spec-documentar`. |
 | `spec-planear` | Adoptada con `plan.md` obligatorio y tareas o test plan sólo cuando aportan valor. |
 | `spec-implementar` | Adoptada sin auditoría ni trazabilidad ceremonial automática. |
-| `spec-documentar` | Adoptada con documentos estables por módulo bajo `engineering/docs/`. |
+| `spec-documentar` | Adoptada con un `README.md` estable por módulo bajo `engineering/docs/`. |
 | `branch-quality-review` | Reescrita para decidir entregabilidad por evidencia; conserva tres referencias condicionales. |
 | `engineering-code-standards` | No se publica como Skill; sus criterios transversales únicos pasan a Policies y `implement-feature`. |
 | `database-engineering-standards` | No se publica como Skill; Policies y Skills especializadas reciben UUIDv4, `RESTRICT` y SQL único por defecto. |
@@ -37,6 +42,7 @@ corporativo.
 - `engineering/project/` como namespace intermedio;
 - snapshots fechados de documentación canónica;
 - `spec-analizar` y `spec-clarificar`;
+- `discover-business-process` como reconstrucción AS-IS separada;
 - plantillas obligatorias de specs, planes e implementación;
 - presets repetidos y lanes automáticos de revisión;
 - paquetes SQL con subcarpetas y archivos ceremoniales por defecto;
@@ -50,6 +56,6 @@ corporativo.
 2. Policies contienen obligaciones transversales; Skills contienen triggers,
    autoridad, workflow y salida.
 3. Cada referencia de Skill es alcanzable y declara cuándo cargarla.
-4. Un consumidor recibe 29 Skills desde una sola release para Codex y Claude.
+4. Un consumidor recibe 28 Skills desde una sola release para Codex y Claude.
 5. Las copias personales homónimas deben desactivarse después de validar la release en
    un consumidor piloto; no forman parte de la publicación ni de este cambio local.

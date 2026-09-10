@@ -5,5 +5,5 @@ projects:
     auto_merge: true
 
   - repository: lomaexpertos/timbrado
-    enabled: true
+    enabled: false
     auto_merge: true

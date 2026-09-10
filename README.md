@@ -36,11 +36,11 @@ autosuficiente, auditable y reproducible después de un `git pull`.
 ## Estado
 
 La fase **Foundation** está establecida. El framework contiene Policies segmentadas y
-29 Skills corporativas con routing progresivo. El ciclo de specs, la revisión de ramas,
-los contratos SQL y el layout de artefactos fueron reconciliados en la versión 1.0.0.
-La validación se ejecuta en `main` y la publicación manual puede sincronizar
-consumidores mediante GitHub App. Todavía falta registrar repositorios reales y
-ejecutar el primer Pull Request remoto.
+28 Skills corporativas con routing progresivo. El ciclo de specs, la revisión de ramas,
+los contratos SQL y el layout de artefactos fueron reconciliados en la versión 1.0.0 y
+depurados en la 1.0.1. La validación se ejecuta en `main` y la publicación manual puede
+sincronizar consumidores mediante GitHub App. Hay dos consumidores registrados y
+todavía falta ejecutar el primer Pull Request remoto.
 
 ## Mapa del repositorio
 
@@ -54,6 +54,8 @@ ejecutar el primer Pull Request remoto.
 - [`templates/project/`](templates/project/README.md): archivos administrados o
   sugeridos para repositorios consumidores.
 - [`projects.yml`](projects.yml): registro de consumidores autorizados.
+- [`CONSUMER_STRUCTURE.md`](CONSUMER_STRUCTURE.md): vista de carpetas y catálogos
+  sincronizados en cada consumidor.
 
 ## Roadmap inmediato
 

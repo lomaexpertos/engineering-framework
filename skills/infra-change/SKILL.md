@@ -19,7 +19,8 @@ Modificar infraestructura existente sin ampliar silenciosamente el alcance opera
 ## Routing
 
 - Migración completa al layout corporativo: `infra-adopt-framework`.
-- Scripts o contratos de deployment: `implement-deployment-automation`.
+- Scripts o contratos Bash para backends, APIs o servicios en servidores fijos:
+  `implement-deployment-automation`.
 - Alta, rotación o retiro de secretos: `manage-secrets`.
 - Ejecución de un deployment: fuera del alcance de esta Skill.
 

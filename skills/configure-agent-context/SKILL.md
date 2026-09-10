@@ -58,7 +58,9 @@ adelgazar, recablear o resolver contenido existente.
    catálogos sin explicación de aplicabilidad.
 8. Consolidar duplicados en la fuente con autoridad correcta. Marcar como histórico o
    retirar documentos reemplazados conforme a la Policy documental.
-9. Actualizar todos los enlaces e índices afectados en el mismo cambio.
+9. Actualizar los enlaces e índices afectados de fuentes longevas en el mismo cambio.
+   No crear índices acumulativos para specs, preguntas, reportes u otra evidencia
+   temporal.
 10. Revisar el recorrido completo para tareas representativas de código, UI, datos,
     infraestructura, seguridad, specs y operación según existan en el proyecto.
 

@@ -3,30 +3,18 @@
 Cargar esta referencia únicamente cuando una estrategia esté ausente, cambie o deba
 validarse contra la topología real.
 
-## Selección
+La Policy de estrategias cargada por la Skill es la autoridad sobre opciones
+permitidas y evidencia mínima. Esta referencia describe únicamente cómo tomar y
+registrar la decisión.
+
+## Workflow
 
 1. Identificar tipo de servicio, estado local, réplicas, tráfico, dependencias y
    tolerancia documentada a interrupción.
-2. Para una API sin decisión previa, preguntar si se requiere `blue-green` o
-   `recreate` antes de generar scripts.
-3. No declarar `blue-green` sin doble capacidad, health check, control de tráfico,
-   drenado, compatibilidad entre versiones y rollback al slot anterior.
-4. Usar `recreate` cuando se acepte interrupción y exista verificación y recuperación.
-5. Usar `rolling` solo cuando el runtime soporte sustitución gradual, readiness y
-   límites de indisponibilidad.
-6. Usar `stateful` para unidades con estado local que requieran integridad, respaldo y
-   recuperación específicos.
-7. Usar `external` cuando otro sistema sea owner del deployment; documentar el límite
-   y no generar automatización que invada esa responsabilidad.
-
-## Artefactos condicionales
-
-- `blue-green`: slots explícitos, control de tráfico, validación previa al cutover,
-  drenado y rollback.
-- `rolling`: configuración de réplicas, readiness y disponibilidad mínima.
-- `recreate`: secuencia de reemplazo, health check y recuperación de versión.
-- `stateful`: respaldo, compatibilidad, migraciones y recuperación especializada.
-- `external`: owner, contrato de salud y dependencias, sin entrypoint operativo local.
-
-Registrar la estrategia por servicio en `deployment.yaml`; no inferirla desde nombres
-de archivos ni aplicar una estrategia global por conveniencia.
+2. Descartar estrategias que no cumplan la aplicabilidad y evidencia exigidas por la
+   Policy.
+3. Cuando más de una opción siga siendo válida, presentar su impacto operativo y
+   obtener la decisión responsable sin inferir zero downtime.
+4. Derivar únicamente los artefactos requeridos por la estrategia elegida.
+5. Registrar la decisión por servicio en `deployment.yaml` y comprobar su consistencia
+   con scripts, salud, tráfico y recuperación.

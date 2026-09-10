@@ -29,7 +29,8 @@ contradicción lo haga necesario.
 4. Muestrear tareas representativas y comprobar que cada una llega a contexto concreto
    sin exigir leer dominios irrelevantes.
 5. Detectar duplicación semántica, autoridad ambigua, instrucciones contradictorias,
-   documentos huérfanos y routing circular o excesivamente profundo.
+   fuentes longevas huérfanas y routing circular o excesivamente profundo. No tratar
+   artefactos temporales como huérfanos por carecer de un índice permanente.
 6. Comprobar enlaces, rutas retiradas, nombres genéricos y consistencia de índices.
 7. Comparar inventarios de `.agents/skills/` y `.claude/skills/`, versión y archivos;
    estimar además el costo agregado de nombres, descripciones y rutas para discovery.
@@ -52,7 +53,7 @@ Entregar primero los hallazgos, cada uno con severidad, archivo, evidencia, impa
 reparación esperada. Después resumir:
 
 - tamaño y función de routers principales;
-- documentos vigentes alcanzables y huérfanos;
+- fuentes longevas alcanzables y huérfanas, separadas de artefactos temporales;
 - profundidad máxima observada del routing;
 - paridad Codex/Claude;
 - validaciones no ejecutadas; y

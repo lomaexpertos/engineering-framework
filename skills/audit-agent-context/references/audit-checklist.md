@@ -30,7 +30,9 @@
 - Nombres expresan dominio y propósito.
 - Lenguaje ambiguo remite a criterios o autoridades concretas.
 - Documentos extensos conservan cohesión; referencias condicionales están separadas.
-- Documentos nuevos o movidos tienen enlaces entrantes.
+- Fuentes longevas nuevas o movidas tienen enlaces entrantes.
+- Specs, planes, preguntas, reportes, auditorías, investigaciones y timelines
+  temporales no se consideran huérfanos por carecer de un índice permanente.
 
 ## Distribución
 
@@ -44,6 +46,6 @@
 
 ## Evidencia mínima
 
-Registrar comandos o métodos usados, rutas inspeccionadas, áreas no disponibles y una
-muestra de recorridos de routing. No afirmar ausencia de duplicación si solo se revisó
-el nombre de los archivos.
+Registrar comandos o métodos usados, rutas inspeccionadas, áreas no disponibles,
+artefactos temporales excluidos y una muestra de recorridos de routing. No afirmar
+ausencia de duplicación si solo se revisó el nombre de los archivos.

@@ -28,6 +28,6 @@ se convierta en una modificación operativa no autorizada.
 10. Durante la ejecución, cada fase **MUST** conservar trazabilidad con el plan y
     evidencia de validación antes de avanzar.
 
-El procedimiento detallado de adopción pertenecerá a `infra-adopt-framework`; los
-cambios posteriores usarán `infra-change`. Esta Policy define únicamente sus límites
+El procedimiento detallado de adopción usa `infra-adopt-framework`; los cambios
+posteriores usan `infra-change`. Esta Policy define únicamente sus límites
 obligatorios.

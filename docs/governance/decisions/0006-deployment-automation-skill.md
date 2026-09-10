@@ -6,7 +6,10 @@
 ## Decision
 
 1. La Skill se llama `implement-deployment-automation`.
-2. Su primer perfil soportado es producción con Bash y Docker Compose.
+2. Su perfil soportado es producción con Bash para backends, APIs o servicios
+   desplegados en servidores fijos administrados por el repositorio. No aplica a
+   desktop, mobile, paquetes instalables, frontends cliente ni plataformas sin ese
+   modelo de deployment.
 3. Crea automatización que posteriormente ejecuta una persona o un sistema autorizado;
    la Skill no ejecuta deployments.
 4. El entrypoint canónico vive en
