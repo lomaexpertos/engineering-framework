@@ -7,3 +7,6 @@
 3. Validaciones no ejecutadas, fallas preexistentes y limitaciones del entorno **MUST** reportarse con claridad.
 4. El agente **MUST NOT** afirmar que una prueba, build, deployment o comprobación pasó si no fue ejecutada o su resultado no pudo observarse.
 5. Antes del cierre **SHOULD** revisarse el diff o artefacto final para detectar cambios incidentales, secretos y documentación desactualizada.
+6. Un flujo crítico nuevo o modificado **MUST** cumplir la evidencia de logging de
+   [`../development/logging.md`](../development/logging.md) antes de declararse
+   terminado. Logs pendientes no son una entrega completa.

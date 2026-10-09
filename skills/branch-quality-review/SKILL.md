@@ -5,106 +5,40 @@ description: Revisa una rama, PR, rango de commits o patch contra su base para d
 
 # Branch Quality Review
 
-Evaluar si un cambio cumple su objetivo y puede entregarse con seguridad. La meta no
-es encontrar la mayor cantidad de problemas, sino identificar los defectos que
-realmente cambian la decisión de merge y separar el resto por su valor.
+Decidir si el cambio solicitado es entregable, sin ampliar la revisión a todo el repositorio.
 
-La revisión es de solo lectura sobre el código. No modificar código, pruebas,
-migraciones ni configuración. La única escritura permitida es el reporte de revisión.
+## Alcance y restricciones
 
-## Alcance
+- Verificar artefacto, base real, rango, objetivo y criterios de aceptación.
+  Revisar superficies modificadas; ampliar solo por una interacción o riesgo concreto.
+- Aplicar las Policies de los dominios afectados y convenciones del proyecto.
+  En operaciones críticas, verificar logging implementado y evidencia conforme a
+  `development/logging.md`; su ausencia no es una tarea opcional posterior.
+- No reportar deuda preexistente salvo que el cambio la agrave o dependa de ella.
+  No imponer patrones, índices, locks ni abstracciones por preferencia.
+- No modificar código, pruebas, migraciones ni configuración. La única escritura
+  propia de la revisión es el reporte. No publicar comentarios, aprobar, mergear ni
+  reescribir historia sin una petición adicional.
+- No usar subagentes por defecto: solo si el usuario pide revisión paralela y las
+  superficies son independientes.
 
-1. Identificar la rama o artefacto solicitado, su base real, el rango de commits y el
-   diff completo. Si la base o el rango no son evidentes, leer
-   [review-workflow.md](references/review-workflow.md).
-2. Entender el objetivo mediante la solicitud, criterios de aceptación, convenciones
-   vigentes y código directamente relacionado.
-3. Revisar primero las superficies modificadas y ampliar al código vecino sólo para
-   comprobar una interacción, contrato o riesgo concreto.
-4. Evaluar comportamiento, seguridad, integridad, concurrencia, consultas,
-   compatibilidad, arquitectura, UX y pruebas únicamente donde el cambio toque esas
-   superficies.
+## Evidencia y clasificación
 
-No reportar deuda preexistente salvo que el cambio la agrave o dependa de ella para
-funcionar. No convertir la revisión en una auditoría general del repositorio ni exigir
-cambios ajenos a su objetivo.
+Cada hallazgo necesita ubicación, condición concreta, comportamiento/impacto,
+evidencia, protecciones consideradas y corrección mínima. Una sospecha no basta;
+si falta confirmación, registrar pregunta o limitación. No hay cuota de hallazgos.
 
-No usar subagentes por defecto. Delegar partes de la revisión solamente cuando el
-usuario solicite trabajo paralelo y existan superficies suficientemente independientes.
+- **Bloqueante:** defecto introducido/agravado, escenario realista, impacto material,
+  protección insuficiente y confianza alta; incluye incumplir una Policy de entrega
+  aplicable como logging obligatorio en el flujo crítico modificado.
+- **Recomendado:** problema concreto con impacto limitado, poco probable o recuperable.
+  Una prueba faltante no bloquea por sí sola salvo obligación o falta de otra
+  evidencia razonable para un flujo crítico.
+- **Opcional:** preferencia o mejora sin impacto demostrado; como máximo cinco,
+  ninguna obligatoria para entregar.
 
-## Referencias condicionales
-
-- Si el cambio toca autenticación, permisos, SQL, migraciones, dinero, estado
-  compartido o concurrencia, leer
-  [security-sql-concurrency.md](references/security-sql-concurrency.md).
-- Si toca pantallas, componentes, formularios, navegación o UX, leer
-  [frontend-ux-review.md](references/frontend-ux-review.md).
-- No cargar referencias de áreas que el cambio no afecte.
-
-## Umbral de evidencia
-
-Cada hallazgo debe explicar:
-
-- el cambio observado, con archivo y línea cuando sea posible;
-- las condiciones concretas que activan el problema;
-- el comportamiento incorrecto o impacto probable;
-- la evidencia y las protecciones existentes consideradas;
-- la corrección mínima razonable.
-
-Un patrón sospechoso, una posibilidad teórica o una preferencia de diseño no
-constituyen por sí solos un defecto. Si falta información para confirmar el impacto,
-registrarla como pregunta o limitación, no como hallazgo. No existe una cuota mínima:
-una revisión correcta puede terminar sin hallazgos.
-
-## Clasificación
-
-### Bloqueante
-
-Bloquear únicamente cuando la rama introduzca o agrave un defecto con escenario
-realista, impacto material, protección insuficiente y evidencia de confianza alta.
-Ejemplos habituales son incumplir aceptación, corromper datos, omitir autorización,
-romper una invariante concurrente, introducir una vulnerabilidad explotable, quebrar
-un contrato consumido o dejar fallando una validación relevante.
-
-La severidad potencial no basta si el escenario es especulativo. Una prueba nueva
-faltante tampoco bloquea por sí sola, salvo regla explícita o ausencia de otra
-evidencia razonable para un flujo crítico.
-
-### Recomendado
-
-Usar esta categoría para un problema concreto introducido por el cambio cuyo impacto
-sea limitado, poco probable o recuperable. Puede incluir casos borde plausibles,
-observabilidad insuficiente, pruebas valiosas faltantes, deuda nueva próxima o
-problemas de rendimiento y UX que no impidan el objetivo.
-
-### Opcional
-
-Reservar esta categoría para refactors, alternativas arquitectónicas, nombres,
-componentización u optimizaciones sin impacto demostrado. Incluir como máximo cinco y
-dejar explícito que no requieren acción para entregar.
-
-## Calibración
-
-- **Concurrencia:** exigir escritor plausible, invariante vulnerable y protección
-  insuficiente; considerar constraints, operaciones atómicas, control optimista y
-  transacciones antes de prescribir locks.
-- **SQL y rendimiento:** demostrar multiplicación de trabajo o degradación con ruta y
-  volumen realistas; no exigir índices, caché o batching por intuición.
-- **Arquitectura:** aplicar reglas declaradas del repositorio; otra preferencia de
-  patrón es opcional mientras no rompa una frontera o cause un defecto.
-- **Frontend y UX:** distinguir riesgo para datos o acciones críticas de una mejora de
-  experiencia protegida correctamente por backend.
-- **Pruebas:** una prueba existente rota puede bloquear; una prueba faltante suele ser
-  recomendación según el riesgo.
-- **Mantenibilidad:** no exigir Strategy, Factory, Repository, interfaces ni
-  componentes reutilizables sin variación, convención o costo concreto.
-
-## Validaciones
-
-Usar primero análisis del diff y comprobaciones de solo lectura. Ejecutar pruebas o
-análisis estático enfocados cuando puedan confirmar un comportamiento material y
-exista infraestructura aislada del proyecto. Una validación no ejecutada se registra
-como limitación, no automáticamente como defecto.
+El modelo decide cómo revisar y validar. Usar infraestructura aislada para validaciones;
+una comprobación omitida es una limitación, no automáticamente un defecto.
 
 ## Reporte y veredicto
 
@@ -114,20 +48,12 @@ Crear exactamente un reporte por ejecución en:
 engineering/quality-review/<YYYYMMDD_nombre_descriptivo>/YYYY-MM-DD-HHMM-branch-quality-review.md
 ```
 
-Reutilizar el slug de una spec relacionada. En otro caso, derivarlo del cambio con la
-fecha de creación y `snake_case` ASCII. El reporte debe incluir metadata y alcance,
-veredicto, bloqueantes, recomendaciones, mejoras opcionales, preguntas, validaciones,
-limitaciones y un plan mínimo únicamente para los bloqueantes.
+Reutilizar el slug de una spec relacionada; en otro caso usar fecha de creación y
+`snake_case` ASCII. Incluir metadata/alcance, veredicto, hallazgos por clasificación,
+preguntas, validaciones y limitaciones; plan mínimo solo para bloqueantes.
+Es evidencia temporal: no enlazarlo individualmente en routers permanentes.
 
-El reporte es evidencia temporal: no crear ni actualizar índices o routers permanentes
-únicamente para enlazarlo.
-
-Usar uno de estos veredictos:
-
-- **No entregable:** existe al menos un bloqueante demostrado.
-- **Entregable con recomendaciones:** no hay bloqueantes, pero existen correcciones
-  valiosas no obligatorias.
-- **Entregable:** no se encontraron defectos materiales.
-
-Si no hay bloqueantes, afirmar que recomendaciones y mejoras opcionales no impiden el
-merge ni convertirlas en una lista obligatoria de tareas.
+Veredictos: **No entregable** si hay bloqueantes demostrados;
+**Entregable con recomendaciones** si solo hay correcciones valiosas no obligatorias;
+**Entregable** si no se encontraron defectos materiales.
+Sin bloqueantes, declarar que recomendaciones/opcionales no impiden el merge.

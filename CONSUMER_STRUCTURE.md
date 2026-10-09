@@ -1,7 +1,7 @@
 # Estructura publicada en repositorios consumidores
 
 Este documento muestra las carpetas que Engineering Framework administra al instalar
-o publicar la versión `1.1.0` en un repositorio consumidor. Ambos canales utilizan
+o publicar la versión `1.2.0` en un repositorio consumidor. Ambos canales utilizan
 `tooling/sync-consumer.mjs`; la estructura no cambia respecto de `1.0.1`.
 Para operar el canal asistido, consulta [`INSTALL.md`](INSTALL.md).
 
@@ -48,7 +48,7 @@ El contrato normativo y los límites de ownership permanecen en
   `<!-- engineering-framework:end -->`; el contenido propio fuera de esos marcadores
   se conserva.
 - `FRAMEWORK_VERSION`: contiene únicamente la versión instalada, actualmente
-  `1.1.0`.
+  `1.2.0`.
 - `engineering/corporate/README.md`: router de la copia corporativa instalada.
 - `engineering/corporate/metadata/installation.json`: registra versión, repositorio y
   SHA fuente, además de la lista de Skills administradas.

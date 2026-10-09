@@ -5,22 +5,22 @@ description: "Crea o modifica funciones, procedimientos, triggers o rutinas SQL 
 
 # Database Routine Change
 
-Mantener lógica de base de datos explícita, acotada y verificable.
+Entregar rutinas SQL bajo el naming y contrato de artefactos corporativos.
 
-## Workflow
+## Restricciones y convenciones
 
-1. Identificar motor, versión, invocadores, permisos y transacciones relacionadas.
-2. Inspeccionar rutinas, triggers, convenciones y alternativas set-based existentes.
-3. Confirmar que la lógica pertenece a la base y no duplica una fuente canónica.
-4. Definir entradas, salidas, efectos, errores, reentrancia y comportamiento concurrente.
-5. Preferir SQL estático; justificar control procedural o SQL dinámico.
-6. Evitar efectos ocultos, recursión de triggers y privilegios mayores a los necesarios.
-7. Preparar por defecto creación o reemplazo, grants, prechecks y validación en un
-   único SQL literal bajo `database/routines/`.
-8. Probar nulidad, duplicados, error intermedio, permisos y volumen esperado.
-9. Documentar dependencias y orden de deployment sin ejecutar en producción.
+- Consultar `database/object-naming.md`, `routine-safety.md` y los contratos existentes
+  de permisos, invocadores, transacciones y efectos.
+- Preparar por defecto un único SQL literal en `database/routines/`, conforme a
+  `sql-artifact-layout.md` y `sql-change-delivery.md`, con creación/reemplazo, grants,
+  prechecks y validación aplicables.
+- No duplicar lógica canónica, ampliar privilegios ni ejecutar en producción sin
+  autorización. Conservar dependencias y orden de deployment verificables.
+- Si la rutina realiza cálculos, correcciones u otros efectos críticos, definir dónde
+  se produce el logging requerido por `development/logging.md`: aplicación o una
+  frontera confiable del proyecto, no un `PRINT` indiscriminado ni un volcado de filas.
 
-## Entrega
+## Resultado esperado
 
-Reportar contrato, efectos, permisos, artefactos, pruebas y estrategia de actualización o
-retiro.
+Contrato, artefacto y evidencia de los efectos y permisos relevantes, con actualización
+o retiro seguros. El modelo decide SQL y técnica dentro de esas restricciones.

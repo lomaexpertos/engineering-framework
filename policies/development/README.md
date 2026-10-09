@@ -13,7 +13,8 @@ Consulta este dominio para decisiones generales de implementación y calidad.
 - APIs, eventos, colas y webhooks: [`distributed-systems.md`](distributed-systems.md).
 - Latencia, carga, caché y degradación: [`performance-and-resilience.md`](performance-and-resilience.md).
 - Evolución y retiro de contratos: [`backwards-compatibility.md`](backwards-compatibility.md).
-- Eventos de log, correlación y datos permitidos: [`logging.md`](logging.md).
+- Logging obligatorio desde el desarrollo de flujos críticos, correlación, datos
+  permitidos y evidencia de entrega: [`logging.md`](logging.md).
 - Pruebas y evidencia de validación: [`testing.md`](testing.md).
 
 Los contratos específicos de un proyecto pueden ser más estrictos, pero no debilitar

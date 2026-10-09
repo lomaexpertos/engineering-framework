@@ -5,25 +5,21 @@ description: "Implementa cambios en pagos, saldos, inventario, folios u otros es
 
 # Implement Critical State Change
 
-Proteger invariantes y efectos únicos antes de optimizar conveniencia.
+Entregar transiciones críticas con integridad y trazabilidad desde su implementación.
 
-## Workflow
+## Contratos aplicables
 
-1. Identificar fuente de verdad, invariantes, estados permitidos y transiciones.
-2. Mapear actores, permisos, fronteras transaccionales y efectos externos.
-3. Analizar concurrencia, reintentos, duplicados, orden y recuperación parcial.
-4. Definir idempotencia y unicidad en la capa que pueda garantizarla.
-5. Aplicar autorización sobre el recurso y transición concretos, no solo sobre la ruta.
-6. Mantener escritura de estado y registro del efecto en una frontera consistente.
-7. Diseñar compensación o reconciliación cuando exista un sistema externo.
-8. Definir eventos correlacionados que permitan reconstruir decisiones, valores
-   intermedios y resultado; usar `add-observability` si cambia la instrumentación.
-9. Mantener auditoría durable separada cuando el dominio la requiera y no registrar
-   secretos, credenciales o datos que no aportan al diagnóstico.
-10. Probar carreras, doble envío, reintento, fallo intermedio y transición inválida.
-11. Verificar que fallar sea seguro y que no se confirme éxito parcial.
+- Consultar `development/domain-integrity.md`, `concurrency-and-idempotency.md` y
+  `logging.md`; usar las convenciones de estado, autorización y auditoría del proyecto.
+- Hacer explícitas las invariantes y garantías del cambio. El modelo elige la
+  protección adecuada; no exigir locks, sagas u outbox sin una necesidad real.
+- El logging crítico forma parte de la entrega: cubrir decisiones, reglas de cálculo,
+  efectos, rechazo y falla conforme a la Policy, con correlación y datos permitidos.
+- Los eventos no reemplazan estado transaccional, ledger ni auditoría durable.
+- No ejecutar reparaciones o cambios en datos compartidos/productivos sin autorización.
 
-## Entrega
+## Resultado esperado
 
-Explicar invariantes protegidas, estrategia de concurrencia e idempotencia, evidencia
-de pruebas y escenarios que aún requieren control operativo.
+Transición implementada, evidencia de sus invariantes y del logging de éxito,
+rechazo/falla y escenarios concurrentes o repetidos relevantes. Reportar garantías
+reales, recuperación y pendientes operativos; no confirmar éxito parcial.

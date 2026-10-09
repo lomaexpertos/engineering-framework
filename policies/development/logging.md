@@ -1,5 +1,29 @@
 # Logging
 
+## Criticality and delivery
+
+1. Una operación **MUST** tratarse como crítica si calcula importes o resultados de
+   negocio con impacto material, emite/cancela facturas, corrige o reconcilia datos relevantes, decide o
+   aplica autorizaciones, modifica saldos/inventario/folios, o produce un efecto
+   financiero, fiscal, de seguridad o de integridad material. Esto incluye motores
+   de cálculo, nómina, cotizaciones, pagos y sus jobs, rutinas e integraciones.
+2. El agente **MUST** evaluar esa aplicabilidad antes de implementar. Una operación
+   crítica nueva o modificada **MUST** incorporar o conservar logging suficiente
+   **en la misma entrega**, sin esperar un error ni un pedido separado de logs.
+   El tamaño del diff no determina la criticidad.
+3. Una spec, plan o revisión que cubra ese flujo **MUST** incluir su trazabilidad
+   como aceptación/validación. La ausencia de logging requerido **MUST** impedir
+   declarar completa la entrega; no se registra solo como mejora futura.
+4. No es necesario instrumentar cambios cosméticos, helpers triviales o tareas sin
+   un efecto crítico o valor diagnóstico. Cambiar una operación no crítica **MUST NOT**
+   crear logging por cada función ni una plataforma nueva de observabilidad.
+   Una corrección pequeña en un motor de cálculo sigue siendo crítica.
+   Mostrar un resultado existente sin alterar su cálculo ni una decisión crítica
+   no exige nuevos logs.
+5. El cambio **MUST** reutilizar logger, eventos y correlación del proyecto cuando
+   existan. En un sistema legado, cubrir el flujo afectado **MUST NOT** convertirse
+   en una instrumentación general del repositorio sin alcance aprobado.
+
 ## Application output
 
 1. En producción, la aplicación **MUST** emitir su flujo principal de logs por
@@ -17,8 +41,8 @@
 
 1. Los logs **MUST** describir eventos operativos o de negocio útiles; **MUST NOT**
    usarse como volcado indiscriminado de estado ni como traza de cada línea de código.
-2. Una operación crítica o un cálculo de varios pasos **MUST** producir eventos
-   correlacionados suficientes para reconstruir su inicio, decisiones relevantes,
+2. Una operación crítica, incluidos cálculos de negocio de varios pasos, **MUST**
+   producir eventos correlacionados suficientes para reconstruir su inicio, decisiones relevantes,
    resultados intermedios, resultado final y falla.
 3. Los checkpoints **MUST** corresponder a pasos semánticos del dominio. Nómina,
    cotizaciones, ventas, facturación, pagos y procesos equivalentes **MUST** registrar
@@ -30,6 +54,25 @@
 5. Nombres de evento, campos, severidad y estructura **MUST** ser estables y seguir
    las convenciones existentes. Los errores **SHOULD** registrarse una vez en la
    frontera que tenga contexto suficiente.
+6. Correcciones y autorizaciones **MUST** permitir reconstruir recurso/operación,
+   decisión o resultado, motivo conocido y actor o sistema responsable; incluir
+   cambio anterior/nuevo solo cuando sea necesario y permitido por su sensibilidad.
+   Rechazos, fallas y resultados parciales o ambiguos **MUST** ser distinguibles.
+7. Un SQL manual de reparación crítica **MUST** prever evidencia de ejecución
+   controlada con alcance, responsable, motivo, conteos y resultado, sin volcar filas
+   ni secretos. Preparar ese artefacto no autoriza ejecutarlo contra datos compartidos.
+
+## Acceptance evidence
+
+1. La validación del flujo crítico **MUST** demostrar con fixtures sanitizados que
+   sus eventos correlacionados permiten reconstruir un éxito y el rechazo/fallo
+   relevante, incluidas decisiones o resultados de cálculo necesarios.
+   Usar cobertura existente cuando ya pruebe el contrato; no crear pruebas duplicadas.
+2. Reintentos, concurrencia y fallas parciales **MUST** cubrirse cuando sean posibles
+   en el flujo afectado. El mecanismo de validación lo decide el modelo dentro del
+   entorno aislado y las restricciones del proyecto.
+3. Evidencia pendiente **MUST** declararse como tal. No afirmar que la operación es
+   diagnosticable solo porque existen llamadas al logger o una definición de eventos.
 
 ## Data boundaries
 

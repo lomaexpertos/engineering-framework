@@ -6,6 +6,9 @@ Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni document
 ## Corporate engineering framework
 
 - Reglas corporativas: `engineering/corporate/policies/README.md`.
+- Desarrollo o corrección de operaciones críticas: aplicar desde el mismo cambio
+  `engineering/corporate/policies/development/logging.md` y validar su trazabilidad;
+  no esperar un incidente ni una petición separada de logs.
 - Skills corporativas para Codex: `.agents/skills/`.
 - Skills corporativas para Claude Code: `.claude/skills/`.
 - Layout de documentación, specs y revisiones del proyecto:

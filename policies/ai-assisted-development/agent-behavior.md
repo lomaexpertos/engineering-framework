@@ -9,3 +9,6 @@
 5. El agente **MUST** evitar refactors y cambios no relacionados con el alcance autorizado.
 6. Una preferencia del agente **MUST NOT** reemplazar una convención establecida únicamente porque parezca más moderna, limpia o familiar.
 7. Los conflictos entre implementación, documentación y Policies **MUST** hacerse visibles; el agente **MUST NOT** inventar una resolución o excepción.
+8. Al desarrollar o corregir comportamiento, el agente **MUST** evaluar si el flujo
+   es crítico y aplicar [`../development/logging.md`](../development/logging.md)
+   en la misma entrega. No depender de que se invoque una Skill de observabilidad.
