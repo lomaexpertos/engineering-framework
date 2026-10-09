@@ -1,8 +1,8 @@
 # Versioning
 
 El framework usa Semantic Versioning. `VERSION` es la autoridad de la actualización
-publicada manualmente desde `main`. Si se crea un tag, **MUST** usar `vX.Y.Z` y
-coincidir con `VERSION`.
+distribuida desde un snapshot de `main`, por cualquiera de los dos canales. Si se crea
+un tag, **MUST** usar `vX.Y.Z` y coincidir con `VERSION`.
 
 Todo cambio al árbol distribuible **MUST** actualizar `VERSION`. Un merge que modifica
 solo documentación o automatización interna **MAY** conservarla; una publicación
@@ -10,8 +10,8 @@ idempotente no abre PRs cuando el consumidor ya tiene el mismo contenido.
 
 - **PATCH:** erratas, enlaces, metadata o aclaraciones sin cambio material de
   obligación, procedimiento o contrato distribuido.
-- **MINOR:** nuevas Policies o Skills y reglas compatibles que aumentan requisitos
-  sin invalidar integraciones soportadas.
+- **MINOR:** nuevas capacidades de distribución, Policies o Skills y reglas
+  compatibles que aumentan requisitos sin invalidar integraciones soportadas.
 - **MAJOR:** eliminación o debilitamiento de contratos, reorganización incompatible,
   cambios sustanciales de comportamiento esperado o migración obligatoria del
   formato consumidor.

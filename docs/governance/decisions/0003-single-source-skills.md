@@ -3,6 +3,10 @@
 - Status: Accepted
 - Date: 2026-08-30
 
+La fuente única y las dos salidas se mantienen. El sincronizador también puede ser
+invocado por instalación asistida conforme a
+[`0011-assisted-installation.md`](0011-assisted-installation.md).
+
 ## Decision
 
 Cada Skill corporativa tendrá una sola fuente en `skills/`. El workflow central

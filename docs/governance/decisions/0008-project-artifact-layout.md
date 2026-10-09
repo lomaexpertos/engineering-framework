@@ -20,6 +20,8 @@ contenido nuevo.
 - La documentación vigente se actualiza en lugar de generar snapshots fechados; Git
   conserva su historial.
 - Specs y reportes no compiten con la documentación canónica.
-- El bot distribuye el contrato, pero no crea ni administra contenido del proyecto.
+- El sincronizador distribuye el contrato, pero no crea ni administra contenido del
+  proyecto, por ambos canales de
+  [`0011-assisted-installation.md`](0011-assisted-installation.md).
 - Los repositorios con rutas legadas requieren una migración explícita y no deben
   mantener dos autoridades en paralelo.

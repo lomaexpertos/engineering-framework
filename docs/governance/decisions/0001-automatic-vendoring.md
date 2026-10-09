@@ -3,6 +3,9 @@
 - Status: Accepted
 - Date: 2026-08-30
 
+El canal central de esta decisión sigue disponible; dejó de ser el único canal con
+[`0011-assisted-installation.md`](0011-assisted-installation.md).
+
 ## Decision
 
 Después de validar `main`, el mantenedor podrá ejecutar manualmente un workflow que

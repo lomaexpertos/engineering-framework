@@ -1,7 +1,7 @@
 schema_version: 1
 projects:
   - repository: lomaexpertos/berhok-logistics
-    enabled: true
+    enabled: false
     auto_merge: true
 
   - repository: lomaexpertos/timbrado

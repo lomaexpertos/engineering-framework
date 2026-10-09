@@ -124,8 +124,10 @@ runCheck("Required structure", () => {
     ".github/workflows/publish-framework.yml",
     "AGENTS.md",
     "README.md",
+    "INSTALL.md",
     "VERSION",
     "docs/architecture/distribution.md",
+    "docs/governance/decisions/0011-assisted-installation.md",
     "policies/ai-assisted-development/project-artifact-layout.md",
     "policies/README.md",
     "projects.yml",
@@ -147,6 +149,15 @@ runCheck("Required structure", () => {
   for (const entry of fs.readdirSync("policies", { withFileTypes: true })) {
     if (entry.isDirectory() && !fs.existsSync(path.join("policies", entry.name, "README.md"))) {
       addFailure("Required structure", `policies/${entry.name}/ no tiene README.md`);
+    }
+  }
+});
+
+runCheck("Installation routing", () => {
+  const entrypoint = path.resolve("INSTALL.md");
+  for (const router of ["README.md", "AGENTS.md"]) {
+    if (!markdownReachableFrom(router, repositoryRoot).has(entrypoint)) {
+      addFailure("Installation routing", `${entrypoint} no es alcanzable desde ${router}`);
     }
   }
 });

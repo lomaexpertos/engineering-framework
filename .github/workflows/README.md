@@ -1,12 +1,18 @@
 # Workflows
 
-Esta carpeta contiene o contendrá:
+Esta carpeta contiene:
 
 - `validate-framework.yml`: valida cada push o merge recibido por `main` y puede
   ejecutarse manualmente;
 - `publish-framework.yml`: se ejecuta manualmente desde `main`, autentica la GitHub
   App, itera `projects.yml`, copia únicamente el árbol permitido y crea o actualiza
   los PRs.
+
+La instalación asistida de [`../../INSTALL.md`](../../INSTALL.md) es independiente
+de estos workflows y no necesita GitHub App ni registro de consumidores. El canal
+central queda disponible como alternativa: todas las entradas actuales de
+`projects.yml` están deshabilitadas; sin habilitarlas no se publican cambios externos
+ni se solicita un token de la App.
 
 Los helpers, credenciales y detalles de publicación permanecen en este repositorio y
 no se copian a consumidores. No se incluyen workflows vacíos porque producirían una

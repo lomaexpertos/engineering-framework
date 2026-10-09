@@ -15,6 +15,7 @@ lo que realmente se verifica.
 - [`repository-compliance/`](repository-compliance/README.md): contrato completo del
   consumidor.
 
-Estas validaciones se ejecutarán desde workflows. No requieren instalar ni ejecutar
-una CLI del framework en las laptops de los desarrolladores. En consumidores, el
+Los checks consumidores previstos se ejecutarán desde workflows. La validación de
+la fuente ya se ejecuta en CI y en Docker durante la instalación asistida, sin
+instalar una CLI permanente en los equipos de los desarrolladores. En consumidores, el
 check estable se llamará `engineering-framework-compliance`.

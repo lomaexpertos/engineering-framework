@@ -12,6 +12,8 @@ para la tarea actual.
 
 ## Routing
 
+- Para instalar o actualizar el framework en un consumidor desde su rama actual,
+  sigue [`INSTALL.md`](INSTALL.md).
 - Para reglas normativas, comienza en [`policies/README.md`](policies/README.md) y
   sigue el router del dominio aplicable.
 - Para ejecutar un workflow repetible, consulta [`skills/README.md`](skills/README.md)
