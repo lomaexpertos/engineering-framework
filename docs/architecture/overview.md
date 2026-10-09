@@ -6,11 +6,11 @@
 2. **Versión:** `VERSION` identifica el contenido corporativo publicado.
 3. **Instalación asistida:** `INSTALL.md` guía a Codex; un snapshot de `main` se
    valida y sincroniza desde Docker sobre la rama actual del consumidor.
-4. **Canal central opcional:** workflows y GitHub App crean branches y Pull Requests
-   para consumidores habilitados en el registro.
+4. **Canal central suspendido:** helpers y registro conservados; los workflows fueron
+   retirados y no existe publicación por Actions.
 5. **Consumer:** conserva físicamente Policies, metadata y Skills de una versión.
-6. **Integración consumidor:** el desarrollador revisa e integra el cambio asistido;
-   en el canal central, CI y las protecciones gobiernan el merge del PR.
+6. **Integración consumidor:** el desarrollador revisa e integra el cambio asistido
+   según las reglas de Git y validación de su proyecto.
 
 ## Límites
 

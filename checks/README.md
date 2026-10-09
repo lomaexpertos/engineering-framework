@@ -15,7 +15,8 @@ lo que realmente se verifica.
 - [`repository-compliance/`](repository-compliance/README.md): contrato completo del
   consumidor.
 
-Los checks consumidores previstos se ejecutarán desde workflows. La validación de
-la fuente ya se ejecuta en CI y en Docker durante la instalación asistida, sin
+Los checks consumidores previstos requieren una futura incorporación de CI. Los
+workflows de este repositorio fueron retirados; la validación de la fuente se ejecuta
+localmente en Docker y durante la instalación asistida, sin
 instalar una CLI permanente en los equipos de los desarrolladores. En consumidores, el
 check estable se llamará `engineering-framework-compliance`.

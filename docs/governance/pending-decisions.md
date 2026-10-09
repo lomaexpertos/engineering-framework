@@ -45,7 +45,8 @@ el contrato de emisión y la configuración de runtime que sí corresponde al co
 
 `INSTALL.md` define instalación y actualización asistidas desde el último snapshot
 de `main`, con previsualización y reporte de documentación heredada.
-`publish-framework.yml` conserva el canal central opcional mediante GitHub App.
+Los workflows de validación y publicación fueron retirados el 2026-10-09; el canal
+central conserva helpers y registro, pero requiere restauración explícita.
 Cada consumidor recibe únicamente este contenido bajo `engineering/corporate/`:
 
 ```text
@@ -60,7 +61,7 @@ Cada Skill se copia desde una sola fuente hacia `.agents/skills/` y
 `engineering/quality-review/` pertenecen al proyecto y no son administrados por el
 sincronizador. `berhok-logistics` y `timbrado` permanecen registrados pero
 deshabilitados en `projects.yml`. Sigue pendiente probar una instalación asistida
-en un consumidor real; el canal central queda sin consumidores habilitados.
+en un consumidor real; el canal central permanece suspendido y sin workflows.
 
 La arquitectura del workflow, configuración del bot, registro de consumidores y
 documentación de gobierno permanecen exclusivamente en este repositorio.

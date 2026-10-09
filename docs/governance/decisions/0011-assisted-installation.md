@@ -3,6 +3,10 @@
 - Status: Accepted
 - Date: 2026-10-09
 
+Actualización posterior del 2026-10-09: se retiraron los workflows por decisión del
+mantenedor. La instalación asistida se mantiene; el canal central descrito en esta
+decisión permanece suspendido hasta una restauración explícita.
+
 ## Context
 
 El canal central de ADR-0001 requiere GitHub App, registro de consumidores y PRs.

@@ -120,8 +120,6 @@ const files = repositoryFiles();
 
 runCheck("Required structure", () => {
   const requiredPaths = [
-    ".github/workflows/validate-framework.yml",
-    ".github/workflows/publish-framework.yml",
     "AGENTS.md",
     "README.md",
     "INSTALL.md",
@@ -162,41 +160,10 @@ runCheck("Installation routing", () => {
   }
 });
 
-runCheck("Workflow contracts", () => {
-  const publication = fs.readFileSync(
-    ".github/workflows/publish-framework.yml",
-    "utf8",
-  );
-  const validation = fs.readFileSync(
-    ".github/workflows/validate-framework.yml",
-    "utf8",
-  );
-
-  const requiredPublicationFragments = [
-    "workflow_dispatch:",
-    "ref: ${{ github.sha }}",
-    "timeout-minutes:",
-    "tooling/test-publication.mjs",
-    "if: always()",
-  ];
-  for (const fragment of requiredPublicationFragments) {
-    if (!publication.includes(fragment)) {
-      addFailure("Workflow contracts", `publish-framework.yml no contiene ${fragment}`);
-    }
-  }
-
-  for (const [file, content] of [
-    ["publish-framework.yml", publication],
-    ["validate-framework.yml", validation],
-  ]) {
-    for (const match of content.matchAll(/^\s*uses:\s*([^\s#]+)/gm)) {
-      const reference = match[1];
-      if (!/@[0-9a-f]{40}$/.test(reference)) {
-        addFailure(
-          "Workflow contracts",
-          `.github/workflows/${file} usa una Action sin SHA completo: ${reference}`,
-        );
-      }
+runCheck("Workflow suspension", () => {
+  for (const file of files) {
+    if (/^\.github\/workflows\/[^/]+\.ya?ml$/i.test(file)) {
+      addFailure("Workflow suspension", `${file}: los workflows están retirados por decisión del mantenedor`);
     }
   }
 });

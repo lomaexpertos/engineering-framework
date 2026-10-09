@@ -4,8 +4,8 @@ Fuente única de verdad para las políticas, estándares, Skills y mecanismos de
 cumplimiento de ingeniería compartidos por los repositorios de la organización.
 
 El framework se versiona y los repositorios consumidores reciben una copia
-vendorizada: instalación asistida por Codex en su rama actual o, opcionalmente,
-publicación central mediante Pull Request. Cada copia registra su versión y SHA
+vendorizada mediante instalación asistida por Codex en su rama actual.
+Cada copia registra su versión y SHA
 fuente y es autosuficiente una vez integrada en Git.
 
 Para instalar o actualizar un proyecto, pide a Codex que lea
@@ -29,8 +29,8 @@ desde el consumidor. Es el único punto de entrada operativo para ese canal.
 - Separación entre normas, procedimientos, realidad documentada y enforcement.
 - SemVer y snapshots fijados por SHA; `main` se resuelve al iniciar una instalación,
   no se consulta dinámicamente durante el trabajo cotidiano del consumidor.
-- Un sincronizador común para ambos canales. La instalación asistida no cambia de
-  rama ni hace commit/push; el canal central usa branches y Pull Requests.
+- La instalación asistida usa el sincronizador existente, no cambia de rama ni hace
+  commit/push. El canal central permanece suspendido.
 - Tooling solo en la fuente: Codex lo ejecuta desde una imagen Docker temporal;
   no se instala ni se copia una CLI en los consumidores.
 - Una fuente de Skills distribuida a Codex y Claude Code.
@@ -47,9 +47,11 @@ los contratos SQL y el layout de artefactos fueron reconciliados en la versión 
 depurados en la 1.0.1. La versión 1.1.0 añadió instalación y actualización asistidas.
 La versión 1.2.0 conserva las 28 Skills y el layout, depura recetas generales y exige
 logging desde la implementación de operaciones críticas, con validación de su evidencia.
-Hay dos repositorios registrados y ninguno habilitado para publicación central;
-el workflow queda disponible como canal alternativo. Falta validar la adopción
-asistida en un proyecto real.
+Por decisión del mantenedor, los workflows de validación y publicación fueron
+retirados el 2026-10-09: ningún push o merge ejecuta Actions de este framework.
+La validación sigue disponible en Docker y la instalación asistida en `INSTALL.md`.
+Hay dos repositorios registrados, ambos deshabilitados; el canal central no está
+disponible hasta su restauración explícita. Falta validar la adopción asistida real.
 
 El criterio de Skills y el detalle del material retirado están registrados en
 [`la depuración de 2026-10-09`](docs/governance/transformations/2026-10-09-organizational-skills-and-logging.md).
@@ -67,7 +69,7 @@ El criterio de Skills y el detalle del material retirado están registrados en
 - [`tooling/`](tooling/README.md): construcción, sincronización y publicación.
 - [`templates/project/`](templates/project/README.md): archivos administrados o
   sugeridos para repositorios consumidores.
-- [`projects.yml`](projects.yml): registro exclusivo del canal central opcional.
+- [`projects.yml`](projects.yml): registro conservado del canal central suspendido.
 - [`CONSUMER_STRUCTURE.md`](CONSUMER_STRUCTURE.md): vista de carpetas y catálogos
   sincronizados en cada consumidor.
 

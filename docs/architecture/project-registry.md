@@ -1,5 +1,9 @@
 # Project registry
 
+El canal central está suspendido: sus workflows fueron retirados el 2026-10-09.
+Este registro se conserva; habilitar una entrada no ejecuta publicación ni restaura
+el canal. El contrato siguiente describe su diseño, no una operación disponible.
+
 `projects.yml` es el registro declarativo exclusivo del canal central: repositorios
 autorizados para recibir actualizaciones por GitHub App. No controla la instalación
 asistida local de [`INSTALL.md`](../../INSTALL.md), que depende de la autorización

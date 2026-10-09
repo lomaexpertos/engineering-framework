@@ -1,7 +1,7 @@
 # Tooling
 
-Aquí viven scripts de la fuente utilizados por los workflows centrales y por la
-instalación asistida desde una imagen Docker. No se copian ni se instalan como CLI
+Aquí viven scripts de la fuente utilizados por la instalación asistida desde una
+imagen Docker y helpers conservados del canal central suspendido. No se copian ni se instalan como CLI
 permanente en repositorios consumidores. El procedimiento operativo está en
 [`../INSTALL.md`](../INSTALL.md).
 
@@ -11,10 +11,10 @@ Responsabilidades:
 - preparar el árbol permitido de Policies y Skills;
 - copiar una misma Skill a `.agents/skills/` y `.claude/skills/`;
 - previsualizar y aplicar cambios en la rama actual o en checkouts temporales; y
-- apoyar al workflow que crea branches y Pull Requests mediante GitHub App.
+- conservar los helpers de branches y Pull Requests del canal central, sin ejecutarlos.
 
 [`validate-framework.mjs`](validate-framework.mjs) implementa las validaciones locales
-del workflow central sin dependencias externas. `resolve-projects.mjs` valida el
+sin dependencias externas y verifica que no haya workflows activos. `resolve-projects.mjs` valida el
 registro del canal central, `sync-consumer.mjs` aplica la copia sin borrar Skills locales y
 `publish-projects.sh` coordina Git y Pull Requests en el runner. Las pruebas viven en
 `test-distribution.mjs`; `test-publication.mjs` prueba el orquestador con un remoto Git
@@ -53,5 +53,7 @@ La imagen usa Node 22, Bash y Git con versiones reproducibles desde una base exp
 ejecuta como usuario no root y corre validación estructural, distribución y publicación
 simulada.
 
-Los workflows previstos y su criterio de incorporación están documentados en
-[`../.github/workflows/README.md`](../.github/workflows/README.md).
+Los workflows de GitHub Actions fueron retirados el 2026-10-09. No hay validación
+automática por push ni publicación central; las pruebas locales y la instalación
+asistida permanecen disponibles. El diseño del canal suspendido se conserva en
+[`../docs/architecture/distribution.md`](../docs/architecture/distribution.md).

@@ -2,20 +2,21 @@
 
 ## Channels and ownership
 
-Hay dos canales con una sola fuente y un solo sincronizador:
+Hay una sola fuente y un solo sincronizador. Estado de los canales:
 
 - **Asistido:** el usuario pide instalar o actualizar desde el consumidor y Codex
   sigue [`../../INSTALL.md`](../../INSTALL.md), trabajando en su rama actual.
-- **Central opcional:** el mantenedor ejecuta `publish-framework.yml` desde `main`
-  para consumidores habilitados en `projects.yml`, mediante GitHub App y PR.
+- **Central suspendido:** sus workflows fueron retirados el 2026-10-09. Se conservan
+  helpers y registro, pero no existe publicación por Actions ni por dispatch.
 
 `VERSION` identifica la versión del contenido. Cada operación fija un SHA inmutable
 de `main`, valida ese snapshot y registra ambos datos en el consumidor. No existen
 referencias dinámicas a la fuente durante las tareas del proyecto ni un segundo
-catálogo de Skills. Cada push o merge a `main` mantiene la validación central.
+catálogo de Skills. La validación se ejecuta en Docker; los pushes y merges a `main`
+no ejecutan validación automática mientras los workflows estén retirados.
 
-El canal central está inactivo para los consumidores actuales: sus entradas están
-deshabilitadas. No es necesario habilitarlo para instalar con Codex.
+El canal central requiere una restauración explícita; habilitar una entrada no lo
+reactiva. No es necesario para instalar con Codex.
 
 ## Assisted installation
 
@@ -36,7 +37,11 @@ No requiere `projects.yml`, GitHub App, auto-merge ni `main` como rama por defec
 consumidor. El usuario decide cómo integrar después el diff según sus reglas de Git.
 Los scripts se ejecutan en la imagen de la fuente, no se instalan en el proyecto.
 
-## Central workflow
+## Central workflow (diseño suspendido)
+
+Esta sección y los contratos específicos del canal central que siguen conservan su
+diseño para una posible restauración autorizada; no son un procedimiento ejecutable
+en el estado actual ni autorizan invocar sus helpers para publicar.
 
 1. Confirmar que el dispatch usa `main`, fijar el SHA inmutable del evento y validar
    exactamente ese snapshot.
