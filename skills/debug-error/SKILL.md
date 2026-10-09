@@ -5,24 +5,20 @@ description: "Reproduce y aísla errores; si se solicita, implementa la correcci
 
 # Debug Error
 
-Encontrar la causa raíz con evidencia reproducible antes de cambiar código.
+Entregar un diagnóstico comprobable; corregir únicamente cuando se solicite.
 
-## Workflow
+## Límites y convenciones
 
-1. Capturar síntoma exacto, entrada, ambiente, versión, frecuencia y resultado esperado.
-2. Reproducir con el caso más pequeño disponible; registrar si no es reproducible.
-3. Inspeccionar logs seguros, stack trace, datos, código y cambios recientes relevantes.
-4. Formular hipótesis falsables y probar una variable a la vez.
-5. Reducir el flujo hasta localizar la primera divergencia entre esperado y observado.
-6. Explicar causa raíz y por qué los controles existentes no la detectaron.
-7. Si el usuario pidió corregir, implementar el cambio mínimo sin debilitar validación.
-8. Añadir una prueba que falle antes de la corrección y cubra el escenario real.
-9. Ejecutar pruebas focalizadas y revisar efectos colaterales razonables.
+- Consultar `development/error-handling.md`, `testing.md` y el contexto del módulo.
+  Respetar sus nombres, contratos y mecanismos de diagnóstico.
+- No modificar código si el pedido es solo investigación. No ocultar síntomas,
+  debilitar pruebas ni extender la corrección a un refactor no solicitado.
+- Una corrección en una operación crítica debe conservar o completar el logging
+  del flujo afectado según `development/logging.md`, dentro del mismo cambio.
+- Incidentes productivos activos usan `investigate-production-incident`.
+- El modelo decide cómo investigar; no exigir una secuencia de hipótesis o herramientas.
 
-Si el pedido es solo diagnóstico, detenerse antes de editar. No eliminar pruebas,
-capturar excepciones indiscriminadamente ni ocultar el síntoma.
+## Resultado esperado
 
-## Entrega
-
-Reportar reproducción, causa, evidencia, corrección si fue autorizada, pruebas y dudas
-restantes.
+Causa y evidencia, corrección autorizada si aplica, validación proporcional y
+limitaciones. Distinguir una hipótesis de una causa confirmada.

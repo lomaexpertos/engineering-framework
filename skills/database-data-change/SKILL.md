@@ -5,22 +5,24 @@ description: "Implementa backfills, reparaciones, transformaciones o eliminacion
 
 # Database Data Change
 
-Modificar datos existentes sin afectar filas fuera del conjunto previsto.
+Entregar cambios de datos con alcance verificable y el contrato SQL corporativo.
 
-## Workflow
+## Restricciones y convenciones
 
-1. Identificar motor, tablas, volumen, owner, ventana y fuente de verdad.
-2. Definir el conjunto objetivo mediante consultas read-only y resultados esperados.
-3. Evaluar invariantes, FK, triggers, auditoría, concurrencia y consumidores activos.
-4. Elegir operación set-based, lotes y frontera transaccional según el motor.
-5. Proteger toda escritura masiva con filtros defensivos y conteos verificables.
-6. Preparar por defecto un único SQL literal bajo `database/backfills/` o
-   `database/repairs/`, separado internamente en prechecks, aplicación y validación.
-7. Diseñar reanudación idempotente y roll-forward; no prometer rollback inseguro.
-8. Probar con datos representativos y casos límite en un entorno autorizado.
-9. No ejecutar contra una base compartida o productiva sin autorización explícita.
+- Consultar `database/data-change-safety.md`, `manual-sql-execution.md` y las
+  convenciones de auditoría/ciclo de vida aplicables.
+- Entregar por defecto un único SQL literal en `database/backfills/` o
+  `database/repairs/`, conforme a `sql-artifact-layout.md` y `sql-change-delivery.md`.
+  Separar prechecks, aplicación y validación; identificar población esperada.
+- No ejecutar contra datos compartidos o productivos sin autorización específica,
+  ni prometer rollback que no conserve la integridad.
+- Una reparación crítica debe dejar evidencia del conjunto, motivo, responsable y
+  resultado según `development/logging.md`, sin copiar datos sensibles a la salida.
+  En un SQL manual, esa evidencia puede ser un registro de ejecución controlado,
+  distinto de los datos de negocio y sin inventar una plataforma nueva.
 
-## Entrega
+## Resultado esperado
 
-Proporcionar ruta del artefacto, orden, población esperada, duración/locks estimados,
-validaciones, recuperación y evidencia no obtenida.
+Artefacto, población/efectos esperados, evidencia de validación y recuperación o
+reanudación aplicables. El modelo decide filtros, lotes y fronteras transaccionales
+dentro de los controles de la Policy.

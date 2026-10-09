@@ -1,8 +1,9 @@
 # Estructura publicada en repositorios consumidores
 
-Este documento muestra las carpetas que Engineering Framework administra al publicar
-la versión `1.0.1` en un repositorio consumidor. Fue verificado el 2026-09-10 contra
-el comportamiento de `tooling/sync-consumer.mjs` en el commit `93b0ade`.
+Este documento muestra las carpetas que Engineering Framework administra al instalar
+o publicar la versión `1.2.0` en un repositorio consumidor. Ambos canales utilizan
+`tooling/sync-consumer.mjs`; la estructura no cambia respecto de `1.0.1`.
+Para operar el canal asistido, consulta [`INSTALL.md`](INSTALL.md).
 
 El contrato normativo y los límites de ownership permanecen en
 [`docs/architecture/consumer-contract.md`](docs/architecture/consumer-contract.md) y
@@ -47,7 +48,7 @@ El contrato normativo y los límites de ownership permanecen en
   `<!-- engineering-framework:end -->`; el contenido propio fuera de esos marcadores
   se conserva.
 - `FRAMEWORK_VERSION`: contiene únicamente la versión instalada, actualmente
-  `1.0.1`.
+  `1.2.0`.
 - `engineering/corporate/README.md`: router de la copia corporativa instalada.
 - `engineering/corporate/metadata/installation.json`: registra versión, repositorio y
   SHA fuente, además de la lista de Skills administradas.
@@ -100,11 +101,12 @@ El contrato normativo y los límites de ownership permanecen en
 
 ## Reemplazo, conservación y exclusiones
 
-- `engineering/corporate/` se reemplaza completamente en cada sincronización.
+- `engineering/corporate/` queda exactamente como la fuente en cada sincronización;
+  se escriben diferencias y se retiran archivos obsoletos.
 - Las Skills previamente registradas como corporativas se reemplazan o retiran según
   el catálogo actual. Una Skill propia con otro nombre se conserva; una colisión con
   un nombre corporativo detiene la sincronización antes de sobrescribirla.
 - El framework no crea ni administra `engineering/docs/`, `engineering/specs/` o
   `engineering/quality-review/`; esas rutas pertenecen a cada proyecto.
 - No se copian `docs/`, `tooling/`, `checks/`, `.github/workflows/`, `projects.yml`,
-  `templates/`, el `README.md` raíz ni las credenciales de este repositorio.
+  `templates/`, `INSTALL.md`, el `README.md` raíz ni las credenciales de este repositorio.

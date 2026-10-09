@@ -5,21 +5,20 @@ description: "Mejora latencia, throughput, memoria, CPU, I/O o carga mediante me
 
 # Optimize Performance
 
-Mejorar una métrica concreta sin cambiar silenciosamente el comportamiento.
+Entregar una mejora medible sin alterar silenciosamente el comportamiento del proyecto.
 
-## Workflow
+## Restricciones
 
-1. Definir síntoma, escenario, presupuesto y métrica de éxito.
-2. Obtener una línea base reproducible y registrar ambiente y datos utilizados.
-3. Perfilar antes de atribuir la causa; distinguir CPU, memoria, I/O, red y base de
-   datos.
-4. Identificar el cuello dominante y formular una hipótesis verificable.
-5. Aplicar el cambio más pequeño que ataque esa causa.
-6. Medir nuevamente con el mismo escenario y comparar variabilidad.
-7. Ejecutar pruebas funcionales para detectar regresiones de corrección.
-8. Evaluar costo trasladado, degradación en otros percentiles y comportamiento bajo
-   carga o caché fría.
-9. Conservar instrumentation útil y documentar límites de la medición.
+- Consultar `development/performance-and-resilience.md`, `backwards-compatibility.md`
+  y las convenciones de medición y operación existentes.
+- Conservar resultados, contratos y el logging obligatorio de operaciones críticas.
+  No justificar eliminarlo, desactivarlo o muestrearlo indiscriminadamente para ganar
+  rendimiento; cualquier ajuste debe cumplir `development/logging.md`.
+- No introducir otra plataforma, dependencia o cambio de arquitectura fuera del alcance.
+- Una consulta concreta puede usar `optimize-database-query`, sin duplicar el trabajo.
+- El modelo elige la estrategia de medición y optimización; no imponer pasos de profiling.
 
-No afirmar mejora sin evidencia comparable. Si el cuello es una consulta concreta,
-usar `optimize-database-query`.
+## Resultado esperado
+
+Comparación antes/después de la métrica acordada, evidencia de corrección y costos o
+límites relevantes. No afirmar mejora cuando falta evidencia comparable.

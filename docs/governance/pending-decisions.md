@@ -23,7 +23,8 @@ Permanecen por definir únicamente estos contratos de implementación:
 - Detección de secretos en Git, logs y artefactos.
 - Validación de rutas, relaciones, documentación y enlaces del layout de infraestructura.
 - Check de que entrypoints declarados proporcionen diagnóstico y validación.
-- Metadata de integridad generada por el workflow para el contenido corporativo.
+- Metadata de checksums de integridad generada por el sincronizador para el contenido
+  corporativo; la metadata de procedencia/versionado ya existe.
 
 ## Corporate content still missing
 
@@ -42,8 +43,10 @@ el contrato de emisión y la configuración de runtime que sí corresponde al co
 
 ## Distribution status
 
-`publish-framework.yml` ya implementa publicación manual mediante la GitHub App. Cada
-consumidor recibe únicamente:
+`INSTALL.md` define instalación y actualización asistidas desde el último snapshot
+de `main`, con previsualización y reporte de documentación heredada.
+`publish-framework.yml` conserva el canal central opcional mediante GitHub App.
+Cada consumidor recibe únicamente este contenido bajo `engineering/corporate/`:
 
 ```text
 engineering/corporate/
@@ -55,8 +58,9 @@ engineering/corporate/
 Cada Skill se copia desde una sola fuente hacia `.agents/skills/` y
 `.claude/skills/`. Los namespaces `engineering/docs/`, `engineering/specs/` y
 `engineering/quality-review/` pertenecen al proyecto y no son administrados por el
-bot. `berhok-logistics` está habilitado y `timbrado` permanece registrado pero
-deshabilitado en `projects.yml`; sigue pendiente probar el primer Pull Request remoto.
+sincronizador. `berhok-logistics` y `timbrado` permanecen registrados pero
+deshabilitados en `projects.yml`. Sigue pendiente probar una instalación asistida
+en un consumidor real; el canal central queda sin consumidores habilitados.
 
 La arquitectura del workflow, configuración del bot, registro de consumidores y
 documentación de gobierno permanecen exclusivamente en este repositorio.

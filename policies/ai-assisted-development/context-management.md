@@ -10,7 +10,8 @@ necesario para la tarea actual, sin perder autoridad, alcance ni trazabilidad.
 - `AGENTS.md`: invariantes universales, precedencia y routing; no es un manual.
 - README o índice de dominio: mapa de temas y condiciones de lectura.
 - Policy: regla normativa corporativa.
-- Skill: workflow reusable con trigger y resultado propios.
+- Skill: contrato de trabajo reusable con trigger, restricciones y resultado propios;
+  su diseño se rige por [`skill-design.md`](skill-design.md).
 - Documentación del proyecto: descripción verificable del sistema real.
 - ADR, historial o reporte: evidencia temporal; no sustituye la fuente vigente.
 

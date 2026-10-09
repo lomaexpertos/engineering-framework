@@ -5,41 +5,22 @@ description: "Migra un repositorio legado al layout infra/deploy, consolidando a
 
 # Infra Adopt Framework
 
-Convertir infraestructura legada en una estructura corporativa única y trazable.
+Adoptar el layout corporativo de infraestructura mediante una migración explícita.
 
-## Fase de evaluación
+## Contrato de adopción
 
-1. Leer `AGENTS.md`, Policies de infraestructura y documentación vigente.
-2. Inspeccionar en modo read-only todas las rutas, ambientes, scripts, Compose,
-   configuración, secretos, edge, cron, CI y runbooks existentes.
-3. Construir una matriz con ruta actual, responsabilidad, referencias, destino
-   canónico y clasificación: conforme, desviación o cambio propuesto.
-4. Detectar entrypoints rivales, archivos huérfanos, estado versionado y operaciones
-   privilegiadas o externas.
+- Aplicar `infrastructure/repository-layout.md` y
+  `ai-assisted-development/infrastructure-change-safety.md`.
+- Antes de mover archivos, entregar matriz de rutas actual/destino, responsabilidades,
+  referencias y clasificación, junto con alcance, fases, compatibilidad, validación,
+  recuperación y aprobaciones necesarias. Evaluar o planear no autoriza ejecutar.
+- Crear solo ambientes y capacidades reales bajo `infra/deploy/`. Conservar una única
+  entrada documentada y los perfiles de runtime que correspondan al proyecto.
+- Mantener las referencias de código, CI, manifests y documentación en la fase que
+  cambia la ruta. Retirar heredados solo tras comprobar consumidores y compatibilidad.
+- No desplegar, rotar credenciales, descifrar secretos ni modificar servicios externos.
 
-## Plan obligatorio
+## Resultado esperado
 
-Antes de mover archivos, documentar alcance, no-alcance, árbol objetivo, matriz de
-migración, dependencias, fases, validación, compatibilidad, rollback y aprobaciones
-necesarias. Una evaluación o un plan no autorizan la ejecución.
-
-## Implementación autorizada
-
-1. Crear solo ambientes y capacidades reales bajo `infra/deploy/`.
-2. Mantener una única ruta documentada para cada deployment.
-3. Crear `deployment.yaml` y automatización mediante
-   `implement-deployment-automation` cuando corresponda.
-4. Clasificar configuración, secretos y runtime antes de reubicar archivos.
-5. Actualizar referencias de código, CI y documentación en la misma fase que la ruta.
-6. Retirar artefactos heredados solo después de probar que no tienen consumidores.
-7. Validar cada fase y conservar una ruta de reversión hasta terminar la adopción.
-
-## Prohibiciones
-
-No ejecutar deployments, rotar credenciales, descifrar secretos, cambiar servicios
-externos ni crear carpetas vacías para capacidades inexistentes.
-
-## Entrega
-
-Conservar trazabilidad entre matriz y cambios, y reportar validaciones, desviaciones
-aceptadas, operaciones no ejecutadas y pendientes.
+Adopción autorizada y trazabilidad entre matriz y cambios, validaciones, desviaciones
+aceptadas y operaciones pendientes. El modelo decide cómo ejecutar las fases seguras.

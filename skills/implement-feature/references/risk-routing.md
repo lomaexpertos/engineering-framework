@@ -1,38 +1,24 @@
-# Risk routing for implementation
+# Organizational risk routing
 
-Leer esta referencia cuando el cambio cruce varias áreas o no sea evidente qué
-workflow especializado debe aplicarse.
+Consultar esta referencia si el cambio cruza dominios o necesita calibrar el rigor.
+El routing selecciona contratos; no obliga a ejecutar cada Skill mencionada.
 
-## Base de todo cambio productivo
-
-Verificar siempre:
-
-- comportamiento esperado, errores y autorización aplicable;
-- convenciones y contratos existentes;
-- pruebas proporcionales y observabilidad necesaria;
-- compatibilidad con consumidores; y
-- ausencia de secretos o cambios incidentales.
-
-## Routing condicional
-
-| Señal del cambio | Contexto adicional |
+| Superficie afectada | Fuente adicional |
 | --- | --- |
-| Pantallas, componentes, formularios o interacción | Policies frontend y `implement-ui-change` |
-| APIs entre servicios, eventos, colas o webhooks | Policies distributed systems y `implement-distributed-integration` |
-| Pagos, saldos, inventario, folios o transición crítica | Policies de dominio/concurrencia y `implement-critical-state-change` |
-| Tablas, datos, rutinas o consultas | Router de Policies database y Skill de base de datos por efecto |
-| Latencia, throughput, CPU, memoria o I/O | Policy de performance y `optimize-performance` |
-| Logs, métricas, trazas o alertas | `add-observability` |
-| Infraestructura, deployment o secretos | Skill de infraestructura correspondiente |
+| UI y lenguaje visual | Policies frontend; `implement-ui-change` si ese es el trabajo solicitado |
+| Integración entre servicios | `development/distributed-systems.md` |
+| Datos persistentes o SQL | Router database y Skill por tipo de artefacto |
+| Dinero, fiscalidad, nómina, cálculos, correcciones o autorizaciones | `development/domain-integrity.md` y `logging.md` |
+| Métrica de rendimiento con problema observado | `development/performance-and-resilience.md` |
+| Infraestructura o secretos | Router y contrato del perfil operativo aplicable |
 
-## Rigor
+## Rigor acordado
 
-- **Normal:** cambio localizado, reversible y sin contrato, datos o permisos críticos.
-- **Reforzado:** toca persistencia, autorización, integración, migración, asincronía o
-  compatibilidad. Exige pruebas de frontera y revisión del radio de impacto.
-- **Alto:** dinero, fiscalidad, nómina, secretos, datos irreversibles o efectos
-  distribuidos de alto impacto. Exige invariantes explícitas, escenarios de falla y
-  recuperación; usar `branch-quality-review` cuando se prepare la entrega, el usuario
-  lo solicite o una Policy lo exija.
+- **Normal:** cambio localizado y reversible, sin efectos críticos.
+- **Reforzado:** persistencia, integración, compatibilidad o asincronía con riesgo material.
+- **Alto:** dinero, fiscalidad, nómina, autorizaciones, secretos, datos irreversibles o
+  efectos críticos. Exige evidencia de invariantes, fallas y recuperación; para los
+  flujos críticos, logging implementado y validado en la misma entrega.
 
-El tamaño del diff no reduce por sí mismo el rigor.
+El tamaño del diff no reduce criticidad. Una auditoría completa de rama se usa cuando
+se prepara la entrega, se solicita o una Policy la exige, no por activar este router.

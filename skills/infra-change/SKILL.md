@@ -5,36 +5,22 @@ description: "Modifica infraestructura ya adoptada: Compose, configuración, scr
 
 # Infra Change
 
-Modificar infraestructura existente sin ampliar silenciosamente el alcance operativo.
+Entregar un cambio de infraestructura adoptada sin ampliar su autoridad operativa.
 
-## Contexto
+## Convenciones y límites
 
-1. Leer `AGENTS.md`, el router de infraestructura y las Policies del componente
-   afectado.
-2. Inspeccionar documentación, layout, ambientes, manifests, scripts, configuración,
-   checks y referencias existentes.
-3. Identificar owner, consumidores, estado mutable y operaciones externas relacionadas.
-4. Separar hechos observados, cambio solicitado y acciones que requieren autorización.
+- Consultar el router `infrastructure/`, su layout y las Policies del componente afectado.
+  Conservar ambientes, rutas y entrypoints canónicos; no crear capacidades vacías.
+- Una adopción completa usa `infra-adopt-framework`; automatización Bash del perfil
+  de servidor fijo usa `implement-deployment-automation`; secretos usan `manage-secrets`.
+  No aplicar esos workflows completos a una modificación que no los requiera.
+- Modificar fuentes versionadas dentro del alcance. No desplegar, reiniciar,
+  cambiar servicios externos ni leer valores de secretos.
+- Mantener consistencia entre manifests, configuración, scripts y documentación
+  cuando el contrato cambie; conservar la recuperación correspondiente.
+- Validar en infraestructura aislada, sin alterar ambientes operativos.
 
-## Routing
+## Resultado esperado
 
-- Migración completa al layout corporativo: `infra-adopt-framework`.
-- Scripts o contratos Bash para backends, APIs o servicios en servidores fijos:
-  `implement-deployment-automation`.
-- Alta, rotación o retiro de secretos: `manage-secrets`.
-- Ejecución de un deployment: fuera del alcance de esta Skill.
-
-## Workflow
-
-1. Definir alcance, no-alcance, ambientes y unidades afectadas.
-2. Evaluar compatibilidad, blast radius, rollback y estado coexistente.
-3. Reutilizar módulos, convenciones y entrypoints existentes antes de crear otros.
-4. Implementar el cambio mínimo en fuentes versionadas; no alterar servicios externos.
-5. Actualizar manifests y documentación cuando cambien contratos u operación.
-6. Ejecutar validaciones estáticas, linters y pruebas locales seguras disponibles.
-7. Confirmar que no se escribieron secretos, estado runtime ni artefactos generados.
-
-## Entrega
-
-Reportar archivos modificados, ambientes afectados, validaciones, operaciones no
-ejecutadas, rollback previsto y riesgos pendientes.
+Cambio y evidencia, ambientes/unidades afectados y operaciones pendientes.
+El modelo decide la técnica y el orden dentro de los contratos corporativos.

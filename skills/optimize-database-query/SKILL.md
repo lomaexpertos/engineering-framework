@@ -5,19 +5,18 @@ description: "Optimiza consultas mediante planes, cardinalidad, índices y medic
 
 # Optimize Database Query
 
-Reducir costo medible preservando semántica y consistencia.
+Entregar menor costo medible preservando resultados y contratos de datos.
 
-## Workflow
+## Restricciones y entrega
 
-1. Capturar consulta real, parámetros representativos, motor, versión y síntoma.
-2. Confirmar resultados esperados y restricciones de consistencia.
-3. Obtener baseline y plan de ejecución en un entorno seguro.
-4. Revisar cardinalidad, filtros, joins, sorts, agregados, N+1 y estimaciones erróneas.
-5. Inspeccionar índices existentes, selectividad, costo de escritura y duplicación.
-6. Formular una hipótesis y cambiar una dimensión principal a la vez.
-7. Comparar plan, latencia, filas procesadas y variabilidad con el baseline.
-8. Probar equivalencia de resultados, nulidad, duplicados y parámetros extremos.
-9. Documentar efectos sobre escrituras, almacenamiento y mantenimiento.
+- Consultar las Policies de `database/indexes.md`, `data-types.md` y
+  `development/performance-and-resilience.md`; mantener naming y convenciones del proyecto.
+- Entregar cambios persistentes de índices o esquema por el contrato SQL corporativo;
+  no crear un segundo mecanismo de migraciones.
+- No ejecutar `EXPLAIN ANALYZE` ni cargas contra producción sin autorización.
+- Conservar precisión, consistencia y logging crítico; no optimizar descartando evidencia.
+- El modelo decide qué planes, consultas o herramientas necesita, sin un checklist
+  universal de joins, N+1 o tipos de índice.
 
-No ejecutar `EXPLAIN ANALYZE` ni cargas contra producción sin autorización. Entregar
-evidencia antes/después y limitaciones del experimento.
+El resultado debe incluir evidencia comparable antes/después, equivalencia funcional
+y efectos relevantes sobre escritura o mantenimiento. Declarar límites de la medición.

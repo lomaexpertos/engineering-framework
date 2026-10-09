@@ -5,33 +5,23 @@ description: "Crea o modifica pantallas, componentes, layouts, formularios o nav
 
 # Implement UI Change
 
-Modificar la interfaz con consistencia funcional, visual y accesible.
+Entregar la interfaz solicitada dentro del lenguaje visual y funcional del proyecto.
 
-## Reuse before create
+## Convenciones y límites
 
-Antes de diseñar:
+- Consultar `frontend/ui-consistency.md`, `ai-assisted-development/reuse-before-create.md`
+  y el design system vigente. Reutilizarlo o extenderlo; una preferencia estética no
+  autoriza sustituirlo.
+- Conservar contratos de datos, navegación y convenciones de interacción fuera del
+  cambio autorizado. No inventar endpoints ni requisitos de negocio.
+- Documentar una convención visual nueva o una extensión material en la fuente
+  canónica del proyecto, no en otro catálogo corporativo.
+- Si la UI participa en autorización, facturación, corrección u otra acción crítica,
+  verificar el logging requerido por `development/logging.md` en la frontera
+  responsable; no sustituir evidencia confiable por logs de cada clic.
+- El modelo decide composición y técnica; no imponer una receta de componentes.
 
-1. identificar pantalla, flujo, estados y usuarios afectados;
-2. inspeccionar la implementación actual y su design system;
-3. buscar componentes, layouts e interacciones equivalentes;
-4. consultar documentación UI y convenciones del proyecto; y
-5. evaluar si un patrón existente puede reutilizarse o extenderse razonablemente.
+## Resultado esperado
 
-Crear un patrón nuevo solo cuando el usuario lo pida o ninguno existente resuelva la
-necesidad. Preferencia estética personal no es justificación.
-
-## Workflow
-
-1. Definir comportamiento, estados de carga, vacío, error, éxito y permisos.
-2. Elegir la composición existente más cercana y conservar lenguaje visual.
-3. Implementar semántica, teclado, foco, etiquetas y contraste aplicables.
-4. Mantener comportamiento responsive y evitar saltos o desbordamientos no deseados.
-5. Preservar contratos de datos y no inventar endpoints o esquemas.
-6. Añadir pruebas de comportamiento; usar evidencia visual cuando sea útil.
-7. Validar en tamaños y estados relevantes, no solo el camino exitoso.
-8. Documentar un patrón nuevo o una extensión material del sistema de diseño.
-
-## Entrega
-
-Indicar qué se reutilizó, qué se creó, por qué fue necesario y cómo se validaron
-interacción, accesibilidad y consistencia.
+Evidencia del comportamiento, accesibilidad y estados afectados según la Policy.
+Explicar únicamente lo reutilizado o creado, su razón y las validaciones relevantes.

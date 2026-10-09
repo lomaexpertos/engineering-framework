@@ -5,23 +5,21 @@ description: "Audita pagos, saldos, inventario, folios, webhooks o estados crít
 
 # Data Integrity Review
 
-Detectar caminos que puedan perder, duplicar o confirmar incorrectamente efectos.
+Entregar una revisión focalizada de las garantías de datos del proyecto.
 
-## Workflow
+## Contrato de revisión
 
-1. Identificar invariantes, fuente de verdad, estados y transiciones permitidas.
-2. Mapear fronteras transaccionales, locks, constraints y efectos externos.
-3. Seguir cada comando desde validación y autorización hasta confirmación observable.
-4. Probar mentalmente doble envío, carreras, reintentos, mensajes fuera de orden y
-   crash en cada frontera.
-5. Evaluar idempotencia, unicidad, deduplicación y persistencia del resultado.
-6. Revisar redondeo, signo, unidades y precisión cuando existan cantidades o dinero.
-7. Verificar compensación, reconciliación y recuperación de estados parciales.
-8. Revisar auditoría y alertas para anomalías no prevenibles completamente.
-9. Confirmar pruebas concurrentes o proponer casos reproducibles.
+- Aplicar `development/domain-integrity.md`, `concurrency-and-idempotency.md`
+  y las Policies de base de datos pertinentes. El modelo elige la técnica de análisis.
+- Un hallazgo debe identificar secuencia concreta, invariante, escritores plausibles,
+  protección existente e impacto; no exigir locks o coordinación distribuida por receta.
+- Comprobar logging crítico según `development/logging.md`; los eventos no sustituyen
+  ledger, estado transaccional o auditoría durable.
+- No corregir durante una auditoría, ejecutar cambios productivos ni generar efectos
+  externos sin una solicitud y autorización independientes.
+- Mantener alcance focalizado; no exigir una auditoría de rama completa por tocar datos.
 
-## Salida
+## Resultado esperado
 
-Ordenar hallazgos por posibilidad de pérdida o doble efecto. Incluir secuencia concreta,
-invariante violada, evidencia y control esperado. No corregir durante la auditoría salvo
-solicitud explícita.
+Hallazgos ordenados por pérdida o doble efecto, evidencia, control esperado y escenarios
+pendientes. Distinguir defectos confirmados de riesgos no comprobados.

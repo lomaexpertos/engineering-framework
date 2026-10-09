@@ -4,10 +4,13 @@
 
 1. **Fuente:** Policies, Skills, plantillas y checks versionados en este repositorio.
 2. **Versión:** `VERSION` identifica el contenido corporativo publicado.
-3. **Workflows centrales:** validan `main` y publican manualmente las copias.
-4. **GitHub App:** crea branches y Pull Requests en los consumidores autorizados.
+3. **Instalación asistida:** `INSTALL.md` guía a Codex; un snapshot de `main` se
+   valida y sincroniza desde Docker sobre la rama actual del consumidor.
+4. **Canal central opcional:** workflows y GitHub App crean branches y Pull Requests
+   para consumidores habilitados en el registro.
 5. **Consumer:** conserva físicamente Policies, metadata y Skills de una versión.
-6. **CI consumidor:** valida el PR antes de que auto-merge lo integre a `main`.
+6. **Integración consumidor:** el desarrollador revisa e integra el cambio asistido;
+   en el canal central, CI y las protecciones gobiernan el merge del PR.
 
 ## Límites
 
@@ -17,11 +20,11 @@
 - `docs/`, `tooling/`, workflows y el registro de proyectos son internos y no se
   distribuyen a consumidores.
 - En consumidores, `engineering/corporate/` y las copias corporativas de Skills son
-  administradas por el bot.
+  salidas generadas por el mismo sincronizador en ambos canales.
 - En consumidores, `engineering/docs/`, `engineering/specs/` y
   `engineering/quality-review/` son propiedad del proyecto y se crean únicamente
   cuando exista contenido real.
-- `checks/` verifica; `tooling/` solo auxilia al workflow central.
+- `checks/` verifica; `tooling/` valida y sincroniza desde la fuente.
 
 ## Progressive disclosure
 

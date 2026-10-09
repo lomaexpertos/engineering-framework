@@ -5,23 +5,22 @@ description: "Audita autenticación, autorización, secretos, exposición, entra
 
 # Security Review
 
-Evaluar amenazas explotables y controles reales con evidencia del sistema.
+Entregar una auditoría de seguridad delimitada, con evidencia y sin correcciones implícitas.
 
-## Workflow
+## Contrato de revisión
 
-1. Definir activo, alcance, actores, datos sensibles y límites de confianza.
-2. Inspeccionar autenticación, autorización por recurso, sesiones y credenciales.
-3. Seguir entradas no confiables hasta validación, persistencia, ejecución y salida.
-4. Revisar inyección, traversal, SSRF, XSS, CSRF, uploads y deserialización según aplique.
-5. Revisar secretos, cifrado, logs, errores, backups y artefactos de build.
-6. Evaluar dependencias y configuración usando evidencia vigente disponible.
-7. Comprobar aislamiento, least privilege, rate limits y abuso de flujos sensibles.
-8. No reportar una amenaza hipotética como vulnerabilidad confirmada sin camino
-   alcanzable.
-9. Priorizar por explotabilidad, impacto y exposición.
+- Aplicar las Policies de `security/` y los contratos de autenticación, autorización
+  y exposición del proyecto. El modelo elige cómo examinar las superficies solicitadas.
+- No presentar una amenaza hipotética como vulnerabilidad confirmada; distinguir
+  hallazgo confirmado, riesgo de diseño y verificación pendiente.
+- No modificar código, intentar explotación destructiva, acceder a secretos ni
+  afectar servicios externos por el solo hecho de auditar.
+- Si se revisan autorizaciones u otras operaciones críticas, comprobar la evidencia
+  de logging exigida por `development/logging.md` sin recopilar datos sensibles.
+- Una revisión de entrega completa usa `branch-quality-review`; no convertir
+  esta auditoría focalizada en otra revisión de todo el repositorio.
 
-## Salida
+## Resultado esperado
 
-Por hallazgo: severidad, activo, precondiciones, ruta de ataque, evidencia, impacto y
-mitigación. Separar confirmados, riesgos de diseño y verificaciones pendientes. No
-intentar explotación destructiva ni acceder a secretos.
+Por hallazgo: severidad, activo, precondiciones, ruta alcanzable, evidencia, impacto
+y mitigación. Declarar límites y no generar documentos permanentes por defecto.

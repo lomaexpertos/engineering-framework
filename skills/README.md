@@ -1,12 +1,20 @@
 # Skills
 
-Las Skills son workflows reutilizables para realizar correctamente una clase de
-tarea. Pueden consultar Policies corporativas, documentación del proyecto,
-implementación existente, pruebas, configuración y herramientas disponibles.
+Las Skills definen nuestras restricciones, el resultado esperado y las nomenclaturas,
+convenciones o formas de realizar el trabajo propias del estilo organizacional.
+El modelo decide cómo alcanzarlo dentro de ellas. El criterio normativo está en
+[`skill-design.md`](../policies/ai-assisted-development/skill-design.md).
+
+Consultan únicamente Policies y contexto pertinentes; no son manuales de técnicas
+generales ni convierten una referencia a otra Skill en permiso para ampliar el trabajo.
 
 Una Skill no debe existir para repetir una sola regla transversal. Tampoco se publica
-un directorio con `SKILL.md` hasta que el procedimiento sea ejecutable y aporte
-criterios reales de decisión y verificación.
+un directorio con `SKILL.md` hasta que su contrato aporte una decisión propia,
+una convención o un límite de autoridad útil para esa clase de tarea.
+
+El logging crítico se implementa desde el desarrollo conforme a la Policy
+[`logging.md`](../policies/development/logging.md), aunque no se invoque
+`add-observability`. Cambios triviales sin valor diagnóstico no necesitan nuevos logs.
 
 ## Catálogo publicado
 
@@ -32,7 +40,7 @@ criterios reales de decisión y verificación.
 
 | Skill | Propósito |
 | --- | --- |
-| [`explorador-de-dominio`](explorador-de-dominio/SKILL.md) | Contrastar proceso actual, referente y necesidad real del negocio. |
+| [`explorador-de-dominio`](explorador-de-dominio/SKILL.md) | Contrastar proceso actual, referente y necesidad real, sin imponer un curso. |
 | [`research-best-practices`](research-best-practices/SKILL.md) | Investigar evidencia externa actual. |
 | [`spec-definir`](spec-definir/SKILL.md) | Definir o refinar el TO-BE y sus requisitos verificables. |
 | [`spec-planear`](spec-planear/SKILL.md) | Crear un plan técnico proporcional y verificable. |
@@ -75,7 +83,8 @@ criterios reales de decisión y verificación.
 
 ## Distribución
 
-`skills/<nombre>/` es la única fuente. El workflow central copia el directorio completo
+`skills/<nombre>/` es la única fuente. El sincronizador compartido por ambos canales
+copia el directorio completo
 —incluyendo `SKILL.md` y sus referencias— a `.agents/skills/<nombre>/` y
 `.claude/skills/<nombre>/`. Las diferencias inevitables entre plataformas deben
-resolverse en el workflow o metadata compatible, no manteniendo dos Skills.
+resolverse en distribución o metadata compatible, no manteniendo dos Skills.

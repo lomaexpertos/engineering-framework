@@ -8,3 +8,4 @@ repositorios consumidores.
 - [`installed-skills-refactoring.md`](installed-skills-refactoring.md)
 - [`installed-skills-capability-audit.md`](installed-skills-capability-audit.md)
 - [`2026-09-09-skills-reconciliation.md`](2026-09-09-skills-reconciliation.md)
+- [`2026-10-09-organizational-skills-and-logging.md`](2026-10-09-organizational-skills-and-logging.md)

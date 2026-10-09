@@ -5,58 +5,32 @@ description: Ejecuta una especificación ya planeada bajo engineering/specs/, im
 
 # Spec Implementar
 
-Implementar el cambio completo más sencillo que cumpla la spec y su plan, preservando
-el alcance, la arquitectura y las convenciones del repositorio.
+Entregar la spec aprobada y su plan dentro de las convenciones del proyecto.
 
 ## Entradas y límites
 
-- Leer `engineering/specs/<slug>/spec.md` y `plan/plan.md`; leer los demás artefactos
-  del slug sólo cuando existan y sean relevantes.
-- Consultar `engineering/docs/` para entender el estado vigente del módulo y detectar
-  qué documentación quedará desactualizada.
-- Si falta la spec o el plan, reportar la ruta esperada antes de modificar código.
-- Preservar cambios ajenos y no ampliar el alcance funcional sin autorización.
-- Guardar cualquier trazabilidad propia únicamente en
-  `engineering/specs/<slug>/implementation/`.
+- Leer `engineering/specs/<slug>/spec.md` y `plan/plan.md`; otros artefactos y docs
+  solo si son relevantes. Si falta una entrada, señalar su ruta antes de editar código.
+- Respetar dependencias y contratos; el modelo decide cómo implementar y validar.
+  Preservar cambios ajenos y no ampliar alcance funcional sin autorización.
+- Aplicar `development/logging.md` a operaciones críticas desde el cambio, aunque
+  la spec no enumere cada evento. No entregar el flujo dejando su logging para después.
+- Un cambio material al comportamiento aprobado requiere resolver la decisión y
+  actualizar definición/plan; una decisión técnica localizada no necesita reabrirlos.
+- No activar una auditoría de rama o generar reportes auxiliares automáticamente.
 
-Si la implementación revela que el comportamiento aprobado debe cambiar
-materialmente, no esconderlo como desviación técnica: resolver primero la decisión y
-actualizar la definición y el plan correspondientes. Una decisión técnica localizada
-puede registrarse sin reabrir la spec cuando no altera su comportamiento observable.
+## Trazabilidad y documentación
 
-## Implementar y validar
+Guardar evidencia propia solo en `engineering/specs/<slug>/implementation/`.
+Crear `implementation/implementation.md` únicamente por contrato, plan, complejidad
+o solicitud; concentrar allí decisiones, validaciones y pendientes.
 
-1. Confirmar el estado del repositorio y las áreas directamente afectadas.
-2. Implementar las tareas respetando sus dependencias y las convenciones
-   especializadas aplicables al código o los datos.
-3. Mantener compatibilidad, seguridad, integridad y operación en proporción al riesgo
-   real.
-4. Ejecutar las validaciones relevantes del plan y ampliar la revisión sólo cuando un
-   fallo o el riesgo lo justifiquen.
-5. Registrar las pruebas omitidas, pendientes y desviaciones materiales sin declarar
-   completa una entrega incompleta.
+Después de validar, usar `spec-documentar` si el plan lo incluye, el usuario pide
+documentación final o el cambio deja desactualizada la explicación canónica.
+No documentar como vigente comportamiento no validado ni por cambios cosméticos.
 
-No activar automáticamente una auditoría completa de rama ni generar reportes
-adicionales. Esas revisiones corresponden cuando el usuario prepara una entrega, las
-solicita o una Policy externa las exige.
+## Resultado esperado
 
-## Trazabilidad y documentación final
-
-Crear `implementation/implementation.md` sólo cuando el repositorio, el plan, la
-complejidad o el usuario requieran evidencia persistente. Concentrar allí cambios
-principales, decisiones técnicas, validaciones y pendientes; no repartir la misma
-narrativa entre múltiples resúmenes y bitácoras.
-
-Después de validar el comportamiento, actualizar la documentación canónica con
-`$spec-documentar` cuando:
-
-- el plan incluya esa tarea;
-- el usuario solicite la documentación final del módulo; o
-- el cambio deje desactualizada una explicación vigente de negocio o técnica en
-  `engineering/docs/`.
-
-No hacerlo por cambios cosméticos o internos sin efecto documentable y no presentar
-como vigente comportamiento que aún no esté implementado o validado.
-
-Al cerrar, resumir el resultado, las validaciones ejecutadas, los riesgos o pendientes
-reales, la documentación canónica actualizada y los archivos modificados.
+Comportamiento aprobado y evidencia proporcional, incluido logging crítico.
+Declarar validaciones omitidas, desviaciones y pendientes sin afirmar una entrega completa
+si falta un requisito. Informar documentación y archivos afectados.

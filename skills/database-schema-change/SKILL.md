@@ -5,29 +5,24 @@ description: "Crea o modifica tablas, columnas, relaciones, constraints, índice
 
 # Database Schema Change
 
-Evolucionar estructura preservando integridad y compatibilidad.
+Entregar cambios de esquema bajo las convenciones y el contrato SQL corporativos.
 
-## Contexto
+## Restricciones y convenciones
 
-1. Leer Policies de esquema, ciclo de vida, entrega SQL y compatibilidad.
-2. Identificar motor, versión, cliente, esquema actual y mecanismo de migraciones.
-3. Inspeccionar objetos, datos, consultas y versiones de aplicación consumidoras.
+- Consultar `database/schema-conventions.md`, `object-naming.md`, `record-lifecycle.md`,
+  `relational-integrity.md` y `deployment-compatibility.md` según el cambio.
+  Aplicar naming, identificadores y auditoría aprobados; no renombrar objetos legados
+  solo para uniformarlos.
+- La entrega predeterminada es un único SQL literal en `database/migrations/`,
+  conforme a `sql-artifact-layout.md` y `sql-change-delivery.md`, con prechecks,
+  aplicación, validación y resultados esperados.
+- Usar una migration nativa solo por solicitud explícita o contrato de despliegue
+  vigente; no duplicar ambos formatos por iniciativa propia.
+- No ejecutar contra producción o una base compartida sin autorización específica.
+- Si el cambio afecta un flujo crítico, asegurar su trazabilidad en la aplicación
+  según `development/logging.md`; no volcar registros sensibles desde el SQL.
 
-## Workflow
+## Resultado esperado
 
-1. Modelar entidad dominante, cardinalidad, nulabilidad, ciclo de vida e invariantes.
-2. Resolver nombres e identificadores conforme a las Policies y contratos existentes.
-3. Definir PK, FK, restricciones, acciones referenciales, auditoría e índices.
-4. Evaluar locks, volumen, defaults, backfill y coexistencia entre versiones.
-5. Separar expansión, adopción y retiro cuando un cambio no sea compatible en un paso.
-6. Preparar por defecto un único SQL literal bajo `database/migrations/`, con
-   prechecks, aplicación y validación; usar una migration nativa sólo por solicitud
-   explícita o cuando el contrato de despliegue vigente la requiera, sin duplicar
-   formatos por iniciativa propia.
-7. Definir roll-forward, respaldo y recuperación para cambios no reversibles.
-8. Validar sintaxis y estructura contra el motor real sin ejecutar en producción.
-
-## Entrega
-
-Indicar orden, resultados esperados, compatibilidad, riesgos de lock, validaciones y
-operaciones no ejecutadas.
+Artefacto ejecutable en el motor real, evidencia de integridad/compatibilidad,
+riesgos y recuperación aplicable. El modelo decide diseño y técnica de evolución.

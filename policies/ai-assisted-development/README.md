@@ -9,6 +9,8 @@ una tarea terminada.
   [`agent-behavior.md`](agent-behavior.md).
 - Descubrimiento progresivo y separación de conocimiento:
   [`context-management.md`](context-management.md).
+- Creación o depuración de Skills y libertad técnica dentro de contratos propios:
+  [`skill-design.md`](skill-design.md).
 - Ubicación y ownership de documentación, specs y revisiones del proyecto:
   [`project-artifact-layout.md`](project-artifact-layout.md).
 - Evaluación, planeación y ejecución de cambios de infraestructura:

@@ -5,27 +5,22 @@ description: "Implementa APIs entre servicios, webhooks, colas, eventos o integr
 
 # Implement Distributed Integration
 
-Diseñar para duplicados, demoras y fallas parciales como condiciones normales.
+Entregar una integración compatible con los contratos y límites operativos del proyecto.
 
-## Contexto
+## Contratos aplicables
 
-1. Identificar productor, consumidor, owner, contrato y fuente de verdad.
-2. Inspeccionar integraciones, autenticación, observabilidad y convenciones existentes.
-3. Definir semántica de entrega, orden, timeout, reintentos y compatibilidad.
-4. Clasificar datos sensibles y efectos críticos producidos por el mensaje.
+- Consultar `development/distributed-systems.md`, `backwards-compatibility.md`,
+  `concurrency-and-idempotency.md` y las Policies de seguridad pertinentes.
+- Conservar nombres, versiones, autenticación y convenciones de mensajes existentes.
+  Hacer explícitas las garantías de entrega, duplicados y recuperación que sí ofrece
+  la integración; no prometer garantías que el proveedor no proporciona.
+- Si transporta cálculos, facturas, correcciones, autorizaciones u otros efectos
+  críticos, aplicar `development/logging.md` desde el cambio, incluida correlación
+  entre participantes y resultados ambiguos o fallidos.
+- No introducir mecanismos distribuidos por receta ni llamar servicios productivos
+  o modificar configuración externa sin autorización específica.
 
-## Workflow
+## Resultado esperado
 
-1. Versionar o evolucionar el contrato de forma compatible.
-2. Validar autenticidad, autorización, esquema y límites antes de producir efectos.
-3. Definir una clave de idempotencia y persistir el resultado cuando sea necesario.
-4. Hacer explícitos deduplicación, reintentos, backoff y condición terminal.
-5. Proteger transiciones concurrentes y evitar dobles efectos.
-6. Diseñar compensación, dead-letter o intervención manual para fallas parciales.
-7. Incorporar logs correlacionables, métricas y alertas sin secretos.
-8. Probar duplicados, desorden, timeout, respuesta tardía y reintento después de éxito.
-
-## Cierre
-
-Documentar contrato, garantías reales, idempotencia, límites de responsabilidad,
-recuperación y evidencia de pruebas.
+Contrato y comportamiento implementados, evidencia de compatibilidad y de los riesgos
+relevantes, límites de responsabilidad y recuperación. El modelo decide la técnica.

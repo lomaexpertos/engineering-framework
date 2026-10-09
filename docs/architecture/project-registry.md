@@ -1,7 +1,9 @@
 # Project registry
 
-`projects.yml` es el registro declarativo de repositorios autorizados para recibir
-releases. Su esquema inicial se mantiene pequeño:
+`projects.yml` es el registro declarativo exclusivo del canal central: repositorios
+autorizados para recibir actualizaciones por GitHub App. No controla la instalación
+asistida local de [`INSTALL.md`](../../INSTALL.md), que depende de la autorización
+del usuario sobre el consumidor actual. Su esquema se mantiene pequeño:
 
 ```yaml
 schema_version: 1

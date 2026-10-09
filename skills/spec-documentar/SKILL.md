@@ -5,80 +5,41 @@ description: Crea o actualiza la documentación canónica de un módulo ya exist
 
 # Spec Documentar
 
-Mantener una fuente de verdad de larga vida que permita comprender qué hace un módulo,
-por qué funciona así y dónde se realiza técnicamente. Documentar el estado vigente, no
-el proceso de trabajo ni una solución futura.
+Entregar una fuente de verdad del módulo vigente, no una propuesta ni una bitácora.
 
-## Ubicación y autoridad
+## Ubicación, nombres y autoridad
 
-Escribir únicamente bajo:
+Escribir únicamente:
 
 ```text
 engineering/docs/index.md
 engineering/docs/<modulo>/README.md
 ```
 
-Usar para `<modulo>` un nombre estable en `snake_case`, sin fecha, espacios, acentos
-ni `ñ`. Actualizar el documento existente en lugar de crear snapshots sucesivos; Git
-conserva su historia.
+Módulo estable en `snake_case` ASCII, sin fecha, espacios, acentos ni `ñ`.
+Actualizar el README existente; Git conserva historia. `index.md` es solo router.
+Concentrar documentación y diagramas en ese README; no crear `negocio.md`,
+`flujos.md` o `tecnico.md`.
 
-`engineering/docs/<modulo>/README.md` es la referencia canónica del módulo. `index.md`
-sólo permite encontrar cada módulo, conocer su alcance y enlazar dependencias entre
-documentos. Si un repositorio tiene documentación legada en otra ubicación, leerla
-como evidencia pero no moverla ni mantener dos autoridades por iniciativa propia;
-dejar explícita la transición necesaria.
+Leer documentación legada como evidencia; no moverla ni mantener otra autoridad
+vigente sin una transición autorizada. No modificar código, datos, specs o planes.
 
-No modificar código, datos, specs ni planes como parte de esta Skill.
+## Contrato del contenido
 
-## Cuándo usarla
+Documentar comportamiento ya existente y validado: propósito, reglas y razones
+conocidas, actores, estados, datos, contratos y realización técnica pertinentes.
+El modelo decide secciones y diagramas; no exigir inventarios de clases o columnas.
 
-Usar esta Skill cuando:
+En módulos críticos, explicar su trazabilidad real: eventos/correlación, decisiones
+o cálculos reconstruibles y dónde se diagnostican fallas, sin valores sensibles.
+Si falta logging requerido por `development/logging.md`, señalar la brecha;
+documentarlo no sustituye implementarlo ni autoriza inventar evidencia.
 
-- el usuario solicite documentar el funcionamiento actual o final de un módulo;
-- una implementación ya validada cambie materialmente reglas, decisiones, flujos,
-  estados, flags, configuraciones, datos, contratos, permisos o dependencias;
-- la documentación canónica existente haya quedado desactualizada por un cambio
-  comprobado.
+Distinguir decisiones confirmadas de inferencias y exponer discrepancias de autoridad.
+Incluir fecha/commit de verificación y límites reales. Usar esta Skill por solicitud
+de documentación vigente o cambio material, no por notas temporales o cambios cosméticos.
 
-Durante definición, consultar estos documentos como AS-IS. Durante planeación,
-programar su actualización cuando corresponda. Escribirlos sólo después de que el
-comportamiento exista y haya sido validado. No activar esta Skill por refactors
-internos, cambios cosméticos ni notas transitorias.
+## Resultado esperado
 
-## Construir la documentación
-
-Delimitar el módulo o flujo y revisar evidencia suficiente en código, configuración,
-esquema, pruebas y artefactos aprobados de la iniciativa. Verificar especialmente las
-afirmaciones afectadas por el cambio; no redescubrir todo el sistema si el alcance es
-claro.
-
-Explicar, con las secciones que resulten útiles:
-
-- propósito, límites, actores y vocabulario del módulo;
-- proceso y reglas de negocio, incluidas excepciones y responsabilidades;
-- decisiones relevantes y su motivo conocido;
-- estados, transiciones, flags y configuraciones, indicando cuándo aplican y por qué;
-- datos, contratos, permisos, integraciones y efectos operativos;
-- componentes técnicos principales y dónde reside cada responsabilidad;
-- limitaciones, discrepancias o preguntas que impidan afirmar algo con seguridad;
-- fecha y commit contra los que se verificó el contenido.
-
-Priorizar explicaciones duraderas sobre inventarios exhaustivos de clases, columnas o
-líneas de código. Concentrar toda la documentación del módulo en su `README.md`; por
-ahora no crear archivos separados como `negocio.md`, `flujos.md` o `tecnico.md`. Los
-diagramas necesarios deben integrarse en el mismo `README.md`.
-
-No inventar razones históricas. Distinguir una decisión confirmada de una explicación
-inferida. Si código, pruebas, documentación previa y decisiones aprobadas se
-contradicen, señalar la discrepancia y determinar la autoridad antes de presentar el
-documento como vigente.
-
-## Cierre
-
-Actualizar `engineering/docs/index.md` cuando cambie la cobertura o aparezca un módulo
-nuevo. Antes de entregar, comprobar que la documentación describe el comportamiento
-implementado, que conserva el contexto de negocio relevante y que sus rutas y
-referencias son válidas.
-
-Informar el módulo documentado, evidencia principal, commit de verificación, archivos
-modificados y cualquier vacío que limite la cobertura.
+README canónico fiel a la evidencia y router actualizado si cambia la cobertura.
+Informar módulo, archivos, verificación y vacíos; no presentar TO-BE como AS-IS.
