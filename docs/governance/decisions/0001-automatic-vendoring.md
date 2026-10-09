@@ -3,8 +3,10 @@
 - Status: Accepted
 - Date: 2026-08-30
 
-El canal central de esta decisión sigue disponible; dejó de ser el único canal con
+El canal central dejó de ser el único con
 [`0011-assisted-installation.md`](0011-assisted-installation.md).
+El 2026-10-09 se retiraron sus workflows por decisión del mantenedor; permanece
+suspendido. La decisión original se conserva como evidencia de su diseño.
 
 ## Decision
 
