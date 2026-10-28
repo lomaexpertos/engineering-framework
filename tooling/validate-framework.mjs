@@ -377,7 +377,7 @@ runCheck("Agent entrypoint budget", () => {
 });
 
 runCheck("Source ownership", () => {
-  const forbiddenPrefixes = [".agents/", ".claude/", "engineering/corporate/"];
+  const forbiddenPrefixes = [".agents/", ".claude/", ".harness/", "engineering/corporate/"];
   for (const file of files) {
     if (forbiddenPrefixes.some((prefix) => file.startsWith(prefix))) {
       addFailure("Source ownership", `${file} es una copia consumidora dentro de la fuente`);
@@ -454,6 +454,10 @@ runCheck("Version change", () => {
     (file) =>
       file.startsWith("policies/") ||
       /^skills\/[^/]+\//.test(file) ||
+      file.startsWith("checks/") ||
+      file.startsWith("schemas/") ||
+      file.startsWith("templates/") ||
+      /^tooling\/harness-[^/]+\.mjs$/.test(file) ||
       file === "templates/project/AGENTS.md" ||
       file.startsWith("templates/project/engineering/corporate/"),
   );

@@ -5,16 +5,27 @@ if [[ "$root" == *','* ]]; then
   printf '%s\n' 'Repository path contains a comma unsupported by Docker bind mounts.' >&2
   exit 2
 fi
-command -v timeout >/dev/null || { printf '%s\n' 'The shared host utility timeout is required.' >&2; exit 2; }
+command -v timeout >/dev/null || {
+  printf '%s\n' 'The shared host utility timeout is required.' >&2
+  exit 2
+}
 arguments=("$@")
 selection=()
 while (($#)); do
   case "$1" in
     --scope)
-      [[ $# -ge 2 && -n "$2" && "$2" != --* ]] || { printf '%s\n' '--scope requires a value' >&2; exit 2; }
-      selection=(--scope "$2"); shift 2 ;;
+      [[ $# -ge 2 && -n "$2" && "$2" != --* ]] || {
+        printf '%s\n' '--scope requires a value' >&2
+        exit 2
+      }
+      selection=(--scope "$2")
+      shift 2
+      ;;
     --json) shift ;;
-    *) printf 'Unknown option: %s\n' "$1" >&2; exit 2 ;;
+    *)
+      printf 'Unknown option: %s\n' "$1" >&2
+      exit 2
+      ;;
   esac
 done
 image=$(docker build -q "$root/.harness/core/runtime")
@@ -36,16 +47,16 @@ trap 'exit 130' INT
 trap 'exit 143' TERM
 docker run --rm --network none --user "$(id -u):$(id -g)" \
   --mount "type=bind,src=$root,dst=/consumer,readonly" "$image" \
-  node /runtime/tooling/harness-runner-plan.mjs plan --root /consumer "${selection[@]}" > "$temporary/plan"
-: > "$temporary/ledger"
-exec 3< "$temporary/plan"
+  node /runtime/tooling/harness-runner-plan.mjs plan --root /consumer "${selection[@]}" >"$temporary/plan"
+: >"$temporary/ledger"
+exec 3<"$temporary/plan"
 IFS= read -r -d '' config_sha <&3
 while IFS= read -r -d '' check_id <&3; do
   IFS= read -r -d '' runner_image <&3
   IFS= read -r -d '' duration <&3
   IFS= read -r -d '' count <&3
   argv=()
-  for ((index=0;index<count;index++)); do
+  for ((index = 0; index < count; index++)); do
     IFS= read -r -d '' argument <&3
     argv+=("$argument")
   done
@@ -56,10 +67,10 @@ while IFS= read -r -d '' check_id <&3; do
     docker run --rm --name "$active_name" --label "harness.check-operation=$operation" \
     --network none --user "$(id -u):$(id -g)" \
     --mount "type=bind,src=$root,dst=/workspace,readonly" --workdir /workspace \
-    --entrypoint "${argv[0]}" "$runner_image" "${argv[@]:1}" > "$temporary/$check_id.log" 2>&1 || result=$?
+    --entrypoint "${argv[0]}" "$runner_image" "${argv[@]:1}" >"$temporary/$check_id.log" 2>&1 || result=$?
   cleanup_container
   cat -- "$temporary/$check_id.log" >&2
-  printf '%s\0%s\0' "$check_id" "$result" >> "$temporary/ledger"
+  printf '%s\0%s\0' "$check_id" "$result" >>"$temporary/ledger"
 done
 exec 3<&-
 docker run --rm --network none --user "$(id -u):$(id -g)" \

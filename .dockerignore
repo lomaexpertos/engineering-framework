@@ -1,4 +1,5 @@
 .git
+.harness_work
 .env
 .env.*
 node_modules
