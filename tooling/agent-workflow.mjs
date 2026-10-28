@@ -79,9 +79,9 @@ export async function runWorkflow(root,initiative,options={}) {
     const batch=tasks.slice(offset,offset+config.limits.max_concurrency);
     results.push(...await Promise.all(batch.map(async id=>{
       let execution=statusTask(root,initiative,id);
-      if(!execution.collected_at) {
+      if(!execution.collected_at||['needs_input','failed','timed_out','interrupted'].includes(execution.status)) {
         while(['starting','running'].includes(execution.status)) {await new Promise(resolve=>setTimeout(resolve,100));execution=statusTask(root,initiative,id);}
-        if(execution.status==='prepared'||execution.status==='needs_input'&&options.answers?.length)execution=await runTask(root,initiative,id,{...options,background:false});
+        if(['prepared','failed','timed_out','interrupted'].includes(execution.status)||execution.status==='needs_input'&&options.answers?.length)execution=await runTask(root,initiative,id,{...options,background:false});
         if(execution.status==='completed')execution=collectTask(root,initiative,id);
       }
       return execution;
@@ -143,7 +143,7 @@ export function advanceWorkflow(root,initiative,options={}) {
   });
 }
 export function escalateWorkflow(root,initiative,options={}) {
-  if(!options.confirm||!options.input?.reason||!options.input?.reviewer)fail('Escalation requires --confirm and explicit reason/reviewer');
+  if(!options.confirm||!options.input||Object.keys(options.input).some(key=>!['reason','reviewer'].includes(key))||['reason','reviewer'].some(key=>typeof options.input[key]!=='string'||!options.input[key].trim()))fail('Escalation requires --confirm and explicit reason/reviewer');
   const config=readConfiguration(root,options);
   return withWorkLock(root,()=>{const workflow=workflowStatus(root,initiative);if(workflow.stage!=='blocked'||config.limits.max_correction_rounds<=workflow.round)fail('Escalation requires blocked workflow and an explicitly increased configured round limit');workflow.decisions.push({type:'escalation',reason:options.input.reason,reviewer:options.input.reviewer,reviewed_at:new Date().toISOString(),profiles:Object.fromEntries(Object.entries(config.roles).map(([role,name])=>[role,{profile:name,adapter:config.profiles[name].adapter,model:config.profiles[name].model}]))});workflow.max_correction_rounds=config.limits.max_correction_rounds;workflow.round++;workflow.stage='correction';workflow.blocked_from=null;workflow.block_reason=null;return save(root,workflow);});
 }
