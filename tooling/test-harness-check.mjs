@@ -26,7 +26,7 @@ try {
   assert.equal(checkRepository(root, { scope: 'context' }).results.some(result => result.id === 'agents-lines' && result.status === 'failed'), true);
   write('.harness_work/initiatives/example/state.json', JSON.stringify({ schema_version: 1, id: 'example', revision: 1, status: 'closed', closed_at: '2026-01-01T00:00:00Z', retain_until: '2026-01-02T00:00:00Z' }));
   assert.equal(checkRepository(root, { scope: 'work' }).ok, false);
-  write('.harness/project/config.json', JSON.stringify({ schema_version: 1, checks: [{ id: 'test', argv: ['test'], runner: 'app', timeout_seconds: 30, required: true }] }));
+  write('.harness/project/config.json', JSON.stringify({ schema_version: 1, runners: { app: { image: 'node:22.19.0-alpine3.22' } }, checks: [{ id: 'test', scope: 'extensions', argv: ['test'], runner: 'app', timeout_seconds: 30, required: true, evidence: 'test result', applicability: 'all changes' }] }));
   assert.equal(checkRepository(root, { scope: 'extensions' }).ok, false);
   const config = fs.readFileSync(path.join(root, '.harness/project/config.json'));
   const report = { schema_version: 1, config_sha256: crypto.createHash('sha256').update(config).digest('hex'), checks: [{ id: 'test', exit_code: 0, executed_at: new Date().toISOString() }] };
@@ -37,6 +37,12 @@ try {
   assert.doesNotThrow(() => checkRepository(root, { scope: 'context' }));
   write('docs/domains/runtime/README.md', '# Runtime\n\n[Temporal][source]\n\n[source]: ../../../.harness_work/initiatives/example/brief.md\n');
   assert.equal(checkRepository(root, { scope: 'documentation' }).results.some(result => result.id === 'durable-reference' && result.status === 'failed'), true);
+  write('.harness/project/config.json', config);
+  const custom = JSON.parse(config);
+  custom.checks[0].scope = 'code';
+  write('.harness/project/config.json', JSON.stringify(custom));
+  assert.equal(checkRepository(root, { scope: 'code' }).ok, false);
+  write('.harness/project/config.json', config);
   assert.throws(() => checkRepository(root, { scope: 'unknown' }), /Scope desconocido/);
   fs.symlinkSync('/tmp', path.join(root, 'escape'));
   assert.throws(() => checkRepository(root), /symlinks/);

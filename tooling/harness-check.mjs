@@ -3,6 +3,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { validateState } from './harness-work.mjs';
+import { runnerPlan } from './harness-runner-plan.mjs';
 
 const scopes = new Set(['context', 'documentation', 'installation', 'work', 'extensions']);
 const temporary = /(?:^|\/)\.harness_work\/(?:initiatives|runtime)\//;
@@ -46,7 +47,7 @@ function anchors(content) {
 
 export function checkRepository(root, { scope, externalResults } = {}) {
   root = fs.realpathSync(root);
-  if (scope && !scopes.has(scope)) throw new Error(`Scope desconocido: ${scope}`);
+  if (scope && !scopes.has(scope) && !runnerPlan(root).checks.some(check => check.scope === scope)) throw new Error(`Scope desconocido: ${scope}`);
   const results = [];
   const add = (group, id, status, message, file) => {
     if (!scope || group === scope) results.push({ scope: group, id, status, message, ...(file ? { file } : {}) });
@@ -55,12 +56,24 @@ export function checkRepository(root, { scope, externalResults } = {}) {
   const all = filesUnder(root);
   const text = file => fs.readFileSync(path.join(root, file), 'utf8');
   const exists = file => fs.existsSync(path.join(root, file));
+  function safeFile(file) {
+    if (!file || path.isAbsolute(file) || file.split(/[\\/]/).some(part => !part || part === '..')) throw new Error(`Ruta administrada insegura: ${file}`);
+    let current = root;
+    for (const part of file.split('/')) {
+      current = path.join(current, part);
+      if (fs.lstatSync(current, { throwIfNoEntry: false })?.isSymbolicLink()) throw new Error(`Symlink administrado: ${file}`);
+    }
+    return current;
+  }
   const markdown = all.filter(file => file.endsWith('.md'));
   for (const file of markdown) {
     const content = text(file);
     if (path.basename(file) === 'AGENTS.md') {
       const lines = content.replace(/\n$/, '').split('\n').length;
       assert('context', 'agents-lines', lines <= 100, `${lines}/100 líneas`, file);
+    }
+    if (file === '.harness_work/memory/current.md') {
+      assert('context', 'memory-budget', content.replace(/\n$/, '').split('\n').length <= 100, 'Memoria general ≤100 líneas', file);
     }
     for (const target of markdownLinks(content)) {
       if (/^(?:[a-z][a-z\d+.-]*:|\/\/)/i.test(target)) continue;
@@ -115,8 +128,7 @@ export function checkRepository(root, { scope, externalResults } = {}) {
     const manifest = JSON.parse(text(manifestPath));
     assert('installation', 'manifest-schema', manifest.schema_version === 2 && manifest.files && Object.keys(manifest.files).length > 0, 'Schema de manifest soportado', manifestPath);
     for (const [file, entry] of Object.entries(manifest.files || {})) {
-      const destination = path.resolve(root, file);
-      if (!destination.startsWith(`${root}${path.sep}`)) throw new Error(`Manifest path inseguro: ${file}`);
+      const destination = safeFile(file);
       const valid = exists(file) && fs.lstatSync(destination).isFile() && !fs.lstatSync(destination).isSymbolicLink();
       const expected = typeof entry === 'string' ? entry : entry.sha256;
       assert('installation', 'integrity', valid && crypto.createHash('sha256').update(fs.readFileSync(destination)).digest('hex') === expected, 'Integridad administrada', file);
@@ -134,19 +146,21 @@ export function checkRepository(root, { scope, externalResults } = {}) {
       assert('work', 'retention', Number.isFinite(closed) && Date.parse(state.retain_until) === closed + 60 * 86400000, 'Retención de sesenta días', file);
     }
   }
-  if (scope && scope !== 'extensions') { /* Other scopes do not parse extension metadata. */ }
+  if (scope && scopes.has(scope) && scope !== 'extensions') { /* Other scopes do not parse extension metadata. */ }
   else if (!exists('.harness/project/config.json')) add('extensions', 'configuration', 'not_applicable', 'Sin configuración local');
   else {
     const config = JSON.parse(text('.harness/project/config.json'));
-    assert('extensions', 'configuration', config.schema_version === 1, 'Schema local soportado');
-    for (const check of config.checks || []) {
+    const plan = runnerPlan(root);
+    const group = scope && !scopes.has(scope) ? scope : 'extensions';
+    assert(group, 'configuration', config.schema_version === 1, 'Schema local soportado');
+    for (const check of plan.checks.filter(check => !scope || check.scope === scope)) {
       const valid = typeof check.id === 'string' && Array.isArray(check.argv) && check.argv.length > 0 && check.argv.every(arg => typeof arg === 'string') && typeof check.runner === 'string' && Number.isFinite(check.timeout_seconds) && check.timeout_seconds > 0;
-      assert('extensions', 'check-contract', valid, `Contrato de check ${check.id || '(sin id)'}`);
+      assert(group, 'check-contract', valid, `Contrato de check ${check.id || '(sin id)'}`);
       const configHash = crypto.createHash('sha256').update(text('.harness/project/config.json')).digest('hex');
       const records = externalResults?.schema_version === 1 && externalResults.config_sha256 === configHash ? externalResults.checks || [] : [];
       const record = records.find(entry => entry.id === check.id);
       const passed = record && record.exit_code === 0 && Number.isFinite(Date.parse(record.executed_at));
-      add('extensions', 'check-execution', passed ? 'passed' : check.required || record ? 'failed' : 'not_applicable', `Check ${check.id}: ${record ? `exit ${record.exit_code}` : 'sin evidencia de ejecución Docker'}`);
+      add(group, 'check-execution', passed ? 'passed' : check.required || record ? 'failed' : 'not_applicable', `Check ${check.id}: ${record ? `exit ${record.exit_code}` : 'sin evidencia de ejecución Docker'}`);
     }
   }
   return { schema_version: 1, results, ok: results.every(result => result.status !== 'failed') };
