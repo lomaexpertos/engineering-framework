@@ -22,6 +22,8 @@ Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni document
 - Conocimiento duradero y roadmap: `docs/README.md`, si existe.
 - Continuidad y expedientes: `.harness_work/README.md`, si existe.
 - Extensiones propias: `.harness/project/README.md`, si existe.
+- Para coordinar desarrollo, sigue `.harness/core/skills/coordinate-work/SKILL.md`;
+  resuelve perfiles con `bash .harness/agents.sh doctor` antes de lanzar agentes.
 - Delega la ejecución y revisión siempre que las capacidades y permisos lo permitan;
   conserva responsabilidad de integración, verificación y cierre.
 - Antes de cerrar, consolida conocimiento duradero y progreso de alto nivel.

@@ -131,7 +131,12 @@ export async function setup(root, options = {}) {
           const adapter = (await rl.question('Cliente (codex/claude/opencode): ')).trim();
           const model = (await rl.question('Modelo explícito (OpenCode: proveedor/modelo): ')).trim();
           const permission = (await rl.question('Permiso (read-only/workspace-write, defecto workspace-write): ')).trim() || 'workspace-write';
-          configuration.profiles[name] = { adapter, model, permission };
+          const profile = { adapter, model, permission };
+          if (adapter !== 'codex' && permission === 'workspace-write') {
+            const answer = (await rl.question('Patrones shell permitidos, array JSON literal (vacío: sin shell): ')).trim();
+            if (answer) profile.shell_allowlist = JSON.parse(answer);
+          }
+          configuration.profiles[name] = profile;
           validatePersonal(configuration);
         }
         configuration.limits = { ...defaultLimits, ...configuration.limits };
