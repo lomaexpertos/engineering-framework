@@ -26,6 +26,8 @@ se incluyen en la metodología: cada persona decide sus asignaciones.
 Claude/OpenCode. OpenCode identifica modelos como `provider/model`. Los comandos
 permitidos para unattended deben declararse explícitamente y respetar el entorno
 del producto; en Claude/OpenCode un perfil de lectura conserva denegado shell.
+`permission` omitido equivale a `workspace-write` en el perfil; el encargo limita
+siempre definición/revisión a lectura. Un perfil `read-only` no puede implementar.
 
 El equipo puede restringir adaptadores/modelos y límites. Las restricciones se
 combinan conservando la más estricta; una elección personal no elimina una revisión
@@ -57,8 +59,12 @@ respuesta. Una ejecución mínima real es evidencia diferente del diagnóstico l
 El [encargo](../../schemas/agent-task.schema.json) identifica iniciativa, rol,
 objetivo, alcance, exclusiones, ownership, referencias, dependencias, permisos,
 workspace y aceptación. El coordinador entrega contexto mínimo y las rutas
-pertinentes, sin copiar toda la conversación. Una respuesta del usuario que cambie
-la tarea se incorpora a una nueva versión antes de relanzar.
+pertinentes, sin copiar toda la conversación. Una respuesta del usuario queda en
+`answers-<token>.json`, asociada al intento y al hash de su contexto. El relanzamiento
+parte de una conversación nueva y entrega esas respuestas explícitamente. Un cambio
+de alcance exige un encargo nuevo; responder dudas conserva el encargo original y
+versiona las respuestas. Las siguientes etapas reciben entregas y respuestas de
+sus dependencias.
 
 El expediente guarda encargos y entregas bajo `agents/<task-id>/`. El estado de
 procesos, locks y recuperación vive en `.harness_work/runtime/`, ignorado en Git.
@@ -117,7 +123,9 @@ El coordinador agrupa preguntas y actualiza el encargo con las respuestas.
 Información indispensable ausente bloquea el paso. Consolida hallazgos duplicados o
 contradictorios antes de devolver un lote al worker. Después de corrección revisa
 los hallazgos afectados y el impacto de la nueva versión. El límite inicial es dos
-rondas; agotarlo exige escalamiento explícito.
+rondas; agotarlo exige escalamiento explícito. La verificación final contrasta
+pruebas del worker sobre la versión entregada. Un revisor sin permiso para ejecutar
+shell identifica esa evidencia como heredada y no afirma haber repetido el comando.
 
 ## Operar un workflow
 
@@ -167,6 +175,18 @@ Para un encargo individual, `prepare --input archivo.json` valida el formato;
 `collect <initiative> <task>` valida/recoge y `cancel <initiative> <task>` cancela.
 `run --background` permite consultar posteriormente. `--config` selecciona una
 configuración personal explícita y `--root` otra raíz de proyecto.
+
+Para responder una tarea `needs_input`, pasar `--answers archivo.json` a `run` o
+`workflow run`; el archivo contiene una lista de respuestas textuales sanitizadas.
+El coordinador reúne primero las preguntas y conserva las decisiones de alcance.
+Una ejecución fallida requiere intervención explícita; repetir `workflow run` no
+debe convertirse en una política de reintentos ilimitados.
+
+Al agotarse rondas, revisar o elevar el perfil y ajustar explícitamente el límite
+permitido por el equipo. Después, `workflow escalate <initiative> --confirm --input
+archivo.json` registra un objeto con `reason` y `reviewer`, además de los perfiles
+seleccionados, y devuelve el trabajo a corrección. El ejecutor no elige un modelo
+de reemplazo por su cuenta.
 
 ## Operación y continuidad
 

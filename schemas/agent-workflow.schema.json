@@ -45,13 +45,32 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["task_id", "finding_id", "decision", "reason", "evidence"],
+        "oneOf": [
+          {"required": ["task_id", "finding_id", "decision", "reason", "evidence"], "not": {"required": ["type"]}},
+          {"required": ["type", "reason", "reviewer", "reviewed_at", "profiles"], "not": {"required": ["task_id"]}}
+        ],
         "properties": {
           "task_id": {"$ref": "#/$defs/taskId"},
           "finding_id": {"$ref": "#/$defs/taskId"},
           "decision": {"enum": ["accepted", "resolved"]},
           "reason": {"type": "string", "minLength": 1},
-          "evidence": {"type": "string", "minLength": 1}
+          "evidence": {"type": "string", "minLength": 1},
+          "type": {"const": "escalation"},
+          "reviewer": {"type": "string", "minLength": 1},
+          "reviewed_at": {"type": "string", "format": "date-time"},
+          "profiles": {
+            "type": "object",
+            "propertyNames": {"enum": ["definition", "implementation", "functional", "security", "logging", "ui", "ux"]},
+            "additionalProperties": {
+              "type": "object", "required": ["profile", "adapter", "model"],
+              "properties": {
+                "profile": {"type": "string", "minLength": 1},
+                "adapter": {"enum": ["codex", "claude", "opencode"]},
+                "model": {"type": "string", "minLength": 1}
+              },
+              "additionalProperties": false
+            }
+          }
         },
         "additionalProperties": false
       }
