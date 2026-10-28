@@ -19,9 +19,20 @@ function close(initiative){
   const closure={reviewer:'independent reviewer',reviewed_at:now};
   for(const category of categories) closure[category]={status:'complete',reason:'Reviewed outcome',sources:['docs/system.md']};
   json(`.harness_work/initiatives/${initiative}/closure.json`,closure);
+  const durable=path.join(root,'docs/system.md');
+  const stable=fs.readFileSync(durable,'utf8');
+  for(const link of [
+    `[work](../.harness_work/initiatives/${initiative}/brief.md)`,
+    `[work][evidence]\n\n[evidence]: ../.%68arness_work/initiatives/${initiative}/brief.md`,
+  ]) {
+    fs.writeFileSync(durable,`# System\n\n${link}\n`);
+    assert.throws(()=>run('close',[initiative],{check:true}),/depends on temporary work/);
+  }
+  fs.writeFileSync(durable,stable);
   assert.equal(run('close',[initiative],{check:true}).ready,true);
   assert.equal(run('status',[initiative]).status,'closing');
   const state=run('close',[initiative]);assert.equal(state.retain_until,'2026-12-27T00:00:00.000Z');
+  assert.throws(()=>validateState({...state,closed_at:'2026-10-28T00:00:00+00:00'}),/Invalid closure/);
   assert.equal(run('close',[initiative]).revision,state.revision);
 }
 try {

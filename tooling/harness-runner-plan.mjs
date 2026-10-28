@@ -7,9 +7,9 @@ export function runnerPlan(root,{scope}={}) {
   if(!fs.existsSync(file)) return {schema_version:1,config_sha256:null,checks:[]};
   if(fs.lstatSync(file).isSymbolicLink()) throw new Error('Config symlink prohibited');
   const content=fs.readFileSync(file,'utf8'),config=JSON.parse(content);
-  if(config.schema_version!==1 || !Array.isArray(config.checks||[])) throw new Error('Invalid project config');
+  if(!config || Array.isArray(config) || config.schema_version!==1 || config.checks!==undefined && !Array.isArray(config.checks) || config.runners!==undefined && (!config.runners || typeof config.runners!=='object' || Array.isArray(config.runners))) throw new Error('Invalid project config');
   const ids=new Set();
-  const checks=(config.checks||[]).filter(check=>!scope || check.scope===scope).map(check=> {
+  const checks=(config.checks===undefined?[]:config.checks).filter(check=>!scope || check.scope===scope).map(check=> {
     const runner=config.runners?.[check.runner];
     if(!/^[a-z0-9][a-z0-9_-]*$/.test(check.id||'') || ids.has(check.id)) throw new Error('Invalid/duplicate check id');ids.add(check.id);
     if(!runner || typeof runner.image!=='string' || !/^[a-zA-Z0-9][a-zA-Z0-9._/:@-]*$/.test(runner.image) || /:latest$/.test(runner.image) || !(runner.image.includes('@') ? /@sha256:[a-f0-9]{64}$/.test(runner.image) : /:[^/:]+$/.test(runner.image))) throw new Error(`Runner ${check.runner} requires an explicit image tag/digest`);

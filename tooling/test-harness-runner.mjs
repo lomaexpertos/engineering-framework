@@ -19,5 +19,10 @@ try {
   config.runners.node.image='node:22';config.checks[0].timeout_seconds=0;save();assert.throws(()=>runnerPlan(root),/Timeout/);
   config.checks[0].timeout_seconds=10;config.checks.push({...config.checks[0]});save();assert.throws(()=>runnerPlan(root),/duplicate/);
   config.checks.pop();save();fs.writeFileSync(path.join(root,'ledger'),'other\x000\x00');assert.throws(()=>results(root,path.join(root,'ledger')),/Invalid check result/);
+  const validChecks=config.checks;
+  for(const malformed of [null,false,0]) {
+    config.checks=malformed;save();assert.throws(()=>runnerPlan(root),/Invalid project config/);
+  }
+  config.checks=validChecks;save();
   console.log('Runner plan tests passed: literal argv, tagged image, scoped execution, bounded timeout, duplicates and execution results.');
 } finally {fs.rmSync(root,{recursive:true,force:true});}

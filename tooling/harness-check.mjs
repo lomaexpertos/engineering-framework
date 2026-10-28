@@ -4,6 +4,10 @@ import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { validateState } from './harness-work.mjs';
 import { runnerPlan } from './harness-runner-plan.mjs';
+import { validateManifest } from './harness-manifest.mjs';
+import { buildSkillAdapters } from './harness-profiles.mjs';
+import { markdownLinks } from './harness-markdown.mjs';
+export { markdownLinks } from './harness-markdown.mjs';
 
 const scopes = new Set(['context', 'documentation', 'installation', 'work', 'extensions']);
 const temporary = /(?:^|\/)\.harness_work\/(?:initiatives|runtime)\//;
@@ -14,22 +18,15 @@ function filesUnder(root, relative = '') {
   if (!fs.existsSync(directory)) return output;
   for (const item of fs.readdirSync(directory, { withFileTypes: true })) {
     const name = path.posix.join(relative, item.name);
-    if (['.git', 'node_modules'].includes(item.name) || name === '.harness_work/runtime' || name === '.harness/core/runtime') continue;
-    if (item.isSymbolicLink()) throw new Error(`No se siguen symlinks: ${name}`);
+    if (['.git', 'node_modules'].includes(item.name) || ['.harness_work/runtime', '.harness/core/runtime', '.harness/core/templates'].includes(name)) continue;
+    if (item.isSymbolicLink()) {
+      if (/^(?:docs|\.harness|\.harness_work|\.agents|\.claude)(?:\/|$)/.test(name)) throw new Error(`No se siguen symlinks: ${name}`);
+      continue;
+    }
     if (item.isDirectory()) output.push(...filesUnder(root, name));
     else if (item.isFile()) output.push(name);
   }
   return output;
-}
-
-export function markdownLinks(content) {
-  // Ignore examples: their paths describe contracts, not files in this checkout.
-  const prose = content.replace(/^```[^\n]*\n[\s\S]*?^```\s*$/gm, '');
-  const inline = [...prose.matchAll(/!?\[[^\]]*\]\((<[^>]+>|[^\s)]+)(?:\s+"[^"]*")?\)/g)]
-    .map(match => match[1].replace(/^<|>$/g, ''));
-  const references = [...prose.matchAll(/^ {0,3}\[[^\]]+\]:\s*(<[^>]+>|\S+)/gm)]
-    .map(match => match[1].replace(/^<|>$/g, ''));
-  return [...inline, ...references];
 }
 
 function anchors(content) {
@@ -66,6 +63,12 @@ export function checkRepository(root, { scope, externalResults } = {}) {
     return current;
   }
   const markdown = all.filter(file => file.endsWith('.md'));
+  if (!scope || scope === 'context') {
+    for (const file of all.filter(file => /\.(?:md|json|mjs|sh|ya?ml|env)$/.test(file))) {
+      const suspect = /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|ghp_[A-Za-z0-9]{36}|AKIA[A-Z0-9]{16}/.test(text(file));
+      if (suspect) add('context', 'credential-pattern', 'failed', 'Posible credencial; revisar sin imprimir su valor', file);
+    }
+  }
   for (const file of markdown) {
     const content = text(file);
     if (path.basename(file) === 'AGENTS.md') {
@@ -104,7 +107,7 @@ export function checkRepository(root, { scope, externalResults } = {}) {
     reached.add(current);
     for (const link of markdownLinks(text(current))) {
       if (/^[a-z][a-z\d+.-]*:/i.test(link)) continue;
-      const destination = path.posix.normalize(path.posix.join(path.posix.dirname(current), link.split('#')[0]));
+      const destination = path.posix.normalize(path.posix.join(path.posix.dirname(current), decodeURIComponent(link.split('#')[0])));
       if (destination.startsWith('docs/') && exists(destination) && destination.endsWith('.md')) queue.push(destination);
     }
   }
@@ -125,13 +128,30 @@ export function checkRepository(root, { scope, externalResults } = {}) {
   if (scope && scope !== 'installation') { /* Other scopes do not parse installation metadata. */ }
   else if (!exists(manifestPath)) add('installation', 'manifest', 'failed', 'Falta manifest de instalación', manifestPath);
   else {
-    const manifest = JSON.parse(text(manifestPath));
-    assert('installation', 'manifest-schema', manifest.schema_version === 2 && manifest.files && Object.keys(manifest.files).length > 0, 'Schema de manifest soportado', manifestPath);
+    const manifest = validateManifest(JSON.parse(text(manifestPath)));
+    assert('installation', 'manifest-schema', true, 'Schema de manifest soportado', manifestPath);
     for (const [file, entry] of Object.entries(manifest.files || {})) {
       const destination = safeFile(file);
       const valid = exists(file) && fs.lstatSync(destination).isFile() && !fs.lstatSync(destination).isSymbolicLink();
       const expected = typeof entry === 'string' ? entry : entry.sha256;
       assert('installation', 'integrity', valid && crypto.createHash('sha256').update(fs.readFileSync(destination)).digest('hex') === expected, 'Integridad administrada', file);
+    }
+    const inspectManaged = relative => {
+      const directory = safeFile(relative);
+      if (!fs.existsSync(directory)) return;
+      for (const item of fs.readdirSync(directory, { withFileTypes: true })) {
+        const file = `${relative}/${item.name}`;
+        safeFile(file);
+        if (item.isDirectory()) inspectManaged(file);
+        else if (file !== manifestPath) assert('installation', 'ownership', Object.hasOwn(manifest.files, file), 'Archivo reconocido por manifest', file);
+      }
+    };
+    inspectManaged('.harness/core');
+    for (const skill of manifest.managed_skills) for (const platform of ['.agents', '.claude']) inspectManaged(`${platform}/skills/${skill}`);
+    const templatePath = '.harness/core/templates/project/AGENTS.md';
+    if (exists(templatePath) && exists('AGENTS.md')) {
+      const block = content => /^<!-- engineering-framework:start -->[\s\S]*?^<!-- engineering-framework:end -->/m.exec(content)?.[0];
+      assert('installation', 'instruction-region', Boolean(block(text('AGENTS.md'))) && block(text('AGENTS.md')) === block(text(templatePath)), 'Región de instrucciones administrada coherente', 'AGENTS.md');
     }
   }
   const states = all.filter(file => /^\.harness_work\/initiatives\/[^/]+\/state\.json$/.test(file));
@@ -146,12 +166,21 @@ export function checkRepository(root, { scope, externalResults } = {}) {
       assert('work', 'retention', Number.isFinite(closed) && Date.parse(state.retain_until) === closed + 60 * 86400000, 'Retención de sesenta días', file);
     }
   }
-  if (scope && scopes.has(scope) && scope !== 'extensions') { /* Other scopes do not parse extension metadata. */ }
+  let matchingProjectScope = false;
+  if (scope && scopes.has(scope) && scope !== 'extensions' && exists('.harness/project/config.json')) {
+    try {
+      const config = JSON.parse(text('.harness/project/config.json'));
+      matchingProjectScope = Array.isArray(config.checks) && config.checks.some(check => check.scope === scope);
+    } catch { /* A built-in scope remains usable when unrelated extension metadata is malformed. */ }
+  }
+  if (scope && scopes.has(scope) && scope !== 'extensions' && !matchingProjectScope) { /* No project check applies to this built-in scope. */ }
   else if (!exists('.harness/project/config.json')) add('extensions', 'configuration', 'not_applicable', 'Sin configuración local');
   else {
     const config = JSON.parse(text('.harness/project/config.json'));
+    if (exists('.harness/core/skills')) buildSkillAdapters(path.join(root, '.harness/core'), root);
+    else if (config.profiles !== undefined && (!Array.isArray(config.profiles) || config.profiles.some(profile => !['core','database','frontend','infrastructure','security'].includes(profile)))) throw new Error('Perfiles del proyecto inválidos');
     const plan = runnerPlan(root);
-    const group = scope && !scopes.has(scope) ? scope : 'extensions';
+    const group = scope || 'extensions';
     assert(group, 'configuration', config.schema_version === 1, 'Schema local soportado');
     for (const check of plan.checks.filter(check => !scope || check.scope === scope)) {
       const valid = typeof check.id === 'string' && Array.isArray(check.argv) && check.argv.length > 0 && check.argv.every(arg => typeof arg === 'string') && typeof check.runner === 'string' && Number.isFinite(check.timeout_seconds) && check.timeout_seconds > 0;

@@ -42,10 +42,24 @@ try {
   custom.checks[0].scope = 'code';
   write('.harness/project/config.json', JSON.stringify(custom));
   assert.equal(checkRepository(root, { scope: 'code' }).ok, false);
+  for (const scope of ['context', 'documentation', 'work']) {
+    custom.checks[0].scope = scope;
+    write('.harness/project/config.json', JSON.stringify(custom));
+    const config_sha256 = crypto.createHash('sha256').update(JSON.stringify(custom)).digest('hex');
+    const failure = { schema_version: 1, config_sha256, checks: [{ id: 'test', exit_code: 1, executed_at: new Date().toISOString() }] };
+    const items = checkRepository(root, { scope, externalResults: failure }).results;
+    assert.equal(items.some(item => item.id === 'check-execution' && item.status === 'failed'), true);
+    assert.equal(checkRepository(root, { scope }).results.some(item => item.id === 'check-execution' && item.status === 'failed'), true);
+  }
   write('.harness/project/config.json', config);
   assert.throws(() => checkRepository(root, { scope: 'unknown' }), /Scope desconocido/);
   fs.symlinkSync('/tmp', path.join(root, 'escape'));
+  assert.doesNotThrow(() => checkRepository(root, { scope: 'context' }));
+  fs.symlinkSync('/tmp', path.join(root, 'docs/escape'));
   assert.throws(() => checkRepository(root), /symlinks/);
+  fs.unlinkSync(path.join(root, 'docs/escape'));
+  write('.harness/core/manifest.json', JSON.stringify({ schema_version: 2, files: { '.harness/core/example.md': 'a'.repeat(64) } }));
+  assert.throws(() => checkRepository(root, { scope: 'installation' }), /framework_version/);
   console.log('Harness check tests passed.');
 } finally {
   fs.rmSync(root, { recursive: true, force: true });

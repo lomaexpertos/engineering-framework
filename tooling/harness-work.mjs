@@ -3,6 +3,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
+import { markdownLinks } from './harness-markdown.mjs';
 
 export const statuses = ['draft','ready','active','blocked','validating','closing','closed','cancelled'];
 export const categories = ['validation','reviews','documentation','decisions','invariants','roadmap','backlog','memory'];
@@ -39,12 +40,15 @@ function snapshot(directory) {
   return Object.fromEntries(files(directory).map(file=>[path.relative(directory,file),crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex')]));
 }
 export function validateState(state) {
+  const keys=['schema_version','id','title','owner','status','revision','created_at','updated_at','closed_at','retain_until','hold','active_tasks','blockers','blocked_from','blocked_reason'];
+  if(!state || keys.some(key=>!Object.hasOwn(state,key)) || Object.keys(state).some(key=>!keys.includes(key))) fail('Invalid initiative state fields');
   if(state.schema_version!==1 || !idPattern.test(state.id||'') || !statuses.includes(state.status) || !state.owner || !state.title || !Number.isInteger(state.revision) || state.revision<1) fail('Invalid initiative state');
   for(const key of ['active_tasks','blockers']) if(!Array.isArray(state[key])) fail(`Invalid ${key}`);
   if(typeof state.title!=='string' || typeof state.owner!=='string' || !(state.hold===null || typeof state.hold==='string')) fail('Invalid state fields');
-  for(const key of ['created_at','updated_at']) if(!Number.isFinite(Date.parse(state[key]))) fail(`Invalid ${key}`);
+  for(const key of ['created_at','updated_at']) if(typeof state[key]!=='string' || !state[key].endsWith('Z') || !Number.isFinite(Date.parse(state[key]))) fail(`Invalid ${key}`);
+  if(!(state.blocked_from===null || statuses.includes(state.blocked_from)) || !(state.blocked_reason===null || typeof state.blocked_reason==='string')) fail('Invalid blocked state');
   if(['closed','cancelled'].includes(state.status)) {
-    if(!Number.isFinite(Date.parse(state.closed_at)) || Date.parse(state.retain_until)!==Date.parse(state.closed_at)+retention) fail('Invalid closure retention');
+    if(typeof state.closed_at!=='string' || !state.closed_at.endsWith('Z') || typeof state.retain_until!=='string' || !state.retain_until.endsWith('Z') || !Number.isFinite(Date.parse(state.closed_at)) || Date.parse(state.closed_at)<Date.parse(state.created_at) || Date.parse(state.retain_until)!==Date.parse(state.closed_at)+retention) fail('Invalid closure retention');
   } else if(state.closed_at!==null || state.retain_until!==null) fail('Open initiative has closure date');
   return state;
 }
@@ -77,7 +81,12 @@ function verifyClosure(root, directory, state) {
     }
   }
   for(const file of files(safe(root,'docs')).filter(file=>file.endsWith('.md'))) {
-    if(/\.harness_work[\\/]|engineering\/(?:specs|quality-review)\//.test(fs.readFileSync(file,'utf8'))) fail(`Permanent document depends on temporary work: ${path.relative(root,file)}`);
+    const content=fs.readFileSync(file,'utf8');
+    for(const link of markdownLinks(content)) {
+      if(/^[a-z][a-z0-9+.-]*:/i.test(link)) continue;
+      const target=path.relative(root,path.resolve(path.dirname(file),decodeURIComponent(link.split('#')[0].split('?')[0]))).split(path.sep).join('/');
+      if(/^(?:\.harness_work\/(?:initiatives|runtime)|engineering\/(?:specs|quality-review))\//.test(target)) fail(`Permanent document depends on temporary work: ${path.relative(root,file)}`);
+    }
   }
   return closure;
 }
@@ -157,7 +166,7 @@ export function operate(root, command, args=[], options={}) {
       if(state.status!=='closing') fail('Initiative must be closing');
       verifyClosure(root,target,state);
       if(options.check) return {ready:true,id,status:desired};
-      fs.writeFileSync(path.join(target,'closure.md'),`# Cierre\n\nResultado: ${desired}. Revisión: ${read(path.join(target,'closure.json')).reviewer}.\n\nLa consolidación y sus destinos se registran en closure.json. Cierre no equivale a despliegue.\n`);
+      fs.writeFileSync(safe(root,path.relative(root,path.join(target,'closure.md'))),`# Cierre\n\nResultado: ${desired}. Revisión: ${read(path.join(target,'closure.json')).reviewer}.\n\nLa consolidación y sus destinos se registran en closure.json. Cierre no equivale a despliegue.\n`);
       state.status=desired;state.closed_at=now;state.retain_until=new Date(Date.parse(now)+retention).toISOString();return save(state);
     }
     if(command==='transition') {
