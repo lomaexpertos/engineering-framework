@@ -1,0 +1,4 @@
+[sync] install: 3.0.0, 30 Skills, rama feature/native.
+Optional Docker runner integration passed: native planner/results, literal argv, read-only mount and required check failure.
+[sync] install: 3.0.0, 30 Skills, rama feature/native.
+Native runtime tests passed: Docker absent/sentinel, built-in checks, work, Node preflight, local-source update and bootstrap.
