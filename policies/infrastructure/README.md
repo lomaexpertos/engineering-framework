@@ -7,6 +7,7 @@ router; no obliga a cargar todo el dominio.
 
 | Tarea | Policies aplicables |
 | --- | --- |
+| Compilar, probar, preparar o ejecutar un proyecto | [`project-isolation.md`](project-isolation.md) |
 | Crear o reorganizar `infra/` | [`repository-layout.md`](repository-layout.md) |
 | Cambiar configuración versionada | [`configuration.md`](configuration.md) |
 | Modificar locks, slots, tags o archivos generados | [`runtime-state.md`](runtime-state.md) |

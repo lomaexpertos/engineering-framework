@@ -6,6 +6,8 @@ Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni document
 ## Harness de ingeniería
 
 - Reglas corporativas: `.harness/core/policies/README.md`.
+- Compilar, preparar, probar o ejecutar el proyecto: Docker, conforme a
+  `.harness/core/policies/infrastructure/project-isolation.md`.
 - Desarrollo o corrección de operaciones críticas: aplicar desde el mismo cambio
   `.harness/core/policies/development/logging.md` y validar su trazabilidad;
   no esperar un incidente ni una petición separada de logs.

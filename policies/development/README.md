@@ -4,6 +4,8 @@ Consulta este dominio para decisiones generales de implementación y calidad.
 
 ## Routing
 
+- Entorno de compilación, pruebas y ejecución: [aislamiento de proyecto](../infrastructure/project-isolation.md).
+
 - Estructura, patrones y autoridad de reglas: [`architecture-and-design.md`](architecture-and-design.md).
 - Mantenibilidad y alcance del cambio: [`code-quality.md`](code-quality.md).
 - Clasificación, propagación y exposición de errores: [`error-handling.md`](error-handling.md).
