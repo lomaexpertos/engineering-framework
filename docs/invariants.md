@@ -13,3 +13,4 @@ Este índice localiza la fuente canónica; las explicaciones se mantienen allí.
 | AGENTS conserva routing compacto y no excede cien líneas. | [Contexto](../policies/ai-assisted-development/context-management.md) |
 | El código del proyecto se prepara, ejecuta y valida en Docker. | [Aislamiento](../policies/infrastructure/project-isolation.md) |
 | El productor mantiene fuentes visibles y no se vendoriza a sí mismo. | [Decisión de arquitectura](governance/decisions/0013-project-harness.md) |
+| Actualizar y recuperar preserva contenido desconocido y ediciones posteriores. | [Decisión operativa](governance/decisions/0014-safe-harness-operations.md) |
