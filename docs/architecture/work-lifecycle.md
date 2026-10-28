@@ -41,6 +41,21 @@ El ciclo distingue draft, ready, active, blocked, validating, closing, closed y 
 Una pausa se mantiene como bloqueo explícito hasta su reanudación; cancelar no afirma
 entrega y cerrar no afirma despliegue.
 
+| Estado | Siguientes estados permitidos |
+| --- | --- |
+| draft | ready o closing |
+| ready | active o closing |
+| active | validating, blocked o closing |
+| blocked | active o closing; una pausa exige reanudación explícita |
+| validating | active al corregir fallos, o closing |
+| closing | active al retomar trabajo, closed o cancelled mediante cierre |
+| closed / cancelled | active mediante reapertura; invalida el plazo anterior |
+
+Preparación, integración y entrada en closing requieren `--confirm`: es una
+atestación del coordinador después de revisar las condiciones, no evidencia que el
+comando produzca por sí mismo. El cierre exige además el registro completo de
+consolidación y ausencia de tareas/bloqueantes activos.
+
 ## Consolidación antes del cierre
 
 El coordinador consolida comportamiento/razones, decisiones e invariantes en las fuentes

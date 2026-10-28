@@ -2,7 +2,7 @@
 
 | Resultado pendiente | Prioridad | Estado | Dependencia |
 | --- | --- | --- | --- |
-| Certificación de clientes en sus entornos reales | Alta | planned | Versiones y capacidades verificables de Codex/Claude en ambientes de uso. |
+| Validación de adopción y delegación en entornos reales | Alta | planned | Discovery de instrucciones/skills ya comprobado; falta adopción con modelos y proyectos reales. |
 | Adopción de un proyecto existente sin perder contexto | Alta | planned | Elección del consumidor y reconciliación explícita de documentación heredada. |
 | Cobertura de controles especializados por stack/ambiente | Media | planned | Necesidades concretas de los proyectos y contratos organizacionales aprobados. |
 | Soporte certificado para otros clientes, incluido OpenCode | Media | planned | Consumidor real y contrato de capacidades comprobable. |

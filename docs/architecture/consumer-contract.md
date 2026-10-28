@@ -37,8 +37,8 @@ corporativas de skills. `AGENTS.md` preserva texto propio fuera de marcadores; s
 resultado completo debe caber en 100 líneas antes de la primera escritura. Un archivo
 excesivo requiere recableado explícito, nunca truncado automático.
 
-`CLAUDE.md` se crea como importación `@AGENTS.md` si no existe; un archivo existente
-se conserva. La presencia de ese adaptador no certifica capacidades de un cliente
+`CLAUDE.md` incorpora una importación `@AGENTS.md` y conserva el texto propio de un
+archivo existente. La presencia de ese adaptador no certifica capacidades de un cliente
 ni elimina la necesidad de comprobar su discovery real.
 
 `manifest.json` es autoridad de versión, origen, SHA, skills administradas y hashes.

@@ -4,8 +4,9 @@ Estos temas no constituyen contratos implementados ni autorizaciones de ejecuci�
 
 ## Compatibilidad y adopción
 
-- Certificar discovery y delegación con versiones concretas de Codex y Claude Code
-  en entornos reales. Fixtures y paridad de archivos no certifican clientes.
+- Extender la validación de clientes a flujos reales de adopción y subagentes.
+  Discovery de instrucciones y skills tiene smoke reproducible con CLI reales;
+  no equivale a certificar comportamiento de modelos, GUI ni providers productivos.
 - Adoptar un consumidor real con reconciliación explícita de contexto heredado; el
   actualizador nunca traslada su documentación por su cuenta.
 - Evaluar un adaptador OpenCode cuando exista un consumidor y evidencia de su contrato.

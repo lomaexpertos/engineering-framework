@@ -20,6 +20,9 @@ para la tarea actual.
   y después la Skill correspondiente.
 - Para arquitectura, distribución o contratos, consulta
   [`docs/architecture/README.md`](docs/architecture/README.md).
+- Para conocimiento duradero, invariantes y roadmap, consulta
+  [`docs/README.md`](docs/README.md).
+- Para retomar trabajo, consulta `.harness_work/README.md` y solo el expediente activo.
 - Para versionado, ownership o cambios, consulta
   [`docs/governance/README.md`](docs/governance/README.md).
 - Para validaciones automáticas, consulta [`checks/README.md`](checks/README.md).

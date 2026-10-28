@@ -72,6 +72,11 @@ La recuperación restaura exclusivamente los cambios de la operación cuando coi
 con snapshots conocidos. Una edición posterior detiene la restauración; no utilizar
 reset ni limpieza global para sortear esa protección.
 
+Un archivo administrado ya guardado en Git que difiera del hash instalado también
+detiene una actualización normal. Después de revisar y conservar su contenido útil,
+`--repair` acepta reemplazar esa divergencia conocida; nunca elimina archivos ajenos
+al inventario de ownership.
+
 ## Usar y validar
 
 ```bash

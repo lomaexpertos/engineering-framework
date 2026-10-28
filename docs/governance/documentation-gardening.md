@@ -13,11 +13,13 @@ Este documento no las duplica; registra el enfoque de mantenimiento y enforcemen
 - Aplicar consolidación, adelgazamiento y recableado con `configure-agent-context`.
 - Mantener ownership y revisión proporcionales a la autoridad del documento.
 - Mantener validación automática de enlaces, rutas, tamaños orientativos y paridad de
-  Skills; incorporar metadata normativa y compliance consumidor en su fase.
+  Skills; incorporar metadata normativa conforme se formalice su contrato.
 
 La validación fuente ya cubre enlaces, referencias alcanzables, catálogo, rutas
 retiradas, contratos canónicos seleccionados y presupuesto agregado de discovery. La
-metadata normativa y el compliance ejecutado desde consumidores siguen pendientes.
+metadata normativa sigue pendiente. Los consumidores ejecutan checks de instalación,
+contexto, documentación, trabajo y extensiones mediante su wrapper Docker; la
+consolidación semántica sigue requiriendo revisión del coordinador.
 
 La automatización detectará estructura y divergencias deterministas. La autoridad,
 ambigüedad semántica y calidad del routing seguirán requiriendo revisión contextual.

@@ -1,59 +1,72 @@
-# Tooling
+# Herramientas del harness
 
-Aquí viven scripts de la fuente utilizados por la instalación asistida desde una
-imagen Docker y helpers conservados del canal central suspendido. No se copian ni se instalan como CLI
-permanente en repositorios consumidores. El procedimiento operativo está en
-[`../INSTALL.md`](../INSTALL.md).
+Para comprobar discovery con clientes CLI reales sin servicios externos, consultar
+[compatibilidad de clientes](client-compatibility/README.md).
 
-Responsabilidades:
+Las fuentes editables viven aquí. El productor ejecuta sus validaciones en Docker;
+los consumidores reciben únicamente el runtime necesario y wrappers Bash bajo
+`.harness/`, sin instalar Node ni dependencias del producto en el host.
 
-- validar la fuente antes de publicar;
-- preparar el árbol permitido de Policies y Skills;
-- copiar una misma Skill a `.agents/skills/` y `.claude/skills/`;
-- previsualizar y aplicar cambios en la rama actual o en checkouts temporales; y
-- conservar los helpers de branches y Pull Requests del canal central, sin ejecutarlos.
+## Router por operación
 
-[`validate-framework.mjs`](validate-framework.mjs) implementa las validaciones locales
-sin dependencias externas y verifica que no haya workflows activos. `resolve-projects.mjs` valida el
-registro del canal central, `sync-consumer.mjs` aplica la copia sin borrar Skills locales y
-`publish-projects.sh` coordina Git y Pull Requests en el runner. Las pruebas viven en
-`test-distribution.mjs`; `test-publication.mjs` prueba el orquestador con un remoto Git
-temporal y una GitHub CLI simulada, incluyendo preflight sin mutaciones, primera
-publicación y reutilización del PR.
+| Operación | Fuente |
+| --- | --- |
+| Validar estructura, enlaces, políticas y discovery de la fuente | [validate-framework.mjs](validate-framework.mjs) |
+| Sintaxis JS/Bash, ShellCheck, shfmt y patrones de credenciales | [lint-source.mjs](lint-source.mjs) |
+| Planear/aplicar distribución administrada | [sync-consumer.mjs](sync-consumer.mjs) |
+| Recuperar cambios propios de update interrumpido | [distribution-transaction.mjs](distribution-transaction.mjs) |
+| Seleccionar discovery y adaptar skills locales | [harness-profiles.mjs](harness-profiles.mjs) |
+| Comprobar instalación, contexto, docs y trabajo | [harness-check.mjs](harness-check.mjs) |
+| Preparar runners y registrar resultados | [harness-runner-plan.mjs](harness-runner-plan.mjs) |
+| Estado, transiciones, cierre, retención y purga | [harness-work.mjs](harness-work.mjs) |
+| Primera adopción | [bootstrap-harness.sh](bootstrap-harness.sh) y [INSTALL.md](../INSTALL.md) |
 
-## Sincronizador compartido
+## Distribución y recuperación
 
-`sync-consumer.mjs --check <raiz-git>` devuelve un plan JSON sin escribir.
-Sin `--check`, vuelve a comprobar el estado y aplica el plan. Requiere procedencia
-explícita: `GITHUB_REPOSITORY=lomaexpertos/engineering-framework` y `GITHUB_SHA` completo
-del snapshot fuente; ambos canales deben proporcionarlos.
+`sync-consumer.mjs --check <raiz-git>` devuelve plan JSON sin escribir. Aplicar requiere
+origen `GITHUB_REPOSITORY=lomaexpertos/engineering-framework` y `GITHUB_SHA` completo del
+snapshot. `--allow-major` expresa aceptación de migración incompatible; `--recover`
+restaura la operación propia interrumpida si no hubo ediciones posteriores.
+`--repair` acepta reparar una divergencia administrada revisada; nunca autoriza
+reemplazar contenido sin ownership. Integridad del manifest usa
+[harness-manifest.mjs](harness-manifest.mjs).
 
-Detecta instalación, actualización, reparación o ausencia de diferencias. Valida
-metadata/versión, rechaza downgrades, colisiones, symlinks, destinos ignorados y trabajo
-pendiente en rutas administradas antes de escribir. Tolera cambios ajenos a su scope,
-no modifica rama, HEAD ni índice y admite worktrees con metadata accesible. Retira solo
-Skills antes administradas; el contenido heredado no se migra automáticamente.
+El preflight protege rama, HEAD, índice, trabajo local, symlinks, destinos ignorados,
+colisiones y ownership. AGENTS completo debe caber en 100 líneas antes de escribir.
+Los journals y locks viven bajo runtime local. No se rompen locks desconocidos, se
+hace reset ni se migra documentación propia como efecto de actualizar el núcleo.
 
-Las pruebas de distribución utilizan repositorios Git temporales reales y cubren
-previsualización, idempotencia sobre instalaciones guardadas, actualización, ownership,
-protección de trabajo local, metadata anterior y worktrees. No utilizan consumidores
-reales ni credenciales remotas.
+## Perfiles y extensiones
 
-## Validación local
+Sin `profiles` en config se conserva todo el discovery corporativo. Una lista explícita
+incluye siempre core y los dominios elegidos: database, frontend, infrastructure o
+security. El núcleo conserva todas sus fuentes; los perfiles seleccionan adaptadores,
+no eliminan reglas de seguridad o documentación aplicables.
 
-Construir y ejecutar siempre la imagen de validación; no requiere instalar Node ni las
-dependencias del proyecto en el host:
+Las skills de `.harness/project/skills/<nombre>/` generan adaptadores `project-<nombre>`
+para ambos clientes. La fuente se conserva, referencias incluidas; cambios y retiros
+se integran en el plan administrado. Colisiones o presupuesto de discovery excedido
+se resuelven antes de escribir. No sobrescribir skills locales ajenas al inventario.
+
+Los checks del consumidor declaran imagen versionada, argv, scope, aplicabilidad,
+severidad mediante `required`, timeout y evidencia esperada. El wrapper lanza Docker
+sin socket montado y sin red, con repositorio de solo lectura, y entrega resultados
+al runtime. El planner no ejecuta por sí solo los comandos del producto.
+
+## Validación local reproducible
 
 ```bash
-docker build --target validation -t engineering-framework-validation:local .
-docker run --rm engineering-framework-validation:local
+docker build --target validation -t engineering-harness-validation:local .
+docker run --rm engineering-harness-validation:local
 ```
 
-La imagen usa Node 22, Bash y Git con versiones reproducibles desde una base explícita,
-ejecuta como usuario no root y corre validación estructural, distribución y publicación
-simulada.
+La imagen declara Node, Bash, Git, ShellCheck y shfmt con versiones explícitas y usa
+usuario no root. Ejecuta validador, lint y pruebas de distribución, publicación
+simulada, trabajo, checks, runners, perfiles y piloto integrado. El piloto usa
+consumidores de prueba: no certifica versiones reales de clientes ni despliega productos.
 
-Los workflows de GitHub Actions fueron retirados el 2026-10-09. No hay validación
-automática por push ni publicación central; las pruebas locales y la instalación
-asistida permanecen disponibles. El diseño del canal suspendido se conserva en
-[`../docs/architecture/distribution.md`](../docs/architecture/distribution.md).
+## Canal central suspendido
+
+`resolve-projects.mjs`, `publish-projects.sh` y sus pruebas conservan el diseño del
+canal central. No hay Actions por push ni publicación central activa. Ejecutar helpers
+conservados no constituye un mecanismo autorizado de despliegue o actualización masiva.
