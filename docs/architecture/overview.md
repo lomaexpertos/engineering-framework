@@ -13,7 +13,7 @@ ciclo de vida de iniciativas, sin ser un framework de aplicación ni un motor de
 | Adaptadores | Una fuente común de skills produce copias para Codex y Claude; no se mantienen variantes manuales. |
 | Conocimiento | `docs/` conserva explicaciones, decisiones e invariantes; no se actualiza desde otro repositorio. |
 | Continuidad | Memoria operativa y expedientes guardan estado, encargos y evidencia proporcional. |
-| Ejecución | Wrappers Bash orquestan Docker; runtimes y checks se ejecutan en imágenes declaradas. |
+| Ejecución | Wrappers Bash ejecutan el harness con Node.js 22 o 24 nativo; los checks del producto usan runners Docker declarados. |
 
 El productor no se vendoriza a sí mismo: sus fuentes permanecen visibles y su trabajo
 operativo usa la misma raíz oculta que los consumidores. La documentación de este

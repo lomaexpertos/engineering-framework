@@ -7,5 +7,8 @@
 - Continuidad: `.harness_work/README.md` desde la raíz del repositorio.
 
 `core/`, este router y los wrappers son administrados. `project/` pertenece al proyecto.
-Los comandos se invocan con Bash desde cualquier directorio. Docker, Bash y Git son
-infraestructura compartida; los runtimes del proyecto permanecen en sus imágenes.
+Los comandos se invocan con Bash desde cualquier directorio y usan Node.js 22 o 24
+nativo y Git, sin dependencias npm. `environment.sh` centraliza el preflight: los
+faltantes se diagnostican sin instalar herramientas ni mutar el consumidor.
+Docker y GNU `timeout` se requieren para ejecutar checks declarados por el proyecto.
+Los runtimes, builds, pruebas y linters de la aplicación permanecen en sus imágenes.

@@ -3,15 +3,17 @@
 Para comprobar discovery con clientes CLI reales sin servicios externos, consultar
 [compatibilidad de clientes](client-compatibility/README.md).
 
-Las fuentes editables viven aquí. El productor ejecuta sus validaciones en Docker;
-los consumidores reciben únicamente el runtime necesario y wrappers Bash bajo
-`.harness/`, sin instalar Node ni dependencias del producto en el host.
+Las fuentes editables viven aquí. El harness usa Node.js 22 o 24 nativo, Bash y Git,
+sin dependencias npm. Los consumidores reciben el runtime y wrappers Bash bajo
+`.harness/`; su preflight diagnostica faltantes antes de mutar el consumidor y no
+instala herramientas automáticamente. El producto conserva su ambiente Docker.
 
 ## Router por operación
 
 | Operación | Fuente |
 | --- | --- |
 | Validar estructura, enlaces, políticas y discovery de la fuente | [validate-framework.mjs](validate-framework.mjs) |
+| Ejecutar la suite nativa, con lint opcional | [run-validation.sh](run-validation.sh) |
 | Sintaxis JS/Bash, ShellCheck, shfmt y patrones de credenciales | [lint-source.mjs](lint-source.mjs) |
 | Planear/aplicar distribución administrada | [sync-consumer.mjs](sync-consumer.mjs) |
 | Recuperar cambios propios de update interrumpido | [distribution-transaction.mjs](distribution-transaction.mjs) |
@@ -55,9 +57,18 @@ al runtime. El planner no ejecuta por sí solo los comandos del producto.
 
 ## Validación local reproducible
 
+La validación estructural se ejecuta con `node tooling/validate-framework.mjs`.
+`node tooling/lint-source.mjs` requiere ShellCheck y shfmt además de Node, Bash y
+Git, exclusivamente para mantenimiento de esta fuente. Docker no es requisito para
+operar el harness; Docker y GNU `timeout` sí lo son para checks declarados del producto.
+`bash tooling/run-validation.sh` ejecuta la suite nativa sin exigir ShellCheck o shfmt;
+`bash tooling/run-validation.sh --with-lint` incorpora esas comprobaciones.
+
+El target opcional de validación reúne las herramientas de mantenimiento y la suite:
+
 ```bash
 docker build --target validation -t engineering-harness-validation:local .
-docker run --rm engineering-harness-validation:local
+docker run --rm --network none engineering-harness-validation:local
 ```
 
 La imagen declara Node, Bash, Git, ShellCheck y shfmt con versiones explícitas y usa

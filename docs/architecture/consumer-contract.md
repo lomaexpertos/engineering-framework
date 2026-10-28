@@ -11,6 +11,7 @@ project/
 │   ├── update.sh
 │   ├── check.sh
 │   ├── work.sh
+│   ├── environment.sh            # Preflight nativo compartido
 │   ├── core/                    # Contenido administrado
 │   │   ├── policies/
 │   │   ├── skills/
@@ -61,4 +62,5 @@ reconcilia en una tarea separada sin crear una segunda autoridad paralela.
 
 La documentación del productor, configuración de publicación central y registro de
 proyectos no se copian al consumidor. La metodología sí se distribuye con su runtime,
-lo que permite seguir trabajando offline cuando las imágenes ya están disponibles.
+lo que permite seguir trabajando offline con Node.js 22 o 24, Bash y Git. Los checks del
+producto necesitan además sus imágenes Docker disponibles y GNU `timeout`.

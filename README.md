@@ -39,13 +39,14 @@ Una fuente de skills genera las copias de Codex y Claude Code. Las capacidades d
 subagentes y descubrimiento dependen del cliente; las limitaciones se declaran sin
 simular revisiones independientes.
 
-Builds, tests y linters se ejecutan dentro de Docker. Los wrappers del host solo
-orquestan infraestructura compartida: Bash, Git, Docker y utilidades generales.
+El harness opera con Node.js 22 o 24 nativo, Bash y Git, sin dependencias npm ni instalación
+automática en el host. Builds, tests y linters del producto se ejecutan dentro de
+Docker; los checks declarados requieren además Docker y GNU `timeout`.
 
 ## Distribución
 
-La versión 2.x cambia el contrato del consumidor y requiere migración MAJOR desde
-1.x. Cada operación fija un SHA antes de validar/aplicar. La actualización conserva
+La versión 3.x requiere Node.js nativo y aceptación MAJOR desde 2.x; conserva el
+layout introducido en 2.x. Cada operación fija un SHA antes de validar/aplicar. La actualización conserva
 extensiones, documentación, memoria y cambios ajenos al contenido administrado.
 No crea commits, push, PR ni altera rama o índice del consumidor.
 

@@ -2,10 +2,12 @@
 
 ## Requisitos
 
-Repositorio Git con rama activa, Bash, Git, Docker y la utilidad transversal GNU
-`timeout` para checks locales. No instalar runtimes del proyecto en el host.
-La imagen declara Node, Bash y Git. Las imágenes de checks del consumidor deben
-construirse desde sus Dockerfiles y declarar todas sus dependencias.
+Repositorio Git con rama activa, Bash, Git y Node.js 22 o 24 nativo. El harness usa
+módulos estándar de Node, sin dependencias npm. Bootstrap y wrappers comprueban los
+requisitos antes de mutar el consumidor; diagnostican faltantes sin instalar nada.
+Docker y GNU `timeout` se requieren únicamente para ejecutar checks declarados por
+el proyecto. Sus imágenes deben construirse desde Dockerfiles y declarar todas sus
+dependencias. Los runtimes del producto permanecen dentro de sus imágenes.
 
 El origen público es `https://github.com/lomaexpertos/engineering-framework.git`.
 Solo estarán disponibles las revisiones publicadas por el mantenedor. Una revisión
@@ -21,7 +23,9 @@ bash /ruta/al/bootstrap-harness.sh /ruta/al/proyecto --check
 bash /ruta/al/bootstrap-harness.sh /ruta/al/proyecto
 ```
 
-El bootstrap obtiene `main`, fija su SHA y usa el actualizador del mismo snapshot.
+El bootstrap obtiene `main` por defecto, o la referencia indicada con `--ref`, fija
+su SHA y usa el actualizador del mismo snapshot. Esto permite seleccionar una
+revisión nativa aunque la rama predeterminada todavía contenga una versión anterior.
 No ejecutar una descarga mediante pipe al shell. La descarga inicial es una decisión
 de confianza en el origen; los hashes posteriores detectan divergencias, no son firma.
 
@@ -32,25 +36,32 @@ Desde el consumidor:
 ```bash
 bash .harness/update.sh --check
 bash .harness/update.sh
-bash .harness/update.sh --ref v2.0.0 --check
+bash .harness/update.sh --ref v3.0.0 --check
 ```
 
 Una llamada normal obtiene, valida y aplica una referencia fijada a SHA. `--check`
 no escribe en el consumidor. `--ref` permite tag o SHA publicado; el tag de ejemplo
-solo funciona cuando exista. La construcción de imágenes puede requerir red.
-La validación/aplicación posterior se ejecuta sin red dentro del contenedor.
+solo funciona cuando exista. La obtención requiere red; la validación y aplicación
+usan Node nativo desde el snapshot fijado, sin construir una imagen del harness.
 
 Antes de escribir se comprueban ownership, metadata, cambios locales, colisiones,
 symlinks, flags Git y el AGENTS final de hasta 100 líneas. El código local ajeno al
 harness puede permanecer pendiente. Los cambios administrados recién aplicados deben
 integrarse en Git por el usuario antes de volver a sincronizar.
 
-## Migración desde 1.x
+## Migración de versión mayor
+
+Desde 1.x o 2.x, preparar Node.js 22 o 24 en el host y usar el bootstrap actualizado;
+así la migración no depende del wrapper Docker de la instalación anterior. Revisar
+y aceptar explícitamente el cambio de runtime requerido por 3.x:
 
 ```bash
 bash /ruta/al/bootstrap-harness.sh /ruta/al/proyecto --check --allow-major
 bash /ruta/al/bootstrap-harness.sh /ruta/al/proyecto --allow-major
 ```
+
+En instalaciones ya nativas, `bash .harness/update.sh` conserva las mismas opciones.
+El layout y las protecciones de ownership se conservan.
 
 Revisar primero el plan: `--allow-major` acepta el cambio incompatible administrado.
 Se retira metadata antigua solo con ownership comprobado. No se mueven docs, specs,
@@ -98,12 +109,23 @@ sensibilidad. No guardar secretos, transcripciones ni volcados de datos.
 
 ## Validar la fuente productora
 
+La validación estructural de la fuente puede ejecutarse con Node.js 22 o 24:
+
+```bash
+node tooling/validate-framework.mjs
+```
+
+El lint completo de mantenimiento requiere además ShellCheck y shfmt; estas
+herramientas no son requisitos del consumidor. `bash tooling/run-validation.sh`
+ejecuta la suite nativa; `bash tooling/run-validation.sh --with-lint` incluye ese lint.
+Para ejecutar la suite en un ambiente reproducible opcional:
+
 ```bash
 docker build --target validation -t engineering-harness-validation:local .
 docker run --rm --network none engineering-harness-validation:local
 ```
 
 La instalación no crea commits/push, cambia ramas, despliega ni reactiva Actions.
-Para probar una fuente local sin publicar, ejecutar el sincronizador desde esa imagen
-con consumidor de prueba montado y `GITHUB_REPOSITORY`/`GITHUB_SHA` explícitos;
+Para probar una fuente local sin publicar, ejecutar el sincronizador con Node.js 22 o 24
+y un consumidor de prueba, con `GITHUB_REPOSITORY`/`GITHUB_SHA` explícitos;
 consultar [tooling](tooling/README.md).

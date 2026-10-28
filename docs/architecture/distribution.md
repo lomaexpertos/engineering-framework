@@ -13,15 +13,20 @@ no hay publicación por push/Actions ni dispatch habilitado por esta arquitectur
 
 ## Obtención y aplicación
 
-1. Descargar a un directorio temporal separado y fijar el SHA obtenido.
-2. Construir el target Docker `validation` de ese snapshot y validar su fuente.
-3. Ejecutar preflight del consumidor desde la imagen, con origen y SHA explícitos.
+1. Comprobar Node.js 22 o 24, Bash y Git antes de mutar el consumidor.
+2. Descargar a un directorio temporal separado, fijar el SHA y validar ese snapshot
+   con Node nativo.
+3. Ejecutar preflight del consumidor desde el snapshot, con origen y SHA explícitos.
 4. Aplicar solo rutas administradas y verificar su contenido final.
 5. Entregar el diff para integración según las reglas Git del proyecto.
 
-El wrapper del host usa Bash, Git y Docker como infraestructura general. No instala
-Node ni ejecuta código de la aplicación en el host. Los contenedores no reciben el
-socket Docker, secretos remotos ni montajes generales del host.
+El wrapper del host usa Bash, Git y Node.js 22 o 24 como infraestructura general,
+sin dependencias npm ni instalación automática. El runtime nativo ejecuta únicamente
+herramientas del harness; el código de la aplicación sigue aislado en Docker. Docker
+y GNU `timeout` solo son requisitos al ejecutar checks declarados por el proyecto.
+Los runners no reciben el socket Docker, secretos remotos ni montajes generales del
+host. El target Docker `validation` permanece disponible para validar la fuente
+productora de forma reproducible, sin ser requisito de instalación o actualización.
 
 Las opciones del actualizador son `--check`, `--ref`, `--allow-major` y `--recover`.
 `--check` prepara el plan sin escrituras en el consumidor; `--allow-major` expresa
@@ -59,6 +64,9 @@ El snapshot temporal ejecuta la actualización de wrappers; no se depende de sob
 un script que todavía deba continuar leyéndose para completar la operación.
 
 ## Idempotencia y migración
+
+El salto 2.x a 3.x requiere aceptar la nueva dependencia nativa de Node.js 22 o 24
+mediante `--allow-major`; no cambia el layout ni amplía el inventario administrado.
 
 Sobre una instalación guardada en Git, aplicar el mismo snapshot no produce cambios.
 Una instalación recién aplicada debe integrarse antes de volver a sincronizar, para

@@ -18,8 +18,10 @@ Este documento no las duplica; registra el enfoque de mantenimiento y enforcemen
 La validación fuente ya cubre enlaces, referencias alcanzables, catálogo, rutas
 retiradas, contratos canónicos seleccionados y presupuesto agregado de discovery. La
 metadata normativa sigue pendiente. Los consumidores ejecutan checks de instalación,
-contexto, documentación, trabajo y extensiones mediante su wrapper Docker; la
-consolidación semántica sigue requiriendo revisión del coordinador.
+contexto, documentación, trabajo y extensiones mediante wrappers con Node.js 22 o 24
+nativo, Bash y Git; los checks declarados del producto conservan runners Docker.
+La imagen de validación de la fuente es opcional. La consolidación semántica sigue
+requiriendo revisión del coordinador.
 
 La automatización detectará estructura y divergencias deterministas. La autoridad,
 ambigüedad semántica y calidad del routing seguirán requiriendo revisión contextual.

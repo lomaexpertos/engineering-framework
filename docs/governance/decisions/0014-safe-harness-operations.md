@@ -2,6 +2,7 @@
 
 - Estado: Aceptada.
 - Fecha: 2026-10-28.
+- Sucesor parcial: [ADR-0015](0015-native-harness-runtime.md) sustituye la imagen del runtime del harness por Node nativo en 3.x; conserva las protecciones operativas.
 
 ## Contexto
 
