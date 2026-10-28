@@ -1,0 +1,27 @@
+[sync] install: 2.0.0, 19 Skills, rama master.
+{
+  "schema_version": 1,
+  "network": "container loopback only; execution requires --network none",
+  "authentication": "fictional API credential only",
+  "scope": "real CLI discovery against deterministic local transport; no model or subagent certification",
+  "clients": [
+    {
+      "client": "codex",
+      "version": "codex-cli 0.165.0",
+      "instructions_discovered": true,
+      "skill_metadata_discovered": true,
+      "skill_body_lazy": true,
+      "exit_code": 0,
+      "captured_model_requests": 1
+    },
+    {
+      "client": "claude",
+      "version": "2.1.312 (Claude Code)",
+      "instructions_discovered": true,
+      "skill_metadata_discovered": true,
+      "skill_body_lazy": true,
+      "exit_code": 0,
+      "captured_model_requests": 1
+    }
+  ]
+}

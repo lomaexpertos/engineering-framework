@@ -1,6 +1,6 @@
 # Plan de transformación a harness
 
-Fecha: 2026-10-28. Estado: aprobado; implementación en curso.
+Fecha: 2026-10-28. Estado: ejecutado; aceptación y evidencia en `implementation/` del expediente.
 Autoridad funcional: [spec.md](../spec.md).
 
 ## 1. Enfoque y condiciones de entrada
@@ -270,9 +270,9 @@ declaradas y fijadas. Las pruebas del consumidor usarán sus Dockerfiles/Compose
 servicios separados y recursos con nombres por repositorio/worktree/sesión.
 No ejecutar código de proyecto en host ni montar el socket Docker en contenedores.
 
-Para esta entrega de planeación, ejecutar el validador estructural existente desde
-la imagen es suficiente: no se han modificado sincronizador ni código productivo.
-No atribuir a esa comprobación evidencia de que las capacidades futuras funcionan.
+La planeación inicial solo requirió validación estructural. La ejecución autorizada
+posteriormente exige la suite completa, pilotos y revisión independiente antes de
+declarar disponibles las capacidades, según los escenarios de este plan.
 
 ## 6. Compatibilidad y recuperación
 

@@ -1,6 +1,6 @@
 # Transformación del framework en un harness de proyectos
 
-Fecha: 2026-10-28. Estado: aprobada por el usuario; implementación en curso.
+Fecha: 2026-10-28. Estado: implementada y validada; registro de cierre en el expediente.
 Iniciativa: `20261028_transformacion_framework_harness`.
 Plan técnico: [plan/plan.md](plan/plan.md).
 
@@ -623,6 +623,6 @@ El cambio de layout y de contratos requiere una release MAJOR, previsiblemente
 | Confundir roadmap con realidad. | TO-BE separado de AS-IS; cierre y disponibilidad se informan por separado. |
 | Migración que pise documentación existente. | Inventario y reconciliación separados del actualizador. |
 
-La implementación está pendiente de la revisión de esta propuesta. No se ha autorizado
-por esta planeación una instalación en consumidores, publicación de release, scheduler,
-deployment o cambio administrativo del repositorio.
+La implementación fue autorizada por el usuario y su aceptación está registrada en el
+expediente. Se validó con consumidores desechables; no autoriza por sí misma adopción
+en proyectos reales, publicación de release, scheduler, deployment ni cambios administrativos.
