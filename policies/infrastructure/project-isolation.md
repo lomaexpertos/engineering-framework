@@ -22,13 +22,25 @@ ser reproducible y distinto de la infraestructura general que opera al agente.
 5. Git, Docker, clientes de agentes y utilidades transversales pueden operar en host;
    no sustituyen el runtime del producto. Antes de instalar infraestructura general,
    comprobar lo existente y explicar su propósito y fuente confiable.
+   El runtime del harness es infraestructura transversal: sus wrappers, bootstrap,
+   validadores y operaciones de continuidad/distribución **MAY** ejecutarse con
+   Node.js 22 o 24 nativo, Bash y Git, sin dependencias npm. Esta autorización no incluye
+   código, pruebas, builds, linters ni servicios del producto consumidor. Los checks
+   declarados por el proyecto **MUST** conservar sus runners Docker con dependencias
+   explícitas. Docker y GNU `timeout` se requieren solo al ejecutar esos runners.
+   Las herramientas del harness **MUST** diagnosticar dependencias faltantes antes
+   de mutar el consumidor y **MUST NOT** instalar herramientas automáticamente.
+   ShellCheck y shfmt pertenecen al mantenimiento de la fuente del harness; no son
+   requisitos de sus consumidores. La imagen de validación de esa fuente **MAY**
+   usarse como ambiente reproducible opcional.
 6. Imágenes **MUST NOT** copiar secretos. Usar usuario no root cuando sea viable,
    mounts limitados y nombres por proyecto/worktree/sesión; evitar archivos del
    repositorio propiedad de root.
 7. **MUST NOT** usar socket Docker montado, red host, privilegios amplios ni limpieza
    global como solución ordinaria. Eliminar solo recursos propios identificados.
 8. La entrega **MUST** informar imágenes/targets, contenedores y comandos realmente
-   utilizados; una comprobación no ejecutada no cuenta como aprobada.
+   utilizados, o el runtime nativo utilizado para herramientas transversales; una
+   comprobación no ejecutada no cuenta como aprobada.
 
 ## Excepciones
 

@@ -1,14 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
-if [[ "$root" == *','* ]]; then
-  printf '%s\n' 'Repository path contains a comma unsupported by Docker bind mounts.' >&2
-  exit 2
-fi
-command -v timeout >/dev/null || {
-  printf '%s\n' 'The shared host utility timeout is required.' >&2
-  exit 2
-}
+# shellcheck source=templates/project/.harness/environment.sh
+source "$root/.harness/environment.sh"
+harness_require_tools bash git mktemp rm cat basename || exit 2
+harness_require_node || exit 2
 arguments=("$@")
 selection=()
 while (($#)); do
@@ -28,7 +24,6 @@ while (($#)); do
       ;;
   esac
 done
-image=$(docker build -q "$root/.harness/core/runtime")
 temporary=$(mktemp -d -t harness-check.XXXXXXXX)
 operation=$(basename -- "$temporary")
 active_name=''
@@ -45,13 +40,23 @@ cleanup() {
 trap cleanup EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
-docker run --rm --network none --user "$(id -u):$(id -g)" \
-  --mount "type=bind,src=$root,dst=/consumer,readonly" "$image" \
-  node /runtime/tooling/harness-runner-plan.mjs plan --root /consumer "${selection[@]}" >"$temporary/plan"
+node "$root/.harness/core/runtime/tooling/harness-runner-plan.mjs" plan --root "$root" "${selection[@]}" >"$temporary/plan"
 : >"$temporary/ledger"
 exec 3<"$temporary/plan"
 IFS= read -r -d '' config_sha <&3
 while IFS= read -r -d '' check_id <&3; do
+  if [[ -z ${runner_ready:-} ]]; then
+    harness_require_tools docker timeout id || exit 2
+    if [[ $(timeout --version 2>/dev/null) != *'GNU coreutils'* ]]; then
+      printf '%s\n' 'Harness project checks require GNU timeout. Install GNU coreutils before retrying.' >&2
+      exit 2
+    fi
+    if [[ $root == *','* ]]; then
+      printf '%s\n' 'Repository path contains a comma unsupported by Docker bind mounts.' >&2
+      exit 2
+    fi
+    runner_ready=1
+  fi
   IFS= read -r -d '' runner_image <&3
   IFS= read -r -d '' duration <&3
   IFS= read -r -d '' count <&3
@@ -73,13 +78,7 @@ while IFS= read -r -d '' check_id <&3; do
   printf '%s\0%s\0' "$check_id" "$result" >>"$temporary/ledger"
 done
 exec 3<&-
-docker run --rm --network none --user "$(id -u):$(id -g)" \
-  --mount "type=bind,src=$root,dst=/consumer,readonly" \
-  --mount "type=bind,src=$temporary,dst=/results" "$image" \
-  node /runtime/tooling/harness-runner-plan.mjs results --root /consumer "${selection[@]}" \
+node "$root/.harness/core/runtime/tooling/harness-runner-plan.mjs" results --root "$root" "${selection[@]}" \
   --config-sha "$config_sha" \
-  --ledger /results/ledger --destination /results/results.json
-docker run --rm --network none --user "$(id -u):$(id -g)" \
-  --mount "type=bind,src=$root,dst=/consumer,readonly" \
-  --mount "type=bind,src=$temporary,dst=/results,readonly" "$image" \
-  node /runtime/tooling/harness-check.mjs --root /consumer --results /results/results.json "${arguments[@]}"
+  --ledger "$temporary/ledger" --destination "$temporary/results.json"
+node "$root/.harness/core/runtime/tooling/harness-check.mjs" --root "$root" --results "$temporary/results.json" "${arguments[@]}"

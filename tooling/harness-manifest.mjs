@@ -23,7 +23,7 @@ export function validateManifest(manifest) {
   for (const [file, hash] of Object.entries(manifest.files)) {
     if (file.includes('\\') || file.split('/').some(part => !part || part === '.' || part === '..') || typeof hash !== 'string' || !/^[a-f0-9]{64}$/.test(hash)) bad('path/hash');
     const core = file.startsWith('.harness/core/') && file !== '.harness/core/manifest.json';
-    const wrapper = /^\.harness\/(?:README\.md|update\.sh|check\.sh|work\.sh)$/.test(file);
+    const wrapper = /^\.harness\/(?:README\.md|update\.sh|check\.sh|work\.sh|environment\.sh)$/.test(file);
     const skill = /^\.(?:agents|claude)\/skills\/([^/]+)\/.+$/.exec(file);
     if (!core && !wrapper && !(skill && manifest.managed_skills.includes(skill[1]))) bad(`ownership ${file}`);
   }

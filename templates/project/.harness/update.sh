@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
-root=${HARNESS_CONSUMER_ROOT:-$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)}
+wrapper_directory=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
+# shellcheck source=templates/project/.harness/environment.sh
+source "$wrapper_directory/environment.sh"
+harness_require_tools bash git mktemp rm || exit 2
+harness_require_node || exit 2
+root=${HARNESS_CONSUMER_ROOT:-$(cd -- "$wrapper_directory/.." && pwd -P)}
 root=$(git -C "$root" rev-parse --show-toplevel)
 ref=main
 args=()
@@ -35,14 +40,9 @@ git -C "$temporary/source" remote add origin https://github.com/lomaexpertos/eng
 git -C "$temporary/source" fetch --depth 1 origin "$ref"
 sha=$(git -C "$temporary/source" rev-parse --verify FETCH_HEAD)
 git -C "$temporary/source" checkout -q --detach "$sha"
-image="engineering-harness-update:$sha"
-docker build --target validation -q -t "$image" "$temporary/source" >/dev/null
-docker run --rm --network none "$image" node tooling/validate-framework.mjs
-mounts=(--mount "type=bind,src=$root,dst=/consumer")
-git_dir=$(git -C "$root" rev-parse --absolute-git-dir)
-common_dir=$(git -C "$root" rev-parse --path-format=absolute --git-common-dir)
-if [[ -f $root/.git ]]; then
-  mounts+=(--mount "type=bind,src=$git_dir,dst=$git_dir,readonly")
-  if [[ $common_dir != "$git_dir" ]]; then mounts+=(--mount "type=bind,src=$common_dir,dst=$common_dir,readonly"); fi
-fi
-docker run --rm --network none --user "$(id -u):$(id -g)" "${mounts[@]}" -e GITHUB_REPOSITORY=lomaexpertos/engineering-framework -e "GITHUB_SHA=$sha" "$image" node tooling/sync-consumer.mjs "${args[@]}" /consumer
+(
+  cd -- "$temporary/source"
+  node tooling/validate-framework.mjs
+  GITHUB_REPOSITORY=lomaexpertos/engineering-framework GITHUB_SHA=$sha \
+    node tooling/sync-consumer.mjs "${args[@]}" "$root"
+)

@@ -7,4 +7,4 @@ COPY --chown=node:node . .
 
 USER node
 
-CMD ["sh", "-c", "node tooling/validate-framework.mjs && node tooling/lint-source.mjs && node tooling/test-distribution.mjs && node tooling/test-publication.mjs && node tooling/test-harness-work.mjs && node tooling/test-harness-check.mjs && node tooling/test-harness-runner.mjs && node tooling/test-harness-profiles.mjs && node tooling/test-harness-pilot.mjs"]
+CMD ["bash", "tooling/run-validation.sh", "--with-lint"]

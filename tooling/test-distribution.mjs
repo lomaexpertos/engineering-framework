@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import {createHash} from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { planConsumer, syncConsumer } from './sync-consumer.mjs';
 import { recoverTransaction } from './distribution-transaction.mjs';
@@ -118,6 +119,7 @@ try {
     ['collision', d => write(d, '.agents/skills/add-observability/SKILL.md', 'local'), /colisiona/],
     ['unknown', d => write(d, '.harness/core/custom.md', 'unknown'), /ownership/],
     ['wrapper-collision', d => write(d, '.harness/update.sh', 'project owned'), /ownership/],
+    ['environment-collision', d => write(d, '.harness/environment.sh', 'project owned'), /ownership/],
     ['incomplete', d => write(d, 'FRAMEWORK_VERSION', '1.0.0\n'), /incompleta/],
     ['parent-file', d => write(d, '.harness', 'file'), /not a directory/],
     ['symlink', d => fs.symlinkSync(root, path.join(d, '.agents')), /symbolic link/],
@@ -128,6 +130,24 @@ try {
     rejects(directory, pattern);
   }
   const legacy = fixture('legacy');
+  const nativeMigration = fixture('v2-runtime-migration');
+  syncConsumer(nativeMigration);
+  const v2 = JSON.parse(read(nativeMigration, manifestPath));
+  v2.framework_version = '2.0.0';
+  fs.unlinkSync(path.join(nativeMigration, '.harness/environment.sh'));
+  delete v2.files['.harness/environment.sh'];
+  const oldRuntime = '.harness/core/runtime/Dockerfile';
+  const oldRuntimeContent = 'FROM node:22.19.0-alpine3.22\nWORKDIR /runtime\nCOPY . .\nUSER node\n';
+  write(nativeMigration, oldRuntime, oldRuntimeContent);
+  v2.files[oldRuntime] = createHash('sha256').update(oldRuntimeContent).digest('hex');
+  write(nativeMigration, manifestPath, JSON.stringify(v2));
+  commit(nativeMigration);
+  const migrationBefore = snapshot(nativeMigration);
+  assert.throws(() => syncConsumer(nativeMigration), /MAJOR/);
+  assert.deepEqual(snapshot(nativeMigration), migrationBefore);
+  syncConsumer(nativeMigration, {allowMajor: true});
+  assert.ok(fs.existsSync(path.join(nativeMigration, '.harness/environment.sh')));
+  assert.ok(!fs.existsSync(path.join(nativeMigration, oldRuntime)));
   const unownedLegacy = fixture('unowned-legacy-symlink');
   syncConsumer(unownedLegacy);
   commit(unownedLegacy);

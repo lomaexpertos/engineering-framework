@@ -159,7 +159,7 @@ function prepareConsumer(consumerDirectory, options = {}) {
   if (fs.existsSync(path.join(root, ".harness_work/runtime/update.json"))) throw new Error("update interrumpido: ejecutar --recover antes de continuar");
   const previous = readInstallation(root);
   if (previous?.schema_version !== 2) {
-    for (const file of [".harness/core", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh"]) {
+    for (const file of [".harness/core", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh", ".harness/environment.sh"]) {
       assertSafePath(root, file);
       if (fs.existsSync(path.join(root, file))) throw new Error(`destino de ownership desconocido: ${file}`);
     }
@@ -180,7 +180,6 @@ function prepareConsumer(consumerDirectory, options = {}) {
   for (const [file, value] of readTree(frameworkRoot, "tooling")) {
     if (/^tooling\/harness-[^/]+\.mjs$/.test(file)) desired.set(`.harness/core/runtime/${file}`, value);
   }
-  put(".harness/core/runtime/Dockerfile", "FROM node:22.19.0-alpine3.22@sha256:d2166de198f26e17e5a442f537754dd616ab069c47cc57b889310a717e0abbf9\nRUN apk add --no-cache bash=5.2.37-r0 git=2.49.1-r0\nWORKDIR /runtime\nCOPY . .\nUSER node\n");
   for (const [file, value] of readTree(frameworkRoot, "templates/project/.harness")) {
     desired.set(file.replace("templates/project/", ""), value);
   }
@@ -215,7 +214,7 @@ function prepareConsumer(consumerDirectory, options = {}) {
     }
   }
 
-  const scope = ["AGENTS.md", ...(desired.has("CLAUDE.md") ? ["CLAUDE.md"] : []), ".harness/core", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh", ...(previous?.schema_version === 1 ? ["FRAMEWORK_VERSION", "engineering/corporate"] : []),
+  const scope = ["AGENTS.md", ...(desired.has("CLAUDE.md") ? ["CLAUDE.md"] : []), ".harness/core", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh", ".harness/environment.sh", ...(previous?.schema_version === 1 ? ["FRAMEWORK_VERSION", "engineering/corporate"] : []),
     ...platformRoots.flatMap((platform) => [...new Set([...previousNames, ...names])].map((name) => `${platform}/${name}`))];
   const current = new Map();
   for (const relative of scope) {

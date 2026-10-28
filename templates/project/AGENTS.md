@@ -6,7 +6,8 @@ Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni document
 ## Harness de ingeniería
 
 - Reglas corporativas: `.harness/core/policies/README.md`.
-- Compilar, preparar, probar o ejecutar el proyecto: Docker, conforme a
+- Compilar, preparar, probar o ejecutar la aplicación: Docker. Las herramientas
+  transversales del harness usan Node.js 22 o 24 nativo, Bash y Git, conforme a
   `.harness/core/policies/infrastructure/project-isolation.md`.
 - Desarrollo o corrección de operaciones críticas: aplicar desde el mismo cambio
   `.harness/core/policies/development/logging.md` y validar su trazabilidad;
