@@ -1,0 +1,72 @@
+WARNING: proceeding, even though we could not create PATH aliases: Refusing to create helper binaries under temporary dir "/tmp" (codex_home: AbsolutePathBuf("/tmp/harness-mixed-workflows-gWqX9C/codex-home/.codex"))
+{
+  "scope": "complete mixed executor workflows with real CLIs, deterministic loopback model transport and fictional credentials; no model intelligence certification",
+  "report": [
+    {
+      "coordinator_profile": "codex",
+      "worker": "opencode",
+      "versions": {
+        "codex": "codex-cli 0.165.0",
+        "opencode": "opencode v2.2.0"
+      },
+      "stages": [
+        "definition",
+        "implementation",
+        "review",
+        "verification"
+      ],
+      "review_count": 5,
+      "terminal": "ready_to_close",
+      "executions": [
+        {
+          "task": "mixed-codex-definition-0-definition",
+          "adapter": "codex",
+          "permission": "read-only",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-codex-implementation-0-implementation",
+          "adapter": "opencode",
+          "permission": "workspace-write",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-codex-review-0-functional",
+          "adapter": "codex",
+          "permission": "read-only",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-codex-review-0-security",
+          "adapter": "codex",
+          "permission": "read-only",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-codex-review-0-logging",
+          "adapter": "codex",
+          "permission": "read-only",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-codex-review-0-ui",
+          "adapter": "codex",
+          "permission": "read-only",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-codex-review-0-ux",
+          "adapter": "codex",
+          "permission": "read-only",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-codex-verification-0-functional",
+          "adapter": "codex",
+          "permission": "read-only",
+          "result": "completed"
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 # Continuidad
 
-Estado: implementación delegada en curso.
-Siguiente acción: integrar contratos/perfiles, procesos y distribución; validar recorridos reales.
-Bloqueos: ninguno confirmado.
-Validación pendiente: suite nativa, adaptadores reales, auditoría completa del plan.
+Implementación completa de los [17 requisitos](plan.md); [auditoría final](coverage.md).
+Sin trabajadores, bloqueantes ni validaciones pendientes.
+Conocimiento permanente en docs/architecture/agent-execution.md y ADR0016.
+Las pruebas de clientes reales usaron backend local determinista; no certifican calidad de modelos.
+Siguiente acción externa: adopción en consumidores y configuración personal mediante setup/doctor.

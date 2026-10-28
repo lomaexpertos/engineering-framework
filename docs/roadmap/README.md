@@ -10,7 +10,7 @@ conocimiento duradero que sobreviva al descarte del trabajo minucioso.
 | Cierre y descarte sin pérdida de conocimiento | delivered | Consolidación, retención de sesenta días y purga recuperable; próximos dominios según necesidades reales. |
 | Validación extensible y operación reproducible | delivered | Runners Docker, perfiles, extensiones y discovery para Codex/Claude; ampliar soporte por stack y cliente cuando corresponda. |
 | Herramientas transversales con runtime nativo | delivered | Bootstrap y wrappers usan Node.js 22 o 24, Bash y Git, sin npm ni instalación automática; runners del producto conservan Docker. La versión 3.x queda pendiente de publicación y adopción. |
-| Ejecución uniforme con perfiles personales | in_progress | Contratos de roles, configuración y adaptadores en integración; aceptación requiere recorridos con clientes, revisión y cierre. |
+| Ejecución uniforme con perfiles personales | delivered | Coordinación por roles, perfiles personales y adaptadores disponibles; siguiente paso: adopción del equipo con modelos evaluados y proyectos reales. |
 
 Los estados describen capacidades; no son porcentajes de actividad técnica.
 La publicación de una versión y su adopción en cada proyecto se informan por separado.

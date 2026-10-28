@@ -1,0 +1,56 @@
+COMMAND: HARNESS_AGENT_CLIENTS=codex,opencode node tooling/test-agent-clients.mjs
+{
+  "scope": "real clients and local deterministic transport; no model quality or OS isolation certification",
+  "authentication": "fictional only; isolated HOME/XDG",
+  "results": [
+    {
+      "client": "codex",
+      "permission": "read-only",
+      "structured_result": true,
+      "assignment_captured": true,
+      "prior_conversation_absent": true
+    },
+    {
+      "client": "codex",
+      "permission": "workspace-write",
+      "structured_result": true,
+      "assignment_captured": true,
+      "prior_conversation_absent": true
+    },
+    {
+      "client": "opencode",
+      "permission": "read-only",
+      "structured_result": true,
+      "assignment_captured": true,
+      "prior_conversation_absent": true
+    },
+    {
+      "client": "opencode",
+      "permission": "workspace-write",
+      "structured_result": true,
+      "assignment_captured": true,
+      "prior_conversation_absent": true
+    }
+  ]
+}
+COMMAND: docker run --rm --network none --mount type=bind,src=/home/aloranca/engineering-framwork,dst=/workspace,readonly -w /workspace -e HARNESS_AGENT_CLIENTS=claude engineering-harness-client-compatibility:20261028 node tooling/test-agent-clients.mjs
+{
+  "scope": "real clients and local deterministic transport; no model quality or OS isolation certification",
+  "authentication": "fictional only; isolated HOME/XDG",
+  "results": [
+    {
+      "client": "claude",
+      "permission": "read-only",
+      "structured_result": true,
+      "assignment_captured": true,
+      "prior_conversation_absent": true
+    },
+    {
+      "client": "claude",
+      "permission": "workspace-write",
+      "structured_result": true,
+      "assignment_captured": true,
+      "prior_conversation_absent": true
+    }
+  ]
+}
