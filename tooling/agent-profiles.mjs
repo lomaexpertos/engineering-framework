@@ -89,6 +89,7 @@ export function readConfiguration(root, options = {}) {
   const configPath = configurationPath(options);
   const personal = validatePersonal(load(configPath));
   const projectPath = path.resolve(root, '.harness/project/agents.json');
+  rejectSymlinks(projectPath);
   const project = validateProject(fs.existsSync(projectPath) ? load(projectPath) : { schema_version: 1 });
   const effective = { ...defaultLimits, ...personal.limits };
   for (const [key, value] of Object.entries(project.limits || {})) effective[key] = Math.min(effective[key], value);
@@ -97,48 +98,71 @@ export function readConfiguration(root, options = {}) {
 export async function setup(root, options = {}) {
   const configPath = configurationPath(options);
   rejectSymlinks(configPath);
-  let previous = fs.existsSync(configPath) ? load(configPath) : undefined;
-  let configuration = options.configuration || previous || { schema_version: 1, profiles: {}, roles: {}, limits: { ...defaultLimits } };
-  let migrated = false;
-  if (configuration.version === 0 && configuration.schema_version === undefined) {
-    configuration = { ...configuration, schema_version: 1 };
-    delete configuration.version;
-    migrated = true;
-  }
-  configuration = structuredClone(validatePersonal(configuration));
-  const interactive = options.interactive ?? (process.stdin.isTTY && process.stdout.isTTY && !options.configuration);
-  if (interactive) {
-    const rl = readline.createInterface({ input: options.input || process.stdin, output: options.output || process.stdout });
-    try {
-      while (true) {
-        const name = (await rl.question('Nombre de perfil a crear/editar (vacío para asignar roles): ')).trim();
-        if (!name) break;
-        if (!namePattern.test(name)) throw new Error('Invalid profile name');
-        const adapter = (await rl.question('Cliente (codex/claude/opencode): ')).trim();
-        const model = (await rl.question('Modelo explícito (OpenCode: proveedor/modelo): ')).trim();
-        const permission = (await rl.question('Permiso (read-only/workspace-write, defecto workspace-write): ')).trim() || 'workspace-write';
-        configuration.profiles[name] = { adapter, model, permission };
-        validatePersonal(configuration);
-      }
-      for (const role of agentRoles) {
-        const answer = (await rl.question(`Perfil para ${role} [${configuration.roles[role] || 'pendiente'}]: `)).trim();
-        if (answer) configuration.roles[role] = answer;
-      }
-    } finally { rl.close(); }
-  }
-  validatePersonal(configuration);
   fs.mkdirSync(path.dirname(configPath), { recursive: true, mode: 0o700 });
-  const contents = `${JSON.stringify(configuration, null, 2)}\n`;
-  let backup = null;
-  if (previous && fs.readFileSync(configPath, 'utf8') !== contents) {
-    backup = `${configPath}.backup-${Date.now()}-${crypto.randomUUID()}`;
-    fs.copyFileSync(configPath, backup, fs.constants.COPYFILE_EXCL);
-    fs.chmodSync(backup, 0o600);
+  const lockPath = `${configPath}.lock`;
+  let lock;
+  try { lock = fs.openSync(lockPath, 'wx', 0o600); }
+  catch { throw new Error('Configuration setup already locked; inspect the existing owner before retrying'); }
+  const identity = crypto.randomUUID();
+  fs.writeFileSync(lock, JSON.stringify({ pid: process.pid, identity }));
+  try {
+    let previous = fs.existsSync(configPath) ? load(configPath) : undefined;
+    let configuration = options.configuration || previous || { schema_version: 1, profiles: {}, roles: {}, limits: { ...defaultLimits } };
+    let migrated = false;
+    if (configuration.version === 0 && configuration.schema_version === undefined) {
+      configuration = { ...configuration, schema_version: 1 };
+      delete configuration.version;
+      migrated = true;
+    }
+    configuration = structuredClone(validatePersonal(configuration));
+    const interactive = options.interactive ?? (process.stdin.isTTY && process.stdout.isTTY && !options.configuration);
+    if (interactive) {
+      const rl = readline.createInterface({ input: options.input || process.stdin, output: options.output || process.stdout });
+      try {
+        const output = options.output || process.stdout;
+        for (const adapter of adapterNames) {
+          const detected = probe(adapter, ['--version'], options.env || process.env);
+          output.write(`${adapter}: ${detected.ok ? 'disponible' : 'no disponible'}\n`);
+        }
+        while (true) {
+          const name = (await rl.question('Nombre de perfil a crear/editar (vacío para asignar roles): ')).trim();
+          if (!name) break;
+          if (!namePattern.test(name)) throw new Error('Invalid profile name');
+          const adapter = (await rl.question('Cliente (codex/claude/opencode): ')).trim();
+          const model = (await rl.question('Modelo explícito (OpenCode: proveedor/modelo): ')).trim();
+          const permission = (await rl.question('Permiso (read-only/workspace-write, defecto workspace-write): ')).trim() || 'workspace-write';
+          configuration.profiles[name] = { adapter, model, permission };
+          validatePersonal(configuration);
+        }
+        configuration.limits = { ...defaultLimits, ...configuration.limits };
+        for (const key of Object.keys(defaultLimits)) {
+          const answer = (await rl.question(`${key} [${configuration.limits[key]}]: `)).trim();
+          if (answer) configuration.limits[key] = Number(answer);
+        }
+        limits(configuration.limits);
+        for (const role of agentRoles) {
+          const answer = (await rl.question(`Perfil para ${role} [${configuration.roles[role] || 'pendiente'}]: `)).trim();
+          if (answer) configuration.roles[role] = answer;
+        }
+      } finally { rl.close(); }
+    }
+    validatePersonal(configuration);
+    fs.mkdirSync(path.dirname(configPath), { recursive: true, mode: 0o700 });
+    const contents = `${JSON.stringify(configuration, null, 2)}\n`;
+    let backup = null;
+    if (previous && fs.readFileSync(configPath, 'utf8') !== contents) {
+      backup = `${configPath}.backup-${Date.now()}-${crypto.randomUUID()}`;
+      fs.copyFileSync(configPath, backup, fs.constants.COPYFILE_EXCL);
+      fs.chmodSync(backup, 0o600);
+    }
+    const temporary = `${configPath}.${crypto.randomUUID()}.tmp`;
+    try { fs.writeFileSync(temporary, contents, { flag: 'wx', mode: 0o600 }); fs.renameSync(temporary, configPath); }
+    finally { if (fs.existsSync(temporary)) fs.unlinkSync(temporary); }
+    return { configPath, backup, migrated, configured: Object.keys(configuration.profiles), diagnosis: doctor(root, { ...options, configPath }) };
+  } finally {
+    fs.closeSync(lock);
+    if (fs.existsSync(lockPath) && fs.readFileSync(lockPath, 'utf8') === JSON.stringify({ pid: process.pid, identity })) fs.unlinkSync(lockPath);
   }
-  const temporary = `${configPath}.${crypto.randomUUID()}.tmp`;
-  try { fs.writeFileSync(temporary, contents, { flag: 'wx', mode: 0o600 }); fs.renameSync(temporary, configPath); }
-  finally { if (fs.existsSync(temporary)) fs.unlinkSync(temporary); }
-  return { configPath, backup, migrated, configured: Object.keys(configuration.profiles), diagnosis: doctor(root, { ...options, configPath }) };
 }
 function probe(command, args, env) {
   const result = spawnSync(command, args, { encoding: 'utf8', timeout: 5000, maxBuffer: 512 * 1024, env, shell: false });
