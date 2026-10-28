@@ -5,7 +5,7 @@
   "required": ["schema_version"],
   "properties": {
     "schema_version": {"const": 1},
-    "profiles": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "profiles": {"type": "array", "items": {"enum": ["core", "database", "frontend", "infrastructure", "security"]}, "uniqueItems": true},
     "runners": {"type": "object", "additionalProperties": {"type": "object", "required": ["image"], "properties": {"image": {"type": "string", "minLength": 1}}}},
     "checks": {"type": "array", "items": {
       "type": "object",
