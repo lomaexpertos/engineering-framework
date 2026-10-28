@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "id": "20261028_ejecucion_agentes",
+  "title": "Ejecución uniforme de agentes y perfiles personales",
+  "owner": "coordinator",
+  "status": "active",
+  "revision": 3,
+  "created_at": "2026-10-28T23:02:51.028Z",
+  "updated_at": "2026-10-28T23:02:51.802Z",
+  "closed_at": null,
+  "retain_until": null,
+  "hold": null,
+  "active_tasks": [],
+  "blockers": [],
+  "blocked_from": null,
+  "blocked_reason": null
+}
