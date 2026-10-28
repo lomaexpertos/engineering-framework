@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Coordinated agent workflow",
+  "type": "object",
+  "required": ["schema_version", "id", "initiative", "objective", "scope", "exclusions", "ownership", "references", "acceptance", "applicability", "stage", "round", "max_correction_rounds", "required_reviews", "tasks", "history", "decisions", "created_at", "updated_at", "blocked_from", "block_reason"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{0,47}$"},
+    "initiative": {"type": "string", "pattern": "^[0-9]{8}_[a-z0-9]+(?:_[a-z0-9]+)*$"},
+    "objective": {"type": "string", "minLength": 1},
+    "scope": {"allOf": [{"$ref": "#/$defs/strings"}, {"minItems": 1}]},
+    "exclusions": {"$ref": "#/$defs/strings"},
+    "ownership": {"allOf": [{"$ref": "#/$defs/strings"}, {"minItems": 1}]},
+    "references": {"$ref": "#/$defs/strings"},
+    "acceptance": {"allOf": [{"$ref": "#/$defs/strings"}, {"minItems": 1}]},
+    "workspace": {"type": "string", "minLength": 1},
+    "applicability": {
+      "type": "object",
+      "required": ["ui", "ux"],
+      "properties": {"ui": {"$ref": "#/$defs/applicability"}, "ux": {"$ref": "#/$defs/applicability"}},
+      "additionalProperties": false
+    },
+    "stage": {"enum": ["definition", "implementation", "review", "correction", "verification", "ready_to_close", "blocked", "cancelled"]},
+    "round": {"type": "integer", "minimum": 0},
+    "max_correction_rounds": {"type": "integer", "minimum": 0, "maximum": 10},
+    "required_reviews": {"type": "array", "items": {"enum": ["functional", "security", "logging", "ui", "ux"]}, "uniqueItems": true},
+    "tasks": {"type": "object", "additionalProperties": {"type": "array", "items": {"$ref": "#/$defs/taskId"}, "minItems": 1, "uniqueItems": true}},
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["stage", "round", "tasks", "reviewed_at", "reviewer", "snapshot"],
+        "properties": {
+          "stage": {"enum": ["definition", "implementation", "review", "correction", "verification", "blocked", "cancelled"]},
+          "round": {"type": "integer", "minimum": 0},
+          "tasks": {"type": "array", "items": {"$ref": "#/$defs/taskId"}},
+          "reviewed_at": {"type": "string", "format": "date-time"},
+          "reviewer": {"type": "string", "minLength": 1},
+          "snapshot": {"$ref": "#/$defs/snapshot"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["task_id", "finding_id", "decision", "reason", "evidence"],
+        "properties": {
+          "task_id": {"$ref": "#/$defs/taskId"},
+          "finding_id": {"$ref": "#/$defs/taskId"},
+          "decision": {"enum": ["accepted", "resolved"]},
+          "reason": {"type": "string", "minLength": 1},
+          "evidence": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"},
+    "blocked_from": {"type": ["string", "null"]},
+    "block_reason": {"type": ["string", "null"]}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "strings": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "taskId": {"type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,95}$"},
+    "applicability": {
+      "type": "object", "required": ["applies", "reason"],
+      "properties": {"applies": {"type": "boolean"}, "reason": {"type": "string", "minLength": 1}},
+      "additionalProperties": false
+    },
+    "snapshot": {
+      "type": "object", "required": ["head", "content_hash"],
+      "properties": {"head": {"type": "string", "pattern": "^[a-f0-9]{40,64}$"}, "content_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}},
+      "additionalProperties": false
+    }
+  }
+}

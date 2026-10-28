@@ -14,3 +14,5 @@ Este índice localiza la fuente canónica; las explicaciones se mantienen allí.
 | Las aplicaciones se ejecutan en Docker; las herramientas transversales del harness admiten Node nativo. | [Aislamiento](../policies/infrastructure/project-isolation.md) |
 | El productor mantiene fuentes visibles y no se vendoriza a sí mismo. | [Decisión de arquitectura](governance/decisions/0013-project-harness.md) |
 | Actualizar y recuperar preserva contenido desconocido y ediciones posteriores. | [Decisión operativa](governance/decisions/0014-safe-harness-operations.md) |
+| Los perfiles personales satisfacen requisitos del equipo sin relajarlos. | [Ejecución de agentes](architecture/agent-execution.md) |
+| Conversación, workspace y permisos efectivos se declaran por separado. | [Ejecución de agentes](architecture/agent-execution.md) |

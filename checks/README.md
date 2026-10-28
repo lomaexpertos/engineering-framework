@@ -29,6 +29,13 @@ El agregado distingue aprobado, incumplimiento y error de configuración/ejecuci
 con códigos 0, 1 y 2. Un check requerido sin evidencia ejecutada no se considera aprobado.
 No instalar linters ni runtimes del proyecto en el host.
 
+`bash .harness/agents.sh doctor` diagnostica perfiles personales, asignación de roles
+y requisitos de ejecución del equipo. La configuración cumple esquemas versionados;
+un cliente encontrado no equivale a autenticación o modelo probado. Los contratos y
+límites están en [ejecución de agentes](../docs/architecture/agent-execution.md).
+Los resultados de revisión y las pruebas del producto siguen necesitando evidencia
+sobre la versión entregada; un proceso de agente terminado no acredita aceptación.
+
 El mantenimiento de la fuente incorpora sintaxis JS/Bash, ShellCheck, shfmt, higiene
 de texto y patrones acotados de credenciales. ShellCheck y shfmt no son requisitos
 del consumidor. Esto no sustituye un analizador completo de secretos ni

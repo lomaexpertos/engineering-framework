@@ -33,3 +33,10 @@ las instrucciones de la sesión.
    iniciativa de la lista activa. No mantener dos explicaciones vigentes del sistema.
 9. Memoria versionada **SHOULD** ser breve y sanitizada. Locks, journals y estado local
    **MUST** vivir en runtime ignorado, separados de la continuidad compartida.
+10. El coordinador **MUST** actualizar memoria y resumen después de una decisión
+    relevante, al integrar un trabajador, al aparecer un bloqueo o cambio de alcance,
+    antes de interrumpir/entregar la sesión y durante el cierre. Registrar hecho,
+    efecto y siguiente acción; no copiar logs ni duplicar conocimiento permanente.
+11. El contexto de arranque **MUST** identificar la versión del encargo y sus fuentes.
+    Una respuesta del usuario que cambie el alcance **MUST** incorporarse al encargo
+    antes de relanzar; una entrega desactualizada requiere reconciliación explícita.

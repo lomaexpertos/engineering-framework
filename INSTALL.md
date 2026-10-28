@@ -107,6 +107,21 @@ Añadir `.harness_work/runtime/` al `.gitignore` propio antes de operar. Esa rut
 locks y journals locales; memoria compartida y expedientes se versionan según su
 sensibilidad. No guardar secretos, transcripciones ni volcados de datos.
 
+## Configuración de agentes por integrante
+
+```bash
+bash .harness/agents.sh setup
+bash .harness/agents.sh doctor
+```
+
+El asistente crea perfiles personales fuera del repositorio en
+`${XDG_CONFIG_HOME:-$HOME/.config}/harness/profiles.json`. Cada integrante elige sus
+clientes/modelos y asigna roles. El proyecto puede añadir requisitos en
+`.harness/project/agents.json`; las elecciones personales no los relajan. El setup
+no instala clientes ni copia credenciales. La actualización del núcleo preserva
+ambos archivos. Consultar [ejecución de agentes](docs/architecture/agent-execution.md)
+para contratos, capacidades, permisos y límites del flujo coordinado.
+
 ## Validar la fuente productora
 
 La validación estructural de la fuente puede ejecutarse con Node.js 22 o 24:

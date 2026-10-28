@@ -9,7 +9,9 @@ Estos temas no constituyen contratos implementados ni autorizaciones de ejecuci�
   no equivale a certificar comportamiento de modelos, GUI ni providers productivos.
 - Adoptar un consumidor real con reconciliación explícita de contexto heredado; el
   actualizador nunca traslada su documentación por su cuenta.
-- Evaluar un adaptador OpenCode cuando exista un consumidor y evidencia de su contrato.
+- Extender los adaptadores de ejecución a Pi y nuevas versiones cuando exista
+  evidencia de su contrato; mantener explícita la diferencia entre integración
+  de CLI y comportamiento de modelos en proyectos reales.
 - Resolver skills homónimas instaladas globalmente en equipos adoptados, sin borrarlas
   como efecto de actualizar un proyecto.
 

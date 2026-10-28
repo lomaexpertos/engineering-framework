@@ -35,3 +35,25 @@ Trabajo de proyecto conducido por un agente coordinador, con o sin subagentes na
 
 Los encargos y resultados se guardan en
 `.harness_work/initiatives/<id>/agents/<task-id>/`.
+
+## Ejecución y perfiles
+
+- El ejecutor **MUST** resolver roles mediante configuración personal y validar los
+  requisitos versionados del equipo antes de lanzar. La elección personal puede
+  restringir, pero **MUST NOT** relajar revisiones, permisos o límites del proyecto.
+- El coordinador **MUST** agrupar preguntas de trabajadores, obtener respuestas y
+  actualizar el encargo. Una dependencia indispensable sin resolver bloquea el paso.
+- Definición y revisión **SHOULD** usar perfiles evaluados de alto razonamiento;
+  implementación puede usar un perfil rápido con escalamiento ante contradicciones.
+  Precio o nombre comercial no prueban capacidad. La selección queda explícita.
+- Cada ejecución **MUST** identificar historial recibido, workspace y permisos
+  efectivos. Instrucciones textuales no equivalen a un sandbox. Las limitaciones de
+  un adaptador y las capacidades no verificadas **MUST** hacerse visibles.
+- Los revisores **MUST** evaluar la misma versión identificada y entregar hallazgos
+  sin editar el producto. El coordinador consolida duplicados/contradicciones antes
+  de corrección y revalida los hallazgos afectados sobre la nueva versión.
+- El flujo **SHOULD** limitar correcciones inicialmente a dos rondas; al agotarlas
+  **MUST** escalar la decisión o implementación, sin reintentos ilimitados.
+- Cambiar proveedor/modelo **MUST** quedar visible. El ejecutor **MUST NOT** instalar
+  clientes, copiar credenciales, modificar configuración global de terceros ni
+  convertir resultados de agentes en comandos o autorizaciones automáticas.

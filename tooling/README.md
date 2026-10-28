@@ -21,6 +21,7 @@ instala herramientas automáticamente. El producto conserva su ambiente Docker.
 | Comprobar instalación, contexto, docs y trabajo | [harness-check.mjs](harness-check.mjs) |
 | Preparar runners y registrar resultados | [harness-runner-plan.mjs](harness-runner-plan.mjs) |
 | Estado, transiciones, cierre, retención y purga | [harness-work.mjs](harness-work.mjs) |
+| Configuración personal, encargos, ejecución y entregas de agentes | [harness-agents.mjs](harness-agents.mjs) |
 | Primera adopción | [bootstrap-harness.sh](bootstrap-harness.sh) y [INSTALL.md](../INSTALL.md) |
 
 ## Distribución y recuperación
@@ -56,6 +57,11 @@ sin socket montado y sin red, con repositorio de solo lectura, y entrega resulta
 al runtime. El planner no ejecuta por sí solo los comandos del producto.
 
 ## Validación local reproducible
+
+Los contratos de ejecución uniforme, perfiles personales y límites por proyecto se
+explican en [ejecución de agentes](../docs/architecture/agent-execution.md). El wrapper
+`agents.sh` no instala clientes ni guarda sus credenciales. Diagnóstico local,
+ejecución real de CLI y evaluación del modelo son comprobaciones diferentes.
 
 La validación estructural se ejecuta con `node tooling/validate-framework.mjs`.
 `node tooling/lint-source.mjs` requiere ShellCheck y shfmt además de Node, Bash y

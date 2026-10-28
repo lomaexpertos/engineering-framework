@@ -39,6 +39,11 @@ Una fuente de skills genera las copias de Codex y Claude Code. Las capacidades d
 subagentes y descubrimiento dependen del cliente; las limitaciones se declaran sin
 simular revisiones independientes.
 
+El [ejecutor de agentes](docs/architecture/agent-execution.md) separa requisitos
+versionados del equipo y perfiles personales. Una sesión coordinadora puede delegar
+en clientes configurados mediante encargos y entregas verificables; diagnóstico,
+permisos y revisión conservan sus límites explícitos.
+
 El harness opera con Node.js 22 o 24 nativo, Bash y Git, sin dependencias npm ni instalación
 automática en el host. Builds, tests y linters del producto se ejecutan dentro de
 Docker; los checks declarados requieren además Docker y GNU `timeout`.

@@ -23,7 +23,10 @@ riesgos. Una dimensión no aplicable conserva motivo, no una aprobación fictici
 2. El revisor **SHOULD** ser distinto del autor cuando exista capacidad; alto riesgo
    **MUST** tener revisión independiente o quedar explícitamente pendiente. Una
    autoevaluación no se presenta como independencia.
-3. Un revisor puede cubrir varias dimensiones. No crear un agente por casilla.
+3. Los roles funcional, seguridad, logging/comentarios, UI y UX **MUST** tener
+   cobertura explícita según aplicabilidad. Pueden compartir perfil/modelo y
+   ejecutarse por turnos; un revisor puede cubrir varias dimensiones cuando se
+   conserve la independencia requerida. UI/UX no aplicables conservan motivo.
 4. Hallazgos **MUST** incluir ubicación, condición, impacto y evidencia; separar
    bloqueantes demostrados, recomendaciones y mejoras opcionales. No imponer cuotas
    ni convertir preferencias estéticas en defectos materiales.

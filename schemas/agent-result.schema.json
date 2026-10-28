@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Agent delivery",
+  "type": "object",
+  "required": ["schema_version", "task_id", "status", "summary", "changes", "verification", "findings", "questions", "pending", "durable_candidates"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "task_id": {"type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,95}$"},
+    "status": {"enum": ["completed", "needs_input", "failed"]},
+    "summary": {"type": "string", "minLength": 1},
+    "changes": {"$ref": "#/$defs/strings"},
+    "verification": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["command", "outcome", "evidence"],
+        "properties": {
+          "command": {"type": "string"},
+          "outcome": {"enum": ["passed", "failed", "not_run"]},
+          "evidence": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "severity", "dimension", "location", "evidence", "impact", "resolution", "status"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,95}$"},
+          "severity": {"enum": ["blocker", "recommendation", "optional"]},
+          "dimension": {"type": "string", "minLength": 1},
+          "location": {"type": "string", "minLength": 1},
+          "evidence": {"type": "string", "minLength": 1},
+          "impact": {"type": "string", "minLength": 1},
+          "resolution": {"type": "string", "minLength": 1},
+          "status": {"enum": ["open", "resolved"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "questions": {"$ref": "#/$defs/strings"},
+    "pending": {"$ref": "#/$defs/strings"},
+    "durable_candidates": {"$ref": "#/$defs/strings"}
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "needs_input"}}}, "then": {"properties": {"questions": {"minItems": 1}}}},
+    {"if": {"properties": {"status": {"const": "completed"}}}, "then": {"properties": {"questions": {"maxItems": 0}}}}
+  ],
+  "$defs": {"strings": {"type": "array", "items": {"type": "string", "minLength": 1}}}
+}

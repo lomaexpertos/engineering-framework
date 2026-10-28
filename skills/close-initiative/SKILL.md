@@ -13,6 +13,9 @@ un comando solo comprueba lo que el contrato puede verificar.
 
 - Confirmar aceptación y revisiones requeridas, bloqueantes resueltos y agentes
   terminados. Un recorte de alcance necesita acuerdo; cancelar no afirma entrega.
+- Consultar ejecuciones del harness y reconciliar procesos interrumpidos antes del
+  cierre. Contrastar entregas, hallazgos y pruebas con la versión integrada; una
+  salida exitosa de proceso no equivale a aceptación ni a independencia de revisión.
 - Actualizar fuentes canónicas con `spec-documentar`: comportamiento/razones,
   decisiones confirmadas e invariantes. No duplicar explicación en el cierre.
 - Actualizar milestone y pendientes de alto nivel en `docs/roadmap/`; conservar

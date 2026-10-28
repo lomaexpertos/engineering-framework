@@ -29,6 +29,11 @@ La revisión se activa por riesgos del cambio: código, seguridad, integridad, U
 comentarios, logging y documentación. Un revisor puede cubrir varias dimensiones.
 Se distingue independencia de autoevaluación y evidencia real de comprobación omitida.
 
+El [ejecutor uniforme](agent-execution.md) conecta perfiles personales y requisitos
+del equipo con encargos/entregas versionados. Las preguntas al usuario pasan por el
+coordinador. La memoria se actualiza tras decisiones, integración de trabajadores,
+bloqueos/cambios de alcance e interrupciones, además del cierre.
+
 ## Registro de trabajo
 
 El runtime `work.sh` permite crear/listar iniciativas, registrar transiciones,

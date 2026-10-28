@@ -15,3 +15,4 @@
 - [`0013-project-harness.md`](0013-project-harness.md): contrato vigente 2.x de layout, distribución y continuidad.
 - [`0014-safe-harness-operations.md`](0014-safe-harness-operations.md): razones de recuperación, ownership e imágenes inmutables.
 - [`0015-native-harness-runtime.md`](0015-native-harness-runtime.md): Node.js 22 o 24 nativo para herramientas transversales; Docker para el producto y sus checks.
+- [`0016-uniform-agent-execution.md`](0016-uniform-agent-execution.md): ejecución uniforme, requisitos de equipo y perfiles personales.

@@ -11,6 +11,7 @@ project/
 │   ├── update.sh
 │   ├── check.sh
 │   ├── work.sh
+│   ├── agents.sh                 # Ejecutor con perfiles personales
 │   ├── environment.sh            # Preflight nativo compartido
 │   ├── core/                    # Contenido administrado
 │   │   ├── policies/
@@ -49,6 +50,11 @@ mixtos de instrucciones raíz. No son una firma del publicador.
 `.harness/project/`, `docs/` y la continuidad del proyecto pertenecen al consumidor.
 El actualizador no los crea, reescribe o elimina como efecto de cambiar la metodología.
 Los archivos operativos de runtime son locales y deben ignorarse en Git.
+
+Los requisitos de agentes del equipo viven en `.harness/project/agents.json` y los
+perfiles personales fuera del repositorio. Sus contratos y separación de autoridad
+se explican en [ejecución de agentes](agent-execution.md). La distribución no crea
+perfiles personales ni reemplaza elecciones de proveedores/modelos.
 
 Código, pruebas, SQL, assets e infraestructura ejecutable permanecen en las rutas
 productivas de cada proyecto; no se trasladan a expedientes descartables.
