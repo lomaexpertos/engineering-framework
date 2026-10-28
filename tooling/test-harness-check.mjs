@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
 import { checkRepository } from './harness-check.mjs';
 
 const root = fs.mkdtempSync(path.join(os.tmpdir(), 'harness-check-'));
@@ -27,6 +28,15 @@ try {
   assert.equal(checkRepository(root, { scope: 'work' }).ok, false);
   write('.harness/project/config.json', JSON.stringify({ schema_version: 1, checks: [{ id: 'test', argv: ['test'], runner: 'app', timeout_seconds: 30, required: true }] }));
   assert.equal(checkRepository(root, { scope: 'extensions' }).ok, false);
+  const config = fs.readFileSync(path.join(root, '.harness/project/config.json'));
+  const report = { schema_version: 1, config_sha256: crypto.createHash('sha256').update(config).digest('hex'), checks: [{ id: 'test', exit_code: 0, executed_at: new Date().toISOString() }] };
+  assert.equal(checkRepository(root, { scope: 'extensions', externalResults: report }).ok, true);
+  report.config_sha256 = 'stale';
+  assert.equal(checkRepository(root, { scope: 'extensions', externalResults: report }).ok, false);
+  write('.harness/project/config.json', '{');
+  assert.doesNotThrow(() => checkRepository(root, { scope: 'context' }));
+  write('docs/domains/runtime/README.md', '# Runtime\n\n[Temporal][source]\n\n[source]: ../../../.harness_work/initiatives/example/brief.md\n');
+  assert.equal(checkRepository(root, { scope: 'documentation' }).results.some(result => result.id === 'durable-reference' && result.status === 'failed'), true);
   assert.throws(() => checkRepository(root, { scope: 'unknown' }), /Scope desconocido/);
   fs.symlinkSync('/tmp', path.join(root, 'escape'));
   assert.throws(() => checkRepository(root), /symlinks/);

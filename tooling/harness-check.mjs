@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
+import { validateState } from './harness-work.mjs';
 
 const scopes = new Set(['context', 'documentation', 'installation', 'work', 'extensions']);
 const temporary = /(?:^|\/)\.harness_work\/(?:initiatives|runtime)\//;
@@ -11,8 +12,8 @@ function filesUnder(root, relative = '') {
   const directory = path.join(root, relative);
   if (!fs.existsSync(directory)) return output;
   for (const item of fs.readdirSync(directory, { withFileTypes: true })) {
-    if (['.git', 'node_modules', 'runtime'].includes(item.name)) continue;
     const name = path.posix.join(relative, item.name);
+    if (['.git', 'node_modules'].includes(item.name) || name === '.harness_work/runtime' || name === '.harness/core/runtime') continue;
     if (item.isSymbolicLink()) throw new Error(`No se siguen symlinks: ${name}`);
     if (item.isDirectory()) output.push(...filesUnder(root, name));
     else if (item.isFile()) output.push(name);
@@ -23,8 +24,11 @@ function filesUnder(root, relative = '') {
 export function markdownLinks(content) {
   // Ignore examples: their paths describe contracts, not files in this checkout.
   const prose = content.replace(/^```[^\n]*\n[\s\S]*?^```\s*$/gm, '');
-  return [...prose.matchAll(/!?\[[^\]]*\]\((<[^>]+>|[^\s)]+)(?:\s+"[^"]*")?\)/g)]
+  const inline = [...prose.matchAll(/!?\[[^\]]*\]\((<[^>]+>|[^\s)]+)(?:\s+"[^"]*")?\)/g)]
     .map(match => match[1].replace(/^<|>$/g, ''));
+  const references = [...prose.matchAll(/^ {0,3}\[[^\]]+\]:\s*(<[^>]+>|\S+)/gm)]
+    .map(match => match[1].replace(/^<|>$/g, ''));
+  return [...inline, ...references];
 }
 
 function anchors(content) {
@@ -40,7 +44,7 @@ function anchors(content) {
   return output;
 }
 
-export function checkRepository(root, { scope } = {}) {
+export function checkRepository(root, { scope, externalResults } = {}) {
   root = fs.realpathSync(root);
   if (scope && !scopes.has(scope)) throw new Error(`Scope desconocido: ${scope}`);
   const results = [];
@@ -105,7 +109,8 @@ export function checkRepository(root, { scope } = {}) {
     assert('context', 'discovery-budget', discovery.length <= 8000, `${platform}: ${discovery.length}/8000 caracteres`);
   }
   const manifestPath = '.harness/core/manifest.json';
-  if (!exists(manifestPath)) add('installation', 'manifest', 'failed', 'Falta manifest de instalación', manifestPath);
+  if (scope && scope !== 'installation') { /* Other scopes do not parse installation metadata. */ }
+  else if (!exists(manifestPath)) add('installation', 'manifest', 'failed', 'Falta manifest de instalación', manifestPath);
   else {
     const manifest = JSON.parse(text(manifestPath));
     assert('installation', 'manifest-schema', manifest.schema_version === 2 && manifest.files && Object.keys(manifest.files).length > 0, 'Schema de manifest soportado', manifestPath);
@@ -118,23 +123,30 @@ export function checkRepository(root, { scope } = {}) {
     }
   }
   const states = all.filter(file => /^\.harness_work\/initiatives\/[^/]+\/state\.json$/.test(file));
-  for (const file of states) {
+  for (const file of (!scope || scope === 'work' ? states : [])) {
     const state = JSON.parse(text(file));
-    assert('work', 'state-schema', state.schema_version === 1 && typeof state.id === 'string' && Number.isInteger(state.revision), 'Identidad y revisión de estado', file);
+    let valid = true;
+    try { validateState(state); } catch { valid = false; }
+    assert('work', 'state-schema', valid, 'Identidad y revisión de estado', file);
     assert('work', 'state-status', ['draft','ready','active','blocked','validating','closing','closed','cancelled'].includes(state.status), 'Estado conocido', file);
     if (['closed', 'cancelled'].includes(state.status)) {
       const closed = Date.parse(state.closed_at);
       assert('work', 'retention', Number.isFinite(closed) && Date.parse(state.retain_until) === closed + 60 * 86400000, 'Retención de sesenta días', file);
     }
   }
-  if (!exists('.harness/project/config.json')) add('extensions', 'configuration', 'not_applicable', 'Sin configuración local');
+  if (scope && scope !== 'extensions') { /* Other scopes do not parse extension metadata. */ }
+  else if (!exists('.harness/project/config.json')) add('extensions', 'configuration', 'not_applicable', 'Sin configuración local');
   else {
     const config = JSON.parse(text('.harness/project/config.json'));
     assert('extensions', 'configuration', config.schema_version === 1, 'Schema local soportado');
     for (const check of config.checks || []) {
       const valid = typeof check.id === 'string' && Array.isArray(check.argv) && check.argv.length > 0 && check.argv.every(arg => typeof arg === 'string') && typeof check.runner === 'string' && Number.isFinite(check.timeout_seconds) && check.timeout_seconds > 0;
       assert('extensions', 'check-contract', valid, `Contrato de check ${check.id || '(sin id)'}`);
-      add('extensions', 'check-execution', check.required ? 'failed' : 'not_applicable', `Check ${check.id}: requiere ejecución en runner Docker declarado; nunca se ejecuta en host`);
+      const configHash = crypto.createHash('sha256').update(text('.harness/project/config.json')).digest('hex');
+      const records = externalResults?.schema_version === 1 && externalResults.config_sha256 === configHash ? externalResults.checks || [] : [];
+      const record = records.find(entry => entry.id === check.id);
+      const passed = record && record.exit_code === 0 && Number.isFinite(Date.parse(record.executed_at));
+      add('extensions', 'check-execution', passed ? 'passed' : check.required || record ? 'failed' : 'not_applicable', `Check ${check.id}: ${record ? `exit ${record.exit_code}` : 'sin evidencia de ejecución Docker'}`);
     }
   }
   return { schema_version: 1, results, ok: results.every(result => result.status !== 'failed') };
@@ -144,7 +156,8 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   try {
     const args = process.argv.slice(2);
     const value = flag => args.includes(flag) ? args[args.indexOf(flag) + 1] : undefined;
-    const report = checkRepository(value('--root') || process.cwd(), { scope: value('--scope') });
+    const resultsFile = value('--results');
+    const report = checkRepository(value('--root') || process.cwd(), { scope: value('--scope'), externalResults: resultsFile ? JSON.parse(fs.readFileSync(resultsFile, 'utf8')) : undefined });
     if (args.includes('--json')) console.log(JSON.stringify(report, null, 2));
     else for (const item of report.results) console.log(`${item.status}: ${item.scope}/${item.id}: ${item.file || ''} ${item.message}`);
     process.exitCode = report.ok ? 0 : 1;
