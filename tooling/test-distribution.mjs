@@ -120,6 +120,7 @@ try {
     ['unknown', d => write(d, '.harness/core/custom.md', 'unknown'), /ownership/],
     ['wrapper-collision', d => write(d, '.harness/update.sh', 'project owned'), /ownership/],
     ['environment-collision', d => write(d, '.harness/environment.sh', 'project owned'), /ownership/],
+    ['agents-collision', d => write(d, '.harness/agents.sh', 'project owned'), /ownership/],
     ['incomplete', d => write(d, 'FRAMEWORK_VERSION', '1.0.0\n'), /incompleta/],
     ['parent-file', d => write(d, '.harness', 'file'), /not a directory/],
     ['symlink', d => fs.symlinkSync(root, path.join(d, '.agents')), /symbolic link/],

@@ -3,6 +3,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { validateState } from './harness-work.mjs';
+import { validateProject } from './agent-profiles.mjs';
 import { runnerPlan } from './harness-runner-plan.mjs';
 import { validateManifest } from './harness-manifest.mjs';
 import { buildSkillAdapters } from './harness-profiles.mjs';
@@ -53,6 +54,13 @@ export function checkRepository(root, { scope, externalResults } = {}) {
   const all = filesUnder(root);
   const text = file => fs.readFileSync(path.join(root, file), 'utf8');
   const exists = file => fs.existsSync(path.join(root, file));
+  if (exists('.harness/project/agents.json')) {
+    try {
+      validateProject(JSON.parse(text('.harness/project/agents.json')));
+      add('extensions', 'agent-configuration', 'passed', 'Contrato compartido de agentes válido');
+    } catch (error) { add('extensions', 'agent-configuration', 'failed', error.message, '.harness/project/agents.json'); }
+  }
+
   function safeFile(file) {
     if (!file || path.isAbsolute(file) || file.split(/[\\/]/).some(part => !part || part === '..')) throw new Error(`Ruta administrada insegura: ${file}`);
     let current = root;

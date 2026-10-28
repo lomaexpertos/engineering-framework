@@ -4,6 +4,7 @@ import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { markdownLinks } from './harness-markdown.mjs';
+import { assertNoOpenAgents } from './agent-execution.mjs';
 
 export const statuses = ['draft','ready','active','blocked','validating','closing','closed','cancelled'];
 export const categories = ['validation','reviews','documentation','decisions','invariants','roadmap','backlog','memory'];
@@ -70,6 +71,7 @@ function incoming(root, ids, excluded) {
   }).map(file=>path.relative(root,file));
 }
 function verifyClosure(root, directory, state) {
+  assertNoOpenAgents(root,state.id);
   if(state.active_tasks.length || state.blockers.length) fail('Active tasks or blockers prevent closure');
   const file=safe(root,path.relative(root,path.join(directory,'closure.json')));
   if(!exists(file)) fail('Missing closure.json: coordinator must consolidate and attest the closure');
@@ -183,6 +185,7 @@ export function operate(root, command, args=[], options={}) {
       if(state.status==='blocked' && state.blocked_reason==='paused' && !options.resume) fail('Paused initiative requires --resume');
       if(state.status==='blocked' && next!=='blocked') {state.blocked_from=null;state.blocked_reason=null;}
       if(next==='ready' && (!options.confirm || !fs.readFileSync(path.join(target,'brief.md'),'utf8').trim())) fail('ready requires confirmed scope/acceptance (--confirm)');
+      if(['validating','closing'].includes(next)) assertNoOpenAgents(root,id);
       if(next==='validating' && (!options.confirm || state.active_tasks.length)) fail('validating requires integration confirmation and no active tasks');
       if(next==='closing' && (!options.confirm || state.active_tasks.length || state.blockers.length)) fail('closing requires review confirmation and no active tasks/blockers');
       state.status=next;return save(state);

@@ -7,6 +7,7 @@ import { createHash } from "node:crypto";
 import { applyTransaction, recoverTransaction } from "./distribution-transaction.mjs";
 import { buildSkillAdapters } from "./harness-profiles.mjs";
 import { validateManifest } from "./harness-manifest.mjs";
+import { assertNoOpenAgents } from "./agent-execution.mjs";
 
 const frameworkRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const startMarker = "<!-- engineering-framework:start -->";
@@ -157,9 +158,16 @@ function prepareConsumer(consumerDirectory, options = {}) {
   for (const relative of ["AGENTS.md", "FRAMEWORK_VERSION", metadataFile, ...platformRoots]) assertSafePath(root, relative);
   assertSafePath(root, ".harness_work/runtime/update.json");
   if (fs.existsSync(path.join(root, ".harness_work/runtime/update.json"))) throw new Error("update interrumpido: ejecutar --recover antes de continuar");
+  const initiatives = path.join(root, ".harness_work/initiatives");
+  if (fs.existsSync(initiatives)) {
+    assertSafePath(root, ".harness_work/initiatives");
+    for (const id of fs.readdirSync(initiatives)) {
+      if (/^\d{8}_[a-z0-9]+(?:_[a-z0-9]+)*$/.test(id)) assertNoOpenAgents(root, id);
+    }
+  }
   const previous = readInstallation(root);
   if (previous?.schema_version !== 2) {
-    for (const file of [".harness/core", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh", ".harness/environment.sh"]) {
+    for (const file of [".harness/core", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh", ".harness/environment.sh", ".harness/agents.sh"]) {
       assertSafePath(root, file);
       if (fs.existsSync(path.join(root, file))) throw new Error(`destino de ownership desconocido: ${file}`);
     }
@@ -178,7 +186,7 @@ function prepareConsumer(consumerDirectory, options = {}) {
     for (const [file, value] of readTree(frameworkRoot, directory)) desired.set(`.harness/core/${file}`, value);
   }
   for (const [file, value] of readTree(frameworkRoot, "tooling")) {
-    if (/^tooling\/harness-[^/]+\.mjs$/.test(file)) desired.set(`.harness/core/runtime/${file}`, value);
+    if (/^tooling\/(?:harness|agent)-[^/]+\.mjs$/.test(file)) desired.set(`.harness/core/runtime/${file}`, value);
   }
   for (const [file, value] of readTree(frameworkRoot, "templates/project/.harness")) {
     desired.set(file.replace("templates/project/", ""), value);
@@ -214,7 +222,7 @@ function prepareConsumer(consumerDirectory, options = {}) {
     }
   }
 
-  const scope = ["AGENTS.md", ...(desired.has("CLAUDE.md") ? ["CLAUDE.md"] : []), ".harness/core", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh", ".harness/environment.sh", ...(previous?.schema_version === 1 ? ["FRAMEWORK_VERSION", "engineering/corporate"] : []),
+  const scope = ["AGENTS.md", ...(desired.has("CLAUDE.md") ? ["CLAUDE.md"] : []), ".harness/core", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh", ".harness/environment.sh", ".harness/agents.sh", ...(previous?.schema_version === 1 ? ["FRAMEWORK_VERSION", "engineering/corporate"] : []),
     ...platformRoots.flatMap((platform) => [...new Set([...previousNames, ...names])].map((name) => `${platform}/${name}`))];
   const current = new Map();
   for (const relative of scope) {
