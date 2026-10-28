@@ -1,6 +1,6 @@
 # Plan de transformación a harness
 
-Fecha: 2026-10-28. Estado: plan propuesto; implementación no iniciada.
+Fecha: 2026-10-28. Estado: aprobado; implementación en curso.
 Autoridad funcional: [spec.md](../spec.md).
 
 ## 1. Enfoque y condiciones de entrada

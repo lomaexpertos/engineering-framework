@@ -1,6 +1,6 @@
 # Transformación del framework en un harness de proyectos
 
-Fecha: 2026-10-28. Estado: propuesta completa para revisión; no implementada.
+Fecha: 2026-10-28. Estado: aprobada por el usuario; implementación en curso.
 Iniciativa: `20261028_transformacion_framework_harness`.
 Plan técnico: [plan/plan.md](plan/plan.md).
 
@@ -34,7 +34,8 @@ documentos, reglas o pasos ejecutados no es una medida de éxito.
   público del harness.
 - Reglas ligeras: metodología y conocimiento organizacional que el agente no puede
   deducir, sin manuales de programación genéricos.
-- Esta entrega comprende especificación y planeación, no implementación.
+- El usuario autorizó ejecutar el plan completo y crear commits frecuentes por
+  unidades lógicas. Publicación y adopción externa conservan sus límites explícitos.
 
 ### Supuestos de diseño revisables
 
