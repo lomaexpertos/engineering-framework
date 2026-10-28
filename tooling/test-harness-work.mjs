@@ -58,6 +58,9 @@ try {
   fs.mkdirSync(path.join(root,'.harness_work/runtime/update.lock'));
   assert.throws(()=>run('reopen',[id]),/Update operation active/);
   fs.rmdirSync(path.join(root,'.harness_work/runtime/update.lock'));
+  json('.harness_work/runtime/update.json',{});
+  assert.throws(()=>run('hold',[id],{reason:'must not mutate partial installation'}),/Interrupted update/);
+  fs.unlinkSync(path.join(root,'.harness_work/runtime/update.json'));
   git('add','.');git('commit','-qm','Fixture');
   fs.appendFileSync(path.join(root,'docs/system.md'),`\n${id}\n`);
   assert.throws(()=>run('purge',[id],{now:'2026-12-28T00:00:00Z',check:true}),/Incoming references/);

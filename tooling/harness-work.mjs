@@ -10,6 +10,7 @@ export const categories = ['validation','reviews','documentation','decisions','i
 const retention = 60 * 86400000;
 const idPattern = /^\d{8}_[a-z0-9]+(?:_[a-z0-9]+)*$/;
 const fail = message => { throw new Error(message); };
+const utcTimestamp = value => typeof value==='string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0,19)===value.slice(0,19);
 const exists = file => fs.existsSync(file);
 const read = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 function write(file, value) {
@@ -42,13 +43,13 @@ function snapshot(directory) {
 export function validateState(state) {
   const keys=['schema_version','id','title','owner','status','revision','created_at','updated_at','closed_at','retain_until','hold','active_tasks','blockers','blocked_from','blocked_reason'];
   if(!state || keys.some(key=>!Object.hasOwn(state,key)) || Object.keys(state).some(key=>!keys.includes(key))) fail('Invalid initiative state fields');
-  if(state.schema_version!==1 || !idPattern.test(state.id||'') || !statuses.includes(state.status) || !state.owner || !state.title || !Number.isInteger(state.revision) || state.revision<1) fail('Invalid initiative state');
+  if(state.schema_version!==1 || typeof state.id!=='string' || !idPattern.test(state.id) || !statuses.includes(state.status) || !state.owner || !state.title || !Number.isInteger(state.revision) || state.revision<1) fail('Invalid initiative state');
   for(const key of ['active_tasks','blockers']) if(!Array.isArray(state[key])) fail(`Invalid ${key}`);
   if(typeof state.title!=='string' || typeof state.owner!=='string' || !(state.hold===null || typeof state.hold==='string')) fail('Invalid state fields');
-  for(const key of ['created_at','updated_at']) if(typeof state[key]!=='string' || !state[key].endsWith('Z') || !Number.isFinite(Date.parse(state[key]))) fail(`Invalid ${key}`);
+  for(const key of ['created_at','updated_at']) if(!utcTimestamp(state[key])) fail(`Invalid ${key}`);
   if(!(state.blocked_from===null || statuses.includes(state.blocked_from)) || !(state.blocked_reason===null || typeof state.blocked_reason==='string')) fail('Invalid blocked state');
   if(['closed','cancelled'].includes(state.status)) {
-    if(typeof state.closed_at!=='string' || !state.closed_at.endsWith('Z') || typeof state.retain_until!=='string' || !state.retain_until.endsWith('Z') || !Number.isFinite(Date.parse(state.closed_at)) || Date.parse(state.closed_at)<Date.parse(state.created_at) || Date.parse(state.retain_until)!==Date.parse(state.closed_at)+retention) fail('Invalid closure retention');
+    if(!utcTimestamp(state.closed_at) || !utcTimestamp(state.retain_until) || Date.parse(state.closed_at)<Date.parse(state.created_at) || Date.parse(state.retain_until)!==Date.parse(state.closed_at)+retention) fail('Invalid closure retention');
   } else if(state.closed_at!==null || state.retain_until!==null) fail('Open initiative has closure date');
   return state;
 }
@@ -70,10 +71,10 @@ function verifyClosure(root, directory, state) {
   const file=safe(root,path.relative(root,path.join(directory,'closure.json')));
   if(!exists(file)) fail('Missing closure.json: coordinator must consolidate and attest the closure');
   const closure=read(file);
-  if(!closure.reviewer || !Number.isFinite(Date.parse(closure.reviewed_at))) fail('Closure needs reviewer and reviewed_at');
+  if(Object.keys(closure).some(key=>!['reviewer','reviewed_at',...categories].includes(key)) || typeof closure.reviewer!=='string' || !closure.reviewer || !utcTimestamp(closure.reviewed_at)) fail('Closure needs reviewer and reviewed_at');
   for(const category of categories) {
     const entry=closure[category];
-    if(!entry || !['complete','not_applicable'].includes(entry.status) || !entry.reason || !Array.isArray(entry.sources)) fail(`Incomplete closure category: ${category}`);
+    if(!entry || Object.keys(entry).some(key=>!['status','reason','sources'].includes(key)) || !['complete','not_applicable'].includes(entry.status) || typeof entry.reason!=='string' || !entry.reason || !Array.isArray(entry.sources) || entry.sources.some(source=>typeof source!=='string' || !source)) fail(`Incomplete closure category: ${category}`);
     if(entry.status==='complete' && !entry.sources.length) fail(`Missing closure sources: ${category}`);
     for(const source of entry.sources) {
       if(!exists(safe(root,source))) fail(`Missing closure source: ${source}`);
@@ -105,7 +106,7 @@ export function operate(root, command, args=[], options={}) {
   const initiatives=safe(root,'.harness_work/initiatives');
   const runtime=safe(root,'.harness_work/runtime');
   const now=options.now || new Date().toISOString();
-  if(!Number.isFinite(Date.parse(now))) fail('Invalid current time');
+  if(!utcTimestamp(now)) fail('Invalid current time');
   const directory=id=> { if(!idPattern.test(id||'')) fail('Invalid initiative id'); return safe(root,`.harness_work/initiatives/${id}`); };
   const load=id=> { const value=validateState(read(safe(root,path.relative(root,path.join(directory(id),'state.json'))))); if(value.id!==id) fail('Identity mismatch'); return value; };
   const save=state=> {state.revision++;state.updated_at=now;validateState(state);write(path.join(directory(state.id),'state.json'),state);return state;};
@@ -118,6 +119,7 @@ export function operate(root, command, args=[], options={}) {
       if(exists(target)) fail('Initiative already exists');
       if(!options.title || !options.owner) fail('create requires --title and --owner');
       const state={schema_version:1,id,title:options.title,owner:options.owner,status:'draft',revision:1,created_at:now,updated_at:now,closed_at:null,retain_until:null,hold:null,active_tasks:[],blockers:[],blocked_from:null,blocked_reason:null};
+      validateState(state);
       fs.mkdirSync(target,{recursive:true});write(path.join(target,'state.json'),state);
       fs.writeFileSync(path.join(target,'brief.md'),`# ${options.title}\n\nDescribe el objetivo, alcance, exclusiones y aceptación antes de pasar a ready.\n`);
       fs.writeFileSync(path.join(target,'resume.md'),'# Continuidad\n\nSiguiente acción: definir el brief y sus criterios de aceptación.\n');
@@ -212,6 +214,7 @@ export function operate(root, command, args=[], options={}) {
   }
   if(options.check) return perform();
   fs.mkdirSync(runtime,{recursive:true});
+  if(exists(path.join(runtime,'update.json'))) fail('Interrupted update; recover the installation before changing initiative state');
   if(exists(path.join(runtime,'update.lock'))) fail('Update operation active; wait for update completion');
   const lock=path.join(runtime,'work.lock');
   let descriptor;
@@ -219,6 +222,7 @@ export function operate(root, command, args=[], options={}) {
   try {
     fs.writeFileSync(descriptor,JSON.stringify({pid:process.pid,command,created_at:now})+'\n');
     if(exists(path.join(runtime,'update.lock'))) fail('Update operation active; wait for update completion');
+    if(exists(path.join(runtime,'update.json'))) fail('Interrupted update; recover the installation before changing initiative state');
     const pending=exists(path.join(runtime,'purge'))?fs.readdirSync(path.join(runtime,'purge')).filter(op=>{
       const journal=read(safe(root,`.harness_work/runtime/purge/${op}/journal.json`));return !['complete','restored'].includes(journal.status);
     }):[];

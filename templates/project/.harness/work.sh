@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
-image="engineering-harness-work:$(git -C "$root" hash-object "$root/.harness/core/runtime/Dockerfile")"
-docker build -q -t "$image" "$root/.harness/core/runtime" >/dev/null
+image=$(docker build -q "$root/.harness/core/runtime")
 mounts=(--mount "type=bind,src=$root,dst=/consumer")
 if [[ -f $root/.git ]]; then
   git_dir=$(git -C "$root" rev-parse --absolute-git-dir)
