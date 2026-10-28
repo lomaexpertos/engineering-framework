@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
+if [[ $# -eq 1 && ($1 == --help || $1 == -h) ]]; then
+  cat <<'HELP'
+Usage: bash .harness/check.sh [--scope NAME] [--json]
+Built-in scopes: context, documentation, installation, work, extensions.
+Project scopes/runners: .harness/project/config.json.
+Built-ins use native Node; declared application checks use Docker and GNU timeout.
+Guide: .harness/core/checks/repository-compliance/operations.md
+Exit: 0 passed, 1 violations, 2 configuration/execution error.
+HELP
+  exit 0
+fi
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
 # shellcheck source=templates/project/.harness/environment.sh
 source "$root/.harness/environment.sh"
@@ -7,9 +18,14 @@ harness_require_tools bash git mktemp rm cat basename || exit 2
 harness_require_node || exit 2
 arguments=("$@")
 selection=()
+json_seen=false
 while (($#)); do
   case "$1" in
     --scope)
+      if ((${#selection[@]})); then
+        printf '%s\n' 'Duplicate --scope' >&2
+        exit 2
+      fi
       [[ $# -ge 2 && -n "$2" && "$2" != --* ]] || {
         printf '%s\n' '--scope requires a value' >&2
         exit 2
@@ -17,7 +33,14 @@ while (($#)); do
       selection=(--scope "$2")
       shift 2
       ;;
-    --json) shift ;;
+    --json)
+      if [[ $json_seen == true ]]; then
+        printf '%s\n' 'Duplicate --json' >&2
+        exit 2
+      fi
+      json_seen=true
+      shift
+      ;;
     *)
       printf 'Unknown option: %s\n' "$1" >&2
       exit 2

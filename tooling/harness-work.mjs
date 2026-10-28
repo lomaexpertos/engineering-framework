@@ -236,20 +236,51 @@ export function operate(root, command, args=[], options={}) {
     return perform();
   } finally {fs.closeSync(descriptor);fs.unlinkSync(lock);}
 }
+export const workValueOptions=['root','title','owner','reason'];
+export const workCommandContracts={status:[0,1,[]],create:[1,1,['title','owner'],['title','owner']],transition:[2,2,['confirm','reason','resume']],hold:[1,1,['reason','release']],reopen:[1,1,[]],close:[1,1,['check','cancelled']],purge:[1,Infinity,['check','eligible']],recover:[1,1,['restore']]};
+export const workHelp = `Usage: bash .harness/work.sh <command> [arguments] [options]
+  status [initiative]                  Observe one initiative or list all
+  create <initiative> --title T --owner O
+  transition <initiative> <state> [--confirm] [--reason R] [--resume]
+  hold <initiative> --reason R | --release
+  reopen <initiative>
+  close <initiative> [--check] [--cancelled]
+  purge <initiative>... [--check] | purge --eligible [--check]
+  recover <operation-uuid> [--restore]
+Common: --root <project>, --json. IDs: YYYYMMDD_snake_case.
+--confirm attests coordinator review; it does not execute tests or approve external actions.
+Close requires closing state, no active workers/blockers and reviewed closure.json.
+Purge is explicit after 60 days and checks closure, references, holds and Git changes.
+Operational guides: .harness/core/skills/coordinate-work/SKILL.md and
+.harness/core/skills/close-initiative/SKILL.md.
+Exit: 0 success, 1 lifecycle violation/error, 2 invalid CLI usage.
+`;
+function usageError(message) { const error=new Error(message+'; use --help');error.exitCode=2;throw error; }
 export function main(argv=process.argv.slice(2)) {
+  if(argv.length===1 && ['--help','-h','help'].includes(argv[0])) {console.log(workHelp);return;}
   const args=[], options={};let root=process.cwd();
-  const valued=new Set(['root','title','owner','reason']);
+  const seen=new Set();
+  const valued=new Set(workValueOptions);
   for(let i=0;i<argv.length;i++) {
+    if(argv[i]==='-h') {options.help=true;continue;}
     if(argv[i].startsWith('--')) {
       const key=argv[i].slice(2);
-      if(![...valued,'check','eligible','cancelled','release','restore','resume','confirm','json'].includes(key)) fail(`Unknown option: --${key}`);
-      if(valued.has(key)) {if(!argv[i+1] || argv[i+1].startsWith('--')) fail(`Missing --${key} value`); const value=argv[++i];if(key==='root')root=value;else options[key]=value;}
+      if(seen.has(key))usageError(`Duplicate option: --${key}`);seen.add(key);
+      if(![...valued,'check','eligible','cancelled','release','restore','resume','confirm','json','help'].includes(key)) usageError(`Unknown option: --${key}`);
+      if(valued.has(key)) {if(!argv[i+1] || argv[i+1].startsWith('--')) usageError(`Missing --${key} value`); const value=argv[++i];if(key==='root')root=value;else options[key]=value;}
       else options[key]=true;
     } else args.push(argv[i]);
   }
-  const result=operate(root,args.shift()||'status',args,options);
+  if(options.help || args.length===1&&args[0]==='help') {console.log(workHelp);return;}
+  const command=args.shift()||'status';
+  const contract=command==='purge'&&options.eligible?[0,0,workCommandContracts.purge[2]]:workCommandContracts[command];
+  if(!contract||args.length<contract[0]||args.length>contract[1])usageError(`Invalid arguments for ${command}`);
+  for(const key of Object.keys(options))if(key!=='json'&&!contract[2].includes(key))usageError(`--${key} does not apply to ${command}`);
+  for(const key of contract[3]||[])if(!seen.has(key))usageError(`${command} requires --${key}`);
+  if(command==='hold'&&!!options.reason===!!options.release)usageError('hold requires exactly one of --reason or --release');
+  const result=operate(root,command,args,options);
   console.log(JSON.stringify(result,null,2));
 }
 if(process.argv[1] && import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href) {
-  try {main();}catch(error) {console.error(JSON.stringify({error:error.message}));process.exitCode=1;}
+  try {main();}catch(error) {console.error(JSON.stringify({error:error.message}));process.exitCode=error.exitCode||1;}
 }
