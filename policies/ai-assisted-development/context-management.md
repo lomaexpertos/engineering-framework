@@ -13,7 +13,7 @@ necesario para la tarea actual, sin perder autoridad, alcance ni trazabilidad.
 - Skill: contrato de trabajo reusable con trigger, restricciones y resultado propios;
   su diseño se rige por [`skill-design.md`](skill-design.md).
 - Documentación del proyecto: descripción verificable del sistema real.
-- ADR, historial o reporte: evidencia temporal; no sustituye la fuente vigente.
+- ADR vigente: conocimiento duradero con razones y sucesor; reportes e historial de trabajo: evidencia temporal.
 
 ## Requirements
 
@@ -30,7 +30,7 @@ necesario para la tarea actual, sin perder autoridad, alcance ni trazabilidad.
 9. Material condicional, ejemplos extensos, plantillas y checklists **SHOULD** vivir en referencias cargables y consultarse solo cuando apliquen.
 10. Dos documentos vigentes **MUST NOT** reclamar autoridad canónica sobre el mismo contrato sin una precedencia explícita.
 11. Nombres genéricos como `misc.md`, `notes.md`, `important.md`, `new-rules.md` o `final.md` **MUST NOT** utilizarse como fuentes permanentes.
-12. El contenido vendorizado bajo `engineering/corporate/`, `.agents/skills/` y `.claude/skills/`, así como cualquier región de `AGENTS.md` marcada como generada, **MUST NOT** editarse como fuente desde el repositorio consumidor.
+12. El contenido vendorizado bajo `.harness/core/`, `.agents/skills/` y `.claude/skills/`, así como cualquier región de `AGENTS.md` marcada como generada, **MUST NOT** editarse como fuente desde el repositorio consumidor.
 13. Las Skills corporativas para Codex y Claude Code **MUST** provenir de la misma release; diferencias o faltantes **MUST** corregirse mediante el proceso de distribución, no mediante copias manuales locales.
 14. Enlaces rotos, rutas obsoletas y referencias a documentos retirados **MUST** corregirse en el mismo cambio que mueve o elimina contenido.
 15. La descripción de una Skill **MUST** comenzar por su caso de uso y distinguir límites relevantes con el mínimo texto suficiente para activación fiable.
@@ -50,7 +50,7 @@ canónica correspondiente y quedar enlazado desde su router.
 
 ## Size guardrails
 
-1. Un `AGENTS.md` raíz **SHOULD** mantenerse por debajo de 12 KiB y concentrarse en información que aplique a prácticamente todas las tareas del alcance.
+1. Todo `AGENTS.md` **MUST** tener como máximo 100 líneas físicas, incluidas vacías; concentrarse en información universal del alcance. El preflight verifica el resultado antes de escribir, sin truncar contenido local.
 2. Un README usado principalmente como router **SHOULD** mantenerse por debajo de 8 KiB.
 3. Superar un límite **MUST NOT** provocar división mecánica. El contenido debe separarse por trigger, dominio o autoridad, y cada nuevo documento debe quedar correctamente cableado.
 4. Cumplir el límite de tamaño **MUST NOT** justificar lenguaje ambiguo, pérdida de una invariante o eliminación de contexto necesario.

@@ -136,6 +136,8 @@ runCheck("Required structure", () => {
     "tooling/sync-consumer.mjs",
     "tooling/test-distribution.mjs",
     "tooling/test-publication.mjs",
+    "tooling/harness-check.mjs",
+    "tooling/harness-work.mjs",
   ];
 
   for (const requiredPath of requiredPaths) {
@@ -336,8 +338,8 @@ runCheck("Canonical contracts", () => {
   }
 
   const documentationSkill = fs.readFileSync("skills/spec-documentar/SKILL.md", "utf8");
-  if (!documentationSkill.includes("engineering/docs/<modulo>/README.md")) {
-    addFailure("Canonical contracts", "spec-documentar no usa engineering/docs por módulo");
+  if (!documentationSkill.includes("docs/domains/<dominio>/README.md")) {
+    addFailure("Canonical contracts", "spec-documentar no declara documentación canónica por dominio");
   }
 });
 
@@ -357,10 +359,20 @@ runCheck("Policy routing", () => {
 runCheck("Markdown links", () => {
   for (const file of files.filter((candidate) => candidate.endsWith(".md"))) {
     for (const target of markdownTargets(file)) {
-      if (!fs.existsSync(target)) {
+      const generatedCore = path.resolve("templates/project/.harness/core");
+      const templateSource = file.startsWith("templates/project/.harness/") && target.startsWith(`${generatedCore}${path.sep}`)
+        ? path.resolve(repositoryRoot, path.relative(generatedCore, target)) : target;
+      if (!fs.existsSync(templateSource)) {
         addFailure("Markdown links", `${file} referencia una ruta inexistente: ${target}`);
       }
     }
+  }
+});
+
+runCheck("Agent entrypoint budget", () => {
+  for (const file of files.filter(candidate => path.basename(candidate) === "AGENTS.md")) {
+    const count = fs.readFileSync(file, "utf8").replace(/\n$/, "").split("\n").length;
+    if (count > 100) addFailure("Agent entrypoint budget", `${file}: ${count} líneas; máximo 100`);
   }
 });
 

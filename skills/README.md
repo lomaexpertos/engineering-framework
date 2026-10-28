@@ -24,6 +24,8 @@ El logging crítico se implementa desde el desarrollo conforme a la Policy
 | --- | --- |
 | [`configure-agent-context`](configure-agent-context/SKILL.md) | Inicializar, adelgazar o recablear el contexto del repositorio. |
 | [`audit-agent-context`](audit-agent-context/SKILL.md) | Auditar progressive disclosure sin modificar archivos. |
+| [`coordinate-work`](coordinate-work/SKILL.md) | Delegar, integrar y retomar trabajo con contexto acotado. |
+| [`close-initiative`](close-initiative/SKILL.md) | Consolidar conocimiento, roadmap y memoria antes del cierre. |
 
 ### Infraestructura y operación
 
@@ -83,8 +85,8 @@ El logging crítico se implementa desde el desarrollo conforme a la Policy
 
 ## Distribución
 
-`skills/<nombre>/` es la única fuente. El sincronizador compartido por ambos canales
-copia el directorio completo
+`skills/<nombre>/` es la única fuente editable en el productor. La instalación
+conserva el contenido común bajo `.harness/core/skills/` y copia el directorio completo
 —incluyendo `SKILL.md` y sus referencias— a `.agents/skills/<nombre>/` y
 `.claude/skills/<nombre>/`. Las diferencias inevitables entre plataformas deben
 resolverse en distribución o metadata compatible, no manteniendo dos Skills.

@@ -4,19 +4,25 @@
 
 ```text
 AGENTS.md
-├── engineering/corporate/policies/README.md
-├── engineering/docs/index.md                 # solo si existe contenido
+├── .harness/core/policies/README.md
+├── .harness/project/README.md          # reglas locales si existen
+├── docs/README.md                 # solo si existe contenido
+├── .harness_work/README.md             # continuidad y trabajo activo
 ├── .agents/skills/
 └── .claude/skills/
 ```
 
-`engineering/specs/` y `engineering/quality-review/` son trabajo/evidencia temporal,
+`.harness_work/initiatives/` contiene trabajo/evidencia temporal,
 no documentación vigente ni catálogos que deban enlazarse individualmente.
 
 ## Convenciones propias
 
 - `AGENTS.md` conserva invariantes, routing, precedencia y ownership; no contiene
   catálogos exhaustivos ni procedimientos de un dominio.
+- Su límite de 100 líneas físicas se comprueba sobre el contenido final, antes de
+  escribir. No truncar instrucciones locales ni moverlas como efecto del update.
+- Retomar trabajo carga memoria general y resumen de la iniciativa seleccionada;
+  no obliga a cargar todos los expedientes o catálogos históricos.
 - Cada router dirige por condición a una fuente canónica existente. Otro nivel se
   justifica solo si reduce ambigüedad o contexto; no crear cadenas ni carpetas vacías.
 - Normas corporativas viven en Policies; Skills contienen sus contratos de trabajo;

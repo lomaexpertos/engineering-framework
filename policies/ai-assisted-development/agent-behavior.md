@@ -12,3 +12,6 @@
 8. Al desarrollar o corregir comportamiento, el agente **MUST** evaluar si el flujo
    es crítico y aplicar [`../development/logging.md`](../development/logging.md)
    en la misma entrega. No depender de que se invoque una Skill de observabilidad.
+9. El agente **MUST** aplicar [coordination.md](coordination.md) para delegar cuando
+   las capacidades de la sesión lo permitan y [memory-and-continuity.md](memory-and-continuity.md)
+   para mantener contexto operativo; no confundir trabajo implementado con cierre.

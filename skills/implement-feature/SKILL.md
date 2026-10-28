@@ -9,6 +9,8 @@ Entregar la capacidad solicitada dentro del estilo y los contratos del proyecto.
 
 ## Contrato de trabajo
 
+- Usar `coordinate-work` para ownership y continuidad del expediente; delegar según
+  sus capacidades reales y cerrar mediante `close-initiative` después de validar.
 - Localizar las Policies y la documentación del área afectada; conservar arquitectura,
   nomenclaturas, contratos y componentes vigentes. No exigir una spec formal para un
   cambio ad hoc; una spec aprobada y planificada usa `spec-implementar`.
@@ -20,8 +22,8 @@ Entregar la capacidad solicitada dentro del estilo y los contratos del proyecto.
   únicamente por mencionar una tecnología.
 - El modelo elige el diseño, orden de implementación y pruebas dentro de esas
   restricciones. No introducir otra arquitectura, plataforma o entregable ajeno.
-- Actualizar documentación canónica solo ante cambios materiales. No generar
-  reportes persistentes, checklists ni auditorías completas por defecto.
+- Actualizar documentación canónica ante cambios materiales; conservar evidencia
+  proporcional en el expediente sin imponer spec extensa ni auditoría completa.
 
 ## Resultado esperado
 

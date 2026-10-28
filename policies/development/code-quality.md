@@ -16,3 +16,8 @@ Aplica a código productivo nuevo o modificado, independientemente del lenguaje.
    del módulo, preservando términos técnicos estándar y contratos existentes.
 8. Los comentarios **SHOULD** explicar decisiones, invariantes o restricciones no
    evidentes y **SHOULD NOT** limitarse a narrar el código.
+9. Un cambio **MUST** revisar comentarios del área afectada para conservar su vigencia
+   y retirar contradicciones o datos sensibles. No se exige comentar cada función.
+10. La revisión integrada sigue
+    [`change-review.md`](../ai-assisted-development/change-review.md), sin convertir
+    preferencias de estilo ajenas al proyecto en bloqueantes.

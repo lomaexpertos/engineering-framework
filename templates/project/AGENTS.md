@@ -3,19 +3,26 @@
 Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni documentación.
 
 <!-- engineering-framework:start -->
-## Corporate engineering framework
+## Harness de ingeniería
 
-- Reglas corporativas: `engineering/corporate/policies/README.md`.
+- Reglas corporativas: `.harness/core/policies/README.md`.
 - Desarrollo o corrección de operaciones críticas: aplicar desde el mismo cambio
-  `engineering/corporate/policies/development/logging.md` y validar su trazabilidad;
+  `.harness/core/policies/development/logging.md` y validar su trazabilidad;
   no esperar un incidente ni una petición separada de logs.
 - Skills corporativas para Codex: `.agents/skills/`.
 - Skills corporativas para Claude Code: `.claude/skills/`.
 - Layout de documentación, specs y revisiones del proyecto:
-  `engineering/corporate/policies/ai-assisted-development/project-artifact-layout.md`.
+  `.harness/core/policies/ai-assisted-development/project-artifact-layout.md`.
 - Cambios a `AGENTS.md`, READMEs, índices o routing documental: consulta
-  `engineering/corporate/policies/ai-assisted-development/context-management.md` y
+  `.harness/core/policies/ai-assisted-development/context-management.md` y
   usa `configure-agent-context`; para revisión read-only usa `audit-agent-context`.
+- Conocimiento duradero y roadmap: `docs/README.md`, si existe.
+- Continuidad y expedientes: `.harness_work/README.md`, si existe.
+- Extensiones propias: `.harness/project/README.md`, si existe.
+- Delega la ejecución y revisión siempre que las capacidades y permisos lo permitan;
+  conserva responsabilidad de integración, verificación y cierre.
+- Antes de cerrar, consolida conocimiento duradero y progreso de alto nivel.
+- No edites el núcleo generado. Valida con `bash .harness/check.sh`.
 
 ## Precedencia
 

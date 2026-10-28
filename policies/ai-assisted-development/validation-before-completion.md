@@ -10,3 +10,6 @@
 6. Un flujo crítico nuevo o modificado **MUST** cumplir la evidencia de logging de
    [`../development/logging.md`](../development/logging.md) antes de declararse
    terminado. Logs pendientes no son una entrega completa.
+7. El cierre de una iniciativa **MUST** cumplir [initiative-lifecycle.md](initiative-lifecycle.md),
+   incluida promoción de conocimiento y revisión de [change-review.md](change-review.md).
+   Un check estructural aprobado no sustituye revisión semántica de la consolidación.

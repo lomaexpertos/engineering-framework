@@ -1,6 +1,6 @@
 ---
 name: spec-definir
-description: Define o refina cambios funcionales y técnicos como especificaciones verificables bajo engineering/specs/. Usar cuando el usuario quiera convertir una iniciativa en una spec o integrar respuestas y decisiones en una spec existente, antes de planear o implementar.
+description: Define o refina cambios funcionales y técnicos como especificaciones verificables bajo .harness_work/initiatives/. Usar cuando el usuario quiera convertir una iniciativa en una spec o integrar respuestas y decisiones en una spec existente, antes de planear o implementar.
 ---
 
 # Spec Definir
@@ -9,13 +9,13 @@ Entregar la definición verificable del cambio; el modelo elige cómo obtenerla.
 
 ## Ubicación, nombres y autoridad
 
-- Artefactos en español bajo `engineering/specs/<slug>/`.
+- Artefactos en español bajo `.harness_work/initiatives/<slug>/`.
   Slug nuevo: `YYYYMMDD_nombre_descriptivo`, fecha de creación y `snake_case` ASCII,
   sin espacios, acentos ni `ñ`. Conservar slugs existentes.
 - `spec.md` es la autoridad del comportamiento futuro aprobado. Actualizarlo con
   las aclaraciones; no mantener otra narración de la misma decisión.
 - No crear el plan técnico ni modificar código en esta etapa.
-  `engineering/docs/` aporta AS-IS; no escribir allí una propuesta como realidad vigente.
+  `docs/` aporta AS-IS; no escribir allí una propuesta como realidad vigente.
 - Conservar la estructura útil existente: problema, objetivo, alcance/exclusiones,
   reglas, requisitos `RF-###` y aceptación; actores, estados, datos o contratos según
   el cambio. Distinguir hechos, decisiones, supuestos y preguntas materiales.

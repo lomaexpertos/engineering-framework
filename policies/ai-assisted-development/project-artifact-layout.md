@@ -2,49 +2,43 @@
 
 ## Purpose
 
-Mantener separadas la documentación vigente, la definición de cambios y la evidencia
-temporal producida durante el trabajo de ingeniería.
+Separar metodología distribuida, conocimiento duradero y trabajo descartable.
 
-## Canonical layout
+## Ownership
 
-```text
-engineering/
-├── corporate/                         # contenido generado por el framework
-├── docs/
-│   ├── index.md
-│   └── <modulo>/README.md
-├── specs/<YYYYMMDD_nombre_descriptivo>/
-└── quality-review/<YYYYMMDD_nombre_descriptivo>/
-```
+| Ruta del consumidor | Autoridad |
+| --- | --- |
+| `.harness/core/` y wrappers administrados | Salida generada; actualizar desde la fuente, no editar localmente. |
+| `.harness/project/` | Policies, skills, configuración y checks propios del proyecto. |
+| `docs/` | Conocimiento y planificación de alto nivel del proyecto. |
+| `.harness_work/memory/` | Continuidad operativa general. |
+| `.harness_work/initiatives/<id>/` | Alcance, estado, handoffs, revisiones y evidencia temporal. |
+| `.harness_work/runtime/` | Locks y journals locales; ignorados en Git. |
+| `.agents/skills/`, `.claude/skills/` administradas | Adaptaciones generadas desde la misma release. |
 
 ## Requirements
 
-1. `engineering/corporate/` **MUST** contener únicamente contenido generado por el
-   Engineering Framework y **MUST NOT** editarse como fuente en el consumidor.
-2. `engineering/docs/` **MUST** ser la fuente canónica del comportamiento vigente del
-   proyecto. Cada módulo **SHOULD** mantener un nombre estable en `snake_case` y un
-   `README.md`; `index.md` debe actuar únicamente como router.
-3. `engineering/specs/` **MUST** contener iniciativas y comportamiento futuro aprobado,
-   no documentación presentada como estado vigente.
-4. `engineering/quality-review/` **MUST** contener evidencia temporal de revisiones y
-   **MUST NOT** convertirse en la fuente canónica del sistema.
-5. Un expediente nuevo de spec o revisión **MUST** usar
-   `YYYYMMDD_nombre_descriptivo`, con fecha de creación y `snake_case` ASCII. Una
-   revisión relacionada con una spec **MUST** reutilizar su slug.
-6. `engineering/architecture/` y `engineering/project/` **MUST NOT** crearse como
-   rutas canónicas nuevas. Si un repositorio ya las utiliza, pueden leerse como
-   evidencia, pero su migración requiere alcance explícito y no debe producir dos
-   autoridades vigentes.
-7. Artefactos ejecutables de aplicación, infraestructura o base de datos **MUST NOT**
-   almacenarse bajo `engineering/`; este namespace conserva conocimiento y evidencia.
-8. No deben crearse directorios ni documentos vacíos para representar capacidades que
-   el proyecto todavía no utiliza.
+1. El actualizador **MUST NOT** sobrescribir documentación, memoria, expedientes o
+   extensiones locales. Retirar contenido requiere ownership demostrado.
+2. `docs/README.md` **MUST** dirigir al conocimiento vigente. Se permiten fuentes
+   temáticas por producto, sistema o dominio; un README basta para un dominio pequeño.
+3. `docs/decisions/` conserva decisiones duraderas, razones, consecuencias, estado y
+   sucesor. Los ADR no se clasifican como evidencia descartable.
+4. `docs/invariants.md` **SHOULD** ser un índice de fuentes canónicas, sin repetir
+   explicaciones de invariantes de dominio. `docs/roadmap/` describe resultados
+   futuros, avance y pendientes altos; no presenta TO-BE como comportamiento vigente.
+5. Un expediente nuevo **MUST** usar `YYYYMMDD_nombre_descriptivo` ASCII. Las tareas
+   relacionadas reutilizan la iniciativa y mantienen IDs internos de tarea.
+6. Spec, plan, evidencia, reportes y resultados delegados **MUST** vivir dentro del
+   expediente. No requieren índices históricos permanentes ni enlaces desde docs.
+7. Código, tests, SQL, assets e infraestructura ejecutables **MUST** permanecer en las
+   rutas productivas del proyecto, no dentro de un expediente descartable.
+8. No se deben crear carpetas o documentos vacíos para capacidades no utilizadas.
+9. Migrar contenido heredado es una operación autorizada separada del update.
+   **MUST NOT** producir dos fuentes canónicas ni borrar el contexto heredado por edad.
+10. El productor **MAY** mantener fuentes visibles en `policies/`, `skills/`, `checks/`
+    y `tooling/`, con conocimiento propio en `docs/`; no debe vendorizarse a sí mismo.
 
-Los expedientes bajo `engineering/specs/` y `engineering/quality-review/` son
-artefactos de trabajo o evidencia temporal. No requieren un índice permanente ni
-enlaces individuales desde routers de larga vida. Si contienen conocimiento que deba
-seguir vigente después del trabajo, éste debe incorporarse a `engineering/docs/`, una
-Policy o un ADR según su autoridad.
-
-Las reglas específicas para SQL literal pertenecen al dominio `database/`; las rutas
-de infraestructura pertenecen a `infrastructure/repository-layout.md`.
+Para continuidad, consultar [memory-and-continuity.md](memory-and-continuity.md);
+para cierre y retención, [initiative-lifecycle.md](initiative-lifecycle.md).
+Las rutas SQL e infraestructura siguen en sus Policies especializadas.

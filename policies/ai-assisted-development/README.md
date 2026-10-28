@@ -13,6 +13,14 @@ una tarea terminada.
   [`skill-design.md`](skill-design.md).
 - Ubicación y ownership de documentación, specs y revisiones del proyecto:
   [`project-artifact-layout.md`](project-artifact-layout.md).
+- Delegar ejecución, integrar resultados y resolver ownership:
+  [`coordination.md`](coordination.md).
+- Retomar sesiones o compartir contexto operativo:
+  [`memory-and-continuity.md`](memory-and-continuity.md).
+- Revisar código, seguridad, UI/UX, comentarios y logging:
+  [`change-review.md`](change-review.md).
+- Cerrar, cancelar, reabrir o descartar una iniciativa:
+  [`initiative-lifecycle.md`](initiative-lifecycle.md).
 - Evaluación, planeación y ejecución de cambios de infraestructura:
   [`infrastructure-change-safety.md`](infrastructure-change-safety.md).
 - Creación de componentes, patrones o abstracciones:
