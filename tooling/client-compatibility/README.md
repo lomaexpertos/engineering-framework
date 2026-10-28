@@ -38,3 +38,22 @@ el comportamiento de todas las herramientas de cada cliente.
 - [Claude: instrucciones e importación AGENTS](https://code.claude.com/docs/en/memory).
 - [Claude: gateway de modelo](https://code.claude.com/docs/en/llm-gateway).
 - [Claude: ejecución programática](https://code.claude.com/docs/en/headless).
+
+## Ejecución uniforme y recorridos mixtos
+
+Las pruebas opcionales adicionales usan clientes reales con transporte local determinista,
+HOME/XDG temporales y credenciales ficticias. No evalúan calidad de modelos.
+
+```bash
+HARNESS_AGENT_CLIENTS=codex,opencode node tooling/test-agent-clients.mjs
+HARNESS_MIXED_PRIMARIES=codex node tooling/test-agent-mixed-workflows.mjs
+docker build --target mixed-workflows -f tooling/client-compatibility/Dockerfile -t engineering-harness-mixed-clients:20261028 .
+docker run --rm --network none engineering-harness-mixed-clients:20261028
+```
+
+El último recorrido usa Claude Code para definición y revisión y OpenCode como worker.
+Ambos recorridos mixtos completan definición, implementación, cinco revisores y
+verificación mediante el ejecutor del harness. Las respuestas de backend son fixtures;
+las pruebas de comportamiento del producto y la aceptación del coordinador siguen
+siendo necesarias en cada iniciativa real. Las imágenes son ambientes opcionales de
+compatibilidad; setup, doctor y ejecución habitual del harness no requieren Docker.
