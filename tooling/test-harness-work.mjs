@@ -33,6 +33,8 @@ function close(initiative){
   assert.equal(run('status',[initiative]).status,'closing');
   const state=run('close',[initiative]);assert.equal(state.retain_until,'2026-12-27T00:00:00.000Z');
   assert.throws(()=>validateState({...state,closed_at:'2026-10-28T00:00:00+00:00'}),/Invalid closure/);
+  assert.throws(()=>validateState({...state,active_tasks:['still-running']}),/active tasks/);
+  assert.throws(()=>validateState({...state,status:'blocked',closed_at:null,retain_until:null}),/Invalid blocked state/);
   assert.equal(run('close',[initiative]).revision,state.revision);
 }
 try {

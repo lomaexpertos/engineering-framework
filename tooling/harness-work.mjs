@@ -48,7 +48,10 @@ export function validateState(state) {
   if(typeof state.title!=='string' || typeof state.owner!=='string' || !(state.hold===null || typeof state.hold==='string')) fail('Invalid state fields');
   for(const key of ['created_at','updated_at']) if(!utcTimestamp(state[key])) fail(`Invalid ${key}`);
   if(!(state.blocked_from===null || statuses.includes(state.blocked_from)) || !(state.blocked_reason===null || typeof state.blocked_reason==='string')) fail('Invalid blocked state');
+  if(state.status==='blocked' ? !state.blocked_from || !state.blocked_reason : state.blocked_from!==null || state.blocked_reason!==null) fail('Invalid blocked state');
+  if(Date.parse(state.updated_at)<Date.parse(state.created_at)) fail('Invalid state chronology');
   if(['closed','cancelled'].includes(state.status)) {
+    if(state.active_tasks.length || state.blockers.length) fail('Closed initiative has active tasks or blockers');
     if(!utcTimestamp(state.closed_at) || !utcTimestamp(state.retain_until) || Date.parse(state.closed_at)<Date.parse(state.created_at) || Date.parse(state.retain_until)!==Date.parse(state.closed_at)+retention) fail('Invalid closure retention');
   } else if(state.closed_at!==null || state.retain_until!==null) fail('Open initiative has closure date');
   return state;
