@@ -22,6 +22,8 @@ instala herramientas automáticamente. El producto conserva su ambiente Docker.
 | Preparar runners y registrar resultados | [harness-runner-plan.mjs](harness-runner-plan.mjs) |
 | Estado, transiciones, cierre, retención y purga | [harness-work.mjs](harness-work.mjs) |
 | Configuración personal, encargos, ejecución y entregas de agentes | [harness-agents.mjs](harness-agents.mjs) |
+| Operar agentes desde un consumidor sin consultar fuentes | [Guías de coordinación](../skills/coordinate-work/SKILL.md) |
+| Probar rutas, recursos y ejemplos en instalación nueva | [test-agent-discovery.mjs](test-agent-discovery.mjs) |
 | Primera adopción | [bootstrap-harness.sh](bootstrap-harness.sh) y [INSTALL.md](../INSTALL.md) |
 
 ## Distribución y recuperación

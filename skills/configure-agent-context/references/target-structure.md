@@ -21,6 +21,10 @@ no documentación vigente ni catálogos que deban enlazarse individualmente.
   catálogos exhaustivos ni procedimientos de un dominio.
 - Su límite de 100 líneas físicas se comprueba sobre el contenido final, antes de
   escribir. No truncar instrucciones locales ni moverlas como efecto del update.
+- Para operar agentes desde un consumidor, el router debe descubrir `coordinate-work`
+  y sus referencias distribuidas de setup/doctor, workflow y tareas individuales;
+  para cierre, `close-initiative` y su referencia operativa. No dirigir el uso normal
+  a manuales que sólo existan en el repositorio fuente del framework.
 - Retomar trabajo carga memoria general y resumen de la iniciativa seleccionada;
   no obliga a cargar todos los expedientes o catálogos históricos.
 - Cada router dirige por condición a una fuente canónica existente. Otro nivel se

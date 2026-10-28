@@ -9,6 +9,11 @@ Aplicar `ai-assisted-development/initiative-lifecycle.md`, `change-review.md` y
 `documentation-maintenance.md`. El coordinador responde por la consolidación semántica;
 un comando solo comprueba lo que el contrato puede verificar.
 
+Para comandos, ejemplo de las ocho categorías, previsualización, cancelación,
+reapertura o retención, consultar
+[closure-and-retention.md](references/closure-and-retention.md). La referencia se
+distribuye con esta Skill y no requiere documentación del repositorio fuente.
+
 ## Contrato
 
 - Confirmar aceptación y revisiones requeridas, bloqueantes resueltos y agentes

@@ -26,3 +26,6 @@ estar declaradas en su imagen.
 
 El agregado no sustituye revisión independiente de alto riesgo, observación visual
 cuando se requiere, ni consolidación semántica del conocimiento antes del cierre.
+
+Para configurar runners, capturar evidencia y extender discovery, consultar
+[operación de checks y extensiones](operations.md).

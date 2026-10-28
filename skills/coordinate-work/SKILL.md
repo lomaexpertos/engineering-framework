@@ -8,6 +8,18 @@ description: Coordina ejecución delegada o retoma una iniciativa con alcance, o
 Conservar continuidad y responsabilidad de entrega delegando siempre que la herramienta
 lo permita, según `ai-assisted-development/coordination.md` y `memory-and-continuity.md`.
 
+## Operación instalada
+
+Cargar sólo la referencia de la operación actual; los ejemplos se ejecutan desde
+la raíz del consumidor con `.harness/` instalado.
+
+- Primera ejecución, perfiles personales o nueva iniciativa:
+  [profiles-and-start.md](references/profiles-and-start.md).
+- Ciclo completo, preguntas, hallazgos y escalamiento:
+  [workflow-operations.md](references/workflow-operations.md).
+- Encargo individual, worktree, recogida o recuperación de procesos:
+  [individual-tasks.md](references/individual-tasks.md).
+
 ## Contrato
 
 - Identificar solicitud, expediente y estado real; leer memoria general, resumen de

@@ -127,66 +127,24 @@ rondas; agotarlo exige escalamiento explícito. La verificación final contrasta
 pruebas del worker sobre la versión entregada. Un revisor sin permiso para ejecutar
 shell identifica esa evidencia como heredada y no afirma haber repetido el comando.
 
-## Operar un workflow
+## Operación disponible en el consumidor
 
-Primero crear una iniciativa mediante `work.sh`. Preparar un JSON de entrada con
-`id`, `initiative`, `objective`, `scope`, `exclusions`, `ownership`, `references`,
-`acceptance` y `applicability`; las listas scope/ownership/acceptance deben tener
-contenido. `workspace` es opcional. Por ejemplo, para un cambio interno sin UI:
+La fuente canónica de uso se distribuye junto con las Skills; el agente no necesita
+este documento de arquitectura para ejecutar los comandos.
 
-```json
-{
-  "id": "mejora-interna",
-  "initiative": "20261028_mejora_interna",
-  "objective": "Corregir el comportamiento descrito en el brief aprobado",
-  "scope": ["Comportamiento y regresiones de la operación afectada"],
-  "exclusions": ["Cambios en otros dominios"],
-  "ownership": ["src/operacion"],
-  "references": ["AGENTS.md"],
-  "acceptance": ["Cumplir los criterios del brief y ejecutar las pruebas pertinentes"],
-  "applicability": {
-    "ui": {"applies": false, "reason": "La operación no tiene interfaz visible"},
-    "ux": {"applies": false, "reason": "No modifica recorridos de interacción"}
-  }
-}
-```
+| Operación | Guía distribuida |
+| --- | --- |
+| Configuración e inicio | [Perfiles e iniciativa](../../skills/coordinate-work/references/profiles-and-start.md) |
+| Etapas, preguntas y hallazgos | [Workflow](../../skills/coordinate-work/references/workflow-operations.md) |
+| Tareas, procesos y worktrees | [Encargos individuales](../../skills/coordinate-work/references/individual-tasks.md) |
+| Consolidación, cancelación y retención | [Cierre](../../skills/close-initiative/references/closure-and-retention.md) |
 
-Los nombres de iniciativa, rutas y criterios se sustituyen por los del proyecto.
-El estado completo se conserva en `workflow.json` conforme al
-[esquema de workflow](../../schemas/agent-workflow.schema.json).
-
-```bash
-bash .harness/agents.sh workflow create --input /ruta/al/workflow-input.json
-bash .harness/agents.sh workflow next 20261028_mejora_interna
-bash .harness/agents.sh workflow run 20261028_mejora_interna
-bash .harness/agents.sh workflow status 20261028_mejora_interna
-bash .harness/agents.sh workflow advance 20261028_mejora_interna --confirm --reviewer coordinador
-```
-
-`next` prepara los encargos de la etapa; `run` los ejecuta dentro de los límites
-configurados. El coordinador inspecciona resultados/diffs antes de `advance`.
-`--confirm` registra esa revisión; no la realiza automáticamente. Se repite la
-secuencia según el estado siguiente. El registro de decisiones sobre recomendaciones
-se entrega con `--decisions archivo.json`. Un estado `ready_to_close` habilita la
-consolidación habitual; el cierre sigue siendo una operación separada.
-
-Para un encargo individual, `prepare --input archivo.json` valida el formato;
-`run <initiative> <task>` ejecuta, `status <initiative> <task>` observa,
-`collect <initiative> <task>` valida/recoge y `cancel <initiative> <task>` cancela.
-`run --background` permite consultar posteriormente. `--config` selecciona una
-configuración personal explícita y `--root` otra raíz de proyecto.
-
-Para responder una tarea `needs_input`, pasar `--answers archivo.json` a `run` o
-`workflow run`; el archivo contiene una lista de respuestas textuales sanitizadas.
-El coordinador reúne primero las preguntas y conserva las decisiones de alcance.
-Una ejecución fallida requiere intervención explícita; repetir `workflow run` no
-debe convertirse en una política de reintentos ilimitados.
-
-Al agotarse rondas, revisar o elevar el perfil y ajustar explícitamente el límite
-permitido por el equipo. Después, `workflow escalate <initiative> --confirm --input
-archivo.json` registra un objeto con `reason` y `reviewer`, además de los perfiles
-seleccionados, y devuelve el trabajo a corrección. El ejecutor no elige un modelo
-de reemplazo por su cuenta.
+El CLI ofrece `--help` sin consultar perfiles ni modificar el proyecto. La ayuda y
+las guías explican entradas, códigos de salida, precondiciones y recuperación. Las
+pruebas del consumidor verifican ejemplos extraídos de esas fuentes instaladas,
+además de detectar referencias críticas ausentes. Esto comprueba descubrimiento y
+contratos ejecutables; la elección del agente y la verificación semántica requieren
+seguir las instrucciones y contrastar evidencia.
 
 ## Operación y continuidad
 
