@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Coordinator closure attestation",
+  "type": "object",
+  "required": ["reviewer", "reviewed_at", "validation", "reviews", "documentation", "decisions", "invariants", "roadmap", "backlog", "memory"],
+  "properties": {
+    "reviewer": {"type": "string", "minLength": 1},
+    "reviewed_at": {"type": "string", "format": "date-time"},
+    "validation": {"$ref": "#/$defs/category"},
+    "reviews": {"$ref": "#/$defs/category"},
+    "documentation": {"$ref": "#/$defs/category"},
+    "decisions": {"$ref": "#/$defs/category"},
+    "invariants": {"$ref": "#/$defs/category"},
+    "roadmap": {"$ref": "#/$defs/category"},
+    "backlog": {"$ref": "#/$defs/category"},
+    "memory": {"$ref": "#/$defs/category"}
+  },
+  "$defs": {"category": {
+    "type": "object",
+    "required": ["status", "reason", "sources"],
+    "properties": {
+      "status": {"enum": ["complete", "not_applicable"]},
+      "reason": {"type": "string", "minLength": 1},
+      "sources": {"type": "array", "items": {"type": "string", "minLength": 1}}
+    },
+    "additionalProperties": false
+  }},
+  "additionalProperties": false
+}

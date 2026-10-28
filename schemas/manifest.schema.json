@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Installed harness manifest",
+  "type": "object",
+  "required": ["schema_version", "framework_version", "source_repository", "source_commit", "managed_skills", "files"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "framework_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "source_repository": {"const": "lomaexpertos/engineering-framework"},
+    "source_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "managed_skills": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}},
+    "files": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+  },
+  "additionalProperties": false
+}
