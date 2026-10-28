@@ -1,83 +1,54 @@
-# Engineering Framework
+# Engineering Harness
 
-Fuente única de verdad para las políticas, estándares, Skills y mecanismos de
-cumplimiento de ingeniería compartidos por los repositorios de la organización.
+Metodología compartida para conducir proyectos con agentes: contexto progresivo,
+coordinación delegada, conocimiento duradero, revisión y cierre verificable.
 
-El framework se versiona y los repositorios consumidores reciben una copia
-vendorizada mediante instalación asistida por Codex en su rama actual.
-Cada copia registra su versión y SHA
-fuente y es autosuficiente una vez integrada en Git.
+La fuente se mantiene visible en `policies/`, `skills/`, `checks/` y `tooling/`.
+El productor no instala una copia de sí mismo. Los consumidores separan:
 
-Para instalar o actualizar un proyecto, pide a Codex que lea
-[`INSTALL.md`](INSTALL.md) en `main` de este repositorio y siga sus instrucciones
-desde el consumidor. Es el único punto de entrada operativo para ese canal.
+| Ruta | Contenido y ownership |
+| --- | --- |
+| `.harness/core/` y wrappers | Núcleo distribuido, administrado por versión/SHA e integridad. |
+| `.harness/project/` | Extensiones propias de políticas, skills y checks. |
+| `docs/` | Conocimiento duradero, decisiones, invariantes y roadmap del proyecto. |
+| `.harness_work/` | Continuidad, iniciativas y evidencia temporal. |
 
-## Modelo conceptual
+## Empezar
 
-| Área | Pregunta que responde | Ubicación |
-| --- | --- | --- |
-| Router del agente | ¿Dónde encuentro lo aplicable? | `AGENTS.md` y READMEs intermedios |
-| Policies | ¿Qué se exige, recomienda o permite? | `policies/` |
-| Skills | ¿Qué contrato y forma de trabajo propios tiene una tarea? | `skills/` |
-| Documentación | ¿Cómo es y se gobierna el framework? | `docs/` |
-| Checks | ¿Qué puede verificarse automáticamente? | `checks/` |
-| Tooling | ¿Cómo se construye y distribuye? | `tooling/` |
+- Instalar, actualizar o migrar: [INSTALL.md](INSTALL.md).
+- Estructura del consumidor: [CONSUMER_STRUCTURE.md](CONSUMER_STRUCTURE.md).
+- Reglas por tipo de cambio: [policies/](policies/README.md).
+- Contratos de trabajo: [skills/](skills/README.md).
+- Arquitectura y límites: [docs/architecture/](docs/architecture/README.md).
+- Decisiones y pendientes: [docs/governance/](docs/governance/README.md).
+- Validaciones: [checks/](checks/README.md) y [tooling/](tooling/README.md).
 
-## Principios
+## Contratos principales
 
-- Progressive disclosure: los agentes cargan solo el contexto relevante.
-- Separación entre normas, procedimientos, realidad documentada y enforcement.
-- SemVer y snapshots fijados por SHA; `main` se resuelve al iniciar una instalación,
-  no se consulta dinámicamente durante el trabajo cotidiano del consumidor.
-- La instalación asistida usa el sincronizador existente, no cambia de rama ni hace
-  commit/push. El canal central permanece suspendido.
-- Tooling solo en la fuente: Codex lo ejecuta desde una imagen Docker temporal;
-  no se instala ni se copia una CLI en los consumidores.
-- Una fuente de Skills distribuida a Codex y Claude Code.
-- Repositorios personales pueden incubar propuestas, pero no funcionan como una
-  segunda fuente corporativa ni mantienen copias homónimas activas en consumidores.
-- La documentación operativa del framework permanece en este repositorio y no se
-  inyecta en consumidores.
+`AGENTS.md` es un router de hasta 100 líneas. Cada tarea consulta solo los dominios
+pertinentes. Un coordinador delega con alcance, ownership y contexto acotados cuando
+el cliente lo permite; integra y verifica resultados, mantiene memoria y cierra.
 
-## Estado
+El cierre consolida comportamiento real, decisiones e invariantes, avance del
+roadmap y pendientes altos. El conocimiento duradero no depende de specs, ramas,
+reportes ni evidencia de ejecución. Los expedientes cerrados se conservan sesenta
+días y después pueden purgarse explícitamente con comprobaciones y recuperación.
+No se instala un scheduler.
 
-La fase **Foundation** está establecida. El framework contiene Policies segmentadas y
-28 Skills corporativas con routing progresivo. El ciclo de specs, la revisión de ramas,
-los contratos SQL y el layout de artefactos fueron reconciliados en la versión 1.0.0 y
-depurados en la 1.0.1. La versión 1.1.0 añadió instalación y actualización asistidas.
-La versión 1.2.0 conserva las 28 Skills y el layout, depura recetas generales y exige
-logging desde la implementación de operaciones críticas, con validación de su evidencia.
-Por decisión del mantenedor, los workflows de validación y publicación fueron
-retirados el 2026-10-09: ningún push o merge ejecuta Actions de este framework.
-La validación sigue disponible en Docker y la instalación asistida en `INSTALL.md`.
-Hay dos repositorios registrados, ambos deshabilitados; el canal central no está
-disponible hasta su restauración explícita. Falta validar la adopción asistida real.
+Una fuente de skills genera las copias de Codex y Claude Code. Las capacidades de
+subagentes y descubrimiento dependen del cliente; las limitaciones se declaran sin
+simular revisiones independientes.
 
-El criterio de Skills y el detalle del material retirado están registrados en
-[`la depuración de 2026-10-09`](docs/governance/transformations/2026-10-09-organizational-skills-and-logging.md).
+Builds, tests y linters se ejecutan dentro de Docker. Los wrappers del host solo
+orquestan infraestructura compartida: Bash, Git, Docker y utilidades generales.
 
-## Mapa del repositorio
+## Distribución
 
-- [`AGENTS.md`](AGENTS.md): router compacto para agentes.
-- [`INSTALL.md`](INSTALL.md): instalación/actualización asistida y reporte de
-  contexto heredado, sin migraciones automáticas.
-- [`policies/`](policies/README.md): catálogo normativo y routers por dominio.
-- [`skills/`](skills/README.md): contratos de trabajo reutilizables y su ciclo de vida.
-- [`docs/architecture/`](docs/architecture/README.md): arquitectura y contratos.
-- [`docs/governance/`](docs/governance/README.md): versionado, ownership y cambios.
-- [`checks/`](checks/README.md): interfaces de validación y cumplimiento.
-- [`tooling/`](tooling/README.md): construcción, sincronización y publicación.
-- [`templates/project/`](templates/project/README.md): archivos administrados o
-  sugeridos para repositorios consumidores.
-- [`projects.yml`](projects.yml): registro conservado del canal central suspendido.
-- [`CONSUMER_STRUCTURE.md`](CONSUMER_STRUCTURE.md): vista de carpetas y catálogos
-  sincronizados en cada consumidor.
+La versión 2.x cambia el contrato del consumidor y requiere migración MAJOR desde
+1.x. Cada operación fija un SHA antes de validar/aplicar. La actualización conserva
+extensiones, documentación, memoria y cambios ajenos al contenido administrado.
+No crea commits, push, PR ni altera rama o índice del consumidor.
 
-## Roadmap inmediato
-
-1. Resolver metadata de Policies y el schema de excepciones.
-2. Validar una instalación asistida piloto y decidir por separado su reconciliación
-   de documentación heredada.
-3. Incorporar validaciones de integridad y CI reutilizable sin CLI permanente en el
-   consumidor.
-4. Ampliar Policies y enforcement conforme aparezcan decisiones corporativas reales.
+Las actualizaciones se solicitan explícitamente. GitHub Actions y el canal central
+permanecen suspendidos; un push no publica ni actualiza consumidores.
+La disponibilidad pública de una revisión depende de su publicación por el mantenedor.

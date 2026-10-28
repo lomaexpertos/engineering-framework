@@ -1,72 +1,34 @@
-# Pending decisions and work
+# Pendientes de evolución
 
-Este archivo registra deliberadamente lo que no quedó resuelto durante la primera
-transformación de los estándares de infraestructura. Un pendiente no constituye una
-Policy vigente.
+Estos temas no constituyen contratos implementados ni autorizaciones de ejecución.
 
-## Decisions required
+## Compatibilidad y adopción
 
-Las decisiones de aplicabilidad originales quedaron aceptadas en
-[`decisions/0004-infrastructure-policy-applicability.md`](decisions/0004-infrastructure-policy-applicability.md).
-Permanecen por definir únicamente estos contratos de implementación:
+- Certificar discovery y delegación con versiones concretas de Codex y Claude Code
+  en entornos reales. Fixtures y paridad de archivos no certifican clientes.
+- Adoptar un consumidor real con reconciliación explícita de contexto heredado; el
+  actualizador nunca traslada su documentación por su cuenta.
+- Evaluar un adaptador OpenCode cuando exista un consumidor y evidencia de su contrato.
+- Resolver skills homónimas instaladas globalmente en equipos adoptados, sin borrarlas
+  como efecto de actualizar un proyecto.
 
-| Decision | Why it matters | Recommended default |
-| --- | --- | --- |
-| Schema de metadata de Policies | Falta convertir la metadata aprobada en un contrato legible por herramientas. | Front matter mínimo con identificador estable, status, owners, versión de introducción y aplicabilidad. |
-| Schema de excepciones | Ya se aprobaron sus datos mínimos, pero faltan formato, ubicación y reglas de aprobación verificables. | Un archivo estructurado por repositorio consumidor y JSON Schema compartido. |
+## Contratos especializados
 
-## Enforcement to implement
+- Metadata normativa de Policies y formato verificable de excepciones, conservando
+  los datos mínimos y aprobación definidos por la Policy de precedencia.
+- Schema/validador de deployment, consistencia de secretos cifrados, comprobación SOPS
+  sanitizada y controles de infraestructura por ambiente según necesidad real.
+- Ampliar adaptadores de linters por stacks usados en proyectos reales, sin imponer
+  un analizador único ni instalar dependencias del producto en el host.
+- Completar normas organizacionales de IaC, contenedores, red, cifrado general,
+  control de acceso y restauración cuando existan decisiones propias verificables.
 
-- Schema y validador de `deployment.yaml`.
-- Consistencia entre ciphertext, manifest cerrado y esquema sanitizado.
-- Verificación SOPS sin revelar valores.
-- Detección de secretos en Git, logs y artefactos.
-- Validación de rutas, relaciones, documentación y enlaces del layout de infraestructura.
-- Check de que entrypoints declarados proporcionen diagnóstico y validación.
-- Metadata de checksums de integridad generada por el sincronizador para el contenido
-  corporativo; la metadata de procedencia/versionado ya existe.
+## Operación y distribución
 
-## Corporate content still missing
+El canal central y los workflows de Actions continúan suspendidos. Restaurarlos
+requiere decisión y validación aparte; los helpers conservados no equivalen a soporte
+operativo vigente para 2.x. `projects.yml` no dispara instalaciones.
 
-Los estándares fuente no alcanzan para publicar Policies completas de:
-
-- infrastructure as code;
-- containers;
-- encryption general en tránsito y reposo;
-- networking;
-- access control;
-- backups y restauración organizacional.
-
-La plataforma central de recolección, almacenamiento y consulta de observabilidad
-permanece deliberadamente fuera del repositorio aplicativo. El framework solo define
-el contrato de emisión y la configuración de runtime que sí corresponde al consumidor.
-
-## Distribution status
-
-`INSTALL.md` define instalación y actualización asistidas desde el último snapshot
-de `main`, con previsualización y reporte de documentación heredada.
-Los workflows de validación y publicación fueron retirados el 2026-10-09; el canal
-central conserva helpers y registro, pero requiere restauración explícita.
-Cada consumidor recibe únicamente este contenido bajo `engineering/corporate/`:
-
-```text
-engineering/corporate/
-├── README.md
-├── policies/
-└── metadata/
-```
-
-Cada Skill se copia desde una sola fuente hacia `.agents/skills/` y
-`.claude/skills/`. Los namespaces `engineering/docs/`, `engineering/specs/` y
-`engineering/quality-review/` pertenecen al proyecto y no son administrados por el
-sincronizador. `berhok-logistics` y `timbrado` permanecen registrados pero
-deshabilitados en `projects.yml`. Sigue pendiente probar una instalación asistida
-en un consumidor real; el canal central permanece suspendido y sin workflows.
-
-La arquitectura del workflow, configuración del bot, registro de consumidores y
-documentación de gobierno permanecen exclusivamente en este repositorio.
-
-Después del primer piloto exitoso deben desactivarse las copias personales homónimas
-de Skills corporativas en los equipos adoptados. Codex no fusiona Skills de distinto
-scope con el mismo nombre; mantener ambas activas introduce routing ambiguo y consume
-el presupuesto de discovery.
+La actualización local usa manifest de hashes para integridad; no aporta firmas del
+publicador. Una evolución de autenticidad de releases requiere un contrato adicional.
+No hay scheduler de purga ni plataforma de observabilidad central incluida.

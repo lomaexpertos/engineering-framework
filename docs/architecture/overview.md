@@ -1,33 +1,45 @@
-# Architecture overview
+# Arquitectura del harness
 
-## Componentes
+El harness conserva continuidad de trabajo y un contrato de entrega compartido por
+personas y agentes. Combina políticas, skills, herramientas de verificación y un
+ciclo de vida de iniciativas, sin ser un framework de aplicación ni un motor de IA.
 
-1. **Fuente:** Policies, Skills, plantillas y checks versionados en este repositorio.
-2. **Versión:** `VERSION` identifica el contenido corporativo publicado.
-3. **Instalación asistida:** `INSTALL.md` guía a Codex; un snapshot de `main` se
-   valida y sincroniza desde Docker sobre la rama actual del consumidor.
-4. **Canal central suspendido:** helpers y registro conservados; los workflows fueron
-   retirados y no existe publicación por Actions.
-5. **Consumer:** conserva físicamente Policies, metadata y Skills de una versión.
-6. **Integración consumidor:** el desarrollador revisa e integra el cambio asistido
-   según las reglas de Git y validación de su proyecto.
+## Componentes y límites
 
-## Límites
+| Componente | Responsabilidad |
+| --- | --- |
+| Fuente visible | `policies/`, `skills/`, `checks/`, `schemas/`, `templates/` y `tooling/` son fuentes editables del productor. |
+| Distribución | Un snapshot identificado por versión y SHA produce contenido administrado para consumidores. |
+| Adaptadores | Una fuente común de skills produce copias para Codex y Claude; no se mantienen variantes manuales. |
+| Conocimiento | `docs/` conserva explicaciones, decisiones e invariantes; no se actualiza desde otro repositorio. |
+| Continuidad | Memoria operativa y expedientes guardan estado, encargos y evidencia proporcional. |
+| Ejecución | Wrappers Bash orquestan Docker; runtimes y checks se ejecutan en imágenes declaradas. |
 
-- `policies/` contiene normas corporativas, no descripciones de productos.
-- `skills/` contiene procedimientos corporativos repetibles, no peculiaridades de un sistema.
-- `docs/` describe este framework y su gobierno.
-- `docs/`, `tooling/`, workflows y el registro de proyectos son internos y no se
-  distribuyen a consumidores.
-- En consumidores, `engineering/corporate/` y las copias corporativas de Skills son
-  salidas generadas por el mismo sincronizador en ambos canales.
-- En consumidores, `engineering/docs/`, `engineering/specs/` y
-  `engineering/quality-review/` son propiedad del proyecto y se crean únicamente
-  cuando exista contenido real.
-- `checks/` verifica; `tooling/` valida y sincroniza desde la fuente.
+El productor no se vendoriza a sí mismo: sus fuentes permanecen visibles y su trabajo
+operativo usa la misma raíz oculta que los consumidores. La documentación de este
+repositorio describe el harness, no el producto de un consumidor.
 
-## Progressive disclosure
+La separación evita que una actualización de metodología sobrescriba conocimiento o
+reglas propias del proyecto. Instalar el harness tampoco autoriza reconciliar documentos
+heredados, desplegar, crear commits o publicar una release.
 
-`AGENTS.md` dirige a un router de dominio. El router identifica los pocos documentos
-aplicables, y una Skill los combina con documentación y código del proyecto. Esta
-jerarquía evita cargar todo el framework en cada tarea.
+## Descubrimiento progresivo
+
+`AGENTS.md` es un router de hasta 100 líneas. Dirige a reglas, contexto estable o
+continuidad según el trabajo. Los routers de dominio permiten elegir contratos y
+fuentes concretas; los ejemplos y referencias extensas se cargan solo por necesidad.
+No se exige leer todos los expedientes ni el catálogo completo en cada tarea.
+
+Las explicaciones vigentes permanecen útiles después de eliminar el expediente que
+motivó su cambio. Las decisiones duraderas conservan razón, consecuencias y sucesor;
+los reportes y bitácoras no se convierten en autoridad del sistema.
+
+## Operación
+
+- [Contrato consumidor](consumer-contract.md): estructura y límites de escritura.
+- [Distribución](distribution.md): actualización, integridad y recuperación.
+- [Continuidad y cierre](work-lifecycle.md): delegación, memoria y consolidación.
+- [Instalación](../../INSTALL.md): entrada operativa para adoptar o actualizar.
+
+Los workflows de GitHub Actions y la publicación central permanecen suspendidos.
+El registro de proyectos y sus helpers conservados no activan publicación automática.

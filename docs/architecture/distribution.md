@@ -1,159 +1,73 @@
-# Distribution architecture
+# Distribución y actualización
 
-## Channels and ownership
+## Fuente y canales
 
-Hay una sola fuente y un solo sincronizador. Estado de los canales:
+`VERSION` identifica el contrato distribuido. El canal público obtiene un snapshot
+de `lomaexpertos/engineering-framework`, resuelve la referencia a SHA y ejecuta la
+misma fuente que valida. `main` es la referencia predeterminada; una versión o SHA
+pueden seleccionarse explícitamente. El trabajo cotidiano no consulta la fuente remota.
 
-- **Asistido:** el usuario pide instalar o actualizar desde el consumidor y Codex
-  sigue [`../../INSTALL.md`](../../INSTALL.md), trabajando en su rama actual.
-- **Central suspendido:** sus workflows fueron retirados el 2026-10-09. Se conservan
-  helpers y registro, pero no existe publicación por Actions ni por dispatch.
+La actualización se inicia mediante `bash .harness/update.sh`; la instalación inicial
+se describe en [INSTALL.md](../../INSTALL.md). El canal central sigue suspendido:
+no hay publicación por push/Actions ni dispatch habilitado por esta arquitectura.
 
-`VERSION` identifica la versión del contenido. Cada operación fija un SHA inmutable
-de `main`, valida ese snapshot y registra ambos datos en el consumidor. No existen
-referencias dinámicas a la fuente durante las tareas del proyecto ni un segundo
-catálogo de Skills. La validación se ejecuta en Docker; los pushes y merges a `main`
-no ejecutan validación automática mientras los workflows estén retirados.
+## Obtención y aplicación
 
-El canal central requiere una restauración explícita; habilitar una entrada no lo
-reactiva. No es necesario para instalar con Codex.
+1. Descargar a un directorio temporal separado y fijar el SHA obtenido.
+2. Construir el target Docker `validation` de ese snapshot y validar su fuente.
+3. Ejecutar preflight del consumidor desde la imagen, con origen y SHA explícitos.
+4. Aplicar solo rutas administradas y verificar su contenido final.
+5. Entregar el diff para integración según las reglas Git del proyecto.
 
-## Assisted installation
+El wrapper del host usa Bash, Git y Docker como infraestructura general. No instala
+Node ni ejecuta código de la aplicación en el host. Los contenedores no reciben el
+socket Docker, secretos remotos ni montajes generales del host.
 
-1. Inspeccionar instrucciones y estado Git del consumidor; inventariar documentación
-   e instrucciones heredadas sin migrarlas.
-2. Clonar `main` en un directorio temporal separado y fijar su SHA completo.
-3. Leer `INSTALL.md` y validar la fuente dentro de su imagen Docker.
-4. Ejecutar `sync-consumer.mjs --check` desde esa imagen, sin escrituras, con
-   procedencia explícita y el consumidor montado.
-5. Resolver las decisiones pendientes; aprobar explícitamente implicaciones de un
-   salto MAJOR antes de aplicar.
-6. Aplicar el mismo snapshot con `sync-consumer.mjs` sobre la rama actual, sin
-   commits, push, PR, cambios de rama ni modificaciones al índice.
-7. Verificar diff y estado previo; entregar reporte de copia corporativa y contexto
-   heredado conservado, con recomendaciones para una tarea posterior.
+Las opciones del actualizador son `--check`, `--ref`, `--allow-major` y `--recover`.
+`--check` prepara el plan sin escrituras en el consumidor; `--allow-major` expresa
+aceptación de un cambio incompatible después de revisar su migración. No se permiten
+downgrades implícitos ni referencias de origen elegidas por contenido externo.
 
-No requiere `projects.yml`, GitHub App, auto-merge ni `main` como rama por defecto del
-consumidor. El usuario decide cómo integrar después el diff según sus reglas de Git.
-Los scripts se ejecutan en la imagen de la fuente, no se instalan en el proyecto.
+## Preflight y ownership
 
-## Central workflow (diseño suspendido)
+El sincronizador requiere raíz Git real, rama activa, procedencia y metadata coherentes.
+Comprueba colisiones de skills, symlinks, marcadores, destinos ignorados y cambios
+locales administrados, incluidos flags que puedan ocultar trabajo pendiente. El contenido
+local ajeno a su scope se conserva y no se incluye en el diff de distribución.
 
-Esta sección y los contratos específicos del canal central que siguen conservan su
-diseño para una posible restauración autorizada; no son un procedimiento ejecutable
-en el estado actual ni autorizan invocar sus helpers para publicar.
+El archivo AGENTS resultante se calcula antes de escribir y se rechaza si superaría
+100 líneas. No se mueven reglas locales para satisfacer el límite silenciosamente.
+La instalación no crea commits, push, PR, checkout ni cambios del índice.
 
-1. Confirmar que el dispatch usa `main`, fijar el SHA inmutable del evento y validar
-   exactamente ese snapshot.
-2. Resolver únicamente repositorios habilitados de la organización configurada.
-3. Obtener un installation token temporal y limitado a esos repositorios.
-4. Ejecutar un preflight de acceso, permisos, rama por defecto y merge settings para
-   **todos** los consumidores antes de modificar el primero.
-5. Crear o actualizar una branch determinista en cada consumidor.
-6. Copiar Policies, metadata mínima, Skills para ambos agentes,
-   `FRAMEWORK_VERSION` y el routing corporativo acordado para `AGENTS.md`.
-7. Crear o actualizar el Pull Request del bot y su procedencia.
-8. Solicitar auto-merge para el SHA exacto cuando esté habilitado, excepto para
-   actualizaciones MAJOR.
-9. Permitir que branch protection integre solo después de CI y eliminar la branch al
-   completar el merge.
+Los hashes del manifest permiten detectar divergencias; HTTPS y el origen configurado
+forman la frontera de confianza de obtención. Registrar un SHA no es autenticar por sí
+solo al publicador. La metadata no contiene credenciales ni secretos.
 
-Los scripts auxiliares viven en este repositorio. `sync-consumer.mjs` es compartido
-con el canal asistido; los helpers de registro, token y PR son exclusivos del central.
-Ninguno se copia ni instala como herramienta permanente en consumidores.
+## Interrupciones y recuperación
 
-## Distribution allowlist
+La aplicación no promete atomicidad multiarchivo. Mantiene snapshots previos y deseados
+en un journal local antes de aplicar, usa exclusión con operaciones de trabajo y
+revalida el contenido observado. Una edición concurrente impide continuar ciegamente.
 
-Ambos canales pueden escribir únicamente:
+`--recover` restaura cambios propios de una operación interrumpida cuando cada archivo
+sigue coincidiendo con su versión previa o la aplicada. Si hubo edición posterior,
+se detiene preservándola. No usa reset, limpieza global ni restauración de otros paths.
+Un lock de propietario desconocido nunca se rompe automáticamente: hay que comprobar
+que su proceso terminó antes de retirarlo para recuperar.
 
-```text
-AGENTS.md                      # solo creación o región corporativa administrada
-FRAMEWORK_VERSION
-engineering/corporate/README.md
-engineering/corporate/policies/**
-engineering/corporate/metadata/**
-.agents/skills/<skill-corporativa>/**
-.claude/skills/<skill-corporativa>/**
-```
+El snapshot temporal ejecuta la actualización de wrappers; no se depende de sobrescribir
+un script que todavía deba continuar leyéndose para completar la operación.
 
-`skills/<nombre>/` se copia completo y sin mantener variantes manuales, incluyendo
-`SKILL.md` y `references/` cuando existan.
+## Idempotencia y migración
 
-`engineering/corporate/metadata/installation.json` guarda exclusivamente versión,
-repositorio y SHA fuente, y nombres de Skills administradas. Esa lista permite retirar
-una Skill corporativa sin borrar Skills propias del consumidor; no es un manifest
-general ni contiene checksums.
+Sobre una instalación guardada en Git, aplicar el mismo snapshot no produce cambios.
+Una instalación recién aplicada debe integrarse antes de volver a sincronizar, para
+no confundir el diff propio pendiente con contenido descartable.
 
-No se distribuyen `INSTALL.md`, `docs/architecture/`, `docs/governance/`, `projects.yml`,
-workflows, credenciales, tooling interno ni documentación sobre cómo opera el bot.
-El inventario asistido no amplía esta allowlist: documentos propios y carpetas heredadas
-se conservan sin cambios y sus recomendaciones se entregan en pantalla.
+El salto 1.x a 2.x reemplaza contenido administrado antiguo por `.harness/core/` y
+retira su metadata anterior solo dentro de esa operación revisable. Documentación y
+expedientes heredados permanecen intactos hasta reconciliación autorizada aparte.
+Las skills locales se preservan y una colisión se resuelve antes de escribir.
 
-## Shared synchronization safeguards
-
-Antes de escribir, el sincronizador exige raíz Git real con rama activa, procedencia
-explícita, metadata y versión coherentes; rechaza downgrade, ownership desconocido,
-colisiones con Skills propias, symlinks, destinos ignorados, marcadores inválidos y
-cambios locales staged, unstaged, untracked o ignorados en las rutas administradas.
-Rechaza flags `skip-worktree` y `assume-unchanged` que pudieran ocultar esos cambios.
-Los cambios fuera de esas rutas no bloquean ni se incorporan al diff del framework.
-
-La metadata previa admite el identificador antiguo `engineering-framework` y SHA
-nulo para compatibilidad; las nuevas salidas siempre usan repositorio canónico y SHA
-completo. La verificación de procedencia depende del snapshot obtenido por cada canal:
-la metadata no es una firma ni un manifest de checksums.
-
-La aplicación no es una transacción de filesystem. Las comprobaciones se completan
-antes de la primera escritura, pero un fallo de E/S puede dejar cambios parciales:
-se informa y se inspecciona, sin declarar éxito ni hacer reset automático.
-
-## Central channel prerequisites
-
-Cada repositorio habilitado debe:
-
-- tener `main` como rama por defecto;
-- proteger `main` con los checks de CI que deban pasar antes del merge;
-- permitir a la GitHub App crear commits, branches y Pull Requests;
-- permitir squash merge; y
-- cuando `auto_merge: true`, habilitar **Allow auto-merge** y **Automatically delete
-  head branches**.
-
-La protección de `main` y sus required checks siguen siendo la autoridad para decidir
-cuándo puede integrarse el PR. El workflow no solicita permisos administrativos ni
-modifica settings del consumidor. El preflight valida los merge settings visibles con
-Metadata; branch protection debe verificarse administrativamente al incorporar el
-repositorio.
-
-## Idempotencia
-
-En ambos canales, sobre una instalación guardada en Git, sincronizar el mismo
-snapshot no produce cambios. El preflight protege las salidas todavía sin commit:
-una instalación recién aplicada no se puede reejecutar hasta guardar esos cambios
-por decisión del usuario. Misma versión con diferente contenido o procedencia se
-reporta como `repair`; el SHA permite distinguir snapshots del mismo SemVer.
-
-La identidad lógica de una actualización es `(repository, framework_version)`. El
-workflow reutiliza una branch determinista, por ejemplo
-`engineering-framework/update-vX.Y.Z`. Reejecutar la publicación actualizará el
-mismo PR abierto; si el repositorio ya contiene la versión y el mismo contenido, no
-producirá cambios.
-
-Cada ejecución agrupa logs por repositorio y etapa, emite anotaciones de error y
-construye un Step Summary con preflight, PR, commit consumidor y resultado. Si falla
-la fase de preflight no se modifica ningún consumidor; si falla una mutación, se
-detiene antes de intentar el siguiente repositorio y se conservan las filas de los ya
-procesados.
-
-No se cerrará y recreará un PR salvo que su estado haga imposible actualizarlo. Esto
-preserva conversación, auditoría y estabilidad de URLs.
-
-## Seguridad
-
-El canal asistido necesita acceso de lectura a la fuente desde el host; no pasa
-credenciales al contenedor. Usa un usuario equivalente al del host, montajes limitados
-y metadata Git de solo lectura para worktrees cuando esté fuera del consumidor.
-No ejecuta código de la aplicación ni altera servicios de ese proyecto.
-
-El workflow manual usa una GitHub App con `Contents: read/write`,
-`Pull requests: read/write` y `Metadata: read`. No usará PATs personales ni hará push
-directo a la rama protegida.
+La publicación central conservada no está certificada para la nueva distribución ni
+constituye una alternativa operativa mientras permanezca suspendida.

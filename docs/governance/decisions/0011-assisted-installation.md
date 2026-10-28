@@ -1,5 +1,8 @@
 # ADR-0011: Assisted installation with a shared synchronizer
 
+Para versiones 2.x, distribución y layout evolucionan mediante
+[ADR-0013](0013-project-harness.md). Se conserva esta decisión como contexto histórico.
+
 - Status: Accepted
 - Date: 2026-10-09
 

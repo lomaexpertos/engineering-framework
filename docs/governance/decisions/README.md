@@ -12,3 +12,4 @@
 - [`0010-practical-database-conventions.md`](0010-practical-database-conventions.md)
 - [`0011-assisted-installation.md`](0011-assisted-installation.md)
 - [`0012-organizational-skills-and-critical-logging.md`](0012-organizational-skills-and-critical-logging.md)
+- [`0013-project-harness.md`](0013-project-harness.md): contrato vigente 2.x de layout, distribución y continuidad.
