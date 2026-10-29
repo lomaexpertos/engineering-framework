@@ -12,8 +12,10 @@
 8. Al desarrollar o corregir comportamiento, el agente **MUST** evaluar si el flujo
    es crítico y aplicar [`../development/logging.md`](../development/logging.md)
    en la misma entrega. No depender de que se invoque una Skill de observabilidad.
-9. El agente **MUST** elegir el recorrido de
+9. Para trabajo de entrega autorizado, el agente **MUST** elegir el recorrido de
    [proportional-delivery.md](proportional-delivery.md), aplicar
    [coordination.md](coordination.md) cuando delegue y
    [memory-and-continuity.md](memory-and-continuity.md) cuando necesite continuidad;
-   no confundir trabajo implementado con cierre.
+   no confundir trabajo implementado con cierre. Las preguntas conversacionales y
+   la investigación AS-IS se distinguen mediante
+   [domain-documentation.md](domain-documentation.md).

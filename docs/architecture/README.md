@@ -4,6 +4,7 @@
 - Ownership y estructura instalada: [consumer-contract.md](consumer-contract.md).
 - Obtener, actualizar o recuperar el núcleo: [distribution.md](distribution.md).
 - Delegar, retomar, cerrar o descartar trabajo: [work-lifecycle.md](work-lifecycle.md).
+- Investigar, documentar y mantener módulos vigentes: [domain-knowledge.md](domain-knowledge.md).
 - Elegir recorrido y obligaciones de entrega:
   [Policy de entrega proporcional](../../policies/ai-assisted-development/proportional-delivery.md).
 - Configurar perfiles personales y ejecutar agentes: [agent-execution.md](agent-execution.md).

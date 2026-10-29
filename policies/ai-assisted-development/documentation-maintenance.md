@@ -11,3 +11,7 @@
    casilla. Aplicar [proportional-delivery.md](proportional-delivery.md): cambiar
    fuentes afectadas por conocimiento significativo o continuidad real, sin crear
    specs, reportes ni páginas de progreso para un cambio local ya explicado.
+7. Investigación de módulos vigentes, mapas, inventarios, conteos y su mantenimiento
+   incremental **MUST** seguir
+   [domain-documentation.md](domain-documentation.md). Actualizar la superficie
+   afectada, sin reconstruir todo el sistema por cada cambio o pregunta.

@@ -29,6 +29,10 @@ recorrido conserva reforzado.
    registra `validation`, `reviews`, `documentation`, `decisions`, `invariants`,
    `roadmap`, `backlog` y `memory`, con motivo cuando una categoría no aplica.
    Ningún recorrido crea documentos ni actualizaciones para llenar casillas.
+   La consolidación de módulos sigue
+   [domain-documentation.md](domain-documentation.md): reconciliar explicaciones,
+   mapas, inventarios y conteos afectados por cambios materiales, sin un nuevo
+   análisis global ni progreso de producto por haber documentado lo existente.
 3. Docs **MUST** seguir siendo comprensibles sin specs, pruebas aplicadas, ramas,
    commits, reportes o listas de archivos revisados. No enlazar trabajo descartable
    desde conocimiento permanente; evidencia detallada permanece en el expediente.

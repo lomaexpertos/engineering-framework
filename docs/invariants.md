@@ -18,3 +18,5 @@ Este índice localiza la fuente canónica; las explicaciones se mantienen allí.
 | Los perfiles personales satisfacen requisitos del equipo sin relajarlos. | [Ejecución de agentes](architecture/agent-execution.md) |
 | Conversación, workspace y permisos efectivos se declaran por separado. | [Ejecución de agentes](architecture/agent-execution.md) |
 | Las guías necesarias se descubren y validan desde el consumidor sin checkout productor. | [Contexto operativo](../policies/ai-assisted-development/context-management.md) |
+| Preguntar por negocio no activa una entrega; investigar el módulo actual consolida AS-IS respetando restricciones expresas. | [Conocimiento de dominios](../policies/ai-assisted-development/domain-documentation.md) |
+| Los cambios materiales mantienen las fuentes y mapas afectados; documentar lo existente no equivale a implementar producto. | [Mantenimiento incremental](../policies/ai-assisted-development/domain-documentation.md) |

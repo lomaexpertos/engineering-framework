@@ -30,6 +30,12 @@ continuidad según el trabajo. Los routers de dominio permiten elegir contratos 
 fuentes concretas; los ejemplos y referencias extensas se cargan solo por necesidad.
 No se exige leer todos los expedientes ni el catálogo completo en cada tarea.
 
+Las preguntas de negocio, otros sistemas o deber ser se responden en conversación
+sin activar una entrega por defecto. Investigar un módulo del repositorio actual
+consolida su AS-IS con `spec-documentar`, salvo límites expresos de escritura.
+El [contrato de conocimiento de dominios](domain-knowledge.md) explica su ubicación,
+cobertura y mantenimiento incremental.
+
 Las explicaciones vigentes permanecen útiles después de eliminar el expediente que
 motivó su cambio. Las decisiones duraderas conservan razón, consecuencias y sucesor;
 los reportes y bitácoras no se convierten en autoridad del sistema.

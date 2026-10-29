@@ -7,6 +7,7 @@ description: Cierra o cancela un expediente con evidencia y consolidación propo
 
 Aplicar `ai-assisted-development/initiative-lifecycle.md`, `change-review.md` y
 `documentation-maintenance.md`, con recorrido según `proportional-delivery.md`.
+Para módulos vigentes, `domain-documentation.md` define la consolidación incremental.
 El coordinador responde por la consolidación semántica;
 un comando solo comprueba lo que el contrato puede verificar.
 
@@ -23,8 +24,10 @@ distribuye con esta Skill y no requiere documentación del repositorio fuente.
   cierre. Contrastar entregas, hallazgos y pruebas con la versión integrada; una
   salida exitosa de proceso no equivale a aceptación ni a independencia de revisión.
 - Actualizar fuentes canónicas con `spec-documentar` solo si cambió conocimiento
-  significativo; mantener roadmap y memoria si cambia avance de alto nivel o
-  continuidad. No fabricar actualizaciones, progreso ni documentos por casilla.
+  significativo: explicaciones, mapas, inventarios, conteos e invariantes afectados
+  por el cambio, sin volver a investigar todo el sistema. Mantener roadmap y memoria
+  si cambia avance de alto nivel o continuidad; inventariar lo existente no implica
+  progreso de producto. No fabricar actualizaciones ni documentos por casilla.
 - Preparar `closure.json`: mínimo/estándar siguen
   `.harness/core/schemas/compact-closure.schema.json` con `reviewer`, `reviewed_at`,
   `summary`, `validation` y `sources`. Reforzado usa

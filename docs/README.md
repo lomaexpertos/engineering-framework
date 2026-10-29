@@ -3,6 +3,8 @@
 Consultar solo la fuente que resuelve la necesidad actual:
 
 - Entender componentes, contratos y límites: [arquitectura](architecture/README.md).
+- Investigar módulos actuales y mantener su conocimiento:
+  [conocimiento de dominios](architecture/domain-knowledge.md).
 - Adoptar o actualizar un proyecto: [instalación](../INSTALL.md).
 - Entender versiones, ownership y decisiones: [gobernanza](governance/README.md).
 - Identificar restricciones que deben preservarse: [invariantes](invariants.md).

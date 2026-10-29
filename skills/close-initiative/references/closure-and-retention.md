@@ -36,7 +36,10 @@ no entregado, pasar a `closing --confirm` desde el estado abierto permitido y us
 `close --cancelled`. No afirmar entrega por una cancelación.
 
 Actualizar fuentes existentes cuando cambie conocimiento significativo o
-continuidad. Retirar entradas activas existentes y conservar punto de continuación
+continuidad. Para módulos, aplicar `ai-assisted-development/domain-documentation.md`
+y `spec-documentar` a las explicaciones, mapas, inventarios y conteos afectados;
+no repetir un análisis global ni registrar avance de producto por documentar AS-IS.
+Retirar entradas activas existentes y conservar punto de continuación
 para pendientes reales. Las fuentes permanentes no deben depender de expedientes ni
 reportes temporales. No crear documentos ni actualizaciones para llenar categorías.
 

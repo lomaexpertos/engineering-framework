@@ -16,7 +16,7 @@ y enlazar el resultado desde su router. No publicar esta guía como estado del p
 | Elegir conocimiento por tarea | [docs/router.md](docs/router.md) | `docs/README.md` |
 | Explicar propósito y lenguaje | [docs/product.md](docs/product.md) | `docs/product/README.md` |
 | Arquitectura transversal | [docs/system.md](docs/system.md) | `docs/system/README.md` |
-| Comportamiento de un dominio | [docs/domain.md](docs/domain.md) | `docs/domains/<dominio>/README.md` |
+| Comportamiento, flujos y datos de un dominio existente | [docs/domain.md](docs/domain.md) | `docs/domains/<dominio>/README.md` |
 | Decisión con consecuencias duraderas | [docs/decision.md](docs/decision.md) | `docs/decisions/<id>.md` |
 | Localizar invariantes | [docs/invariants.md](docs/invariants.md) | `docs/invariants.md` |
 | Dirección y resultados futuros | [docs/roadmap.md](docs/roadmap.md) | `docs/roadmap/README.md` |
@@ -26,6 +26,13 @@ y enlazar el resultado desde su router. No publicar esta guía como estado del p
 No crear enlaces de conocimiento permanente a expedientes, tests aplicados, ramas
 ni reportes necesarios para entender el sistema. Los ejemplos de destinos están en
 código: solo convertirlos en enlaces cuando el archivo de destino exista.
+
+Para investigar un módulo del sistema vigente, usar
+[`spec-documentar`](../../skills/spec-documentar/SKILL.md) y su referencia de
+investigación de dominio. La plantilla de dominio sostiene una visión general
+moderadamente detallada. Separar datos, flujos o dependencias solo por consulta
+independiente, con routing desde el README del dominio; no generar ese árbol de
+antemano. Estas fuentes describen AS-IS y se actualizan de forma incremental.
 
 ## Continuidad y trabajo
 

@@ -1,10 +1,13 @@
 # AI-assisted development policies router
 
-Consulta este dominio cuando un agente tome decisiones, modifique código o declare
-una tarea terminada.
+Consulta este dominio para ejecutar trabajo del repositorio o declarar una tarea
+terminada. Una pregunta conversacional no activa un workflow por defecto.
 
 ## Routing
 
+- Distinguir conversación de investigación del repositorio y documentar módulos
+  vigentes de extremo a extremo:
+  [`domain-documentation.md`](domain-documentation.md).
 - Elegir recorrido mínimo, estándar o reforzado y sus artefactos:
   [`proportional-delivery.md`](proportional-delivery.md).
 - Inspección, alcance, causa raíz y conflictos:

@@ -22,6 +22,8 @@ Separar metodología distribuida, conocimiento duradero y trabajo descartable.
    extensiones locales. Retirar contenido requiere ownership demostrado.
 2. `docs/README.md` **MUST** dirigir al conocimiento vigente. Se permiten fuentes
    temáticas por producto, sistema o dominio; un README basta para un dominio pequeño.
+   La jerarquía, cobertura AS-IS e inventarios siguen
+   [domain-documentation.md](domain-documentation.md).
 3. `docs/decisions/` conserva decisiones duraderas, razones, consecuencias, estado y
    sucesor. Los ADR no se clasifican como evidencia descartable.
 4. `docs/invariants.md` **SHOULD** ser un índice de fuentes canónicas, sin repetir

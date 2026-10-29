@@ -5,6 +5,12 @@ Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni document
 <!-- engineering-framework:start -->
 ## Harness de ingeniería
 
+- Preguntas de negocio, otros sistemas o deber ser: conversación normal, sin
+  workflows por defecto. Para analizar y documentar un módulo del repositorio actual,
+  usa `.harness/core/skills/spec-documentar/SKILL.md`; respeta «solo analiza» o
+  «sin archivos». Intención y alcance:
+  `.harness/core/policies/ai-assisted-development/domain-documentation.md`.
+  Antes de cambiar comportamiento, contrasta las fuentes del área y el código vigente.
 - Reglas corporativas: `.harness/core/policies/README.md`.
 - Recorrido mínimo, estándar o reforzado según riesgo e incertidumbre:
   `.harness/core/policies/ai-assisted-development/proportional-delivery.md`.

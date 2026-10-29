@@ -13,6 +13,8 @@ necesario para la tarea actual, sin perder autoridad, alcance ni trazabilidad.
 - Skill: contrato de trabajo reusable con trigger, restricciones y resultado propios;
   su diseño se rige por [`skill-design.md`](skill-design.md).
 - Documentación del proyecto: descripción verificable del sistema real.
+  Su jerarquía e investigación AS-IS siguen
+  [`domain-documentation.md`](domain-documentation.md).
 - ADR vigente: conocimiento duradero con razones y sucesor; reportes e historial de trabajo: evidencia temporal.
 
 ## Requirements

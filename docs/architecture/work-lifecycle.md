@@ -8,6 +8,11 @@ El proyecto separa tres clases de información:
 - Memoria operativa resume prioridades, restricciones temporales y puntos de entrada.
 - Expedientes guardan definición futura, ejecución, resultados delegados y evidencia.
 
+Una pregunta general puede quedarse en conversación sin iniciar este ciclo. Analizar
+el módulo actual puede producir conocimiento canónico directamente, sin convertirlo
+en una propuesta de cambio. El límite de intención está en
+[conocimiento de dominios](domain-knowledge.md).
+
 Una sesión nueva consulta el router y el resumen o registro del trabajo elegido. No tiene
 que reconstruir toda una conversación ni leer iniciativas históricas.
 La [policy de memoria](../../policies/ai-assisted-development/memory-and-continuity.md)
@@ -76,6 +81,11 @@ El coordinador promueve conocimiento significativo a las fuentes canónicas y
 mantiene resultados/pendientes altos cuando afectan el roadmap. La memoria deja de
 presentar la iniciativa como activa si tenía una entrada. No se fabrican documentos,
 actualizaciones ni progreso para completar una lista.
+
+En módulos, la consolidación reconcilia explicaciones, flujos, mapas, inventarios y
+conteos afectados por los cambios materiales. Reutiliza lo ya conocido y comprueba
+las premisas modificadas; no repite una investigación global. Inventariar AS-IS no
+demuestra avance de una capacidad futura del producto.
 
 `closure.json` mínimo/estándar registra `reviewer`, `reviewed_at`, `summary`,
 `validation` y `sources`. La validación incluye comando, resultado y evidencia;

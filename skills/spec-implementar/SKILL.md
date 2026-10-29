@@ -11,6 +11,9 @@ Entregar la spec aprobada y su plan dentro de las convenciones del proyecto.
 
 - Leer `.harness_work/initiatives/<slug>/spec.md` y `plan/plan.md`; otros artefactos y docs
   solo si son relevantes. Si falta una entrada, señalar su ruta antes de editar código.
+- Consultar el conocimiento del módulo y verificar sus premisas afectadas contra
+  la implementación vigente, conforme a
+  `ai-assisted-development/domain-documentation.md`.
 - Respetar dependencias y contratos; el modelo decide cómo implementar y validar.
   Preservar cambios ajenos y no ampliar alcance funcional sin autorización.
 - Aplicar `coordinate-work` para delegación, ownership, handoffs y memoria, sin
@@ -29,6 +32,7 @@ o solicitud; concentrar allí decisiones, validaciones y pendientes.
 
 Después de validar, usar `spec-documentar` si el plan lo incluye, el usuario pide
 documentación final o el cambio deja desactualizada la explicación canónica.
+Reconciliar flujos, mapas, inventarios y conteos afectados de forma incremental.
 No documentar como vigente comportamiento no validado ni por cambios cosméticos.
 Promover conocimiento significativo y mantener continuidad con `close-initiative`
 antes de cerrar el expediente, con formato proporcional al recorrido. No actualizar

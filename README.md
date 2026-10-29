@@ -25,6 +25,12 @@ El productor no instala una copia de sí mismo. Los consumidores separan:
 
 ## Contratos principales
 
+Las preguntas de negocio, otros sistemas o deber ser se responden en conversación.
+Analizar un módulo del repositorio actual permite investigar y documentar su AS-IS
+con `spec-documentar`, respetando «solo analiza» o «sin archivos». El
+[conocimiento de dominios](docs/architecture/domain-knowledge.md) relaciona reglas,
+frontend, backend, datos y dependencias para futuros cambios.
+
 `AGENTS.md` es un router de hasta 100 líneas. Cada tarea consulta solo los dominios
 pertinentes. El coordinador elige recorrido con
 [entrega proporcional](policies/ai-assisted-development/proportional-delivery.md):

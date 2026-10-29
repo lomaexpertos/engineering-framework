@@ -51,6 +51,11 @@ mixtos de instrucciones raíz. No son una firma del publicador.
 El actualizador no los crea, reescribe o elimina como efecto de cambiar la metodología.
 Los archivos operativos de runtime son locales y deben ignorarse en Git.
 
+El conocimiento de módulos se descubre desde el router propio de `docs/` y mantiene
+una jerarquía según su tamaño. La investigación AS-IS usa la Policy y Skill instaladas;
+no requiere consultar este repositorio productor. Su realización y límites están en
+[conocimiento de dominios](domain-knowledge.md).
+
 Los requisitos de agentes del equipo viven en `.harness/project/agents.json` y los
 perfiles personales fuera del repositorio. Sus contratos y separación de autoridad
 se explican en [ejecución de agentes](agent-execution.md). La distribución no crea

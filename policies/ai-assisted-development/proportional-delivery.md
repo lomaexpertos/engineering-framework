@@ -10,6 +10,11 @@ documento sin ese valor añade costo sin mejorar la entrega.
 
 ## Selección del recorrido
 
+La selección aplica al trabajo de entrega autorizado. Explicar negocio, comparar
+sistemas o discutir un deber ser puede resolverse en conversación sin recorrido,
+expediente, CLI ni delegación; la frontera con investigar el repositorio actual está
+en [domain-documentation.md](domain-documentation.md).
+
 El coordinador **MUST** elegir el recorrido según impacto, incertidumbre,
 reversibilidad y superficies afectadas, usando la solicitud y el repositorio.
 **MUST NOT** pedir al usuario que clasifique la tarea ni crear un formulario,
@@ -27,7 +32,10 @@ Los riesgos `security`, `data_integrity`, `financial`, `migration`,
 `public_contract`, `production` e `irreversible` **MUST** forzar reforzado.
 `shared_surface` y `uncertainty` **MUST** exigir al menos estándar.
 Estos identificadores expresan riesgos afectados, no una obligación de marcar
-todos los dominios que existan en el repositorio. Ausencia de `track` en un
+todos los dominios que existan en el repositorio. Leer y documentar reglas de dinero
+no activa `financial` por el nombre del módulo: clasificar efectos y restricciones
+reales del trabajo, incluidos acceso sensible y operaciones que se ejecutarán.
+Ausencia de `track` en un
 expediente o workflow heredado conserva reforzado; no autoriza rebajar controles.
 Un mínimo de proyecto más estricto prevalece.
 

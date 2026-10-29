@@ -47,12 +47,12 @@ por estar disponibles en el catálogo.
 
 | Skill | Propósito |
 | --- | --- |
-| [`explorador-de-dominio`](explorador-de-dominio/SKILL.md) | Contrastar proceso actual, referente y necesidad real, sin imponer un curso. |
+| [`explorador-de-dominio`](explorador-de-dominio/SKILL.md) | Conversar sobre negocio y referentes sin iniciar desarrollo ni inspección local por defecto. |
 | [`research-best-practices`](research-best-practices/SKILL.md) | Investigar evidencia externa actual. |
 | [`spec-definir`](spec-definir/SKILL.md) | Definir o refinar el TO-BE y sus requisitos verificables. |
 | [`spec-planear`](spec-planear/SKILL.md) | Crear un plan técnico proporcional y verificable. |
 | [`spec-implementar`](spec-implementar/SKILL.md) | Ejecutar una spec planificada. |
-| [`spec-documentar`](spec-documentar/SKILL.md) | Mantener documentación AS-IS permanente. |
+| [`spec-documentar`](spec-documentar/SKILL.md) | Investigar módulos actuales de extremo a extremo y mantener su documentación AS-IS. |
 
 ### Implementación
 

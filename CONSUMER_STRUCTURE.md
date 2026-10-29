@@ -61,6 +61,12 @@ el expediente para cada trabajo. Código, tests y artefactos operativos permanec
 en sus rutas productivas. El manifest registra ownership y hashes de archivos
 administrados; no incluye contenido privado del proyecto.
 
+`docs/README.md` dirige a fuentes de producto, sistema y dominios con la profundidad
+que necesite el proyecto. Investigar un módulo mantiene su AS-IS, mapas e inventarios;
+la metodología está instalada con `spec-documentar` y la Policy
+`ai-assisted-development/domain-documentation.md`. No se necesita el checkout
+productor para usarla ni se crean carpetas vacías para completar el árbol.
+
 El coordinador elige recorrido con la
 [Policy de entrega proporcional](policies/ai-assisted-development/proportional-delivery.md).
 Mínimo directo puede omitir `.harness_work/` y perfiles personales. Para un trabajador

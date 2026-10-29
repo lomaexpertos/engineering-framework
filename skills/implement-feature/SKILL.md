@@ -15,6 +15,9 @@ Entregar la capacidad solicitada dentro del estilo y los contratos del proyecto.
 - Localizar las Policies y la documentación del área afectada; conservar arquitectura,
   nomenclaturas, contratos y componentes vigentes. No exigir una spec formal para un
   cambio ad hoc; una spec aprobada y planificada usa `spec-implementar`.
+  Comprobar en el código vigente las premisas que afectará el cambio según
+  `ai-assisted-development/domain-documentation.md`; la documentación evita
+  reconstruir el módulo, pero no sustituye esa verificación.
 - Aplicar `development/logging.md` desde el mismo cambio cuando se cree o modifique
   una operación crítica. El tamaño del diff no exime motores de cálculo, facturación,
   correcciones, autorizaciones ni efectos financieros o de integridad.
@@ -23,8 +26,9 @@ Entregar la capacidad solicitada dentro del estilo y los contratos del proyecto.
   únicamente por mencionar una tecnología.
 - El modelo elige el diseño, orden de implementación y pruebas dentro de esas
   restricciones. No introducir otra arquitectura, plataforma o entregable ajeno.
-- Actualizar documentación canónica ante cambios materiales; conservar evidencia
-  proporcional cuando se necesite, sin imponer spec extensa ni auditoría completa.
+- Actualizar explicaciones, mapas, inventarios y conteos canónicos afectados ante
+  cambios materiales, con `spec-documentar`; conservar evidencia proporcional cuando
+  se necesite, sin imponer spec extensa ni auditoría completa.
 
 ## Resultado esperado
 

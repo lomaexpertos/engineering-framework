@@ -12,6 +12,14 @@ para la tarea actual.
 
 ## Routing
 
+- Antes de modificar comportamiento, consulta la documentación vigente del dominio
+  afectado, si existe.
+
+- Preguntas de negocio, otros sistemas o deber ser: responder en conversación sin
+  activar workflows por defecto. Analizar un módulo del repositorio actual usa
+  [`spec-documentar`](skills/spec-documentar/SKILL.md) para investigar y documentar
+  AS-IS; respetar límites como «solo analiza» o «sin archivos». La frontera está en
+  [`domain-documentation.md`](policies/ai-assisted-development/domain-documentation.md).
 - Para instalar o actualizar el framework en un consumidor desde su rama actual,
   sigue [`INSTALL.md`](INSTALL.md).
 - Para reglas normativas, comienza en [`policies/README.md`](policies/README.md) y
