@@ -1,0 +1,2 @@
+Gitleaks real 8.30.1: clean scope, untracked/staged/index-hidden token, deleted historical token, local config/ignore/comment bypass prevention, shallow rejection and redaction passed.
+Secret scan contract passed: explicit scope, version, sanitized reports/errors, private artifacts, timeout and environment overrides; real scanner executed.

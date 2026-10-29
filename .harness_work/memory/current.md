@@ -1,7 +1,8 @@
 # Contexto operativo
 
-Iniciativa activa: `20261029_assurance_controls`; integrar detección de secretos y
-contratos de deployment/dotenv. Continuación en su resume; revisiones cruzadas pendientes.
+Sin trabajo de desarrollo activo ni trabajadores pendientes.
+Controles de secretos y contratos de infraestructura disponibles; operación y límites
+en [assurance](../../docs/architecture/assurance.md). La adopción de consumidores sigue separada.
 La auditoría de uso, base de datos e infraestructura corrigió contradicciones y la huella de entrega.
 La huella distingue contenido, tipo y ejecutabilidad; trabajo abierto con huellas anteriores necesita revisión nueva.
 El harness distingue investigación AS-IS del sistema actual de conversación de negocio/otros sistemas.
