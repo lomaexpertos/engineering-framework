@@ -1,7 +1,8 @@
 # Contexto operativo
 
-Trabajo activo: `20261029_unified_setup`; preparación unificada y resolución de
-dependencias. Siguiente acción y revisión en el resume del expediente.
+Sin trabajo de desarrollo activo ni trabajadores pendientes.
+Preparación unificada disponible: setup o check --setup, con resolución automática
+desde caché privada del usuario y sin editar PATH ni herramientas personales.
 Controles de secretos y contratos de infraestructura disponibles; operación y límites
 en [assurance](../../docs/architecture/assurance.md). La adopción de consumidores sigue separada.
 La auditoría de uso, base de datos e infraestructura corrigió contradicciones y la huella de entrega.

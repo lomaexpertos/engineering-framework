@@ -22,6 +22,11 @@ silenciosas. Distingue árbol/índice, cambios desde base explícita e historial
 disponible. El resultado conserva regla y ubicación; no valores, coincidencias,
 parches ni salida cruda. Un resultado limpio no demuestra ausencia de todo secreto.
 
+Los hashes administrados se reconocen como metadata únicamente en el formato
+canónico del productor y tras comprobar todos sus archivos en el mismo snapshot.
+Contenido duplicado, inválido o no verificable sigue intacto para el scanner;
+no se excluye el manifest completo ni se normaliza el historial.
+
 Deployment comprueba estructura, identidades, referencias, archivos, estrategias y
 responsabilidades de migración/recuperación. No demuestra que la estrategia funcione,
 exista capacidad suficiente o un servicio esté sano; eso requiere evidencia operativa.

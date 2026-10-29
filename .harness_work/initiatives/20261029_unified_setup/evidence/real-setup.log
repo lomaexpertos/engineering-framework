@@ -1,0 +1,2 @@
+[sync] install: 3.6.0, 30 Skills, rama feature/setup.
+Real installed setup passed: absent Node/Gitleaks/SOPS, verified official downloads, JSON check, automatic cache resolution, security check and offline idempotent reuse.
