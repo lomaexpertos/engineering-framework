@@ -80,7 +80,8 @@ function projectRequirements(root) {
 }
 function effectiveTrack(root,directory,state) {
   const workflow=path.join(directory,'workflow.json');
-  return maxTrack(resolveTrack(state.track,state.assessment,projectRequirements(root)),exists(workflow)?trackOf(read(workflow)):trackOf(state));
+  const project=['closed','cancelled'].includes(state.status)?{}:projectRequirements(root);
+  return maxTrack(resolveTrack(state.track,state.assessment,project),exists(workflow)?trackOf(read(workflow)):trackOf(state));
 }
 export function validateCompactClosure(closure,{cancelled=false}={}) {
   const keys=['reviewer','reviewed_at','summary','validation','sources'];

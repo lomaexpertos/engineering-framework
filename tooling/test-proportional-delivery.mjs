@@ -152,6 +152,9 @@ console.log(JSON.stringify({schema_version:1,task_id:task.id,status:'completed',
   mutateJSON(path.join(workDirectory(minimal,mid),'state.json'),state=>state.blockers.push('Unresolved fixture blocker'),()=>rejected(minimal,'work',['close',mid,'--check'],/blocker/i));
   assert.equal(cli(minimal,'work',['close',mid,'--check']).ready,true);
   assert.equal(cli(minimal,'work',['close',mid]).status,'closed');
+  write(path.join(minimal,'.harness/project/agents.json'),{schema_version:1,minimum_track:'reinforced'});
+  assert.equal(cli(minimal,'work',['close',mid]).status,'closed','New project floor must not invalidate an already closed historical record');
+  fs.unlinkSync(path.join(minimal,'.harness/project/agents.json'));
   assert.equal(fs.existsSync(path.join(minimal,'docs')),false,'No canonical file is required when no durable knowledge changed');
   assert.equal(fs.existsSync(path.join(workDirectory(minimal,mid),'closure.md')),false,'Compact closure is sufficient');
 

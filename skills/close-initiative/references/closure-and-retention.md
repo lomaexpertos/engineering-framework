@@ -73,9 +73,10 @@ o `not_run`. Una cancelación puede dejar `validation: []`, con razón en `summa
 sin afirmar alcance entregado. Las revisiones de estándar siguen siendo requisito
 del workflow, aunque el registro de cierre sea compacto.
 
-El cierre usa los mismos comandos `transition validating/closing` y `close --check`
-de esta guía, con el ID de su expediente. Mínimo directo sin expediente termina
-con la respuesta de cambio y comprobación; no necesita crear uno para cerrarlo.
+El registro compacto puede cerrarse directamente desde `active`, una vez validado:
+`work.sh close ID --check` y después `work.sh close ID`, sin transiciones adicionales.
+También admite `validating` o `closing` si ya se usan. Mínimo directo sin expediente
+termina con la respuesta de cambio y comprobación; no necesita crear uno para cerrarlo.
 
 ### Cierre completo: reforzado y legado
 

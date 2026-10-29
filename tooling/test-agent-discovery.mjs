@@ -88,7 +88,7 @@ try {
   assert.equal(doctor.ok,false);assert.equal(doctor.execution_verified,false);
   assert.ok(doctor.issues.some(issue=>/Role/.test(issue)));
 
-  const example=(skill,file,index=0)=>JSON.parse([...read(`.harness/core/skills/${skill}/references/${file}`).matchAll(/```json\n([\s\S]*?)\n```/g)][index][1]);
+  const example=(skill,file,index=0)=>{const values=[...read(`.harness/core/skills/${skill}/references/${file}`).matchAll(/```json\n([\s\S]*?)\n```/g)].map(match=>JSON.parse(match[1]));return typeof index==='function'?values.find(index):values[index];};
   const task=example('coordinate-work','individual-tasks.md');
   const initiative=task.initiative;
   assert.equal(work('create',initiative,'--title','Installed consumer discovery','--owner','coordinator').status,'draft');
@@ -129,7 +129,7 @@ try {
   assert.equal(JSON.parse(agent(['workflow','cancel',initiative],1).stdout).stage,'cancelled');
   assert.equal(JSON.parse(agent(['workflow','status',initiative],1).stdout).stage,'cancelled');
 
-  const closure=example('close-initiative','closure-and-retention.md');
+  const closure=example('close-initiative','closure-and-retention.md',value=>Boolean(value.documentation&&value.roadmap));
   for(const entry of Object.values(closure))if(entry&&typeof entry==='object')for(const relative of entry.sources||[]) {
     if(fs.existsSync(path.join(root,relative)))continue;
     fs.mkdirSync(path.dirname(path.join(root,relative)),{recursive:true});fs.writeFileSync(path.join(root,relative),'# Documentation fixture\n\nStructural test evidence only.\n');
