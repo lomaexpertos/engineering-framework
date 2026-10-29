@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "20261029_assurance_controls",
+  "title": "Controles de secretos y contratos de infraestructura",
+  "owner": "coordinador",
+  "status": "active",
+  "revision": 3,
+  "created_at": "2026-10-29T15:25:27.288Z",
+  "updated_at": "2026-10-29T15:31:42.465Z",
+  "closed_at": null,
+  "retain_until": null,
+  "hold": null,
+  "active_tasks": [],
+  "blockers": [],
+  "blocked_from": null,
+  "blocked_reason": null,
+  "assessment": {
+    "reason": "Nuevos controles de seguridad y contratos compartidos con ejecución de herramientas",
+    "risks": [
+      "security",
+      "shared_surface"
+    ]
+  },
+  "track": "reinforced"
+}
