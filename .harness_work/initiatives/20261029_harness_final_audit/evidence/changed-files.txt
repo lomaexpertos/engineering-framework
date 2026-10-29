@@ -1,0 +1,15 @@
+.harness_work/memory/current.md
+VERSION
+docs/architecture/agent-execution.md
+docs/governance/decisions/0009-proportional-spec-workflow.md
+docs/governance/pending-decisions.md
+docs/governance/transformations/2026-09-09-skills-reconciliation.md
+policies/database/object-naming.md
+policies/database/sql-artifact-layout.md
+policies/security/encrypted-environment-contract.md
+policies/security/sops-age.md
+skills/coordinate-work/references/delivery-tracks.md
+skills/coordinate-work/references/workflow-operations.md
+skills/manage-secrets/SKILL.md
+tooling/agent-execution.mjs
+tooling/test-agent-execution.mjs

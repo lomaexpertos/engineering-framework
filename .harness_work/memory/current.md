@@ -1,6 +1,8 @@
 # Contexto operativo
 
 Sin trabajo de desarrollo activo ni trabajadores pendientes.
+La auditoría de uso, base de datos e infraestructura corrigió contradicciones y la huella de entrega.
+La huella distingue contenido, tipo y ejecutabilidad; trabajo abierto con huellas anteriores necesita revisión nueva.
 El harness distingue investigación AS-IS del sistema actual de conversación de negocio/otros sistemas.
 [Conocimiento de dominios](../../docs/architecture/domain-knowledge.md) conserva el contrato vigente.
 Al modificar comportamiento, consultar y actualizar sólo la documentación afectada.
