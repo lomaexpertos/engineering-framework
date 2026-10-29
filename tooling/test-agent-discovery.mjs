@@ -42,7 +42,7 @@ function checkDiscovery() {
   assert.match(read('CLAUDE.md'),/^@AGENTS\.md$/m);
   for(const resource of ['.harness/README.md','.harness/core/policies/README.md','.harness/core/skills/coordinate-work/SKILL.md'])assert.ok(read('AGENTS.md').includes(resource)||resource==='.harness/README.md',`Missing entrypoint: ${resource}`);
   const expectedGuides={
-    'coordinate-work':['profiles-and-start.md','workflow-operations.md','individual-tasks.md'],
+    'coordinate-work':['profiles-and-start.md','workflow-operations.md','individual-tasks.md','delivery-tracks.md'],
     'close-initiative':['closure-and-retention.md'],
   };
   for(const [skill,guides] of Object.entries(expectedGuides))for(const prefix of ['.harness/core/skills','.agents/skills','.claude/skills']) {

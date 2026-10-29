@@ -6,16 +6,17 @@ import {prepareTask,runTask,statusTask,collectTask,cancelTask,validateTask,valid
 import {createWorkflow,workflowNext,runWorkflow,workflowStatus,advanceWorkflow,cancelWorkflow,escalateWorkflow} from './agent-workflow.mjs';
 export {validateTask,validateResult};
 export const agentCommandContracts={
-  setup:{arity:0,flags:['config','input']},doctor:{arity:0,flags:['config']},prepare:{arity:0,flags:['input'],required:['input']},
+  setup:{arity:0,flags:['config','input']},doctor:{arity:0,flags:['config','roles']},prepare:{arity:0,flags:['input'],required:['input']},
   run:{arity:2,flags:['config','answers','background']},status:{arity:2,flags:[]},collect:{arity:2,flags:[]},cancel:{arity:2,flags:[]},
   'workflow create':{arity:0,flags:['config','input'],required:['input']},'workflow next':{arity:1,flags:[]},'workflow run':{arity:1,flags:['config','answers']},
   'workflow status':{arity:1,flags:[]},'workflow advance':{arity:1,flags:['confirm','decisions','reviewer'],required:['confirm']},
   'workflow escalate':{arity:1,flags:['config','confirm','input'],required:['confirm','input']},'workflow cancel':{arity:1,flags:[]}
 };
-export const agentValueOptions=['root','config','input','answers','decisions','reviewer'];
+export const agentValueOptions=['root','config','input','answers','decisions','reviewer','roles'];
 const help=`Usage: agents.sh COMMAND [arguments] [options]
   setup [--input profiles.json] [--config file]  Configure personal profiles
-  doctor [--config file]                        Diagnose clients without calling models
+  doctor [--config file] [--roles implementation,functional]
+                                               Diagnose active roles, or all configured clients
   prepare --input task.json                     Prepare immutable task instructions
   run INITIATIVE TASK [--answers answers.json] [--background] [--config file]
   status|collect|cancel INITIATIVE TASK
@@ -26,6 +27,9 @@ const help=`Usage: agents.sh COMMAND [arguments] [options]
   workflow escalate INITIATIVE --confirm --input escalation.json [--config file]
 Global: --root directory, --json (output is always JSON), --help
 Answers: JSON array of nonempty strings; required to resume needs_input.
+Workflow input: optional track minimal|standard|reinforced (legacy default reinforced),
+assessment {reason,risks}, and needs_definition. Explicit track requires assessment.
+Material risks and project/initiative floors can elevate the requested track.
 Collect releases active-task bookkeeping; needs_input/failed tasks can be rerun.
 Escalation input: {"reason":"decision evidence","reviewer":"coordinator"};
 increase the effective configured correction limit before escalating a blocked workflow.
@@ -60,6 +64,7 @@ export async function main(argv=process.argv.slice(2)) {
   const load=file=>JSON.parse(fs.readFileSync(path.resolve(root,file),'utf8'));
   if(options.answers)options.answers=load(options.answers);
   if(options.decisions)options.decisions=load(options.decisions);
+  if(options.roles)options.roles=options.roles.split(',');
   const [command,...remaining]=args;let result;
   if(command==='setup')result=await setup(root,{...options,...(options.input?{configuration:load(options.input)}:{})});
   else if(command==='doctor') {result=doctor(root,options);if(!result.ok)process.exitCode=2;}

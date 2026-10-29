@@ -18,7 +18,16 @@
     "active_tasks": {"type": "array"},
     "blockers": {"type": "array"},
     "blocked_from": {"type": ["string", "null"]},
-    "blocked_reason": {"type": ["string", "null"]}
+    "blocked_reason": {"type": ["string", "null"]},
+    "track": {"enum": ["minimal", "standard", "reinforced"]},
+    "assessment": {
+      "type": "object", "required": ["reason", "risks"],
+      "properties": {
+        "reason": {"type": "string", "minLength": 1},
+        "risks": {"type": "array", "uniqueItems": true, "items": {"enum": ["security", "data_integrity", "financial", "migration", "public_contract", "production", "irreversible", "shared_surface", "uncertainty"]}}
+      },
+      "additionalProperties": false
+    }
   },
   "additionalProperties": false
 }

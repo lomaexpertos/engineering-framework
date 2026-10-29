@@ -5,14 +5,15 @@ import {spawnSync} from 'node:child_process';
 import {markdownLinks,markdownAnchors} from './harness-markdown.mjs';
 import {validatePersonal,validateProject} from './agent-profiles.mjs';
 import {validateTask,validateResult} from './agent-execution.mjs';
-import {validateWorkflow} from './agent-workflow.mjs';
+import {validateWorkflow,draftWorkflow} from './agent-workflow.mjs';
+import {validateCompactClosure} from './harness-work.mjs';
 import {buildSkillAdapters} from './harness-profiles.mjs';
 import {validateRunnerConfiguration} from './harness-runner-plan.mjs';
 import {agentCommandContracts,agentValueOptions} from './harness-agents.mjs';
 import {workCommandContracts,workValueOptions,validateWorkRequirements} from './harness-work.mjs';
 
 const guides={
-  'coordinate-work':['profiles-and-start.md','workflow-operations.md','individual-tasks.md'],
+  'coordinate-work':['profiles-and-start.md','workflow-operations.md','individual-tasks.md','delivery-tracks.md'],
   'close-initiative':['closure-and-retention.md'],
 };
 const fail=message=>{throw new Error(message);};
@@ -101,8 +102,8 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
   const read=relative=>fs.readFileSync(physical(relative),'utf8');
   const installedRouter=layout==='source'?'templates/project/.harness/README.md':'.harness/README.md';
   const routerRead=()=>fs.readFileSync(path.join(root,installedRouter),'utf8');
-  const required=['policies/README.md','skills/README.md','checks/README.md','templates/context/README.md','templates/project/AGENTS.md','checks/repository-compliance/operations.md',
-    ...['agent-profiles','agent-project','agent-task','agent-result','agent-workflow','closure','project-config','manifest','initiative-state'].map(name=>`schemas/${name}.schema.json`),
+  const required=['policies/ai-assisted-development/proportional-delivery.md','policies/README.md','skills/README.md','checks/README.md','templates/context/README.md','templates/project/AGENTS.md','checks/repository-compliance/operations.md',
+    ...['agent-profiles','agent-project','agent-task','agent-result','agent-workflow','closure','compact-closure','project-config','manifest','initiative-state'].map(name=>`schemas/${name}.schema.json`),
     ...Object.entries(guides).flatMap(([skill,names])=>[`skills/${skill}/SKILL.md`,...names.map(name=>`skills/${skill}/references/${name}`)])];
   for(const file of required)add('guide-inventory',core+file,()=>{if(!fs.existsSync(physical(file))||!fs.statSync(physical(file)).size)fail(`Required operational resource missing or empty: ${file}`);});
   add('guide-router',installedRouter,()=>{
@@ -160,14 +161,9 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
     if('profiles' in value&&object(value.profiles)&&'roles' in value)return validatePersonal(value);
     if('permissions' in value||'role' in value)return validateTask(value);
     if('task_id' in value)return validateResult(value,value.task_id);
+    if('reviewed_at' in value&&'summary' in value&&Array.isArray(value.validation)) {schemaCheck(jsonSchema('compact-closure'),value);return validateCompactClosure(value);}
     if('reviewed_at' in value)return schemaCheck(jsonSchema('closure'),value);
-    if('applicability' in value&&'initiative' in value) {
-      const allowed=['id','initiative','objective','scope','exclusions','ownership','references','acceptance','applicability','workspace'];
-      if(Object.keys(value).some(key=>!allowed.includes(key)))fail('Unknown workflow input field');
-      for(const field of ['scope','ownership','acceptance'])if(!Array.isArray(value[field])||!value[field].length)fail(`Missing workflow ${field}`);
-      const required=['functional','security','logging',...['ui','ux'].filter(role=>value.applicability?.[role]?.applies)];
-      return validateWorkflow({...value,schema_version:1,stage:'definition',round:0,max_correction_rounds:2,required_reviews:required,tasks:{},history:[],decisions:[],created_at:'2026-10-28T00:00:00.000Z',updated_at:'2026-10-28T00:00:00.000Z',blocked_from:null,block_reason:null});
-    }
+    if('initiative' in value&&'objective' in value)return validateWorkflow(draftWorkflow(value));
     if('runners' in value||'checks' in value||Array.isArray(value.profiles)) {schemaCheck(jsonSchema('project-config'),value);return validateRunnerConfiguration(value);}
     if('reason' in value&&'reviewer' in value) {if(Object.keys(value).some(key=>!['reason','reviewer'].includes(key))||[value.reason,value.reviewer].some(item=>typeof item!=='string'||!item.trim()))fail('Invalid escalation example');return;}
     if('schema_version' in value)return validateProject(value);
@@ -213,7 +209,8 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
       const language=match[1],body=match[2];
       if(language==='json')add('guide-json-example',relative,()=>{
         const value=JSON.parse(body);
-        if(/(?:skills\/(?:coordinate-work|close-initiative)\/references\/(?:profiles-and-start|workflow-operations|individual-tasks|closure-and-retention)\.md|checks\/repository-compliance\/operations\.md)$/.test(relative))example(value,relative);
+        const operational=Object.entries(guides).some(([skill,names])=>names.some(name=>relative.endsWith(`skills/${skill}/references/${name}`)))||relative.endsWith('checks/repository-compliance/operations.md');
+        if(operational)example(value,relative);
       });
       else {
         add('guide-shell-syntax',relative,()=>{const result=spawnSync('bash',['--noprofile','--norc','-n'],{input:body,encoding:'utf8',timeout:5000,env:{PATH:process.env.PATH||'/usr/bin:/bin',LC_ALL:'C'}});if(result.error||result.status!==0)fail(`Bash block ${index+1}: ${result.error?.message||result.stderr}`);});

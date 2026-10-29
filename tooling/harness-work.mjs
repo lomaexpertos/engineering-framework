@@ -4,7 +4,9 @@ import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { markdownLinks } from './harness-markdown.mjs';
-import { assertNoOpenAgents } from './agent-execution.mjs';
+import { assertNoOpenAgents,assertFinalDelivery } from './agent-execution.mjs';
+import {resolveTrack,trackOf,maxTrack} from './harness-tracks.mjs';
+import {validateProject} from './agent-profiles.mjs';
 
 export const statuses = ['draft','ready','active','blocked','validating','closing','closed','cancelled'];
 export const categories = ['validation','reviews','documentation','decisions','invariants','roadmap','backlog','memory'];
@@ -43,7 +45,9 @@ function snapshot(directory) {
 }
 export function validateState(state) {
   const keys=['schema_version','id','title','owner','status','revision','created_at','updated_at','closed_at','retain_until','hold','active_tasks','blockers','blocked_from','blocked_reason'];
-  if(!state || keys.some(key=>!Object.hasOwn(state,key)) || Object.keys(state).some(key=>!keys.includes(key))) fail('Invalid initiative state fields');
+  if(!state || keys.some(key=>!Object.hasOwn(state,key)) || Object.keys(state).some(key=>![...keys,'track','assessment'].includes(key))) fail('Invalid initiative state fields');
+  if(state.track!==undefined && resolveTrack(state.track,state.assessment)!==state.track) fail('Initiative track understates its risks');
+  if(state.track===undefined && state.assessment!==undefined) fail('Assessment requires an explicit track');
   if(state.schema_version!==1 || typeof state.id!=='string' || !idPattern.test(state.id) || !statuses.includes(state.status) || !state.owner || !state.title || !Number.isInteger(state.revision) || state.revision<1) fail('Invalid initiative state');
   for(const key of ['active_tasks','blockers']) if(!Array.isArray(state[key])) fail(`Invalid ${key}`);
   if(typeof state.title!=='string' || typeof state.owner!=='string' || !(state.hold===null || typeof state.hold==='string')) fail('Invalid state fields');
@@ -70,12 +74,39 @@ function incoming(root, ids, excluded) {
     return ids.some(id=>content.includes(id));
   }).map(file=>path.relative(root,file));
 }
-function verifyClosure(root, directory, state) {
+function projectRequirements(root) {
+  const file=safe(root,'.harness/project/agents.json');
+  return exists(file)?validateProject(read(file)):{};
+}
+function effectiveTrack(root,directory,state) {
+  const workflow=path.join(directory,'workflow.json');
+  return maxTrack(resolveTrack(state.track,state.assessment,projectRequirements(root)),exists(workflow)?trackOf(read(workflow)):trackOf(state));
+}
+export function validateCompactClosure(closure,{cancelled=false}={}) {
+  const keys=['reviewer','reviewed_at','summary','validation','sources'];
+  if(!closure || keys.some(key=>!Object.hasOwn(closure,key)) || Object.keys(closure).some(key=>!keys.includes(key)))fail('Invalid compact closure fields');
+  for(const key of ['reviewer','summary'])if(typeof closure[key]!=='string'||!closure[key].trim())fail(`Compact closure requires ${key}`);
+  if(!utcTimestamp(closure.reviewed_at))fail('Compact closure requires reviewed_at UTC');
+  if(!Array.isArray(closure.sources)||closure.sources.some(source=>typeof source!=='string'||!source))fail('Invalid compact closure sources');
+  if(!Array.isArray(closure.validation)||closure.validation.some(item=>!item||Object.keys(item).some(key=>!['command','outcome','evidence'].includes(key))||typeof item.command!=='string'||!item.command.trim()||typeof item.evidence!=='string'||!item.evidence.trim()||!['passed','failed','not_run'].includes(item.outcome)))fail('Invalid compact validation evidence');
+  if(!cancelled && (!closure.validation.length||closure.validation.some(item=>item.outcome!=='passed')))fail('Compact closure requires passing validation without omitted required checks');
+  return closure;
+}
+function verifyClosure(root, directory, state, cancelled=state.status==='cancelled') {
   assertNoOpenAgents(root,state.id);
+  if(!['closed','cancelled'].includes(state.status))assertFinalDelivery(root,state.id);
   if(state.active_tasks.length || state.blockers.length) fail('Active tasks or blockers prevent closure');
   const file=safe(root,path.relative(root,path.join(directory,'closure.json')));
   if(!exists(file)) fail('Missing closure.json: coordinator must consolidate and attest the closure');
   const closure=read(file);
+  if(effectiveTrack(root,directory,state)!=='reinforced') {
+    validateCompactClosure(closure,{cancelled});
+    for(const source of closure.sources) {
+      if(!(source.startsWith('docs/')||source.startsWith('.harness_work/memory/'))||!exists(safe(root,source)))fail(`Invalid canonical compact source: ${source}`);
+    }
+    verifyDurableReferences(root);
+    return closure;
+  }
   if(Object.keys(closure).some(key=>!['reviewer','reviewed_at',...categories].includes(key)) || typeof closure.reviewer!=='string' || !closure.reviewer || !utcTimestamp(closure.reviewed_at)) fail('Closure needs reviewer and reviewed_at');
   for(const category of categories) {
     const entry=closure[category];
@@ -86,6 +117,10 @@ function verifyClosure(root, directory, state) {
       if(!['validation','reviews'].includes(category) && !(source.startsWith('docs/') || category==='memory' && source.startsWith('.harness_work/memory/'))) fail(`Noncanonical promotion source: ${source}`);
     }
   }
+  verifyDurableReferences(root);
+  return closure;
+}
+function verifyDurableReferences(root) {
   for(const file of files(safe(root,'docs')).filter(file=>file.endsWith('.md'))) {
     const content=fs.readFileSync(file,'utf8');
     for(const link of markdownLinks(content)) {
@@ -94,7 +129,6 @@ function verifyClosure(root, directory, state) {
       if(/^(?:\.harness_work\/(?:initiatives|runtime)|engineering\/(?:specs|quality-review))\//.test(target)) fail(`Permanent document depends on temporary work: ${path.relative(root,file)}`);
     }
   }
-  return closure;
 }
 function clean(root, relative) {
   let output;
@@ -124,10 +158,17 @@ export function operate(root, command, args=[], options={}) {
       if(exists(target)) fail('Initiative already exists');
       if(!options.title || !options.owner) fail('create requires --title and --owner');
       const state={schema_version:1,id,title:options.title,owner:options.owner,status:'draft',revision:1,created_at:now,updated_at:now,closed_at:null,retain_until:null,hold:null,active_tasks:[],blockers:[],blocked_from:null,blocked_reason:null};
+      if(options.track!==undefined) {
+        state.assessment={reason:options.reason||fail('Explicit track requires --reason'),risks:options.risk?options.risk.split(','):[]};
+        state.track=resolveTrack(options.track,state.assessment,projectRequirements(root));
+        if(state.track!=='reinforced')state.status='active';
+      }
       validateState(state);
       fs.mkdirSync(target,{recursive:true});write(path.join(target,'state.json'),state);
-      fs.writeFileSync(path.join(target,'brief.md'),`# ${options.title}\n\nDescribe el objetivo, alcance, exclusiones y aceptación antes de pasar a ready.\n`);
-      fs.writeFileSync(path.join(target,'resume.md'),'# Continuidad\n\nSiguiente acción: definir el brief y sus criterios de aceptación.\n');
+      if(trackOf(state)==='reinforced') {
+        fs.writeFileSync(path.join(target,'brief.md'),`# ${options.title}\n\nDescribe el objetivo, alcance, exclusiones y aceptación antes de pasar a ready.\n`);
+        fs.writeFileSync(path.join(target,'resume.md'),'# Continuidad\n\nSiguiente acción: definir el brief y sus criterios de aceptación.\n');
+      }
       return state;
     }
     if(command==='recover') return recover(args[0],options.restore);
@@ -170,10 +211,11 @@ export function operate(root, command, args=[], options={}) {
     if(command==='close') {
       const desired=options.cancelled?'cancelled':'closed';
       if(state.status===desired) {verifyClosure(root,target,state);return state;}
-      if(state.status!=='closing') fail('Initiative must be closing');
-      verifyClosure(root,target,state);
+      const compact=effectiveTrack(root,target,state)!=='reinforced';
+      if(compact?!['active','validating','closing'].includes(state.status):state.status!=='closing') fail('Initiative must be closing, or active/validating for a compact track');
+      verifyClosure(root,target,state,options.cancelled===true);
       if(options.check) return {ready:true,id,status:desired};
-      fs.writeFileSync(safe(root,path.relative(root,path.join(target,'closure.md'))),`# Cierre\n\nResultado: ${desired}. Revisión: ${read(path.join(target,'closure.json')).reviewer}.\n\nLa consolidación y sus destinos se registran en closure.json. Cierre no equivale a despliegue.\n`);
+      if(!compact)fs.writeFileSync(safe(root,path.relative(root,path.join(target,'closure.md'))),`# Cierre\n\nResultado: ${desired}. Revisión: ${read(path.join(target,'closure.json')).reviewer}.\n\nLa consolidación y sus destinos se registran en closure.json. Cierre no equivale a despliegue.\n`);
       state.status=desired;state.closed_at=now;state.retain_until=new Date(Date.parse(now)+retention).toISOString();return save(state);
     }
     if(command==='transition') {
@@ -236,10 +278,12 @@ export function operate(root, command, args=[], options={}) {
     return perform();
   } finally {fs.closeSync(descriptor);fs.unlinkSync(lock);}
 }
-export const workValueOptions=['root','title','owner','reason'];
-export const workCommandContracts={status:[0,1,[]],create:[1,1,['title','owner'],['title','owner']],transition:[2,2,['confirm','reason','resume']],hold:[1,1,['reason','release']],reopen:[1,1,[]],close:[1,1,['check','cancelled']],purge:[1,Infinity,['check','eligible']],recover:[1,1,['restore']]};
+export const workValueOptions=['root','title','owner','reason','track','risk'];
+export const workCommandContracts={status:[0,1,[]],create:[1,1,['title','owner','track','reason','risk'],['title','owner']],transition:[2,2,['confirm','reason','resume']],hold:[1,1,['reason','release']],reopen:[1,1,[]],close:[1,1,['check','cancelled']],purge:[1,Infinity,['check','eligible']],recover:[1,1,['restore']]};
 export function validateWorkRequirements(command,args,options) {
   for(const key of workCommandContracts[command]?.[3]||[])if(!options[key])usageError(`${command} requires --${key}`);
+  if(command==='create'&&options.track&&!options.reason)usageError('--track requires --reason');
+  if(command==='create'&&!options.track&&(options.risk||options.reason))usageError('--risk/--reason on create require --track');
   if(command==='hold'&&!!options.reason===!!options.release)usageError('hold requires exactly one of --reason or --release');
   if(command==='transition') {
     if(!statuses.includes(args[1]))usageError('Unknown transition state');
@@ -249,7 +293,7 @@ export function validateWorkRequirements(command,args,options) {
 }
 export const workHelp = `Usage: bash .harness/work.sh <command> [arguments] [options]
   status [initiative]                  Observe one initiative or list all
-  create <initiative> --title T --owner O
+  create <initiative> --title T --owner O [--track minimal|standard|reinforced --reason R] [--risk security,financial]
   transition <initiative> <state> [--confirm] [--reason R] [--resume]
   hold <initiative> --reason R | --release
   reopen <initiative>
@@ -258,7 +302,9 @@ export const workHelp = `Usage: bash .harness/work.sh <command> [arguments] [opt
   recover <operation-uuid> [--restore]
 Common: --root <project>, --json. IDs: YYYYMMDD_snake_case.
 --confirm attests coordinator review; it does not execute tests or approve external actions.
-Close requires closing state, no active workers/blockers and reviewed closure.json.
+Legacy/reinforced requires closing and eight-category closure.json. Minimal/standard
+start active with state.json only; compact closure.json records summary and validation.
+Close always rejects active workers/blockers. Risks/project floors may elevate track.
 Purge is explicit after 60 days and checks closure, references, holds and Git changes.
 Operational guides: .harness/core/skills/coordinate-work/SKILL.md and
 .harness/core/skills/close-initiative/SKILL.md.

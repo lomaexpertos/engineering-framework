@@ -24,6 +24,8 @@ try {
     [['run','initiative','task','--config'],/Missing/],
     [['run','initiative','task','--background','--background'],/Duplicate/],
     [['doctor','--unknown'],/Unknown option/],[['-h','--help'],/Duplicate/],
+    [['run','initiative','task','--roles','implementation'],/not supported/],
+    [['doctor','--roles'],/Missing/],
     [['workflow','unknown','--help'],/Unknown command/]
   ]) {
     const result=run(...args);assert.equal(result.status,2,JSON.stringify(args));assert.match(result.stderr,diagnostic);

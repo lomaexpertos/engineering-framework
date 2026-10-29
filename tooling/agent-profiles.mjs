@@ -5,6 +5,7 @@ import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import readline from 'node:readline/promises';
 import { adapterNames } from './agent-adapters.mjs';
+import { tracks } from './harness-tracks.mjs';
 
 export const agentRoles = Object.freeze(['definition', 'implementation', 'functional', 'security', 'logging', 'ui', 'ux']);
 export const defaultLimits = Object.freeze({ max_concurrency: 2, timeout_seconds: 1800, max_correction_rounds: 2 });
@@ -52,8 +53,9 @@ export function validatePersonal(value) {
   return value;
 }
 export function validateProject(value) {
-  keys(value, ['schema_version', 'required_roles', 'allowed_adapters', 'model_allowlist', 'limits'], 'project agents configuration');
+  keys(value, ['schema_version', 'minimum_track', 'required_roles', 'allowed_adapters', 'model_allowlist', 'limits'], 'project agents configuration');
   if (value.schema_version !== 1) throw new Error('Unsupported project agents configuration');
+  if (value.minimum_track !== undefined && !tracks.includes(value.minimum_track)) throw new Error('Invalid minimum_track');
   for (const [key, allowed] of [['required_roles', agentRoles], ['allowed_adapters', adapterNames]]) {
     if (value[key] !== undefined && (!Array.isArray(value[key]) || value[key].some(item => !allowed.includes(item)) || new Set(value[key]).size !== value[key].length)) throw new Error(`Invalid ${key}`);
   }
@@ -179,7 +181,11 @@ export function doctor(root, options = {}) {
   try { configuration = readConfiguration(root, options); }
   catch (error) { return { ok: false, configPath: configurationPath(options), issues: [error.message], profiles: {}, execution_verified: false }; }
   const profiles = {};
-  for (const [name, profile] of Object.entries(configuration.profiles)) {
+  const scoped = options.roles !== undefined;
+  if (scoped && (!Array.isArray(options.roles) || !options.roles.length || options.roles.some(role => !agentRoles.includes(role)))) return { ok: false, configPath: configuration.configPath, issues: ['Invalid active roles'], profiles, execution_verified: false };
+  const activeRoles = scoped ? [...new Set([...options.roles, ...(configuration.project.required_roles || [])])] : configuration.required_roles;
+  const activeNames = scoped ? new Set(activeRoles.map(role => configuration.roles[role]).filter(Boolean)) : new Set(Object.keys(configuration.profiles));
+  for (const [name, profile] of Object.entries(configuration.profiles).filter(([name]) => activeNames.has(name))) {
     const command = profile.executable || profile.adapter;
     const version = probe(command, ['--version'], options.env || process.env);
     const help = version.ok ? probe(command, profile.adapter === 'codex' ? ['exec', '--help'] : profile.adapter === 'opencode' ? ['run', '--help'] : ['--help'], options.env || process.env) : { ok: false, output: '' };
@@ -191,8 +197,9 @@ export function doctor(root, options = {}) {
     if (!ok) issues.push(`Profile ${name}: client missing or incompatible (${profile.adapter})`);
     if (configuration.project.allowed_adapters && !configuration.project.allowed_adapters.includes(profile.adapter)) issues.push(`Profile ${name}: adapter disallowed by project`);
   }
-  for (const role of configuration.required_roles) if (!configuration.roles[role]) issues.push(`Role ${role}: profile assignment required`);
+  for (const role of activeRoles) if (!configuration.roles[role]) issues.push(`Role ${role}: profile assignment required`);
   for (const [role, name] of Object.entries(configuration.roles)) {
+    if (scoped && !activeRoles.includes(role)) continue;
     const profile = configuration.profiles[name];
     const allowed = configuration.project.model_allowlist?.[role];
     if (allowed && !allowed.includes(profile.model)) issues.push(`Role ${role}: model disallowed by project`);

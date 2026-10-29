@@ -85,8 +85,9 @@ try {
   prepareTask(root,{...base,id:'timeout',objective:'WAIT'});assert.equal((await runTask(root,initiative,'timeout',{configPath})).status,'timed_out');collectTask(root,initiative,'timeout');
   await setup(root,{configPath,configuration});
   await setup(root,{configPath,configuration:{...configuration,limits:{...configuration.limits,max_correction_rounds:0}}});
-  const workflow=createWorkflow(root,{id:'delivery',initiative,objective:'Deliver fixture FAIL_ONCE',scope:['product.txt'],exclusions:[],ownership:['product.txt'],references:['AGENTS.md'],acceptance:['Fix synthetic security defect'],applicability:{ui:{applies:true,reason:'Synthetic review coverage'},ux:{applies:true,reason:'Synthetic review coverage'}}},{configPath});
-  assert.equal(workflow.stage,'definition');assert.throws(()=>assertNoOpenAgents(root,initiative),/workflow/);
+  const workflowInput={id:'delivery',initiative,objective:'Deliver fixture FAIL_ONCE',scope:['product.txt'],exclusions:[],ownership:['product.txt'],references:['AGENTS.md'],acceptance:['Fix synthetic security defect'],applicability:{ui:{applies:true,reason:'Synthetic review coverage'},ux:{applies:true,reason:'Synthetic review coverage'}}};
+  const workflow=createWorkflow(root,workflowInput,{configPath});
+  assert.equal(workflow.stage,'definition');assert.equal(workflow.track,undefined,'legacy workflow inputs retain the reinforced default without migration');assert.throws(()=>assertNoOpenAgents(root,initiative),/workflow/);
   assert.throws(()=>advanceWorkflow(root,initiative),/confirm/);
   const failedNext=workflowNext(root,initiative);
   assert.equal((await runWorkflow(root,initiative,{configPath})).results[0].status,'failed');
@@ -104,7 +105,7 @@ try {
   }
   const final=workflowStatus(root,initiative);assert.equal(final.stage,'ready_to_close');assert.equal(final.round,1);assert.equal(fs.readFileSync(path.join(root,'product.txt'),'utf8'),'fixed');assertNoOpenAgents(root,initiative);
   const another='20261028_cancel_test';operate(root,'create',[another],{title:'Cancellation fixture',owner:'test'});
-  createWorkflow(root,{...workflow,id:'cancel-flow',initiative:another},{configPath});workflowNext(root,another);assert.equal((await cancelWorkflow(root,another)).stage,'cancelled');assertNoOpenAgents(root,another);
+  createWorkflow(root,{...workflowInput,id:'cancel-flow',initiative:another},{configPath});workflowNext(root,another);assert.equal((await cancelWorkflow(root,another)).stage,'cancelled');assertNoOpenAgents(root,another);
   console.log('Agent execution: synthetic adapter lifecycle, questions, durable answers, cancellation/timeouts, live-session rejoin, ownership enforcement, baseline protection, five reviewers, correction loop, final verification and closure guards passed.');
 } finally {
   // Tests own only this temporary fixture. Ensure no known subprocess survives cleanup.

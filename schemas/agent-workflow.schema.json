@@ -2,9 +2,12 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Coordinated agent workflow",
   "type": "object",
-  "required": ["schema_version", "id", "initiative", "objective", "scope", "exclusions", "ownership", "references", "acceptance", "applicability", "stage", "round", "max_correction_rounds", "required_reviews", "tasks", "history", "decisions", "created_at", "updated_at", "blocked_from", "block_reason"],
+  "required": ["schema_version", "id", "initiative", "objective", "scope", "exclusions", "ownership", "references", "acceptance", "stage", "round", "max_correction_rounds", "required_reviews", "tasks", "history", "decisions", "created_at", "updated_at", "blocked_from", "block_reason"],
   "properties": {
     "schema_version": {"const": 1},
+    "track": {"enum": ["minimal", "standard", "reinforced"]},
+    "assessment": {"$ref": "#/$defs/assessment"},
+    "needs_definition": {"type": "boolean"},
     "id": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{0,47}$"},
     "initiative": {"type": "string", "pattern": "^[0-9]{8}_[a-z0-9]+(?:_[a-z0-9]+)*$"},
     "objective": {"type": "string", "minLength": 1},
@@ -82,6 +85,14 @@
   },
   "additionalProperties": false,
   "$defs": {
+    "assessment": {
+      "type": "object", "required": ["reason", "risks"],
+      "properties": {
+        "reason": {"type": "string", "minLength": 1},
+        "risks": {"type": "array", "items": {"enum": ["security", "data_integrity", "financial", "migration", "public_contract", "production", "irreversible", "shared_surface", "uncertainty"]}, "uniqueItems": true}
+      },
+      "additionalProperties": false
+    },
     "strings": {"type": "array", "items": {"type": "string", "minLength": 1}},
     "taskId": {"type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_-]{0,95}$"},
     "applicability": {

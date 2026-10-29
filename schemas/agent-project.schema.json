@@ -5,6 +5,7 @@
   "required": ["schema_version"],
   "properties": {
     "schema_version": {"const": 1},
+    "minimum_track": {"enum": ["minimal", "standard", "reinforced"]},
     "required_roles": {"type": "array", "items": {"enum": ["definition", "implementation", "functional", "security", "logging", "ui", "ux"]}, "uniqueItems": true},
     "allowed_adapters": {"type": "array", "items": {"enum": ["codex", "claude", "opencode"]}, "uniqueItems": true},
     "model_allowlist": {
