@@ -44,3 +44,19 @@ linters semánticos de cada lenguaje. Esos comandos se declaran con sus imágene
 
 Actions y publicación central permanecen suspendidos. La existencia del check local
 no configura CI ni branch protection automáticamente.
+
+## Material operativo requerido
+
+Los scopes `context` y `documentation` comprueban las guías del harness además del
+contexto propio del proyecto: inventario de recursos obligatorios, routing desde
+AGENTS/routers/Skills, adaptadores seleccionados, enlaces/anclas y ejemplos JSON.
+Verifican sintaxis Bash y comandos del harness contra sus contratos reales, incluidas
+opciones obligatorias. Las plantillas intencionalmente incompletas se distinguen de
+entradas ejecutables. Las skills locales ajenas al núcleo conservan su ownership.
+
+El control analiza ejemplos; no los ejecuta, no llama proveedores, no lee perfiles
+personales y no instala herramientas. JSON correcto no prueba verdad de evidencia,
+calidad del modelo ni suficiencia semántica de una guía. La suite de mantenimiento
+instala un consumidor nuevo, ejecuta ejemplos y prueba defectos deliberados para
+comprobar que los controles fallan. El inventario y sus pruebas se actualizan cuando
+cambia una operación requerida.

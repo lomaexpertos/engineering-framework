@@ -7,7 +7,8 @@ import { validateProject } from './agent-profiles.mjs';
 import { runnerPlan } from './harness-runner-plan.mjs';
 import { validateManifest } from './harness-manifest.mjs';
 import { buildSkillAdapters } from './harness-profiles.mjs';
-import { markdownLinks } from './harness-markdown.mjs';
+import { markdownLinks, markdownAnchors } from './harness-markdown.mjs';
+import { checkOperationalGuides } from './harness-guide-check.mjs';
 export { markdownLinks } from './harness-markdown.mjs';
 
 const scopes = new Set(['context', 'documentation', 'installation', 'work', 'extensions']);
@@ -30,19 +31,6 @@ function filesUnder(root, relative = '') {
   return output;
 }
 
-function anchors(content) {
-  const counts = new Map();
-  const output = new Set();
-  for (const match of content.matchAll(/^#{1,6}\s+(.+)$/gm)) {
-    const base = match[1].toLowerCase().replace(/<[^>]*>/g, '').replace(/[^\p{L}\p{N}_\-\s]/gu, '').trim().replace(/\s/g, '-');
-    const count = counts.get(base) || 0;
-    output.add(count ? `${base}-${count}` : base);
-    counts.set(base, count + 1);
-  }
-  for (const match of content.matchAll(/\b(?:id|name)=["']([^"']+)["']/g)) output.add(match[1]);
-  return output;
-}
-
 export function checkRepository(root, { scope, externalResults } = {}) {
   root = fs.realpathSync(root);
   if (scope && !scopes.has(scope) && !runnerPlan(root).checks.some(check => check.scope === scope)) throw new Error(`Scope desconocido: ${scope}`);
@@ -52,6 +40,9 @@ export function checkRepository(root, { scope, externalResults } = {}) {
   };
   const assert = (group, id, condition, message, file) => add(group, id, condition ? 'passed' : 'failed', message, file);
   const all = filesUnder(root);
+  if((!scope||['context','documentation'].includes(scope)) && (fs.existsSync(path.join(root,'.harness/core'))||fs.existsSync(path.join(root,'.harness/agents.sh')))) {
+    for(const item of checkOperationalGuides(root,{layout:'consumer'}))add(scope||'context',item.id,item.status,item.message,item.file);
+  }
   const text = file => fs.readFileSync(path.join(root, file), 'utf8');
   const exists = file => fs.existsSync(path.join(root, file));
   if (exists('.harness/project/agents.json')) {
@@ -99,7 +90,7 @@ export function checkRepository(root, { scope, externalResults } = {}) {
       const present = fs.existsSync(destination);
       assert('context', 'link', present, `Destino: ${target}`, file);
       if (present && fragment && destination.endsWith('.md')) {
-        assert('context', 'anchor', anchors(fs.readFileSync(destination, 'utf8')).has(fragment), `Ancla: ${target}`, file);
+        assert('context', 'anchor', markdownAnchors(fs.readFileSync(destination, 'utf8')).has(fragment), `Ancla: ${target}`, file);
       }
       if (file.startsWith('docs/')) {
         assert('documentation', 'durable-reference', !temporary.test(relative), `Independencia temporal: ${target}`, file);

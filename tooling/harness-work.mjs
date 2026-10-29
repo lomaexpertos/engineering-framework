@@ -238,6 +238,15 @@ export function operate(root, command, args=[], options={}) {
 }
 export const workValueOptions=['root','title','owner','reason'];
 export const workCommandContracts={status:[0,1,[]],create:[1,1,['title','owner'],['title','owner']],transition:[2,2,['confirm','reason','resume']],hold:[1,1,['reason','release']],reopen:[1,1,[]],close:[1,1,['check','cancelled']],purge:[1,Infinity,['check','eligible']],recover:[1,1,['restore']]};
+export function validateWorkRequirements(command,args,options) {
+  for(const key of workCommandContracts[command]?.[3]||[])if(!options[key])usageError(`${command} requires --${key}`);
+  if(command==='hold'&&!!options.reason===!!options.release)usageError('hold requires exactly one of --reason or --release');
+  if(command==='transition') {
+    if(!statuses.includes(args[1]))usageError('Unknown transition state');
+    if(['ready','validating','closing'].includes(args[1])&&!options.confirm)usageError(`${args[1]} requires --confirm`);
+    if(args[1]==='blocked'&&!options.reason)usageError('blocked requires --reason');
+  }
+}
 export const workHelp = `Usage: bash .harness/work.sh <command> [arguments] [options]
   status [initiative]                  Observe one initiative or list all
   create <initiative> --title T --owner O
@@ -276,8 +285,7 @@ export function main(argv=process.argv.slice(2)) {
   const contract=command==='purge'&&options.eligible?[0,0,workCommandContracts.purge[2]]:workCommandContracts[command];
   if(!contract||args.length<contract[0]||args.length>contract[1])usageError(`Invalid arguments for ${command}`);
   for(const key of Object.keys(options))if(key!=='json'&&!contract[2].includes(key))usageError(`--${key} does not apply to ${command}`);
-  for(const key of contract[3]||[])if(!seen.has(key))usageError(`${command} requires --${key}`);
-  if(command==='hold'&&!!options.reason===!!options.release)usageError('hold requires exactly one of --reason or --release');
+  validateWorkRequirements(command,args,options);
   const result=operate(root,command,args,options);
   console.log(JSON.stringify(result,null,2));
 }

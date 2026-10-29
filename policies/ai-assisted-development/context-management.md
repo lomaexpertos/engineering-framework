@@ -36,6 +36,11 @@ necesario para la tarea actual, sin perder autoridad, alcance ni trazabilidad.
 15. La descripción de una Skill **MUST** comenzar por su caso de uso y distinguir límites relevantes con el mínimo texto suficiente para activación fiable.
 16. El catálogo **SHOULD** validar el costo agregado de nombres, descripciones y rutas contra el presupuesto de descubrimiento del agente soportado; medir solo las descripciones **MUST NOT** considerarse evidencia suficiente.
 
+17. Las guías necesarias para operar el harness **MUST** estar distribuidas y
+    alcanzables desde sus Skills/routers. Nuevas rutas, contratos y ejemplos **MUST**
+    incorporarse al control operativo de `check` y a su prueba de consumidor; el
+    checkout del productor **MUST NOT** ser un prerrequisito de uso normal.
+
 ## Artefactos sin routing permanente
 
 Specs, planes, preguntas, trazabilidad de implementación, reportes de revisión,

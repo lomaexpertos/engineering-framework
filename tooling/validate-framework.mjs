@@ -3,6 +3,7 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { parseProjects } from "./resolve-projects.mjs";
+import { checkOperationalGuides } from "./harness-guide-check.mjs";
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(repositoryRoot);
@@ -167,6 +168,12 @@ runCheck("Workflow suspension", () => {
     if (/^\.github\/workflows\/[^/]+\.ya?ml$/i.test(file)) {
       addFailure("Workflow suspension", `${file}: los workflows están retirados por decisión del mantenedor`);
     }
+  }
+});
+
+runCheck("Operational guides", () => {
+  for (const item of checkOperationalGuides(repositoryRoot, { layout: 'source' })) {
+    if (item.status === 'failed') addFailure('Operational guides', `${item.file}: ${item.message}`);
   }
 });
 

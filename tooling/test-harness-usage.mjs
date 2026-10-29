@@ -21,7 +21,7 @@ try {
   for(const name of ['agents','work','check','update'])assert.match(call(name,['--help']),/Usage:/);
   assert.equal(snapshot(),initial,'Help must not change project state');
   assert.deepEqual(JSON.parse(call('work',['status','--root',root])),[]);
-  for(const args of [['create','20261028_bad','--title','Bad','--owner','fixture','--cancelled'],['purge','20261028_bad','--eligible'],['status','one','two'],['hold','20261028_bad','--release','--reason','both'],['create','20261028_bad','--owner','a','--owner','b']])call('work',args,2);
+  for(const args of [['create','20261028_bad','--title','Bad','--owner','fixture','--cancelled'],['purge','20261028_bad','--eligible'],['status','one','two'],['hold','20261028_bad','--release','--reason','both'],['hold','20261028_bad'],['transition','20261028_bad','ready'],['transition','20261028_bad','blocked'],['create','20261028_bad','--owner','a','--owner','b']])call('work',args,2);
   assert.ok(!fs.existsSync(path.join(root,'.harness_work/initiatives/20261028_bad')));
   call('check',['--scope','context','--scope','installation'],2);
   call('check',['--json','--json'],2);
