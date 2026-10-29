@@ -1,6 +1,6 @@
 # Continuidad
 
-Implementación estándar de investigación AS-IS y documentación duradera.
-Intención conversacional excluye workflows y artefactos.
-Ownership: spec-documentar y plantillas; policy/intención/cierre; auditoría independiente; coordinador integra linter y pruebas.
-Siguiente: verificar consumidor sin checkout fuente y publicar cambios.
+Versión 3.4.0: documentación retrospectiva de dominios implementada y validada.
+[Auditoría](audit.md) y revisión independiente sin hallazgos.
+Sin trabajadores ni validaciones requeridas pendientes.
+La investigación de un módulo real se realizará cuando se solicite en su consumidor.

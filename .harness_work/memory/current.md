@@ -1,5 +1,7 @@
 # Contexto operativo
 
-Trabajo activo: [conocimiento de dominios](../initiatives/20261029_domain_knowledge/resume.md).
-Investigación de módulos actuales cubre frontend, backend, datos, dependencias, impacto y configuración; documentación vigente en docs/.
-Las preguntas generales y solicitudes sólo explicativas no crean expediente ni activan ejecución de desarrollo.
+Sin trabajo de desarrollo activo ni trabajadores pendientes.
+El harness distingue investigación AS-IS del sistema actual de conversación de negocio/otros sistemas.
+[Conocimiento de dominios](../../docs/architecture/domain-knowledge.md) conserva el contrato vigente.
+Al modificar comportamiento, consultar y actualizar sólo la documentación afectada.
+[Roadmap](../../docs/roadmap/README.md) y [pendientes](../../docs/roadmap/backlog.md) orientan trabajo nuevo.
