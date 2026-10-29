@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "20261029_unified_setup",
+  "title": "Preparación automática unificada del harness",
+  "owner": "coordinador",
+  "status": "active",
+  "revision": 3,
+  "created_at": "2026-10-29T15:55:03.810Z",
+  "updated_at": "2026-10-29T16:03:32.241Z",
+  "closed_at": null,
+  "retain_until": null,
+  "hold": null,
+  "active_tasks": [],
+  "blockers": [],
+  "blocked_from": null,
+  "blocked_reason": null,
+  "assessment": {
+    "reason": "Instalación explícita de herramientas transversales y resolución de runtimes",
+    "risks": [
+      "security",
+      "shared_surface"
+    ]
+  },
+  "track": "reinforced"
+}

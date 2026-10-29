@@ -1,6 +1,7 @@
 # Contexto operativo
 
-Sin trabajo de desarrollo activo ni trabajadores pendientes.
+Trabajo activo: `20261029_unified_setup`; preparación unificada y resolución de
+dependencias. Siguiente acción y revisión en el resume del expediente.
 Controles de secretos y contratos de infraestructura disponibles; operación y límites
 en [assurance](../../docs/architecture/assurance.md). La adopción de consumidores sigue separada.
 La auditoría de uso, base de datos e infraestructura corrigió contradicciones y la huella de entrega.
