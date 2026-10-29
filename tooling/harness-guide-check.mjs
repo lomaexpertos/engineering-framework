@@ -6,6 +6,7 @@ import {validatePersonal,validateProject} from './agent-profiles.mjs';
 import {validateTask,validateResult} from './agent-execution.mjs';
 import {validateWorkflow} from './agent-workflow.mjs';
 import {buildSkillAdapters} from './harness-profiles.mjs';
+import {validateRunnerConfiguration} from './harness-runner-plan.mjs';
 import {agentCommandContracts,agentValueOptions} from './harness-agents.mjs';
 import {workCommandContracts,workValueOptions,validateWorkRequirements} from './harness-work.mjs';
 
@@ -63,7 +64,7 @@ function cliCheck(wrapper,args,wrapperText) {
   const positionals=[],flags=[],valued=wrapper==='agents'?agentValueOptions:wrapper==='work'?workValueOptions:branches.filter(branch=>/\bshift\s+2\b/.test(branch[2])).flatMap(branchFlags);
   for(let index=0;index<args.length;index++) {
     const value=args[index];
-    if(value==='--help'||value==='-h'){helpRequested=true;flags.push('help');continue;}
+    if(value==='--help'||value==='-h'){if(helpRequested)fail('Duplicate documented help flag');helpRequested=true;flags.push('help');continue;}
     if(value.startsWith('--')) {
       const flag=value.slice(2);
       if(flags.includes(flag))fail(`Duplicate documented flag --${flag}`);flags.push(flag);
@@ -166,7 +167,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
       const required=['functional','security','logging',...['ui','ux'].filter(role=>value.applicability?.[role]?.applies)];
       return validateWorkflow({...value,schema_version:1,stage:'definition',round:0,max_correction_rounds:2,required_reviews:required,tasks:{},history:[],decisions:[],created_at:'2026-10-28T00:00:00.000Z',updated_at:'2026-10-28T00:00:00.000Z',blocked_from:null,block_reason:null});
     }
-    if('runners' in value||'checks' in value||Array.isArray(value.profiles))return schemaCheck(jsonSchema('project-config'),value);
+    if('runners' in value||'checks' in value||Array.isArray(value.profiles)) {schemaCheck(jsonSchema('project-config'),value);return validateRunnerConfiguration(value);}
     if('reason' in value&&'reviewer' in value) {if(Object.keys(value).some(key=>!['reason','reviewer'].includes(key))||[value.reason,value.reviewer].some(item=>typeof item!=='string'||!item.trim()))fail('Invalid escalation example');return;}
     if('schema_version' in value)return validateProject(value);
     fail(`Unrecognized operational JSON example in ${file}`);

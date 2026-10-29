@@ -271,7 +271,7 @@ export function main(argv=process.argv.slice(2)) {
   const seen=new Set();
   const valued=new Set(workValueOptions);
   for(let i=0;i<argv.length;i++) {
-    if(argv[i]==='-h') {options.help=true;continue;}
+    if(argv[i]==='-h') {if(seen.has('help'))usageError('Duplicate option: --help');seen.add('help');options.help=true;continue;}
     if(argv[i].startsWith('--')) {
       const key=argv[i].slice(2);
       if(seen.has(key))usageError(`Duplicate option: --${key}`);seen.add(key);

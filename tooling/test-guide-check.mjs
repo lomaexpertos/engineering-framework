@@ -32,6 +32,8 @@ function exercise(root,layout) {
   const prefix=layout==='source'?'':'.harness/core/';
   const guide=prefix+'skills/coordinate-work/references/workflow-operations.md';
   clean(root,layout);
+  mutate(root,layout,prefix+'checks/repository-compliance/operations.md',text=>text.replace('example-project-tests:1.0.0','example-project-tests:latest'),'guide-json-example');
+  mutate(root,layout,prefix+'skills/close-initiative/references/closure-and-retention.md',text=>text.replace('[".harness_work/initiatives/20261028_validar_entrada/validation.md"]','[]'),'guide-json-example');
   mutate(root,layout,guide,()=>null,'guide-inventory');
   mutate(root,layout,prefix+'skills/coordinate-work/SKILL.md',text=>text.replace(/\[[^\]]*\]\(references\/workflow-operations\.md\)/,''),'guide-routing');
   mutate(root,layout,guide,text=>text.replace('"id": "entrada"','"id": '),'guide-json-example');

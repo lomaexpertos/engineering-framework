@@ -9,7 +9,7 @@ const temporary=fs.mkdtempSync(path.join(os.tmpdir(),'harness-agent-cli-'));
 const source=fileURLToPath(new URL('./harness-agents.mjs',import.meta.url));
 const run=(...args)=>spawnSync(process.execPath,[source,...args],{cwd:temporary,encoding:'utf8',env:{...process.env,HOME:temporary,XDG_CONFIG_HOME:temporary}});
 try {
-  for(const args of [['--help'],['workflow','--help'],['workflow','run','--help'],['--help','--root','/does/not/exist']]) {
+  for(const args of [['--help'],['-h'],['workflow','--help'],['workflow','run','--help'],['--help','--root','/does/not/exist']]) {
     const result=run(...args);assert.equal(result.status,0,result.stderr);
     assert.match(result.stdout,/workflow escalate/);assert.match(result.stdout,/needs_input/);
   }
@@ -23,7 +23,7 @@ try {
     [['workflow','advance','initiative','--answers','missing'],/not supported/],
     [['run','initiative','task','--config'],/Missing/],
     [['run','initiative','task','--background','--background'],/Duplicate/],
-    [['doctor','--unknown'],/Unknown option/],
+    [['doctor','--unknown'],/Unknown option/],[['-h','--help'],/Duplicate/],
     [['workflow','unknown','--help'],/Unknown command/]
   ]) {
     const result=run(...args);assert.equal(result.status,2,JSON.stringify(args));assert.match(result.stderr,diagnostic);

@@ -2,11 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {pathToFileURL} from 'node:url';
-export function runnerPlan(root,{scope}={}) {
-  const file=path.join(root,'.harness/project/config.json');
-  if(!fs.existsSync(file)) return {schema_version:1,config_sha256:null,checks:[]};
-  if(fs.lstatSync(file).isSymbolicLink()) throw new Error('Config symlink prohibited');
-  const content=fs.readFileSync(file,'utf8'),config=JSON.parse(content);
+export function validateRunnerConfiguration(config,{scope}={}) {
   if(!config || Array.isArray(config) || config.schema_version!==1 || config.checks!==undefined && !Array.isArray(config.checks) || config.runners!==undefined && (!config.runners || typeof config.runners!=='object' || Array.isArray(config.runners))) throw new Error('Invalid project config');
   const ids=new Set();
   const checks=(config.checks===undefined?[]:config.checks).filter(check=>!scope || check.scope===scope).map(check=> {
@@ -18,6 +14,14 @@ export function runnerPlan(root,{scope}={}) {
     if(typeof check.scope!=='string' || !check.scope || typeof check.required!=='boolean' || typeof check.evidence!=='string' || !check.evidence || typeof check.applicability!=='string' || !check.applicability) throw new Error('Check requires scope/required/evidence/applicability');
     return {...check,image:runner.image};
   });
+  return checks;
+}
+export function runnerPlan(root,{scope}={}) {
+  const file=path.join(root,'.harness/project/config.json');
+  if(!fs.existsSync(file)) return {schema_version:1,config_sha256:null,checks:[]};
+  if(fs.lstatSync(file).isSymbolicLink()) throw new Error('Config symlink prohibited');
+  const content=fs.readFileSync(file,'utf8'),config=JSON.parse(content);
+  const checks=validateRunnerConfiguration(config,{scope});
   return {schema_version:1,config_sha256:crypto.createHash('sha256').update(content).digest('hex'),checks};
 }
 export function results(root,ledger,{scope}={}) {

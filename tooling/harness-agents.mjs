@@ -36,7 +36,7 @@ export async function main(argv=process.argv.slice(2)) {
   const args=[],options={},seen=new Set();let root=process.cwd();
   const valued=new Set(agentValueOptions);
   for(let index=0;index<argv.length;index++) {
-    const value=argv[index];
+    const value=argv[index]==='-h'?'--help':argv[index];
     if(value.startsWith('--')) {
       const key=value.slice(2);
       if(seen.has(key))throw new Error(`Duplicate option: ${value}`);seen.add(key);
