@@ -90,7 +90,9 @@ export function repositorySnapshot(root,withFiles=false) {
   for(const relative of [...new Set(entries)].sort()) {
     hash.update(relative+'\0');const file=path.join(root,relative);const stat=fs.lstatSync(file,{throwIfNoEntry:false});
     const content=!stat?'deleted':stat.isSymbolicLink()?fs.readlinkSync(file):stat.isFile()?fs.readFileSync(file):'directory';
-    files[relative]=crypto.createHash('sha256').update(content).digest('hex');hash.update(content);
+    // Preserve Git-relevant type and executability, without tracking incidental permissions.
+    const mode=!stat?'deleted':stat.isSymbolicLink()?'120000':stat.isFile()?(stat.mode&0o111?'100755':'100644'):'040000';
+    files[relative]=crypto.createHash('sha256').update(mode+'\0').update(content).digest('hex');hash.update(files[relative]+'\0');
   }
   return {head:git(['rev-parse','HEAD']),content_hash:hash.digest('hex'),...(withFiles?{files}:{})};
 }

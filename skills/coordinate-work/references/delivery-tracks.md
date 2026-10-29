@@ -115,3 +115,10 @@ público, producción o irreversibilidad activa reforzado. Declarar esos riesgos
 Un workflow nunca rebaja el recorrido del expediente. No editar estados ni
 snapshots para sortear esa validación. Los expedientes y workflows sin `track`
 conservan el ciclo reforzado de [workflow-operations.md](workflow-operations.md).
+
+Si aparece un riesgo nuevo después de crear el workflow, detener la decisión
+afectada y reconciliar alcance y recorrido. El ejecutor no cambia un ciclo ya creado:
+cancelar y abrir otro expediente/workflow con el recorrido requerido, conservando
+evidencia anterior, según
+[la recuperación de baseline](workflow-operations.md#crear-y-ejecutar-una-etapa).
+Un mínimo directo sin workflow puede elevarse sin crear un expediente anterior.

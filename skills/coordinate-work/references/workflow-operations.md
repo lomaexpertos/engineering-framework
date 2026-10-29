@@ -68,6 +68,9 @@ con nuevo ID y referencias al brief/spec reconciliado, conservando la evidencia
 anterior. Cerrar el expediente anterior como `cancelled` mediante
 `close-initiative`, usando el formato de su recorrido sin afirmar alcance entregado.
 No editar `state.json`, tareas o snapshots manualmente para forzar el avance.
+La huella incluye contenido, tipo y ejecutabilidad. Una huella temporal anterior a
+esa comprobación también exige nueva revisión mediante el mismo procedimiento;
+no se recalcula la aceptación histórica de expedientes ya cerrados.
 
 ## Preguntas y fallos
 

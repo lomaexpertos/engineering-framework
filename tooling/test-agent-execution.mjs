@@ -6,7 +6,7 @@ import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {operate} from './harness-work.mjs';
 import {setup} from './agent-profiles.mjs';
-import {prepareTask,runTask,statusTask,collectTask,cancelTask,assertNoOpenAgents,readJSON,validateTask,validateResult} from './agent-execution.mjs';
+import {prepareTask,runTask,statusTask,collectTask,cancelTask,assertNoOpenAgents,assertFinalDelivery,readJSON,validateTask,validateResult} from './agent-execution.mjs';
 import {createWorkflow,workflowNext,runWorkflow,advanceWorkflow,workflowStatus,cancelWorkflow} from './agent-workflow.mjs';
 const temporary=fs.mkdtempSync(path.join(os.tmpdir(),'harness-agents-test-'));
 const root=path.join(temporary,'repo');fs.mkdirSync(root);
@@ -35,7 +35,9 @@ const cli=(...args)=>JSON.parse(execFileSync(process.execPath,[fileURLToPath(new
 try {
   git(['init','-q']);git(['config','user.email','test@example.invalid']);git(['config','user.name','Harness Test']);
   fs.writeFileSync(path.join(root,'AGENTS.md'),'# Test fixture\n');fs.writeFileSync(path.join(root,'product.txt'),'fixed');fs.writeFileSync(path.join(root,'.gitignore'),'.harness_work/runtime/\n');
-  git(['add','AGENTS.md','product.txt','.gitignore']);git(['commit','-qm','fixture']);
+  const runner=path.join(root,'runner.sh'),entry=path.join(root,'entry');
+  fs.writeFileSync(runner,'#!/bin/sh\necho fixture\n',{mode:0o644});fs.writeFileSync(entry,'runner.sh');
+  git(['add','AGENTS.md','product.txt','.gitignore','runner.sh','entry']);git(['commit','-qm','fixture']);
   operate(root,'create',[initiative],{title:'Agent executor fixture',owner:'test'});
   await setup(root,{configPath,configuration});
   const base={schema_version:1,id:'first',initiative,role:'functional',objective:'Inspect fixture',scope:['product.txt'],exclusions:[],ownership:[],references:['AGENTS.md'],acceptance:['Report fixture evidence'],dependencies:[],permissions:'read-only'};
@@ -67,6 +69,12 @@ try {
   process.kill(orphan.supervisor.pid,'SIGKILL');await new Promise(resolve=>setTimeout(resolve,100));
   assert.equal(statusTask(root,initiative,'orphan').status,'orphaned');
   assert.equal((await cancelTask(root,initiative,'orphan')).status,'cancelled');
+  prepareTask(root,{...base,id:'stale-mode'});fs.chmodSync(runner,0o755);
+  try {await assert.rejects(runTask(root,initiative,'stale-mode',{configPath}),/baseline changed/);}
+  finally {fs.chmodSync(runner,0o644);await cancelTask(root,initiative,'stale-mode');}
+  prepareTask(root,{...base,id:'stale-kind'});fs.unlinkSync(entry);fs.symlinkSync('runner.sh',entry);
+  try {await assert.rejects(runTask(root,initiative,'stale-kind',{configPath}),/baseline changed/);}
+  finally {fs.unlinkSync(entry);fs.writeFileSync(entry,'runner.sh');await cancelTask(root,initiative,'stale-kind');}
   prepareTask(root,{...base,id:'stale'});fs.writeFileSync(path.join(root,'product.txt'),'changed');await assert.rejects(runTask(root,initiative,'stale',{configPath}),/baseline changed/);await cancelTask(root,initiative,'stale');
   fs.writeFileSync(path.join(root,'product.txt'),'fixed');
   prepareTask(root,{...base,id:'obsolete-delivery'});
@@ -104,6 +112,16 @@ try {
     advanceWorkflow(root,initiative,{confirm:true,reviewer:'fixture coordinator'});
   }
   const final=workflowStatus(root,initiative);assert.equal(final.stage,'ready_to_close');assert.equal(final.round,1);assert.equal(fs.readFileSync(path.join(root,'product.txt'),'utf8'),'fixed');assertNoOpenAgents(root,initiative);
+  assertFinalDelivery(root,initiative);
+  fs.chmodSync(runner,0o755);
+  try {assert.throws(()=>assertFinalDelivery(root,initiative),/baseline changed.*runner\.sh/);}
+  finally {fs.chmodSync(runner,0o644);}
+  fs.unlinkSync(entry);fs.symlinkSync('runner.sh',entry);
+  try {assert.throws(()=>assertFinalDelivery(root,initiative),/baseline changed.*entry/);}
+  finally {fs.unlinkSync(entry);fs.writeFileSync(entry,'runner.sh');}
+  fs.chmodSync(runner,0o600);
+  try {assertFinalDelivery(root,initiative);}
+  finally {fs.chmodSync(runner,0o644);}
   const another='20261028_cancel_test';operate(root,'create',[another],{title:'Cancellation fixture',owner:'test'});
   createWorkflow(root,{...workflowInput,id:'cancel-flow',initiative:another},{configPath});workflowNext(root,another);assert.equal((await cancelWorkflow(root,another)).stage,'cancelled');assertNoOpenAgents(root,another);
   console.log('Agent execution: synthetic adapter lifecycle, questions, durable answers, cancellation/timeouts, live-session rejoin, ownership enforcement, baseline protection, five reviewers, correction loop, final verification and closure guards passed.');

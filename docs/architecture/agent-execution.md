@@ -90,6 +90,8 @@ de conversaciones; las instrucciones y memoria que el propio cliente cargue sigu
 siendo parte del contexto efectivo y deben considerarse.
 
 Los encargos de revisión son de lectura y evalúan una misma versión identificada.
+La huella de esa versión incluye contenido, tipo de entrada y ejecutabilidad;
+cambiar un archivo por un enlace o su permiso de ejecución invalida la revisión.
 Un escritor mantiene cada archivo compartido. Cuando hay superposición o el cliente
 no comparte filesystem, se prepara un worktree o una entrega separada. Dar ownership
 en un prompt no equivale a restringir técnicamente todo acceso al host.
