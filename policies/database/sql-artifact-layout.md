@@ -24,5 +24,8 @@ database/
    razón y el orden **MUST** quedar documentados.
 5. Las rutas particulares existentes **MAY** conservarse cuando estén documentadas;
    crear una segunda convención paralela **MUST NOT** hacerse sin migración aprobada.
-6. Los SQL ejecutables **MUST NOT** almacenarse bajo `engineering/`; allí sólo se
-   conserva su trazabilidad.
+6. Los SQL ejecutables **MUST** permanecer en la ruta productiva de base de datos;
+   **MUST NOT** depender de `docs/` ni de `.harness_work/` para ejecutarse. La
+   evidencia temporal se conserva en `.harness_work/` y el conocimiento estable en
+   `docs/`, según
+   [project-artifact-layout.md](../ai-assisted-development/project-artifact-layout.md).

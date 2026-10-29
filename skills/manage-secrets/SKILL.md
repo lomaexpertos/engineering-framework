@@ -18,8 +18,8 @@ Entregar un cambio compatible del contrato de secretos sin revelar valores ni de
   nuevo antes de retirar el anterior.
 - Mantener identidades privadas fuera de Git, logs, CI e imágenes. Inspeccionar
   nombres/contratos sin imprimir plaintext; no revelar valores ni material sensible.
-- Plaintext versionado solo para credenciales descartables, aisladas de local/preview
-  y sin acceso productivo, conforme a la Policy.
+- Plaintext versionado solo para credenciales descartables de local/preview,
+  aisladas de producción y sin acceso productivo, conforme a la Policy.
 - No ejecutar el deployment ni alterar servicios externos.
 
 ## Resultado esperado

@@ -10,7 +10,7 @@ Cada archivo **MUST** mantener cuatro representaciones coherentes:
 
 | Representation | Content |
 | --- | --- |
-| Ciphertext | Nombres y valores productivos cifrados. |
+| Ciphertext | Nombres de claves visibles y valores secretos cifrados, más metadata SOPS. |
 | Manifest cerrado | Unidad, ciphertext, destino runtime y lista exacta de claves; nunca valores. |
 | Esquema sanitizado | Las mismas claves con placeholders inequívocos. |
 | Contrato consumidor | Lectura, validación y uso de cada variable. |
@@ -27,7 +27,7 @@ esquema sanitizado. El manifest usa una entrada por archivo:
 ## Integrity requirements
 
 1. Ciphertext, manifest y esquema sanitizado **MUST** contener exactamente el mismo
-   conjunto de claves.
+   conjunto de claves de variables; la metadata SOPS no forma parte de ese conjunto.
 2. El manifest **MUST** actuar como allowlist y **MUST** rechazar ciphertext no
    declarado, destinos duplicados y claves adicionales, faltantes o duplicadas.
 3. Un archivo consumido por runtime **MUST** estar declarado en el manifest.
