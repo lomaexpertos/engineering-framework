@@ -1,7 +1,7 @@
 # Contexto operativo
 
 No quedan iniciativas de desarrollo activas ni trabajadores en ejecución.
-La ejecución uniforme de agentes está consolidada en [arquitectura](../../docs/architecture/agent-execution.md).
-Perfiles personales se preparan en cada entorno mediante setup; la calidad de modelos requiere evaluación del equipo.
+Operación y guías del harness: [arquitectura](../../docs/architecture/agent-execution.md).
+El check valida material operativo distribuido; la aceptación semántica corresponde al coordinador.
 Para trabajo nuevo consultar [roadmap](../../docs/roadmap/README.md) y [pendientes](../../docs/roadmap/backlog.md).
-Publicación de release y adopción en consumidores siguen siendo operaciones explícitas separadas.
+Perfiles y modelos se configuran por integrante; publicación y adopción son operaciones separadas.

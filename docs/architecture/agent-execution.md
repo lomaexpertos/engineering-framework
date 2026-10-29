@@ -143,7 +143,9 @@ El CLI ofrece `--help` sin consultar perfiles ni modificar el proyecto. La ayuda
 las guías explican entradas, códigos de salida, precondiciones y recuperación. Las
 pruebas del consumidor verifican ejemplos extraídos de esas fuentes instaladas,
 además de detectar referencias críticas ausentes. Esto comprueba descubrimiento y
-contratos ejecutables; la elección del agente y la verificación semántica requieren
+contratos ejecutables. Los scopes `context` y `documentation` de `check` exigen
+inventario, routing, ejemplos y copias coherentes mediante el
+[control operativo](../../tooling/harness-guide-check.mjs); la elección del agente y la verificación semántica requieren
 seguir las instrucciones y contrastar evidencia.
 
 ## Operación y continuidad

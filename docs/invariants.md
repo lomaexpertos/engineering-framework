@@ -16,3 +16,4 @@ Este índice localiza la fuente canónica; las explicaciones se mantienen allí.
 | Actualizar y recuperar preserva contenido desconocido y ediciones posteriores. | [Decisión operativa](governance/decisions/0014-safe-harness-operations.md) |
 | Los perfiles personales satisfacen requisitos del equipo sin relajarlos. | [Ejecución de agentes](architecture/agent-execution.md) |
 | Conversación, workspace y permisos efectivos se declaran por separado. | [Ejecución de agentes](architecture/agent-execution.md) |
+| Las guías necesarias se descubren y validan desde el consumidor sin checkout productor. | [Contexto operativo](../policies/ai-assisted-development/context-management.md) |

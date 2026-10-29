@@ -23,3 +23,13 @@ Los 17 requisitos están implementados y verificados. Evidencia de suites en evi
 | 17 entrega acotada | commits lógicos y ninguna UI/servidor/BD/selección autónoma/recursión/merge automático; Pi fuera de alcance acordado | Completo |
 
 Las pruebas de clientes usan ejecutables reales y backend local determinista, sin inferencia externa. La calidad de modelos y adopción de proyectos reales pertenecen a evaluación/configuración del equipo, no se presentan como certificadas por fixtures.
+
+## Auditoría posterior de operabilidad
+
+La revisión posterior encontró que la guía detallada de uso sólo estaba en la fuente,
+aunque el ejecutor y las skills se distribuían. La afirmación original de suficiencia
+operativa fue demasiado amplia. La versión 3.2.0 incorpora guías distribuidas,
+contratos de ayuda y controles normales de contexto/documentación con pruebas de
+consumidor y defectos deliberados. Consultar la arquitectura vigente en
+`docs/architecture/agent-execution.md`; esta nota conserva el hallazgo sin reescribir
+la evidencia histórica ni afirmar que ese control existía en 3.1.0.
