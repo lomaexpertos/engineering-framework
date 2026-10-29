@@ -19,8 +19,9 @@ Estos temas no constituyen contratos implementados ni autorizaciones de ejecuci�
 
 - Metadata normativa de Policies y formato verificable de excepciones, conservando
   los datos mínimos y aprobación definidos por la Policy de precedencia.
-- Schema/validador de deployment, consistencia de secretos cifrados, comprobación SOPS
-  sanitizada y controles de infraestructura por ambiente según necesidad real.
+- Adoptar validadores de deployment y dotenv/SOPS en proyectos reales; ampliar
+  formatos/proveedores con contratos comprobados. Los checks estáticos no sustituyen
+  descifrado autorizado, activación, restauración ni validación operativa de ambientes.
 - Ampliar adaptadores de linters por stacks usados en proyectos reales, sin imponer
   un analizador único ni instalar dependencias del producto en el host.
 - Completar normas organizacionales de IaC, contenedores, red, cifrado general,

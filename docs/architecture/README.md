@@ -8,5 +8,6 @@
 - Elegir recorrido y obligaciones de entrega:
   [Policy de entrega proporcional](../../policies/ai-assisted-development/proportional-delivery.md).
 - Configurar perfiles personales y ejecutar agentes: [agent-execution.md](agent-execution.md).
+- Comprobar secretos y contratos de infraestructura: [assurance.md](assurance.md).
 - Procedimiento de adopción: [INSTALL.md](../../INSTALL.md).
 - Registro conservado del canal suspendido: [project-registry.md](project-registry.md).
