@@ -24,6 +24,15 @@ esquema sanitizado. El manifest usa una entrada por archivo:
 <unidad>|<ciphertext>|<destino-runtime>|CLAVE_A,CLAVE_B
 ```
 
+Las rutas `ciphertext` son relativas a la raíz del ambiente; los destinos runtime
+son rutas relativas a `RUNTIME_DIR`, sin traversal, rutas absolutas ni symlinks.
+Para un destino `app.env`, el esquema sanitizado es `config/sanitized/app.env`;
+para `app`, es `config/sanitized/app.env`. Los destinos anidados conservan sus
+subdirectorios. No se añade una segunda extensión `.env` a un destino que ya la tenga.
+Las claves usan identificadores dotenv ASCII; el prefijo `sops_` queda reservado a
+metadata. Cada línea es una asignación literal `CLAVE=valor`: no se evalúan shell,
+`export`, interpolaciones ni archivos externos.
+
 ## Integrity requirements
 
 1. Ciphertext, manifest y esquema sanitizado **MUST** contener exactamente el mismo
@@ -41,6 +50,27 @@ esquema sanitizado. El manifest usa una entrada por archivo:
    adopción por consumidores y retiro posterior de la clave anterior.
 8. Antes de eliminar una clave, el cambio **MUST** comprobar que ninguna versión con
    posibilidad de ejecución o rollback continúe consumiéndola.
+
+## Control estructural instalado
+
+El check de contratos usa una lista independiente `runtime_files` declarada por el
+proyecto junto con la raíz del ambiente. Su forma está en
+[secret-contract.schema.json](../../schemas/secret-contract.schema.json). No se
+deduce esa lista del propio manifest: ambos conjuntos deben coincidir exactamente.
+Unidad y ciphertext pueden tener varias entradas por unidad; destinos, archivos y
+claves no pueden duplicarse. Cuando existe `deployment.yaml`, cada unidad debe
+pertenecer a su inventario.
+
+El control exige ciphertexts dotenv declarados bajo `secrets/`, sin archivos extra,
+claves de variables idénticas y placeholders sanitizados exactamente `<REDACTED>`.
+Contrasta recipients age con la primera regla aplicable de `.sops.yaml` en la raíz
+del repositorio y comprueba `encrypted: true` mediante SOPS. Un archivo ausente,
+formato no soportado o herramienta faltante no cuenta como aprobación. La guía de
+operación de checks explica cómo seleccionar y registrar el contrato.
+
+La inspección no descifra, no materializa archivos, no ejecuta consumidores y no
+acredita que una aplicación realmente lea cada variable. Revisar contrato consumidor,
+compatibilidad de versiones y gates de publicación sigue siendo obligatorio.
 
 ## Publication gates
 

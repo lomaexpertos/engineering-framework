@@ -1,0 +1,2 @@
+# Preserve the unmodified upstream YAML runtime; local sources retain whitespace checks.
+tooling/vendor/yaml/dist/doc/Document.js whitespace=-blank-at-eol

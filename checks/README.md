@@ -9,6 +9,7 @@ checks estructurales no prueban corrección de negocio, UX ni consolidación sem
 - Hashes y contenido administrado: [framework-integrity](framework-integrity/README.md).
 - Routing y contratos normativos: [policy-validation](policy-validation/README.md).
 - Scopes del consumidor y checks del proyecto: [repository-compliance](repository-compliance/README.md).
+- Detección de secretos y contratos de infraestructura: [assurance](assurance/README.md).
 
 ## Ejecución
 
@@ -26,7 +27,9 @@ documentación, con la prueba de consumidor correspondiente.
 La fuente puede validarse con `node tooling/validate-framework.mjs`. El target Docker
 `validation` permite ejecutar opcionalmente su suite en un ambiente reproducible.
 
-Scopes integrados: context, documentation, installation, work y extensions. Los
+Scopes integrados: context, documentation, installation, work, extensions, security,
+deployment y secrets. Los tres últimos siguen [su guía de adopción](assurance/README.md).
+Los
 proyectos pueden declarar scopes adicionales junto con sus runners y argv; la
 aplicabilidad debe justificarse, no asumirse porque un dominio exista en el catálogo.
 
@@ -44,8 +47,8 @@ sobre la versión entregada; un proceso de agente terminado no acredita aceptaci
 
 El mantenimiento de la fuente incorpora sintaxis JS/Bash, ShellCheck, shfmt, higiene
 de texto y patrones acotados de credenciales. ShellCheck y shfmt no son requisitos
-del consumidor. Esto no sustituye un analizador completo de secretos ni
-linters semánticos de cada lenguaje. Esos comandos se declaran con sus imágenes.
+del consumidor. El scope security añade Gitleaks nativo conforme a su guía; el
+análisis semántico del código del producto sigue usando sus runners por lenguaje.
 
 Actions y publicación central permanecen suspendidos. La existencia del check local
 no configura CI ni branch protection automáticamente.

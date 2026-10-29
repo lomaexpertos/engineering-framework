@@ -188,6 +188,8 @@ function prepareConsumer(consumerDirectory, options = {}) {
   for (const [file, value] of readTree(frameworkRoot, "tooling")) {
     if (/^tooling\/(?:harness|agent)-[^/]+\.mjs$/.test(file)) desired.set(`.harness/core/runtime/${file}`, value);
   }
+  for (const [file, value] of readTree(frameworkRoot, "tooling/vendor")) desired.set(`.harness/core/runtime/${file}`, value);
+  desired.set('.harness/core/runtime/tooling/harness-tools.json',readTree(frameworkRoot,'tooling/harness-tools.json').get('tooling/harness-tools.json'));
   for (const [file, value] of readTree(frameworkRoot, "templates/project/.harness")) {
     desired.set(file.replace("templates/project/", ""), value);
   }

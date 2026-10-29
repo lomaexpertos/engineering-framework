@@ -22,5 +22,9 @@ Entregar un cambio de infraestructura adoptada sin ampliar su autoridad operativ
 
 ## Resultado esperado
 
+Validar manifests y contratos afectados con los scopes `deployment` y `secrets`
+según `.harness/core/checks/assurance/README.md`; conservar gates operativos y
+escaneo `security` aplicable. Esas comprobaciones no ejecutan deployments.
+
 Cambio y evidencia, ambientes/unidades afectados y operaciones pendientes.
 El modelo decide la técnica y el orden dentro de los contratos corporativos.

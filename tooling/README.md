@@ -19,6 +19,8 @@ instala herramientas automáticamente. El producto conserva su ambiente Docker.
 | Recuperar cambios propios de update interrumpido | [distribution-transaction.mjs](distribution-transaction.mjs) |
 | Seleccionar discovery y adaptar skills locales | [harness-profiles.mjs](harness-profiles.mjs) |
 | Comprobar instalación, contexto, docs y trabajo | [harness-check.mjs](harness-check.mjs) |
+| Validar secretos y contratos de deployment | [harness-assurance.mjs](harness-assurance.mjs) y [guía instalada](../checks/assurance/README.md) |
+| Instalar explícitamente herramientas con checksums fijados | [harness-tool-install.mjs](harness-tool-install.mjs) |
 | Preparar runners y registrar resultados | [harness-runner-plan.mjs](harness-runner-plan.mjs) |
 | Estado, transiciones, cierre, retención y purga | [harness-work.mjs](harness-work.mjs) |
 | Recorridos y pisos por riesgo/requisitos del proyecto | [harness-tracks.mjs](harness-tracks.mjs) |

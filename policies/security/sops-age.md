@@ -35,3 +35,25 @@ estándar.
 
 Esta Policy complementa [`secrets.md`](secrets.md). El contrato de archivos dotenv se
 define en [`encrypted-environment-contract.md`](encrypted-environment-contract.md).
+
+## Perfil de comprobación estática
+
+El control instalado de dotenv cifrado admite recipients nativos age declarados como
+CSV o lista en `age`, sin `key_groups`, Shamir ni proveedores adicionales. Usa la
+primera `creation_rule` aplicable, no la unión de todas las reglas. `path_regex` se
+interpreta sobre la ruta relativa al repositorio, con `/`. Patrones y rutas de
+ciphertext deben ser ASCII imprimible. El perfil admite anclas `^`/`$`, alternancia,
+grupos simples, clases ASCII sin anidación, rangos, comodín `.` y cuantificadores
+`*`, `+`, `?`. Solo se permiten escapes de puntuación/metacaracteres; no admite
+`(?...)`, conteos `{n}`, clases POSIX, backreferences ni escapes alfabéticos como
+`\A`, `\z`, `\p` o `\s`. Esta restricción evita seleccionar otra regla por diferencias
+entre Go/RE2 y JavaScript.
+Patrones inválidos o que excedan el tiempo de evaluación fallan la comprobación.
+Una política `.sops.yaml` anidada junto al ciphertext o en sus directorios padres
+también falla: el perfil no ignora una autoridad más cercana para aprobar otra.
+
+El perfil comprueba que cada valor de variable permanezca cifrado, aunque una regla
+SOPS permita cifrado selectivo. Otros formatos de archivo o mecanismos SOPS no se
+declaran aprobados por este control. Deben tener controles propios del proyecto o
+ampliar explícitamente el perfil; su existencia no reduce las obligaciones de esta
+Policy. `filestatus` nunca sustituye prueba autorizada de descifrado o activación.

@@ -9,9 +9,10 @@ import { validateManifest } from './harness-manifest.mjs';
 import { buildSkillAdapters } from './harness-profiles.mjs';
 import { markdownLinks, markdownAnchors } from './harness-markdown.mjs';
 import { checkOperationalGuides } from './harness-guide-check.mjs';
+import { checkAssurance, assuranceScopes } from './harness-assurance.mjs';
 export { markdownLinks } from './harness-markdown.mjs';
 
-const scopes = new Set(['context', 'documentation', 'installation', 'work', 'extensions']);
+const scopes = new Set(['context', 'documentation', 'installation', 'work', 'extensions', ...assuranceScopes]);
 const temporary = /(?:^|\/)\.harness_work\/(?:initiatives|runtime)\//;
 
 function filesUnder(root, relative = '') {
@@ -35,6 +36,7 @@ export function checkRepository(root, { scope, externalResults } = {}) {
   root = fs.realpathSync(root);
   if (scope && !scopes.has(scope) && !runnerPlan(root).checks.some(check => check.scope === scope)) throw new Error(`Scope desconocido: ${scope}`);
   const results = [];
+  results.push(...checkAssurance(root,{scope}));
   const add = (group, id, status, message, file) => {
     if (!scope || group === scope) results.push({ scope: group, id, status, message, ...(file ? { file } : {}) });
   };
@@ -191,7 +193,7 @@ export function checkRepository(root, { scope, externalResults } = {}) {
       add(group, 'check-execution', passed ? 'passed' : check.required || record ? 'failed' : 'not_applicable', `Check ${check.id}: ${record ? `exit ${record.exit_code}` : 'sin evidencia de ejecución Docker'}`);
     }
   }
-  return { schema_version: 1, results, ok: results.every(result => result.status !== 'failed') };
+  return { schema_version: 1, results, ok: results.every(result => !['failed','error'].includes(result.status)) };
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
@@ -202,7 +204,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     const report = checkRepository(value('--root') || process.cwd(), { scope: value('--scope'), externalResults: resultsFile ? JSON.parse(fs.readFileSync(resultsFile, 'utf8')) : undefined });
     if (args.includes('--json')) console.log(JSON.stringify(report, null, 2));
     else for (const item of report.results) console.log(`${item.status}: ${item.scope}/${item.id}: ${item.file || ''} ${item.message}`);
-    process.exitCode = report.ok ? 0 : 1;
+    process.exitCode = report.results.some(result=>result.status==='error') ? 2 : report.ok ? 0 : 1;
   } catch (error) {
     console.error(error.message);
     process.exitCode = 2;

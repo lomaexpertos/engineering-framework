@@ -3,9 +3,10 @@ set -euo pipefail
 if [[ $# -eq 1 && ($1 == --help || $1 == -h) ]]; then
   cat <<'HELP'
 Usage: bash .harness/check.sh [--scope NAME] [--json]
-Built-in scopes: context, documentation, installation, work, extensions.
+Built-in scopes: context, documentation, installation, work, extensions, security, deployment, secrets.
 Project scopes/runners: .harness/project/config.json.
-Built-ins use native Node; declared application checks use Docker and GNU timeout.
+Built-ins use native Node; security needs Gitleaks and encrypted dotenv needs SOPS.
+Declared application checks use Docker and GNU timeout.
 Guide: .harness/core/checks/repository-compliance/operations.md
 Exit: 0 passed, 1 violations, 2 configuration/execution error.
 HELP

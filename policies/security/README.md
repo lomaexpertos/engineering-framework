@@ -8,6 +8,7 @@ identidad, exposición o recuperación.
 | Tarea | Policies aplicables |
 | --- | --- |
 | Crear, consumir, registrar o transportar secretos | [`secrets.md`](secrets.md) |
+| Detectar secretos en archivos, cambios o historial | [`secret-scanning.md`](secret-scanning.md) |
 | Versionar secretos productivos con SOPS y age | [`sops-age.md`](sops-age.md) |
 | Mantener dotenv cifrado y sus contratos | [`encrypted-environment-contract.md`](encrypted-environment-contract.md) |
 | Autorización, entrada no confiable, permisos o abuso | [`application-security.md`](application-security.md) |

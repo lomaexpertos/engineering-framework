@@ -420,7 +420,8 @@ runCheck("Distributable file safety", () => {
 runCheck("Text hygiene", () => {
   const textExtensions = new Set([".js", ".json", ".md", ".mjs", ".sh", ".yaml", ".yml"]);
   const textFiles = files.filter(
-    (file) => textExtensions.has(path.extname(file)) || path.basename(file) === "VERSION",
+    // Preserve upstream vendor bytes; local whitespace conventions apply to our sources.
+    (file) => !file.startsWith('tooling/vendor/') && (textExtensions.has(path.extname(file)) || path.basename(file) === "VERSION"),
   );
 
   for (const file of textFiles) {
@@ -465,6 +466,7 @@ runCheck("Version change", () => {
       file.startsWith("schemas/") ||
       file.startsWith("templates/") ||
       /^tooling\/(?:harness|agent)-[^/]+\.mjs$/.test(file) ||
+      file.startsWith('tooling/vendor/') || file === 'tooling/harness-tools.json' ||
       file === "templates/project/AGENTS.md" ||
       file.startsWith("templates/project/engineering/corporate/"),
   );

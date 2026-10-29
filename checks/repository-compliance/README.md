@@ -11,6 +11,11 @@ diagnostica requisitos faltantes antes de mutar el consumidor; no instala herram
 | installation | Manifest y hashes administrados. |
 | work | Estado estructurado y retención de iniciativas. |
 | extensions | Configuración y evidencia de checks declarados. |
+| security | Gitleaks; archivos/índice y commits según modo y adopción. |
+| deployment | Contrato de manifests, IDs, estrategias y referencias a archivos. |
+| secrets | Allowlist dotenv, claves, placeholders, recipients y estado SOPS. |
+
+Adopción, herramientas y límites: [controles de assurance](../assurance/README.md).
 
 Los checks propios se declaran en `.harness/project/config.json`: ID, scope, required,
 argv, runner, timeout, evidencia esperada y motivo de aplicabilidad. Cada runner usa

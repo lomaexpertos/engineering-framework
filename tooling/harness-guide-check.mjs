@@ -11,6 +11,7 @@ import {buildSkillAdapters} from './harness-profiles.mjs';
 import {validateRunnerConfiguration} from './harness-runner-plan.mjs';
 import {agentCommandContracts,agentValueOptions} from './harness-agents.mjs';
 import {workCommandContracts,workValueOptions,validateWorkRequirements} from './harness-work.mjs';
+import {validateAssurance} from './harness-assurance.mjs';
 
 const guides={
   'coordinate-work':['profiles-and-start.md','workflow-operations.md','individual-tasks.md','delivery-tracks.md'],
@@ -103,7 +104,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
   const read=relative=>fs.readFileSync(physical(relative),'utf8');
   const installedRouter=layout==='source'?'templates/project/.harness/README.md':'.harness/README.md';
   const routerRead=()=>fs.readFileSync(path.join(root,installedRouter),'utf8');
-  const required=['policies/ai-assisted-development/domain-documentation.md','templates/context/docs/domain.md','policies/ai-assisted-development/proportional-delivery.md','policies/README.md','skills/README.md','checks/README.md','templates/context/README.md','templates/project/AGENTS.md','checks/repository-compliance/operations.md',
+  const required=['checks/assurance/README.md','checks/security/README.md','policies/security/secret-scanning.md','schemas/assurance.schema.json','schemas/deployment.schema.json','schemas/secret-contract.schema.json','policies/ai-assisted-development/domain-documentation.md','templates/context/docs/domain.md','policies/ai-assisted-development/proportional-delivery.md','policies/README.md','skills/README.md','checks/README.md','templates/context/README.md','templates/project/AGENTS.md','checks/repository-compliance/operations.md',
     ...['agent-profiles','agent-project','agent-task','agent-result','agent-workflow','closure','compact-closure','project-config','manifest','initiative-state'].map(name=>`schemas/${name}.schema.json`),
     ...Object.entries(guides).flatMap(([skill,names])=>[`skills/${skill}/SKILL.md`,...names.map(name=>`skills/${skill}/references/${name}`)])];
   for(const file of required)add('guide-inventory',core+file,()=>{if(!fs.existsSync(physical(file))||!fs.statSync(physical(file)).size)fail(`Required operational resource missing or empty: ${file}`);});
@@ -162,6 +163,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
       return;
     }
     if(!object(value))fail('JSON example must be an object or array');
+    if(file.endsWith('checks/assurance/README.md')) {schemaCheck(jsonSchema('assurance'),value);return validateAssurance(value);}
     if('profiles' in value&&object(value.profiles)&&'roles' in value)return validatePersonal(value);
     if('permissions' in value||'role' in value)return validateTask(value);
     if('task_id' in value)return validateResult(value,value.task_id);
@@ -213,7 +215,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
       const language=match[1],body=match[2];
       if(language==='json')add('guide-json-example',relative,()=>{
         const value=JSON.parse(body);
-        const operational=Object.entries(guides).some(([skill,names])=>skill!=='spec-documentar'&&names.some(name=>relative.endsWith(`skills/${skill}/references/${name}`)))||relative.endsWith('checks/repository-compliance/operations.md');
+        const operational=Object.entries(guides).some(([skill,names])=>skill!=='spec-documentar'&&names.some(name=>relative.endsWith(`skills/${skill}/references/${name}`)))||relative.endsWith('checks/repository-compliance/operations.md')||relative.endsWith('checks/assurance/README.md');
         if(operational)example(value,relative);
       });
       else {
