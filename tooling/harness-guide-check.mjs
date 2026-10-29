@@ -15,6 +15,7 @@ import {workCommandContracts,workValueOptions,validateWorkRequirements} from './
 const guides={
   'coordinate-work':['profiles-and-start.md','workflow-operations.md','individual-tasks.md','delivery-tracks.md'],
   'close-initiative':['closure-and-retention.md'],
+  'spec-documentar':['domain-investigation.md'],
 };
 const fail=message=>{throw new Error(message);};
 const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
@@ -102,7 +103,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
   const read=relative=>fs.readFileSync(physical(relative),'utf8');
   const installedRouter=layout==='source'?'templates/project/.harness/README.md':'.harness/README.md';
   const routerRead=()=>fs.readFileSync(path.join(root,installedRouter),'utf8');
-  const required=['policies/ai-assisted-development/proportional-delivery.md','policies/README.md','skills/README.md','checks/README.md','templates/context/README.md','templates/project/AGENTS.md','checks/repository-compliance/operations.md',
+  const required=['policies/ai-assisted-development/domain-documentation.md','templates/context/docs/domain.md','policies/ai-assisted-development/proportional-delivery.md','policies/README.md','skills/README.md','checks/README.md','templates/context/README.md','templates/project/AGENTS.md','checks/repository-compliance/operations.md',
     ...['agent-profiles','agent-project','agent-task','agent-result','agent-workflow','closure','compact-closure','project-config','manifest','initiative-state'].map(name=>`schemas/${name}.schema.json`),
     ...Object.entries(guides).flatMap(([skill,names])=>[`skills/${skill}/SKILL.md`,...names.map(name=>`skills/${skill}/references/${name}`)])];
   for(const file of required)add('guide-inventory',core+file,()=>{if(!fs.existsSync(physical(file))||!fs.statSync(physical(file)).size)fail(`Required operational resource missing or empty: ${file}`);});
@@ -114,7 +115,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
   add('guide-entrypoint',agentsFile,()=>{
     const content=fs.readFileSync(path.join(root,agentsFile),'utf8');
     if(content.replace(/\n$/,'').split('\n').length>100)fail('AGENTS exceeds 100 physical lines');
-    for(const target of ['.harness/core/policies/README.md','.harness/core/skills/coordinate-work/SKILL.md'])if(!content.includes(target))fail(`Required AGENTS routing missing: ${target}`);
+    for(const target of ['.harness/core/policies/README.md','.harness/core/skills/coordinate-work/SKILL.md','.harness/core/skills/spec-documentar/SKILL.md','.harness/core/policies/ai-assisted-development/domain-documentation.md'])if(!content.includes(target))fail(`Required AGENTS routing missing: ${target}`);
   });
   if(layout==='consumer')add('guide-entrypoint','CLAUDE.md',()=>{
     if(!/^@(?:\.\/)?AGENTS\.md\s*$/m.test(fs.readFileSync(path.join(root,'CLAUDE.md'),'utf8')))fail('CLAUDE does not import AGENTS');
@@ -126,6 +127,9 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
   for(const [skill,names] of Object.entries(guides))add('guide-routing',core+`skills/${skill}/SKILL.md`,()=>{
     const targets=markdownLinks(read(`skills/${skill}/SKILL.md`));
     for(const name of names)if(!targets.includes(`references/${name}`))fail(`Required operational reference missing: ${name}`);
+  });
+  add('guide-routing',core+'policies/ai-assisted-development/README.md',()=>{
+    if(!markdownLinks(read('policies/ai-assisted-development/README.md')).includes('domain-documentation.md'))fail('Required domain documentation policy routing missing');
   });
   let managed=[];
   add('guide-resource-tree',core,()=>{managed=['policies','skills','checks','templates','schemas'].flatMap(directory=>walk(physical(directory)));});
@@ -209,7 +213,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
       const language=match[1],body=match[2];
       if(language==='json')add('guide-json-example',relative,()=>{
         const value=JSON.parse(body);
-        const operational=Object.entries(guides).some(([skill,names])=>names.some(name=>relative.endsWith(`skills/${skill}/references/${name}`)))||relative.endsWith('checks/repository-compliance/operations.md');
+        const operational=Object.entries(guides).some(([skill,names])=>skill!=='spec-documentar'&&names.some(name=>relative.endsWith(`skills/${skill}/references/${name}`)))||relative.endsWith('checks/repository-compliance/operations.md');
         if(operational)example(value,relative);
       });
       else {

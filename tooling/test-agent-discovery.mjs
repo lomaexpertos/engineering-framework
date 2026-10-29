@@ -44,6 +44,7 @@ function checkDiscovery() {
   const expectedGuides={
     'coordinate-work':['profiles-and-start.md','workflow-operations.md','individual-tasks.md','delivery-tracks.md'],
     'close-initiative':['closure-and-retention.md'],
+    'spec-documentar':['domain-investigation.md'],
   };
   for(const [skill,guides] of Object.entries(expectedGuides))for(const prefix of ['.harness/core/skills','.agents/skills','.claude/skills']) {
     const entry=`${prefix}/${skill}/SKILL.md`;
