@@ -94,11 +94,16 @@ al inventario de ownership.
 bash .harness/check.sh
 bash .harness/check.sh --scope installation --json
 bash .harness/work.sh status
-bash .harness/work.sh create 20261028_ejemplo --title 'Resultado esperado' --owner coordinador
+bash .harness/work.sh create 20261028_ejemplo --title 'Resultado esperado' --owner coordinador --track standard --reason 'Cambio acotado con aceptación conocida'
 ```
 
 Los comandos del ciclo de vida y el formato de cierre están en
 [work-lifecycle.md](docs/architecture/work-lifecycle.md).
+El coordinador elige el recorrido con
+[entrega proporcional](policies/ai-assisted-development/proportional-delivery.md).
+Una tarea mínima directa no requiere crear iniciativa ni configurar agentes.
+La operación mínima/estándar se explica en la
+[guía distribuida](skills/coordinate-work/references/delivery-tracks.md).
 Las extensiones de checks declaran imágenes con tag/digest, argv, scope, timeout,
 aplicabilidad y evidencia en `.harness/project/config.json`. Se ejecutan en Docker
 sin red, con fuente readonly; el runner no ejecuta código del producto en el host.
@@ -108,6 +113,8 @@ locks y journals locales; memoria compartida y expedientes se versionan según s
 sensibilidad. No guardar secretos, transcripciones ni volcados de datos.
 
 ## Configuración de agentes por integrante
+
+Solo se necesita al usar el ejecutor; no es requisito para mínimo directo.
 
 ```bash
 bash .harness/agents.sh setup

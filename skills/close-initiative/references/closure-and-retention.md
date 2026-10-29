@@ -35,15 +35,53 @@ Cancelar el workflow no cancela la iniciativa: tras documentar aprendizajes y al
 no entregado, pasar a `closing --confirm` desde el estado abierto permitido y usar
 `close --cancelled`. No afirmar entrega por una cancelación.
 
-Actualizar fuentes existentes de docs, decisiones, invariantes, roadmap/backlog y
-memoria. Retirar entradas activas de memoria y conservar punto de continuación para
-pendientes reales. Las fuentes permanentes no deben depender de expedientes ni de
-reportes temporales. No crear documentos vacíos para llenar categorías.
+Actualizar fuentes existentes cuando cambie conocimiento significativo o
+continuidad. Retirar entradas activas existentes y conservar punto de continuación
+para pendientes reales. Las fuentes permanentes no deben depender de expedientes ni
+reportes temporales. No crear documentos ni actualizaciones para llenar categorías.
 
 ## Entrada estructurada y comprobación
 
-Crear `.harness_work/initiatives/20261028_validar_entrada/closure.json` con contrato
-`.harness/core/schemas/closure.schema.json`. Ejemplo ilustrativo: sustituir fecha,
+El formato depende del recorrido registrado, según
+`ai-assisted-development/proportional-delivery.md`. Crear `closure.json` en el
+expediente: `.harness/core/schemas/compact-closure.schema.json` para mínimo/estándar
+y `.harness/core/schemas/closure.schema.json` para reforzado o legado.
+
+### Cierre compacto: mínimo y estándar
+
+El coordinador identifica el resultado y la evidencia sin ocho categorías ni
+motivos para dimensiones ausentes. Ejemplo ilustrativo para un expediente mínimo;
+sustituir fecha, comando y evidencia por lo observado antes de usarlo:
+
+```json
+{
+  "reviewer": "coordinador",
+  "reviewed_at": "2026-10-29T12:00:00.000Z",
+  "summary": "Corrección local comprobada sobre la versión integrada",
+  "validation": [
+    {"command": "Comprobación documentada del proyecto en su contenedor", "outcome": "passed", "evidence": "Resultado observado que confirma los casos afectados"}
+  ],
+  "sources": []
+}
+```
+
+`sources` puede quedar vacío cuando no cambió conocimiento permanente; si cambió,
+incluir las fuentes existentes bajo `docs/` o `.harness_work/memory/`.
+No crear `brief.md`, `resume.md`, páginas de roadmap ni ocho `not_applicable` para
+cerrar. Una entrega requiere al menos una validación `passed` y ninguna `failed`
+o `not_run`. Una cancelación puede dejar `validation: []`, con razón en `summary`,
+sin afirmar alcance entregado. Las revisiones de estándar siguen siendo requisito
+del workflow, aunque el registro de cierre sea compacto.
+
+El cierre usa los mismos comandos `transition validating/closing` y `close --check`
+de esta guía, con el ID de su expediente. Mínimo directo sin expediente termina
+con la respuesta de cambio y comprobación; no necesita crear uno para cerrarlo.
+
+### Cierre completo: reforzado y legado
+
+En `.harness_work/initiatives/20261028_validar_entrada/closure.json`, el recorrido
+reforzado conserva las ocho categorías. Ausencia de `track` mantiene este formato.
+Ejemplo ilustrativo: sustituir fecha,
 revisor, rutas y razones por evidencia observada antes de usarlo. Las rutas de
 `sources` son relativas a la raíz del consumidor y deben existir.
 

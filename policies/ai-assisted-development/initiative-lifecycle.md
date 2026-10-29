@@ -6,6 +6,11 @@ El expediente usa `draft`, `ready`, `active`, `blocked`, `validating`, `closing`
 `closed` o `cancelled`. El schema instalado es autoridad de sus campos; el runtime
 valida transiciones y no inventa documentación semántica.
 
+Registro opcional, punto de inicio y formato de cierre siguen
+[proportional-delivery.md](proportional-delivery.md). Un expediente nuevo mínimo o
+estándar puede empezar en `active` con razón y sin brief/resume; el legado sin
+recorrido conserva reforzado.
+
 - `ready`: alcance y aceptación suficientes.
 - `validating`: integración terminada; fallos devuelven a `active`.
 - `blocked`: causa, estado anterior y siguiente desbloqueo identificados. Una pausa
@@ -18,10 +23,12 @@ valida transiciones y no inventa documentación semántica.
 
 1. El coordinador **MUST** resolver bloqueantes del alcance declarado y confirmar que
    no quedan trabajadores activos. Un cambio de alcance requiere acuerdo explícito.
-2. **MUST** consolidar comportamiento vigente y razones en docs, decisiones e
-   invariantes en sus fuentes, avance/pendientes altos en roadmap y memoria actual.
-   Actualizar fuentes existentes antes de crear otras; registrar no aplicabilidad
-   cuando no cambió una categoría, sin crear documentos para llenar casillas.
+2. **MUST** promover conocimiento significativo y mantener continuidad en las
+   fuentes canónicas afectadas, actualizando fuentes existentes antes de crear
+   otras. Mínimo/estándar usan cierre compacto con resumen y evidencia. Reforzado
+   registra `validation`, `reviews`, `documentation`, `decisions`, `invariants`,
+   `roadmap`, `backlog` y `memory`, con motivo cuando una categoría no aplica.
+   Ningún recorrido crea documentos ni actualizaciones para llenar casillas.
 3. Docs **MUST** seguir siendo comprensibles sin specs, pruebas aplicadas, ramas,
    commits, reportes o listas de archivos revisados. No enlazar trabajo descartable
    desde conocimiento permanente; evidencia detallada permanece en el expediente.

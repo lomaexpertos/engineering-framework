@@ -1,6 +1,7 @@
-# Operar definición, implementación y revisión
+# Operar el recorrido reforzado
 
-Leer al coordinar el ciclo completo instalado. Requiere el expediente y perfiles de
+Leer al coordinar el ciclo reforzado instalado o recuperar sus operaciones. Mínimo
+y estándar usan [delivery-tracks.md](delivery-tracks.md). Requiere el expediente y perfiles de
 [profiles-and-start.md](profiles-and-start.md). El estado de iniciativa y la etapa de
 workflow son registros distintos: avanzar el workflow no cambia `state.json`.
 
@@ -16,6 +17,8 @@ por el archivo real antes de preparar tareas. No usar `.` como ownership por com
 {
   "id": "entrada",
   "initiative": "20261028_validar_entrada",
+  "track": "reinforced",
+  "assessment": {"reason": "El alcance requiere definición y revisión completa", "risks": []},
   "objective": "Rechazar entradas inválidas conservando el contrato público",
   "scope": ["Validación de entrada en src/entrada.js"],
   "exclusions": ["Despliegue y cambios de API pública"],
@@ -29,7 +32,7 @@ por el archivo real antes de preparar tareas. No usar `.` como ownership por com
 }
 ```
 
-Incluir pruebas en ownership si se crearán/modificarán. Para UI/UX aplicables usar
+Incluir pruebas en ownership si se crearán/modificarán. En reforzado, para UI/UX aplicables usar
 `applies: true` y una razón específica; siempre se revisan funcionalidad, seguridad y
 logging. El input no lleva `schema_version`, etapas ni tareas generadas: `create`
 construye el registro validado por `.harness/core/schemas/agent-workflow.schema.json`.
@@ -63,7 +66,7 @@ El runtime actual no ofrece un comando para reemplazar tareas ya asignadas a una
 etapa: si hay que rehacer ese workflow, cancelar y crear otro expediente/workflow
 con nuevo ID y referencias al brief/spec reconciliado, conservando la evidencia
 anterior. Cerrar el expediente anterior como `cancelled` mediante
-`close-initiative`, consolidando las ocho categorías sin afirmar alcance entregado.
+`close-initiative`, usando el formato de su recorrido sin afirmar alcance entregado.
 No editar `state.json`, tareas o snapshots manualmente para forzar el avance.
 
 ## Preguntas y fallos

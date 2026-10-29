@@ -1,6 +1,8 @@
 # Preparar una ejecución instalada
 
-Leer al configurar el ejecutor o comenzar una iniciativa. Los comandos se ejecutan
+Leer al configurar el ejecutor o comenzar una iniciativa que lo necesite. Para
+mínimo directo no ejecutar setup, doctor ni crear expediente: continuar con
+[delivery-tracks.md](delivery-tracks.md). Los comandos se ejecutan
 **desde la raíz Git del consumidor instalado**, donde existen `.harness/agents.sh`
 y `.harness/work.sh`. Esta referencia se distribuye con la Skill: no requiere tener
 el checkout fuente del framework. Los contratos de campos se distribuyen también en
@@ -98,11 +100,13 @@ puede producir efectos/coste autorizados; no lanzarlo como prueba implícita de 
 
 ## Expediente antes de delegar
 
-El ID tiene forma `YYYYMMDD_slug_con_guiones_bajos`. Ejemplo, sustituible por el
+El ID tiene forma `YYYYMMDD_slug_con_guiones_bajos`. Mínimo y estándar usan registro
+compacto sin brief/resume; consultar [delivery-tracks.md](delivery-tracks.md) para
+sus comandos y roles. El siguiente ejemplo es **reforzado**, sustituible por el
 objetivo actual:
 
 ```bash
-bash .harness/work.sh create 20261028_validar_entrada --title "Validar entrada" --owner "coordinador"
+bash .harness/work.sh create 20261028_validar_entrada --title "Validar entrada" --owner "coordinador" --track reinforced --reason "El cambio requiere definición y revisión completa"
 bash .harness/work.sh status 20261028_validar_entrada
 ```
 
@@ -118,5 +122,5 @@ bash .harness/work.sh transition 20261028_validar_entrada active
 ```
 
 El runtime comprueba brief no vacío y `--confirm`, no la suficiencia de sus criterios.
-Continuar con [workflow-operations.md](workflow-operations.md) para un ciclo completo,
+Continuar con [workflow-operations.md](workflow-operations.md) para el ciclo reforzado,
 o [individual-tasks.md](individual-tasks.md) para encargos individuales.

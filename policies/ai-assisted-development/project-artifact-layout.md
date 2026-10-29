@@ -29,6 +29,8 @@ Separar metodología distribuida, conocimiento duradero y trabajo descartable.
    futuros, avance y pendientes altos; no presenta TO-BE como comportamiento vigente.
 5. Un expediente nuevo **MUST** usar `YYYYMMDD_nombre_descriptivo` ASCII. Las tareas
    relacionadas reutilizan la iniciativa y mantienen IDs internos de tarea.
+   Su necesidad y contenido siguen [proportional-delivery.md](proportional-delivery.md);
+   un mínimo directo no exige expediente.
 6. Spec, plan, evidencia, reportes y resultados delegados **MUST** vivir dentro del
    expediente. No requieren índices históricos permanentes ni enlaces desde docs.
 7. Código, tests, SQL, assets e infraestructura ejecutables **MUST** permanecer en las

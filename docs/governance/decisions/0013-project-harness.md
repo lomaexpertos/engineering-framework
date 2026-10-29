@@ -3,6 +3,7 @@
 - Estado: Aceptada.
 - Fecha: 2026-10-28.
 - Sucesor parcial: [ADR-0015](0015-native-harness-runtime.md) cambia el runtime del harness en 3.x; conserva este layout.
+- Sucesor parcial: [ADR-0017](0017-proportional-delivery-tracks.md) ajusta etapas y artefactos al recorrido según riesgo.
 - Sustituye el layout de ADR-0008 y el límite de distribución sin herramientas de ADR-0011 para versiones 2.x.
 - Conserva la fuente única de skills de ADR-0003 y el criterio organizacional de ADR-0012.
 

@@ -2,6 +2,7 @@
 
 - Estado: Aceptada.
 - Fecha: 2026-10-28.
+- Sucesor parcial: [ADR-0017](0017-proportional-delivery-tracks.md) define recorridos proporcionales, definición condicional y cierre compacto.
 - Aprobación: el responsable aprobó implementar el flujo coordinado y la separación
   de configuración compartida y personal.
 

@@ -30,8 +30,10 @@ o solicitud; concentrar allí decisiones, validaciones y pendientes.
 Después de validar, usar `spec-documentar` si el plan lo incluye, el usuario pide
 documentación final o el cambio deja desactualizada la explicación canónica.
 No documentar como vigente comportamiento no validado ni por cambios cosméticos.
-Consolidar roadmap, decisiones, invariantes y memoria con `close-initiative` antes
-de registrar el cierre; implementar no equivale a cerrar ni a desplegar.
+Promover conocimiento significativo y mantener continuidad con `close-initiative`
+antes de cerrar el expediente, con formato proporcional al recorrido. No actualizar
+roadmap, decisiones, invariantes o memoria por casilla; implementar no equivale a
+cerrar ni a desplegar.
 
 ## Resultado esperado
 

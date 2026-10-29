@@ -5,6 +5,8 @@ una tarea terminada.
 
 ## Routing
 
+- Elegir recorrido mínimo, estándar o reforzado y sus artefactos:
+  [`proportional-delivery.md`](proportional-delivery.md).
 - Inspección, alcance, causa raíz y conflictos:
   [`agent-behavior.md`](agent-behavior.md).
 - Descubrimiento progresivo y separación de conocimiento:

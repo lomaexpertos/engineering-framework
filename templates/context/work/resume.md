@@ -1,6 +1,7 @@
 # Punto de reanudación
 
-Plantilla operativa: suficiente para continuar sin reconstruir la conversación.
+Plantilla operativa cuando exista continuidad pendiente: suficiente para continuar
+sin reconstruir la conversación. No crear por defecto para mínimo/estándar.
 
 ## Situación observada
 

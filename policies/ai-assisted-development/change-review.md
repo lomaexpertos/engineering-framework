@@ -2,8 +2,10 @@
 
 ## Aplicabilidad
 
-Todo cambio recibe triage y revisión del resultado integrado, proporcionales a sus
-riesgos. Una dimensión no aplicable conserva motivo, no una aprobación ficticia.
+La cantidad de revisores y artefactos se decide exclusivamente en
+[proportional-delivery.md](proportional-delivery.md). Todo cambio recibe comprobación
+del resultado integrado. La tabla orienta las dimensiones del cambio, sin imponer
+una matriz al recorrido mínimo ni revisores separados al estándar.
 
 | Dimensión | Trigger y evidencia |
 | --- | --- |
@@ -20,13 +22,13 @@ riesgos. Una dimensión no aplicable conserva motivo, no una aprobación fictici
 
 1. La revisión **MUST** evaluar el cambio integrado y sus interacciones concretas,
    no auditar todo el repositorio por defecto.
-2. El revisor **SHOULD** ser distinto del autor cuando exista capacidad; alto riesgo
-   **MUST** tener revisión independiente o quedar explícitamente pendiente. Una
-   autoevaluación no se presenta como independencia.
-3. Los roles funcional, seguridad, logging/comentarios, UI y UX **MUST** tener
-   cobertura explícita según aplicabilidad. Pueden compartir perfil/modelo y
-   ejecutarse por turnos; un revisor puede cubrir varias dimensiones cuando se
-   conserve la independencia requerida. UI/UX no aplicables conservan motivo.
+2. La independencia **MUST** cumplir el recorrido elegido. Una autoevaluación no se
+   presenta como independencia; una revisión requerida ausente queda pendiente.
+3. En estándar, el revisor funcional agrupa las dimensiones afectadas. En reforzado,
+   los roles funcional, seguridad, logging/comentarios, UI y UX **MUST** tener
+   cobertura explícita según aplicabilidad, incluidos motivos para UI/UX ausentes.
+   Pueden compartir perfil/modelo y ejecutarse por turnos, conservando los encargos
+   independientes requeridos por el riesgo.
 4. Hallazgos **MUST** incluir ubicación, condición, impacto y evidencia; separar
    bloqueantes demostrados, recomendaciones y mejoras opcionales. No imponer cuotas
    ni convertir preferencias estéticas en defectos materiales.
@@ -36,5 +38,6 @@ riesgos. Una dimensión no aplicable conserva motivo, no una aprobación fictici
    exigirse comentarios/logs por función ni instrumentación sin valor diagnóstico.
 7. Logging crítico sigue [logging.md](../development/logging.md); su ausencia requerida
    impide completar la entrega, no es una mejora opcional.
-8. Reportes y evidencia **MUST** vivir en `reviews/` y `evidence/` del expediente.
+8. Cuando se creen reportes o evidencia separados, **MUST** vivir en `reviews/` y
+   `evidence/` del expediente; un cierre compacto puede conservar su evidencia allí.
    La revisión no concede permisos para publicar, mergear o modificar producción.

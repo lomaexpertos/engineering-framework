@@ -6,11 +6,13 @@ Trabajo de proyecto conducido por un agente coordinador, con o sin subagentes na
 
 ## Contrato
 
-1. El coordinador **MUST** delegar ejecución y revisión siempre que las capacidades
-   reales y las instrucciones de la sesión lo permitan. Conserva alcance, relación
-   con el usuario, dependencias, integración, verificación y cierre.
-2. Sin capacidad de delegación, **MUST** declarar el límite y trabajar en secuencia;
-   no simular agentes ni invocar otros proveedores o credenciales implícitamente.
+1. El coordinador **MUST** aplicar el recorrido de
+   [proportional-delivery.md](proportional-delivery.md) para decidir ejecución y
+   revisión. Conserva alcance, relación con el usuario, dependencias, integración,
+   verificación y cierre; mínimo permite ejecución directa sin subagentes.
+2. Si falta capacidad para una delegación requerida, **MUST** declarar el límite y
+   mantener visible la revisión pendiente; no simular agentes ni invocar otros
+   proveedores o credenciales implícitamente.
 3. Cada encargo **MUST** identificar objetivo, resultado esperado, alcance/exclusiones,
    ownership de escritura, referencias mínimas, dependencias, permisos y validación.
 4. El trabajador **MUST** recibir contexto acotado. No heredar toda la conversación
@@ -33,8 +35,9 @@ Trabajo de proyecto conducido por un agente coordinador, con o sin subagentes na
 11. Worktrees o artefactos de entrega **MUST** usarse cuando el cliente no comparte
     filesystem o haya superposición; no asumir que otros agentes ven los cambios.
 
-Los encargos y resultados se guardan en
-`.harness_work/initiatives/<id>/agents/<task-id>/`.
+Los encargos y resultados del ejecutor se guardan en
+`.harness_work/initiatives/<id>/agents/<task-id>/`. Un mínimo directo no requiere
+expediente ni configuración personal del ejecutor.
 
 ## Ejecución y perfiles
 

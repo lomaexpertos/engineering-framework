@@ -26,11 +26,15 @@ El productor no instala una copia de sí mismo. Los consumidores separan:
 ## Contratos principales
 
 `AGENTS.md` es un router de hasta 100 líneas. Cada tarea consulta solo los dominios
-pertinentes. Un coordinador delega con alcance, ownership y contexto acotados cuando
-el cliente lo permite; integra y verifica resultados, mantiene memoria y cierra.
+pertinentes. El coordinador elige recorrido con
+[entrega proporcional](policies/ai-assisted-development/proportional-delivery.md):
+mínimo puede ejecutarse directamente sin expediente; estándar usa un trabajador y
+un revisor funcional agrupado; reforzado conserva el flujo completo por riesgo.
+Siempre integra y verifica el resultado, con continuidad cuando se necesita.
 
-El cierre consolida comportamiento real, decisiones e invariantes, avance del
-roadmap y pendientes altos. El conocimiento duradero no depende de specs, ramas,
+El cierre es compacto en mínimo/estándar y completo en reforzado. Consolida
+conocimiento significativo y continuidad sin actualizaciones por casilla.
+El conocimiento duradero no depende de specs, ramas,
 reportes ni evidencia de ejecución. Los expedientes cerrados se conservan sesenta
 días y después pueden purgarse explícitamente con comprobaciones y recuperación.
 No se instala un scheduler.

@@ -36,13 +36,20 @@ código: solo convertirlos en enlaces cuando el archivo de destino exista.
 | Acotar una iniciativa | [work/brief.md](work/brief.md) | `brief.md` del expediente |
 | Continuar sin reconstruir la conversación | [work/resume.md](work/resume.md) | `resume.md` del expediente |
 | Delegar y recibir resultado | [work/handoff.md](work/handoff.md) | `agents/<task-id>/` del expediente |
-| Preparar registro de cierre | [work/closure.example.json](work/closure.example.json) | `closure.json` del expediente |
+| Preparar cierre reforzado | [work/closure.example.json](work/closure.example.json) | `closure.json` del expediente |
 
 Crear identidad y estado con el runtime instalado, no copiando un estado ficticio.
-El JSON de cierre está intencionalmente incompleto (`pending`): no es una instancia
+La Policy [proportional-delivery.md](../../policies/ai-assisted-development/proportional-delivery.md)
+decide el recorrido. Mínimo directo no necesita expediente ni estas plantillas.
+Mínimo/estándar registrados comienzan con `state.json` solamente, sin brief/resume;
+su ejemplo de cierre compacto está en la
+[guía de cierre](../../skills/close-initiative/references/closure-and-retention.md).
+
+El JSON de cierre reforzado está intencionalmente incompleto (`pending`): no es una instancia
 válida hasta que un coordinador revise y sustituya cada categoría por `complete` o
 `not_applicable`, con razón y fuentes pertinentes. No reemplazar todo por no aplicable
 para conseguir aprobación. El schema instalado conserva la autoridad del formato.
 
-Un trabajo pequeño puede conservar brief y punto de continuación juntos. No crear
+Si un trabajo acotado necesita continuidad adicional, puede conservar brief y
+punto de continuación juntos; no es un requisito para mínimo/estándar. No crear
 una spec, plan, handoff o revisión separados sin una razón de alcance o riesgo.

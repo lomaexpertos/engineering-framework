@@ -19,9 +19,10 @@ Decidir si el cambio solicitado es entregable, sin ampliar la revisión a todo e
 - No modificar código, pruebas, migraciones ni configuración. La única escritura
   propia de la revisión es el reporte. No publicar comentarios, aprobar, mergear ni
   reescribir historia sin una petición adicional.
-- Aplicar `ai-assisted-development/change-review.md` y `coordination.md`; delegar
-  revisión cuando la herramienta lo permita, con superficies/ownership delimitados.
-  Distinguir revisión independiente de autoevaluación y declarar sus límites.
+- Aplicar `ai-assisted-development/change-review.md`, `proportional-delivery.md` y
+  `coordination.md`. Delegar si la independencia requerida o el alcance lo necesita,
+  con superficies/ownership delimitados; la disponibilidad de agentes no obliga a
+  crear otro auditor. Distinguir revisión independiente de autoevaluación.
 
 ## Evidencia y clasificación
 

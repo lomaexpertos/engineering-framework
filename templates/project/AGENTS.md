@@ -6,6 +6,8 @@ Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni document
 ## Harness de ingeniería
 
 - Reglas corporativas: `.harness/core/policies/README.md`.
+- Recorrido mínimo, estándar o reforzado según riesgo e incertidumbre:
+  `.harness/core/policies/ai-assisted-development/proportional-delivery.md`.
 - Compilar, preparar, probar o ejecutar la aplicación: Docker. Las herramientas
   transversales del harness usan Node.js 22 o 24 nativo, Bash y Git, conforme a
   `.harness/core/policies/infrastructure/project-isolation.md`.
@@ -22,12 +24,13 @@ Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni document
 - Conocimiento duradero y roadmap: `docs/README.md`, si existe.
 - Continuidad y expedientes: `.harness_work/README.md`, si existe.
 - Extensiones propias: `.harness/project/README.md`, si existe.
-- Para coordinar desarrollo, sigue `.harness/core/skills/coordinate-work/SKILL.md`;
-  resuelve perfiles con `bash .harness/agents.sh doctor` antes de lanzar agentes.
-- Delega la ejecución y revisión siempre que las capacidades y permisos lo permitan;
-  conserva responsabilidad de integración, verificación y cierre.
-- Antes de cerrar, consolida conocimiento duradero y progreso de alto nivel.
-- No edites el núcleo generado. Valida con `bash .harness/check.sh`.
+- Para coordinar o delegar, sigue `.harness/core/skills/coordinate-work/SKILL.md`.
+  Mínimo permite ejecución directa sin expediente ni perfiles; antes de usar el
+  ejecutor, usa `doctor --roles` con los roles del recorrido según esa Skill.
+- Conserva integración, verificación y cierre proporcional al recorrido; actualiza
+  conocimiento y continuidad cuando cambien, sin crear documentos por casilla.
+- No edites el núcleo generado. Ejecuta checks aplicables según
+  `.harness/core/checks/README.md`; conserva los checks requeridos del proyecto y CI.
 
 ## Precedencia
 

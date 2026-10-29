@@ -9,8 +9,9 @@ Entregar la capacidad solicitada dentro del estilo y los contratos del proyecto.
 
 ## Contrato de trabajo
 
-- Usar `coordinate-work` para ownership y continuidad del expediente; delegar según
-  sus capacidades reales y cerrar mediante `close-initiative` después de validar.
+- Elegir recorrido con `ai-assisted-development/proportional-delivery.md` y usar
+  `coordinate-work` para ownership y continuidad. Mínimo permite ejecución directa
+  sin expediente ni revisores adicionales; un expediente usa `close-initiative`.
 - Localizar las Policies y la documentación del área afectada; conservar arquitectura,
   nomenclaturas, contratos y componentes vigentes. No exigir una spec formal para un
   cambio ad hoc; una spec aprobada y planificada usa `spec-implementar`.
@@ -23,7 +24,7 @@ Entregar la capacidad solicitada dentro del estilo y los contratos del proyecto.
 - El modelo elige el diseño, orden de implementación y pruebas dentro de esas
   restricciones. No introducir otra arquitectura, plataforma o entregable ajeno.
 - Actualizar documentación canónica ante cambios materiales; conservar evidencia
-  proporcional en el expediente sin imponer spec extensa ni auditoría completa.
+  proporcional cuando se necesite, sin imponer spec extensa ni auditoría completa.
 
 ## Resultado esperado
 

@@ -1,6 +1,8 @@
 # Harness instalado
 
 - Reglas compartidas: [core/policies/README.md](core/policies/README.md).
+- Elegir recorrido mínimo, estándar o reforzado:
+  [entrega proporcional](core/policies/ai-assisted-development/proportional-delivery.md).
 - Skills: [core/skills/README.md](core/skills/README.md).
 - Reglas propias: `project/README.md`, cuando existan.
 - Conocimiento del proyecto: `docs/README.md` desde la raíz del repositorio.
@@ -13,14 +15,18 @@ faltantes se diagnostican sin instalar herramientas ni mutar el consumidor.
 Docker y GNU `timeout` se requieren para ejecutar checks declarados por el proyecto.
 Los runtimes, builds, pruebas y linters de la aplicación permanecen en sus imágenes.
 
+Mínimo directo no requiere expediente ni perfiles. Si se usa el ejecutor,
 `bash .harness/agents.sh setup` prepara perfiles personales fuera del repositorio.
-`bash .harness/agents.sh doctor` comprueba roles y adaptadores antes de delegar.
+`bash .harness/agents.sh doctor --roles implementation` comprueba el trabajador
+mínimo; estándar usa `--roles implementation,functional` y añade `definition` solo
+si se activa. El diagnóstico general de perfiles sigue disponible sin `--roles`.
 El contrato de ejecución se consulta en `core/schemas/agent-task.schema.json`
 y en la Skill `coordinate-work`.
 
 ## Operación y continuidad
 
 - Configurar perfiles e iniciar trabajo: [coordinación](core/skills/coordinate-work/SKILL.md).
+- Operar mínimo o estándar: [recorridos](core/skills/coordinate-work/references/delivery-tracks.md).
 - Consolidar y cerrar: [cierre](core/skills/close-initiative/SKILL.md).
 - Configurar checks y extensiones: [operación](core/checks/repository-compliance/operations.md).
 - Crear documentación y memoria cuando no existan: [plantillas opcionales](core/templates/context/README.md).

@@ -16,6 +16,11 @@ El logging crítico se implementa desde el desarrollo conforme a la Policy
 [`logging.md`](../policies/development/logging.md), aunque no se invoque
 `add-observability`. Cambios triviales sin valor diagnóstico no necesitan nuevos logs.
 
+El coordinador elige recorrido mínimo, estándar o reforzado con
+[`proportional-delivery.md`](../policies/ai-assisted-development/proportional-delivery.md).
+Las Skills de definición, revisión y cierre no agregan etapas a una tarea mínima
+por estar disponibles en el catálogo.
+
 ## Catálogo publicado
 
 ### Contexto y gobernanza

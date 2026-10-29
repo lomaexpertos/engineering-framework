@@ -6,6 +6,9 @@ description: Convierte una especificación existente bajo .harness_work/initiati
 # Spec Planear
 
 Entregar un plan del comportamiento aprobado, sin imponer una receta de diseño.
+Este flujo de spec no se activa por defecto para cambios claros. Crear artefactos
+solo cuando aporten aprobación o continuidad según
+`ai-assisted-development/proportional-delivery.md`.
 
 ## Ubicación y autoridad
 

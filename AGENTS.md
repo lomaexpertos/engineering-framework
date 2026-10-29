@@ -16,6 +16,8 @@ para la tarea actual.
   sigue [`INSTALL.md`](INSTALL.md).
 - Para reglas normativas, comienza en [`policies/README.md`](policies/README.md) y
   sigue el router del dominio aplicable.
+- Para elegir recorrido mínimo, estándar o reforzado según riesgo, consulta
+  [`proportional-delivery.md`](policies/ai-assisted-development/proportional-delivery.md).
 - Para ejecutar un workflow repetible, consulta [`skills/README.md`](skills/README.md)
   y después la Skill correspondiente.
 - Para arquitectura, distribución o contratos, consulta
@@ -25,7 +27,8 @@ para la tarea actual.
 - Para retomar trabajo, consulta `.harness_work/README.md` y solo el expediente activo.
 - Para versionado, ownership o cambios, consulta
   [`docs/governance/README.md`](docs/governance/README.md).
-- Para validaciones automáticas, consulta [`checks/README.md`](checks/README.md).
+- Para validaciones automáticas, consulta [`checks/README.md`](checks/README.md)
+  y ejecuta las aplicables sin reducir controles requeridos del proyecto o CI.
 - Para scripts de construcción o sincronización, consulta
   [`tooling/README.md`](tooling/README.md).
 - Para crear, adelgazar o recablear `AGENTS.md`, READMEs, índices o arquitectura de

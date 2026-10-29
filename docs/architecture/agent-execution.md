@@ -6,6 +6,9 @@ La sesión principal del integrante actúa como coordinador. El ejecutor resuelv
 rol, prepara un proceso y conserva su entrega; el coordinador decide alcance,
 preguntas al usuario, integración, aceptación y cierre. La metodología compartida
 es independiente del cliente desde el que se inicia el trabajo.
+El recorrido lo decide la Policy de
+[entrega proporcional](../../policies/ai-assisted-development/proportional-delivery.md).
+Una tarea mínima directa no requiere perfiles ni comandos de agentes.
 
 La configuración se divide en tres autoridades:
 
@@ -99,6 +102,20 @@ con runtimes del host.
 
 ## Flujo de trabajo
 
+El workflow recibe `track`, `assessment: {reason, risks}` y `needs_definition`
+opcional. Puede heredar recorrido y evaluación del expediente; nunca rebaja su piso
+ni `minimum_track` del proyecto. Los riesgos materiales elevan a reforzado y
+superficies compartidas/incertidumbre a estándar. Sin `track` conserva reforzado.
+
+| Recorrido | Etapas |
+| --- | --- |
+| Mínimo | Implementación y aceptación del coordinador; después `ready_to_close`. |
+| Estándar | Implementación, una revisión `functional` agrupada y aceptación; después `ready_to_close`. Definición solo por `needs_definition` o `uncertainty`. |
+| Reforzado | Definición, implementación, revisiones por riesgo, corrección y verificación; después `ready_to_close`. |
+
+El flujo reforzado conserva estas responsabilidades; los perfiles se eligen por
+capacidad evaluada y requisitos del proyecto, sin imponer un modelo comercial:
+
 | Etapa | Perfil | Resultado |
 | --- | --- | --- |
 | Definición | Alto razonamiento evaluado | Especificación, hechos, preguntas y aceptación resueltos. |
@@ -112,12 +129,14 @@ Los roles son `definition`, `implementation`, `functional`, `security`, `logging
 `ui` y `ux`. Corrección funcional cubre comportamiento, contratos, datos y pruebas;
 seguridad cubre vulnerabilidades y permisos; logging incluye comentarios útiles y
 protección de información. UI cubre presentación, estados y accesibilidad; UX cubre
-recorridos, comprensión, errores y recuperación. UI/UX no aplicables conservan motivo.
+recorridos, comprensión, errores y recuperación. En reforzado, UI/UX no aplicables
+conservan motivo; mínimo/estándar no necesitan esa matriz.
 Inspección de código de interfaz no se presenta como observación de UI ejecutándose.
 
-La corrección funcional puede asumirla el coordinador en cambios pequeños;
-los riesgos altos requieren independencia. Los revisores pueden compartir modelo
-y ejecutarse por turnos según recursos, manteniendo encargos independientes.
+Mínimo recibe comprobación del coordinador sin un revisor adicional. Estándar
+concentra dimensiones afectadas en un encargo funcional independiente de la
+implementación. Reforzado mantiene independencia por riesgo. Compartir perfil o
+modelo no confunde las tareas independientes; se pueden ejecutar por turnos.
 
 El coordinador agrupa preguntas y actualiza el encargo con las respuestas.
 Información indispensable ausente bloquea el paso. Consolida hallazgos duplicados o
@@ -126,6 +145,8 @@ los hallazgos afectados y el impacto de la nueva versión. El límite inicial es
 rondas; agotarlo exige escalamiento explícito. La verificación final contrasta
 pruebas del worker sobre la versión entregada. Un revisor sin permiso para ejecutar
 shell identifica esa evidencia como heredada y no afirma haber repetido el comando.
+La revisión incluye evidencia `passed` de su inspección real; un array vacío o solo
+pruebas `not_run` no acredita una revisión. No necesita repetir pruebas del autor.
 
 ## Operación disponible en el consumidor
 
@@ -135,7 +156,8 @@ este documento de arquitectura para ejecutar los comandos.
 | Operación | Guía distribuida |
 | --- | --- |
 | Configuración e inicio | [Perfiles e iniciativa](../../skills/coordinate-work/references/profiles-and-start.md) |
-| Etapas, preguntas y hallazgos | [Workflow](../../skills/coordinate-work/references/workflow-operations.md) |
+| Mínimo y estándar | [Recorridos](../../skills/coordinate-work/references/delivery-tracks.md) |
+| Reforzado, preguntas y hallazgos | [Workflow](../../skills/coordinate-work/references/workflow-operations.md) |
 | Tareas, procesos y worktrees | [Encargos individuales](../../skills/coordinate-work/references/individual-tasks.md) |
 | Consolidación, cancelación y retención | [Cierre](../../skills/close-initiative/references/closure-and-retention.md) |
 
@@ -160,8 +182,8 @@ Los metadatos identifican encargo, adaptador, modelo informado, workspace, versi
 del código y resultados. Métricas no disponibles permanecen desconocidas. Los logs
 locales no se convierten en memoria compartida ni se versionan indiscriminadamente.
 
-El coordinador actualiza memoria después de decisiones, integración de agentes,
-bloqueos/cambios de alcance, interrupciones y cierre. La memoria general conserva
+El coordinador actualiza memoria cuando cambia conocimiento significativo o
+continuidad, y retira entradas activas al cerrar. La memoria general conserva
 cien líneas como máximo y enlaza resúmenes, sin depender de transcripciones. El
 [ciclo de vida](work-lifecycle.md) mantiene consolidación, retención y purga.
 

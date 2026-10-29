@@ -17,6 +17,11 @@ En un consumidor, `bash .harness/check.sh` ejecuta los scopes aplicables con Nod
 solo para ejecutar checks declarados por el proyecto. El preflight diagnostica
 dependencias faltantes antes de mutar el consumidor y no instala herramientas.
 `--scope <nombre>` selecciona una familia; `--json` entrega salida estructurada.
+El coordinador selecciona los scopes afectados por el cambio y sus interacciones;
+una tarea local no exige ejecutar todos los scopes por trámite. Los checks
+requeridos del proyecto o CI conservan su obligatoriedad. Para modificar el harness,
+sus contratos distribuidos o sus guías, validar también instalación, contexto y
+documentación, con la prueba de consumidor correspondiente.
 
 La fuente puede validarse con `node tooling/validate-framework.mjs`. El target Docker
 `validation` permite ejecutar opcionalmente su suite en un ambiente reproducible.

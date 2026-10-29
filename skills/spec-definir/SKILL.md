@@ -6,6 +6,9 @@ description: Define o refina cambios funcionales y técnicos como especificacion
 # Spec Definir
 
 Entregar la definición verificable del cambio; el modelo elige cómo obtenerla.
+Esta Skill aplica cuando se solicita una spec o una decisión significativa necesita
+esa aprobación; no es una entrada obligatoria para implementar. El recorrido sigue
+`ai-assisted-development/proportional-delivery.md`.
 
 ## Ubicación, nombres y autoridad
 

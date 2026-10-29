@@ -1,7 +1,8 @@
 # Encargo de iniciativa
 
-Plantilla de alcance: sustituir las preguntas por información conocida. Para un cambio
-pequeño este archivo puede incluir también el punto de reanudación.
+Plantilla de alcance para reforzado o cuando aporte aprobación o continuidad real:
+sustituir las preguntas por información conocida. Mínimo/estándar no necesitan
+este archivo por defecto. Puede incluir también el punto de reanudación.
 
 ## Resultado esperado
 
