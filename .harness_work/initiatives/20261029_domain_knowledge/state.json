@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "20261029_domain_knowledge",
+  "title": "Investigación y documentación AS-IS de dominios",
+  "owner": "coordinator",
+  "status": "active",
+  "revision": 1,
+  "created_at": "2026-10-29T04:03:39.953Z",
+  "updated_at": "2026-10-29T04:03:39.953Z",
+  "closed_at": null,
+  "retain_until": null,
+  "hold": null,
+  "active_tasks": [],
+  "blockers": [],
+  "blocked_from": null,
+  "blocked_reason": null,
+  "assessment": {
+    "reason": "Metodología documental y routing compartidos; aceptación clara, revisión de cobertura sin cambios al producto",
+    "risks": [
+      "shared_surface"
+    ]
+  },
+  "track": "standard"
+}

@@ -1,7 +1,5 @@
 # Contexto operativo
 
-Sin iniciativas de desarrollo activas ni trabajadores pendientes.
-El harness permite mínimo, estándar y reforzado según impacto y riesgo.
-[Arquitectura vigente](../../docs/architecture/agent-execution.md) y [roadmap](../../docs/roadmap/README.md).
-Tareas claras de bajo riesgo admiten ejecución directa; no crear registros por trámite.
-Publicación y adopción en consumidores son operaciones separadas.
+Trabajo activo: [conocimiento de dominios](../initiatives/20261029_domain_knowledge/resume.md).
+Investigación de módulos actuales cubre frontend, backend, datos, dependencias, impacto y configuración; documentación vigente en docs/.
+Las preguntas generales y solicitudes sólo explicativas no crean expediente ni activan ejecución de desarrollo.
