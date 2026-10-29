@@ -1,5 +1,7 @@
 # Contexto operativo
 
-Trabajo activo: [tres recorridos proporcionales](../initiatives/20261029_proportional_delivery/resume.md).
-Se mantiene control reforzado por riesgos y compatibilidad legacy; mínimos sin ceremonia.
-Ownership separado en runtime, políticas/guías, validación independiente y lifecycle/linters.
+Sin iniciativas de desarrollo activas ni trabajadores pendientes.
+El harness permite mínimo, estándar y reforzado según impacto y riesgo.
+[Arquitectura vigente](../../docs/architecture/agent-execution.md) y [roadmap](../../docs/roadmap/README.md).
+Tareas claras de bajo riesgo admiten ejecución directa; no crear registros por trámite.
+Publicación y adopción en consumidores son operaciones separadas.

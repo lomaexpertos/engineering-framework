@@ -12,7 +12,7 @@ conocimiento duradero que sobreviva al descarte del trabajo minucioso.
 | Herramientas transversales con runtime nativo | delivered | Bootstrap y wrappers usan Node.js 22 o 24, Bash y Git, sin npm ni instalación automática; runners del producto conservan Docker. La versión 3.x queda pendiente de publicación y adopción. |
 | Ejecución uniforme con perfiles personales | delivered | Coordinación por roles, perfiles personales y adaptadores disponibles; siguiente paso: adopción del equipo con modelos evaluados y proyectos reales. |
 | Operación autosuficiente para el agente | delivered | Guías instaladas, ayuda y contratos de uso verificables; controles de contexto/documentación detectan recursos o ejemplos inválidos. Siguiente: observar adopción del equipo. |
-| Entrega proporcional al riesgo | in_progress | Policy única y recorridos mínimo, estándar y reforzado; pendiente completar validación integrada de runtime, consumidor y cierre antes de declarar entrega. |
+| Entrega proporcional al riesgo | delivered | Mínimo directo o un worker, estándar con revisión agrupada y reforzado con controles completos; siguiente paso: adopción y observación del equipo. |
 
 Los estados describen capacidades; no son porcentajes de actividad técnica.
 La publicación de una versión y su adopción en cada proyecto se informan por separado.
