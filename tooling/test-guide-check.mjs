@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {fileURLToPath,pathToFileURL} from 'node:url';
-import {execFileSync} from 'node:child_process';
+import {execFileSync,spawnSync} from 'node:child_process';
 import {checkOperationalGuides} from './harness-guide-check.mjs';
 import {syncConsumer} from './sync-consumer.mjs';
 import {checkRepository} from './harness-check.mjs';
@@ -68,6 +68,8 @@ try {
   try {process.env.BASH_ENV=startup;clean(source,'source');assert.equal(fs.existsSync(marker),false,'Guide check executed inherited shell startup');}
   finally {if(previousStartup===undefined)delete process.env.BASH_ENV;else process.env.BASH_ENV=previousStartup;}
 
+  const direct=spawnSync(process.execPath,[path.join(source,'tooling/harness-guide-check.mjs')],{encoding:'utf8'});
+  assert.equal(direct.status,2);assert.match(direct.stderr,/check\.sh/);
   const fixture=path.join(temporary,'source');fs.mkdirSync(fixture);
   for(const name of ['policies','skills','checks','templates','schemas'])fs.cpSync(path.join(source,name),path.join(fixture,name),{recursive:true});
   // Source fixtures have no adapters: the anchor-positive mutation is checked

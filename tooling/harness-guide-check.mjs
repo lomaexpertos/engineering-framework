@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import {pathToFileURL} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {markdownLinks,markdownAnchors} from './harness-markdown.mjs';
 import {validatePersonal,validateProject} from './agent-profiles.mjs';
@@ -231,4 +232,9 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
     }
   }
   return results;
+}
+
+if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href) {
+  process.stderr.write('Internal guide validator: use bash .harness/check.sh --scope context (consumer) or node tooling/validate-framework.mjs (source).\n');
+  process.exitCode=2;
 }
