@@ -24,7 +24,10 @@ cambios que puedan introducir credenciales. Complementa
    temporales **MUST** tener acceso privado y eliminarse al terminar.
 5. Herramienta ausente, versión incompatible, timeout, conflicto de índice,
    reporte inválido, alcance incompleto o cambio concurrente **MUST** impedir
-   acreditar éxito. No instalar herramientas como efecto del check.
+   acreditar éxito. El check normal **MUST NOT** descargar herramientas. Un
+   `--setup` explícito **MAY** preparar primero las herramientas fijadas conforme a
+   [project-isolation.md](../infrastructure/project-isolation.md); si la preparación
+   falla, el escaneo **MUST NOT** presentarse como aprobado.
 6. Un hallazgo **MUST** revisarse: si es real, revocar o rotar conforme a su autoridad;
    borrar el texto no acredita retirar acceso. Un falso positivo **MUST** justificarse
    con ubicación y regla; una excepción requiere la aprobación y vigencia de
@@ -33,6 +36,11 @@ cambios que puedan introducir credenciales. Complementa
    Su ejecución se selecciona según el cambio y la Policy de
    [entrega proporcional](../ai-assisted-development/proportional-delivery.md);
    no añade un workflow a una pregunta conversacional o a un check de documentación.
+8. En copias de archivos, hashes de metadata administrada **MAY** representarse como
+   metadata únicamente con formato canónico sin pérdida de contenido, schema válido
+   y coincidencia de todos los digests con archivos del mismo snapshot. El resto
+   **MUST** conservarse para análisis; datos inválidos o incompletos **MUST NOT**
+   excluirse ni normalizarse para ocultar hallazgos.
 
 ## Control disponible
 

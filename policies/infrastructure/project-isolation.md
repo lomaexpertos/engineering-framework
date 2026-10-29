@@ -29,7 +29,13 @@ ser reproducible y distinto de la infraestructura general que opera al agente.
    declarados por el proyecto **MUST** conservar sus runners Docker con dependencias
    explícitas. Docker y GNU `timeout` se requieren solo al ejecutar esos runners.
    Las herramientas del harness **MUST** diagnosticar dependencias faltantes antes
-   de mutar el consumidor y **MUST NOT** instalar herramientas automáticamente.
+   de mutar el consumidor. Un setup explícito, solicitado directamente o mediante
+   `check.sh --setup`, **MAY** instalar automáticamente runtimes y herramientas
+   transversales fijados, verificando integridad y usando caché del usuario sin
+   reemplazar ejecutables personales ni exigir PATH manual. Check normal y update
+   **MUST NOT** descargar herramientas implícitamente; el diagnóstico de setup
+   **MUST** ser de solo lectura. Esta preparación **MUST NOT** instalar dependencias
+   del producto, clientes de agentes, credenciales ni identidades privadas.
    ShellCheck y shfmt pertenecen al mantenimiento de la fuente del harness; no son
    requisitos de sus consumidores. La imagen de validación de esa fuente **MAY**
    usarse como ambiente reproducible opcional.

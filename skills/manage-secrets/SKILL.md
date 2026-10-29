@@ -22,7 +22,9 @@ Entregar un cambio compatible del contrato de secretos sin revelar valores ni de
   aisladas de producción y sin acceso productivo, conforme a la Policy.
 - No ejecutar el deployment ni alterar servicios externos.
 - Validar el contrato con `bash .harness/check.sh --scope secrets`; para preparar
-  herramientas/adopción consultar `.harness/core/checks/assurance/README.md`.
+  herramientas usar `bash .harness/setup.sh` o añadir `--setup` al check.
+  Diagnosticar sin instalar con `bash .harness/setup.sh --check`; adopción y límites
+  en `.harness/core/checks/assurance/README.md`.
   El check no acredita descifrado, consumo real ni activación. Antes de entregar
   cambios ejecutar también el escaneo de `security` aplicable.
 

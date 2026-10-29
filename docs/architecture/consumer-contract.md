@@ -10,6 +10,7 @@ project/
 │   ├── README.md
 │   ├── update.sh
 │   ├── check.sh
+│   ├── setup.sh                  # Preparación explícita y diagnóstico
 │   ├── work.sh
 │   ├── agents.sh                 # Ejecutor con perfiles personales
 │   ├── environment.sh            # Preflight nativo compartido

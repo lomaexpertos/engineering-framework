@@ -466,7 +466,7 @@ runCheck("Version change", () => {
       file.startsWith("schemas/") ||
       file.startsWith("templates/") ||
       /^tooling\/(?:harness|agent)-[^/]+\.mjs$/.test(file) ||
-      file.startsWith('tooling/vendor/') || file === 'tooling/harness-tools.json' ||
+      file.startsWith('tooling/vendor/') || file === 'tooling/harness-tools.json' || file === 'tooling/harness-node.json' ||
       file === "templates/project/AGENTS.md" ||
       file.startsWith("templates/project/engineering/corporate/"),
   );

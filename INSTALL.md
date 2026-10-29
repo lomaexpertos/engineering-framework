@@ -5,6 +5,9 @@
 Repositorio Git con rama activa, Bash, Git y Node.js 22 o 24 nativo. El harness usa
 módulos estándar de Node, sin dependencias npm. Bootstrap y wrappers comprueban los
 requisitos antes de mutar el consumidor; diagnostican faltantes sin instalar nada.
+Para preparar automáticamente Node y las herramientas del harness durante la
+primera instalación, añadir `--setup` al bootstrap. Requiere Bash, Git, curl, tar
+y una utilidad SHA256 del sistema; usa caché personal y no sudo ni perfiles de shell.
 Docker y GNU `timeout` se requieren únicamente para ejecutar checks declarados por
 el proyecto. Sus imágenes deben construirse desde Dockerfiles y declarar todas sus
 dependencias. Los runtimes del producto permanecen dentro de sus imágenes.
@@ -22,6 +25,15 @@ del origen y guardarlo fuera del consumidor; ejecutarlo como archivo:
 bash /ruta/al/bootstrap-harness.sh /ruta/al/proyecto --check
 bash /ruta/al/bootstrap-harness.sh /ruta/al/proyecto
 ```
+
+Con preparación automática explícita:
+
+```bash
+bash /ruta/al/bootstrap-harness.sh /ruta/al/proyecto --setup
+```
+
+Tras instalar, `bash .harness/check.sh --setup` prepara y valida con una sola llamada;
+`bash .harness/setup.sh --check` diagnostica sin instalar.
 
 El bootstrap obtiene `main` por defecto, o la referencia indicada con `--ref`, fija
 su SHA y usa el actualizador del mismo snapshot. Esto permite seleccionar una

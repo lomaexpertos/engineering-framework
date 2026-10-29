@@ -9,7 +9,7 @@ conocimiento duradero que sobreviva al descarte del trabajo minucioso.
 | Instalación y actualización autónomas protegidas | delivered | Núcleo versionado, ownership, migración y recuperación disponibles; publicación de la release como acción separada. |
 | Cierre y descarte sin pérdida de conocimiento | delivered | Consolidación, retención de sesenta días y purga recuperable; próximos dominios según necesidades reales. |
 | Validación extensible y operación reproducible | delivered | Runners Docker, perfiles, extensiones y discovery para Codex/Claude; ampliar soporte por stack y cliente cuando corresponda. |
-| Herramientas transversales con runtime nativo | delivered | Bootstrap y wrappers usan Node.js 22 o 24, Bash y Git, sin npm ni instalación automática; runners del producto conservan Docker. La versión 3.x queda pendiente de publicación y adopción. |
+| Herramientas transversales con runtime nativo | delivered | Node.js 22 o 24, Bash y Git sin npm; setup explícito prepara dependencias y los wrappers las resuelven sin PATH manual. Los runners del producto conservan Docker. Pendiente publicación/adopción de la versión. |
 | Ejecución uniforme con perfiles personales | delivered | Coordinación por roles, perfiles personales y adaptadores disponibles; siguiente paso: adopción del equipo con modelos evaluados y proyectos reales. |
 | Operación autosuficiente para el agente | delivered | Guías instaladas, ayuda y contratos de uso verificables; controles de contexto/documentación detectan recursos o ejemplos inválidos. Siguiente: observar adopción del equipo. |
 | Entrega proporcional al riesgo | delivered | Mínimo directo o un worker, estándar con revisión agrupada y reforzado con controles completos; siguiente paso: adopción y observación del equipo. |

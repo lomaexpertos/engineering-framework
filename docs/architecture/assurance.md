@@ -35,8 +35,16 @@ por código ni activación; los gates operativos siguen vigentes.
 
 El núcleo distribuye un parser YAML fijado con licencia y procedencia, conservando
 sus bytes originales. No mantiene una gramática propia ni requiere npm para operar.
-Gitleaks y SOPS son herramientas transversales nativas: instalación explícita,
-hashes fijados y conservación de ejecutables personales. Check y update no instalan.
+Node, Gitleaks y SOPS se preparan mediante una sola operación explícita de setup,
+con reutilización de versiones compatibles, hashes fijados y caché por usuario.
+La ubicación predeterminada `~/.engineering-harness/cache/` separa Node y las
+herramientas en directorios privados propios, preservando permisos de otras cachés
+e infraestructura compartida del usuario.
+Los ejecutables personales se conservan y la resolución de herramientas no exige
+editar PATH. El check puede solicitar preparación antes de validar con `--setup`;
+el diagnóstico de setup es de solo lectura. Check normal y update no descargan.
+La preparación no instala paquetes del sistema, dependencias del producto ni
+clientes o credenciales de agentes; diagnostica prerrequisitos básicos ausentes.
 
 Herramientas ausentes, timeout, reportes inválidos o cobertura incompleta impiden
 acreditar aprobación. Los checks del producto conservan sus runners reproducibles.

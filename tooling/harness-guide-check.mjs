@@ -104,7 +104,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
   const read=relative=>fs.readFileSync(physical(relative),'utf8');
   const installedRouter=layout==='source'?'templates/project/.harness/README.md':'.harness/README.md';
   const routerRead=()=>fs.readFileSync(path.join(root,installedRouter),'utf8');
-  const required=['checks/assurance/README.md','checks/security/README.md','policies/security/secret-scanning.md','schemas/assurance.schema.json','schemas/deployment.schema.json','schemas/secret-contract.schema.json','policies/ai-assisted-development/domain-documentation.md','templates/context/docs/domain.md','policies/ai-assisted-development/proportional-delivery.md','policies/README.md','skills/README.md','checks/README.md','templates/context/README.md','templates/project/AGENTS.md','checks/repository-compliance/operations.md',
+  const required=['templates/project/.harness/setup.sh','checks/assurance/README.md','checks/security/README.md','policies/security/secret-scanning.md','schemas/assurance.schema.json','schemas/deployment.schema.json','schemas/secret-contract.schema.json','policies/ai-assisted-development/domain-documentation.md','templates/context/docs/domain.md','policies/ai-assisted-development/proportional-delivery.md','policies/README.md','skills/README.md','checks/README.md','templates/context/README.md','templates/project/AGENTS.md','checks/repository-compliance/operations.md',
     ...['agent-profiles','agent-project','agent-task','agent-result','agent-workflow','closure','compact-closure','project-config','manifest','initiative-state'].map(name=>`schemas/${name}.schema.json`),
     ...Object.entries(guides).flatMap(([skill,names])=>[`skills/${skill}/SKILL.md`,...names.map(name=>`skills/${skill}/references/${name}`)])];
   for(const file of required)add('guide-inventory',core+file,()=>{if(!fs.existsSync(physical(file))||!fs.statSync(physical(file)).size)fail(`Required operational resource missing or empty: ${file}`);});
@@ -207,7 +207,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
     const prose=content.replace(/^```[^\n]*\n[\s\S]*?^```\s*$/gm,'');
     for(const inline of prose.matchAll(/`(bash\s+\.harness\/([a-z][a-z-]*)\.sh[^`\n]*)`/g))add('guide-cli-example',relative,()=>{
       const args=tokenize(inline[1]).slice(2),wrapper=inline[2];
-      if(!['agents','work','check','update'].includes(wrapper))fail(`Unknown documented harness wrapper ${wrapper}`);
+      if(!['agents','work','check','update','setup'].includes(wrapper))fail(`Unknown documented harness wrapper ${wrapper}`);
       const wrapperFile=layout==='source'?path.join(root,`templates/project/.harness/${wrapper}.sh`):path.join(root,`.harness/${wrapper}.sh`);
       cliCheck(wrapper,args,fs.readFileSync(wrapperFile,'utf8'));
     });
@@ -225,7 +225,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
             const match=/^\s*(?:\$\s*)?bash\s+\.harness\/([a-z][a-z-]*)\.sh(?:\s+(.*))?$/.exec(line);
             if(!match)continue;
             const wrapper=match[1],args=tokenize(match[2]||'');
-            if(!['agents','work','check','update'].includes(wrapper))fail(`Unknown documented harness wrapper ${wrapper}`);
+            if(!['agents','work','check','update','setup'].includes(wrapper))fail(`Unknown documented harness wrapper ${wrapper}`);
             if(args.some(arg=>/[;&|`]|\$\(/.test(arg)))fail('Documented harness CLI requires literal argv');
             const wrapperFile=layout==='source'?path.join(root,`templates/project/.harness/${wrapper}.sh`):path.join(root,`.harness/${wrapper}.sh`);
             cliCheck(wrapper,args,fs.readFileSync(wrapperFile,'utf8'));

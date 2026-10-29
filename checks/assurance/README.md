@@ -22,19 +22,40 @@ Node.js 22/24, Bash y Git conservan su contrato. El parser YAML 2.9.1 viene incl
 con licencia ISC y procedencia; no requiere npm. No se interpreta YAML con aliases,
 tags especiales, documentos múltiples o claves duplicadas.
 
-La instalación de herramientas es explícita desde la raíz del consumidor:
+Preparar el equipo desde la raíz del consumidor con un solo comando:
 
 ```bash
-node .harness/core/runtime/tooling/harness-tool-install.mjs gitleaks
-node .harness/core/runtime/tooling/harness-tool-install.mjs sops
+bash .harness/setup.sh
 ```
 
-El instalador requiere `curl` y `tar` para Gitleaks, admite Linux/macOS x64/arm64,
-verifica SHA256 fijado antes de instalar y no reemplaza archivos existentes.
-El destino predeterminado es `~/.local/bin`; agregarlo al `PATH` del agente y del
-terminal. `--destination DIR` permite un directorio personal diferente. Actualizar
-el harness no instala binarios ni cambia ese PATH. El directorio de herramientas no
-debe versionarse en un proyecto.
+El setup reutiliza Node.js 22/24 y las versiones compatibles de Gitleaks/SOPS ya
+disponibles; instala los faltantes en una caché del usuario con versiones y SHA256
+fijados. Si falta Node compatible, prepara el runtime fijado. Admite Linux/macOS
+x64/arm64, es repetible y no reemplaza ejecutables personales. Los wrappers y
+validadores encuentran las herramientas administradas sin editar perfiles ni pedir
+ajustes manuales de `PATH`. La caché predeterminada es
+`~/.engineering-harness/cache/`: Node se guarda bajo `node/` y Gitleaks/SOPS bajo
+`tools/`, separados por versión y plataforma. Ese directorio privado pertenece al
+harness; no se cambian permisos de cachés compartidas ni de ejecutables personales.
+La caché no pertenece al proyecto ni se versiona.
+
+Bash, Git, `curl`, `tar` y las utilidades básicas del sistema son prerrequisitos;
+su ausencia produce un diagnóstico concreto. El setup no usa `sudo`, instala
+paquetes del sistema ni prepara dependencias de la aplicación. Tampoco configura
+clientes/modelos de agentes, credenciales o identidades age.
+
+Para diagnosticar sin descargar ni escribir, o preparar y validar en una sola llamada:
+
+```bash
+bash .harness/setup.sh --check
+bash .harness/check.sh --setup --scope security --json
+```
+
+`check.sh --setup` completa primero la preparación y después ejecuta los checks
+seleccionados; si falla la preparación no acredita aprobación. Un check normal y
+una actualización conservan su operación sin descargas implícitas. El instalador
+individual bajo `core/runtime/tooling/harness-tool-install.mjs` queda como opción
+avanzada para destinos elegidos explícitamente, no como requisito de uso habitual.
 
 ## Adopción del proyecto
 

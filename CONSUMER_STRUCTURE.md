@@ -12,6 +12,7 @@ proyecto/
 │   ├── README.md
 │   ├── update.sh
 │   ├── check.sh
+│   ├── setup.sh                       # Prepara herramientas o diagnostica con --check
 │   ├── work.sh
 │   ├── agents.sh                      # Opcional para delegar mediante el ejecutor
 │   ├── environment.sh                 # Preflight compartido de herramientas nativas

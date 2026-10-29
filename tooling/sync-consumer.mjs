@@ -167,7 +167,7 @@ function prepareConsumer(consumerDirectory, options = {}) {
   }
   const previous = readInstallation(root);
   if (previous?.schema_version !== 2) {
-    for (const file of [".harness/core", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh", ".harness/environment.sh", ".harness/agents.sh"]) {
+    for (const file of [".harness/core", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh", ".harness/environment.sh", ".harness/agents.sh", ".harness/setup.sh"]) {
       assertSafePath(root, file);
       if (fs.existsSync(path.join(root, file))) throw new Error(`destino de ownership desconocido: ${file}`);
     }
@@ -190,6 +190,7 @@ function prepareConsumer(consumerDirectory, options = {}) {
   }
   for (const [file, value] of readTree(frameworkRoot, "tooling/vendor")) desired.set(`.harness/core/runtime/${file}`, value);
   desired.set('.harness/core/runtime/tooling/harness-tools.json',readTree(frameworkRoot,'tooling/harness-tools.json').get('tooling/harness-tools.json'));
+  desired.set('.harness/core/runtime/tooling/harness-node.json',readTree(frameworkRoot,'tooling/harness-node.json').get('tooling/harness-node.json'));
   for (const [file, value] of readTree(frameworkRoot, "templates/project/.harness")) {
     desired.set(file.replace("templates/project/", ""), value);
   }
@@ -224,7 +225,7 @@ function prepareConsumer(consumerDirectory, options = {}) {
     }
   }
 
-  const scope = ["AGENTS.md", ...(desired.has("CLAUDE.md") ? ["CLAUDE.md"] : []), ".harness/core", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh", ".harness/environment.sh", ".harness/agents.sh", ...(previous?.schema_version === 1 ? ["FRAMEWORK_VERSION", "engineering/corporate"] : []),
+  const scope = ["AGENTS.md", ...(desired.has("CLAUDE.md") ? ["CLAUDE.md"] : []), ".harness/core", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh", ".harness/environment.sh", ".harness/agents.sh", ".harness/setup.sh", ...(previous?.schema_version === 1 ? ["FRAMEWORK_VERSION", "engineering/corporate"] : []),
     ...platformRoots.flatMap((platform) => [...new Set([...previousNames, ...names])].map((name) => `${platform}/${name}`))];
   const current = new Map();
   for (const relative of scope) {

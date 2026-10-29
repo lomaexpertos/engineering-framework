@@ -16,7 +16,10 @@ checks estructurales no prueban corrección de negocio, UX ni consolidación sem
 En un consumidor, `bash .harness/check.sh` ejecuta los scopes aplicables con Node.js
 22 o 24 nativo, Bash y Git, sin dependencias npm. Docker y GNU `timeout` se requieren
 solo para ejecutar checks declarados por el proyecto. El preflight diagnostica
-dependencias faltantes antes de mutar el consumidor y no instala herramientas.
+dependencias faltantes antes de mutar el consumidor. `bash .harness/setup.sh`
+prepara las herramientas transversales y `bash .harness/check.sh --setup` prepara
+antes de validar. `setup.sh --check` solo diagnostica. El check normal no descarga;
+la preparación no instala runtimes ni dependencias del producto.
 `--scope <nombre>` selecciona una familia; `--json` entrega salida estructurada.
 El coordinador selecciona los scopes afectados por el cambio y sus interacciones;
 una tarea local no exige ejecutar todos los scopes por trámite. Los checks

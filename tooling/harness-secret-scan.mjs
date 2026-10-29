@@ -3,6 +3,8 @@ import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import {spawnSync} from 'node:child_process';
+import {resolvedTool} from './harness-setup.mjs';
+import {validateManifest} from './harness-manifest.mjs';
 
 export const gitleaksVersion='8.30.1';
 const scanLimit=256*1024*1024;
@@ -86,6 +88,24 @@ function indexSnapshot(root,selected,destination) {
     const file=path.join(destination,'files',relative);fs.mkdirSync(path.dirname(file),{recursive:true,mode:0o700});fs.writeFileSync(file,content,{mode:0o600});
   }
 }
+function normalizeVerifiedHashes(snapshot) {
+  const files=path.join(snapshot,'files'),file=path.join(files,'.harness/core/manifest.json');
+  if(!fs.existsSync(file))return;
+  try {
+    const raw=fs.readFileSync(file,'utf8');
+    const manifest=validateManifest(JSON.parse(raw));
+    // Parsing must not erase duplicate keys, escaped values or other raw content.
+    if(raw!==JSON.stringify(manifest,null,2)+'\n')return;
+    // Only hashes proven against this exact snapshot are metadata, never an
+    // exclusion of the manifest or of its other values. Invalid metadata stays raw.
+    for(const [relative,expected] of Object.entries(manifest.files)) {
+      const content=fs.readFileSync(path.join(files,relative));
+      if(hash(content)!==expected)return;
+    }
+    manifest.files=Object.fromEntries(Object.keys(manifest.files).map(relative=>[relative,'verified-sha256']));
+    fs.writeFileSync(file,JSON.stringify(manifest,null,2)+'\n',{mode:0o600});
+  }catch { /* Unverified or malformed metadata remains fully scanned. */ }
+}
 function headCommit(root) {
   const head=spawnSync('git',['rev-parse','--verify','--quiet','HEAD'],{cwd:root,env:environment(),encoding:'utf8',timeout:5000,maxBuffer:4096});
   if(head.error||head.signal||![0,1].includes(head.status))failure('No fue posible identificar HEAD para el escaneo.');
@@ -110,9 +130,10 @@ function reportRows(file,source,stage,snapshot) {
 }
 
 // This entry point never returns process output, report matches, secret values or Git patches.
-export function checkSecretScan(root,config={mode:'worktree'},{executable='gitleaks',timeoutSeconds=120}={}) {
+export function checkSecretScan(root,config={mode:'worktree'},{executable,timeoutSeconds=120}={}) {
   let temporary;
   try {
+    executable ||= resolvedTool('gitleaks') || 'gitleaks';
     if(!config||typeof config!=='object'||Array.isArray(config)||Object.keys(config).some(key=>!['mode','base_ref'].includes(key))||!['worktree','changes','history'].includes(config.mode))failure('Configuración de escaneo inválida.');
     if(config.mode==='changes'&&(typeof config.base_ref!=='string'||!config.base_ref.trim()||config.base_ref.startsWith('-')||/[\s\x00]/.test(config.base_ref)))failure('changes requiere base_ref explícita y válida.');
     if(config.mode!=='changes'&&config.base_ref!==undefined)failure('base_ref solo aplica al modo changes.');
@@ -147,6 +168,7 @@ export function checkSecretScan(root,config={mode:'worktree'},{executable='gitle
     }
     const rows=[];
     for(const [index,stage] of stages.entries()) {
+      if(stage.command==='dir')normalizeVerifiedHashes(stage.source);
       const reportFile=path.join(temporary,`report-${index}.json`);
       const args=[stage.command,'--config',configFile,'--gitleaks-ignore-path',ignoreFile,'--ignore-gitleaks-allow','--redact=100','--report-format','json','--report-path',reportFile,'--exit-code','42','--no-banner','--no-color','--log-level','error','--timeout',String(timeoutSeconds),...(stage.logOpts?['--log-opts',stage.logOpts]:[]),stage.source];
       // Gitleaks recreates reports; a private umask also protects their file mode.

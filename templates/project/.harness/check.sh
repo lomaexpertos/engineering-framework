@@ -2,7 +2,8 @@
 set -euo pipefail
 if [[ $# -eq 1 && ($1 == --help || $1 == -h) ]]; then
   cat <<'HELP'
-Usage: bash .harness/check.sh [--scope NAME] [--json]
+Usage: bash .harness/check.sh [--setup] [--scope NAME] [--json]
+--setup prepares managed tools before checks (explicit download).
 Built-in scopes: context, documentation, installation, work, extensions, security, deployment, secrets.
 Project scopes/runners: .harness/project/config.json.
 Built-ins use native Node; security needs Gitleaks and encrypted dotenv needs SOPS.
@@ -16,10 +17,10 @@ root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)
 # shellcheck source=templates/project/.harness/environment.sh
 source "$root/.harness/environment.sh"
 harness_require_tools bash git mktemp rm cat basename || exit 2
-harness_require_node || exit 2
-arguments=("$@")
+arguments=()
 selection=()
 json_seen=false
+setup_seen=false
 while (($#)); do
   case "$1" in
     --scope)
@@ -32,6 +33,7 @@ while (($#)); do
         exit 2
       }
       selection=(--scope "$2")
+      arguments+=(--scope "$2")
       shift 2
       ;;
     --json)
@@ -40,6 +42,15 @@ while (($#)); do
         exit 2
       fi
       json_seen=true
+      arguments+=(--json)
+      shift
+      ;;
+    --setup)
+      if [[ $setup_seen == true ]]; then
+        printf '%s\n' 'Duplicate --setup' >&2
+        exit 2
+      fi
+      setup_seen=true
       shift
       ;;
     *)
@@ -48,6 +59,8 @@ while (($#)); do
       ;;
   esac
 done
+if [[ $setup_seen == true ]]; then bash "$root/.harness/setup.sh" >&2; fi
+harness_require_node || exit 2
 temporary=$(mktemp -d -t harness-check.XXXXXXXX)
 operation=$(basename -- "$temporary")
 active_name=''

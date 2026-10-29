@@ -13,7 +13,7 @@ function snapshot(file) {
 function equal(left, right) { return JSON.stringify(left) === JSON.stringify(right); }
 function allowed(file) {
   return typeof file === "string" && !file.split("/").some((part) => !part || part === "." || part === "..") &&
-    (["AGENTS.md", "CLAUDE.md", "FRAMEWORK_VERSION", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh", ".harness/environment.sh", ".harness/agents.sh"].includes(file) ||
+    (["AGENTS.md", "CLAUDE.md", "FRAMEWORK_VERSION", ".harness/README.md", ".harness/update.sh", ".harness/check.sh", ".harness/work.sh", ".harness/environment.sh", ".harness/agents.sh", ".harness/setup.sh"].includes(file) ||
       file.startsWith(".harness/core/") || file.startsWith("engineering/corporate/") || /^\.(agents|claude)\/skills\/[a-z0-9-]+\//.test(file));
 }
 function put(root, file, value) {

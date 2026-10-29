@@ -26,7 +26,7 @@ try {
   for(const scope of ['context','documentation','installation'])assert.equal(wrapper(scope).status,0,scope);
   assert.equal(wrapper('deployment').status,0);assert.equal(wrapper('secrets').status,0);
   // An explicit scanner cannot become success when the pinned binary is absent.
-  const missing=path.join(bin,'gitleaks');fs.writeFileSync(missing,'#!/bin/sh\nexit 127\n',{mode:0o755});process.env.PATH=bin+path.delimiter+before.path;
+  const missing=path.join(bin,'gitleaks');fs.writeFileSync(missing,'#!/bin/sh\nexit 127\n',{mode:0o755});process.env.PATH=bin+path.delimiter+before.path.split(path.delimiter).filter(entry=>!fs.existsSync(path.join(entry,'gitleaks'))).join(path.delimiter);
   assert.equal(wrapper('security').status,2);
   put('.harness/project/assurance.json',JSON.stringify({schema_version:1,secret_scan:{mode:'worktree'}}));
   assert.equal(wrapper('context').status,0,'Context must not require security tools');

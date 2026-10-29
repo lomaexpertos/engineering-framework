@@ -13,6 +13,12 @@
 Los comandos se invocan con Bash desde cualquier directorio y usan Node.js 22 o 24
 nativo y Git, sin dependencias npm. `environment.sh` centraliza el preflight: los
 faltantes se diagnostican sin instalar herramientas ni mutar el consumidor.
+Preparar el equipo con `bash .harness/setup.sh`, o preparar y validar con
+`bash .harness/check.sh --setup`. Se reutilizan herramientas compatibles y se
+instalan las faltantes en caché de usuario; no requiere configurar PATH manualmente.
+`bash .harness/setup.sh --check` diagnostica sin descargas ni escrituras. Los checks
+normales y update no descargan herramientas. Prerrequisitos y límites están en
+[la guía](core/checks/assurance/README.md#herramientas-transversales).
 Docker y GNU `timeout` se requieren para ejecutar checks declarados por el proyecto.
 Los runtimes, builds, pruebas y linters de la aplicación permanecen en sus imágenes.
 

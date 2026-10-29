@@ -6,7 +6,9 @@ Para comprobar discovery con clientes CLI reales sin servicios externos, consult
 Las fuentes editables viven aquí. El harness usa Node.js 22 o 24 nativo, Bash y Git,
 sin dependencias npm. Los consumidores reciben el runtime y wrappers Bash bajo
 `.harness/`; su preflight diagnostica faltantes antes de mutar el consumidor y no
-instala herramientas automáticamente. El producto conserva su ambiente Docker.
+instala herramientas en un check normal. `bash .harness/setup.sh` prepara el equipo
+con una llamada; `check.sh --setup` prepara y luego valida. Las herramientas se
+resuelven desde la caché del usuario sin PATH manual. El producto conserva Docker.
 
 ## Router por operación
 
@@ -21,6 +23,7 @@ instala herramientas automáticamente. El producto conserva su ambiente Docker.
 | Comprobar instalación, contexto, docs y trabajo | [harness-check.mjs](harness-check.mjs) |
 | Validar secretos y contratos de deployment | [harness-assurance.mjs](harness-assurance.mjs) y [guía instalada](../checks/assurance/README.md) |
 | Instalar explícitamente herramientas con checksums fijados | [harness-tool-install.mjs](harness-tool-install.mjs) |
+| Preparar el equipo o diagnosticar requisitos sin instalar | [guía de setup](../checks/assurance/README.md#herramientas-transversales) |
 | Preparar runners y registrar resultados | [harness-runner-plan.mjs](harness-runner-plan.mjs) |
 | Estado, transiciones, cierre, retención y purga | [harness-work.mjs](harness-work.mjs) |
 | Recorridos y pisos por riesgo/requisitos del proyecto | [harness-tracks.mjs](harness-tracks.mjs) |

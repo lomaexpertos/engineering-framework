@@ -3,13 +3,15 @@
 El scope `security` integra Gitleaks con el contrato de
 [detección de secretos](../../policies/security/secret-scanning.md).
 Usa el binario nativo **8.30.1**, reglas predeterminadas de esa versión y Git, como
-herramientas transversales del agente. No instala herramientas durante el check.
+herramientas transversales del agente. El check normal no descarga herramientas;
+`--setup` permite prepararlas antes del escaneo.
 
 Desde la raíz del consumidor:
 
 ```bash
 bash .harness/check.sh --scope security
 bash .harness/check.sh --scope security --json
+bash .harness/check.sh --setup --scope security
 ```
 
 El agregado y la selección se configuran conforme a
@@ -57,9 +59,17 @@ la versión inicial no incluye un mecanismo para convertirlo en `passed` mediant
 una allowlist local. Resolver su disposición sigue la Policy de precedencia.
 No modificar reglas o silenciar el scanner para conseguir una entrega verde.
 
+En snapshots de archivos, los hashes de `.harness/core/manifest.json` se representan
+como metadata solo si el JSON es canónico del productor, el schema es válido y cada digest coincide con su archivo en
+ese mismo snapshot. El resto del manifest se analiza; metadata inválida o incompleta
+permanece intacta para el scanner. No es una allowlist de rutas ni de credenciales.
+
 ## Obtención y comprobación de herramienta
 
-Usar la instalación explícita documentada por el harness. La procedencia es la
+Usar `bash .harness/setup.sh`, o añadir `--setup` al check. El setup reutiliza una
+versión compatible o la instala en la caché del usuario sin reemplazar herramientas
+personales; el validador la encuentra sin ajustes manuales de PATH.
+`bash .harness/setup.sh --check` diagnostica sin instalar. La procedencia es la
 [release oficial 8.30.1](https://github.com/gitleaks/gitleaks/releases/tag/v8.30.1),
 verificando el artefacto contra sus checksums. Una descarga no se ejecuta antes de
 esa verificación. El wrapper acepta solo esa versión; una actualización del scanner

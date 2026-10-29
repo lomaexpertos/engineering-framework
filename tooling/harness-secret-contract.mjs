@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {readYaml,safePath} from './harness-yaml.mjs';
+import {resolvedTool} from './harness-setup.mjs';
 
 const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
 const keyPattern=/^[A-Za-z_][A-Za-z0-9_]*$/;
@@ -109,7 +110,9 @@ function ciphertext(values,keys,recipients) {
   if(encryptedKeys.length!==actual.length||!same(actual,recipients))fail('Recipients del ciphertext distintos de la primera creation_rule aplicable');
 }
 function filestatus(root,file,options) {
-  const execution=spawnSync(options.sopsExecutable||'sops',['filestatus','--input-type','dotenv',safePath(root,file)],{cwd:root,encoding:'utf8',timeout:options.timeoutMs||10000,maxBuffer:65536,env:{PATH:process.env.PATH||'/usr/bin:/bin',LC_ALL:'C'}});
+  let executable;
+  try {executable=options.sopsExecutable||resolvedTool('sops')||'sops';}catch {fail('Cache SOPS inválida; ejecutar setup para diagnosticar sin reemplazar archivos personales','error');}
+  const execution=spawnSync(executable,['filestatus','--input-type','dotenv',safePath(root,file)],{cwd:root,encoding:'utf8',timeout:options.timeoutMs||10000,maxBuffer:65536,env:{PATH:process.env.PATH||'/usr/bin:/bin',LC_ALL:'C'}});
   if(execution.error||execution.status!==0)fail('No se pudo ejecutar sops filestatus; comprobar instalación, versión y archivo sin mostrar su contenido','error');
   let result;try{result=JSON.parse(execution.stdout);}catch{fail('Respuesta de sops filestatus inválida','error');}
   if(!object(result)||result.encrypted!==true)fail('sops filestatus no acredita encrypted:true');

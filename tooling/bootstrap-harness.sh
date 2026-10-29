@@ -1,19 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 # A standalone bootstrap has no shared helper until the snapshot is downloaded.
-for tool in bash git node mktemp rm dirname; do
+prepare=false
+for argument in "$@"; do if [[ $argument == --setup ]]; then prepare=true; fi; done
+for tool in bash git mktemp rm dirname; do
   command -v "$tool" >/dev/null 2>&1 || {
     printf 'Harness bootstrap prerequisite missing: %s. Install it explicitly before retrying.\n' "$tool" >&2
     exit 2
   }
 done
-node_version=$(node --version 2>/dev/null) || {
-  printf '%s\n' 'Harness bootstrap could not determine Node.js version; supported majors are 22 and 24.' >&2
-  exit 2
-}
-if [[ ! $node_version =~ ^v(22|24)\.[0-9]+\.[0-9]+$ ]]; then
-  printf 'Harness bootstrap requires Node.js 22.x or 24.x; found %s. Select a supported installation before retrying.\n' "$node_version" >&2
-  exit 2
+if [[ $prepare == false ]]; then
+  node_version=$(node --version 2>/dev/null) || {
+    printf '%s\n' 'Harness bootstrap could not determine Node.js version; supported majors are 22 and 24.' >&2
+    exit 2
+  }
+  if [[ ! $node_version =~ ^v(22|24)\.[0-9]+\.[0-9]+$ ]]; then
+    printf 'Harness bootstrap requires Node.js 22.x or 24.x; found %s. Select a supported installation before retrying.\n' "$node_version" >&2
+    exit 2
+  fi
 fi
 consumer_path=.
 if (($#)) && [[ $1 != --* ]]; then
@@ -34,6 +38,9 @@ while (($#)); do
       ;;
     --check | --allow-major | --recover | --repair)
       args+=("$1")
+      shift
+      ;;
+    --setup)
       shift
       ;;
     *)
@@ -60,6 +67,9 @@ if [[ ! -f $temporary/source/templates/project/.harness/environment.sh ]]; then
 fi
 # shellcheck source=templates/project/.harness/environment.sh
 source "$temporary/source/templates/project/.harness/environment.sh"
+if [[ $prepare == true ]]; then
+  bash "$temporary/source/templates/project/.harness/setup.sh" >&2
+fi
 harness_require_tools bash git mktemp rm || exit 2
 harness_require_node || exit 2
 HARNESS_CONSUMER_ROOT=$consumer bash "$temporary/source/templates/project/.harness/update.sh" --ref "$sha" "${args[@]}"
