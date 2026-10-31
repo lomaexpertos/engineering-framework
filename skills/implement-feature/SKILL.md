@@ -18,6 +18,9 @@ Entregar la capacidad solicitada dentro del estilo y los contratos del proyecto.
   Comprobar en el código vigente las premisas que afectará el cambio según
   `ai-assisted-development/domain-documentation.md`; la documentación evita
   reconstruir el módulo, pero no sustituye esa verificación.
+- Si se crea una aplicación o cambia su frontera/release, aplicar
+  `development/monorepo.md` y `git/application-releases.md` con `configure-monorepo`.
+  Una funcionalidad interna no obliga a configurar de nuevo CI ni todo el monorepo.
 - Aplicar `development/logging.md` desde el mismo cambio cuando se cree o modifique
   una operación crítica. El tamaño del diff no exime motores de cálculo, facturación,
   correcciones, autorizaciones ni efectos financieros o de integridad.

@@ -65,6 +65,13 @@ perfiles personales ni reemplaza elecciones de proveedores/modelos.
 Código, pruebas, SQL, assets e infraestructura ejecutable permanecen en las rutas
 productivas de cada proyecto; no se trasladan a expedientes descartables.
 
+Apps de producto nuevas viven en `apps/<app-id>/`, según
+[monorepo](../../policies/development/monorepo.md). Instalar el harness hace
+descubrible ese contrato y la guía de releases; no crea apps ni asume ownership de
+manifests, lockfiles, `.gitignore` o `.github/workflows/` del consumidor. Un legado
+conserva su layout hasta una adopción autorizada. Documentación, SQL e infraestructura
+mantienen las autoridades y rutas vigentes; no se duplican dentro de apps.
+
 ## Evolución y contenido heredado
 
 Una instalación 1.x se reconoce por `FRAMEWORK_VERSION` y metadata corporativa antigua.

@@ -28,6 +28,7 @@ por estar disponibles en el catálogo.
 | Skill | Propósito |
 | --- | --- |
 | [`configure-agent-context`](configure-agent-context/SKILL.md) | Inicializar, adelgazar o recablear el contexto del repositorio. |
+| [`configure-monorepo`](configure-monorepo/SKILL.md) | Inicializar producto bajo apps/, incorporar aplicaciones y definir releases/CI independientes. |
 | [`audit-agent-context`](audit-agent-context/SKILL.md) | Auditar progressive disclosure sin modificar archivos. |
 | [`coordinate-work`](coordinate-work/SKILL.md) | Delegar, integrar y retomar trabajo con contexto acotado. |
 | [`close-initiative`](close-initiative/SKILL.md) | Consolidar conocimiento, roadmap y memoria antes del cierre. |

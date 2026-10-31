@@ -61,6 +61,8 @@ no configura CI ni branch protection automáticamente.
 Los scopes `context` y `documentation` comprueban las guías del harness además del
 contexto propio del proyecto: inventario de recursos obligatorios, routing desde
 AGENTS/routers/Skills, adaptadores seleccionados, enlaces/anclas y ejemplos JSON.
+Incluyen Policies, Skill y referencias de apps/releases de monorepo; no validan
+semánticamente el CI ni ejecutan publicaciones/previews del consumidor.
 Verifican sintaxis Bash y comandos del harness contra sus contratos reales, incluidas
 opciones obligatorias. Las plantillas intencionalmente incompletas se distinguen de
 entradas ejecutables. Las skills locales ajenas al núcleo conservan su ownership.

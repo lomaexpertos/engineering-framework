@@ -1,5 +1,9 @@
 # Versioning
 
+Este contrato pertenece al productor del harness. Los productos consumidores usan
+[releases de aplicaciones](../../policies/git/application-releases.md); su adopción
+no activa publicación central ni cambia la autoridad de `VERSION` de este repositorio.
+
 El framework usa Semantic Versioning. `VERSION` es la autoridad de la actualización
 distribuida desde un snapshot de `main`, por cualquiera de los dos canales. Si se crea
 un tag, **MUST** usar `vX.Y.Z` y coincidir con `VERSION`.

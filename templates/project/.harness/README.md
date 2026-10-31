@@ -4,6 +4,8 @@
 - Elegir recorrido mínimo, estándar o reforzado:
   [entrega proporcional](core/policies/ai-assisted-development/proportional-delivery.md).
 - Skills: [core/skills/README.md](core/skills/README.md).
+- Producto nuevo o apps/releases de monorepo:
+  [adopción](core/skills/configure-monorepo/SKILL.md).
 - Secretos y contratos de deployment: [controles de assurance](core/checks/assurance/README.md).
 - Reglas propias: `project/README.md`, cuando existan.
 - Conocimiento del proyecto: `docs/README.md` desde la raíz del repositorio.

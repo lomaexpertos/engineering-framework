@@ -15,6 +15,7 @@ conocimiento duradero que sobreviva al descarte del trabajo minucioso.
 | Entrega proporcional al riesgo | delivered | Mínimo directo o un worker, estándar con revisión agrupada y reforzado con controles completos; siguiente paso: adopción y observación del equipo. |
 | Conocimiento vigente de módulos y dominios | delivered | Investigación AS-IS de extremo a extremo, inventarios reconciliables y mantenimiento incremental disponibles; siguiente: documentar módulos reales según solicitud. La conversación general no abre workflows. |
 | Controles de secretos y contratos de infraestructura | delivered | Gitleaks y validadores de deployment/dotenv/SOPS distribuidos; siguiente adopción con contratos reales y gates operativos propios. |
+| Modelo de aplicaciones de producto en monorepo | delivered | Apps poliglotas bajo apps/, releases independientes y guías de CI/previews descubribles; instalación sin migración ni activación de workflows. Siguiente: adopción y prueba de publicación en consumidores. |
 
 Los estados describen capacidades; no son porcentajes de actividad técnica.
 La publicación de una versión y su adopción en cada proyecto se informan por separado.

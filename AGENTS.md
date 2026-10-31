@@ -12,6 +12,9 @@ para la tarea actual.
 
 ## Routing
 
+- Producto nuevo, nueva app o adopción de monorepo: consulta
+  [`monorepo.md`](policies/development/monorepo.md) y
+  [`configure-monorepo`](skills/configure-monorepo/SKILL.md).
 - Antes de modificar comportamiento, consulta la documentación vigente del dominio
   afectado, si existe.
 

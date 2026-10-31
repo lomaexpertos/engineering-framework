@@ -31,6 +31,7 @@ resuelven desde la caché del usuario sin PATH manual. El producto conserva Dock
 | Operar agentes desde un consumidor sin consultar fuentes | [Guías de coordinación](../skills/coordinate-work/SKILL.md) |
 | Motor interno de guías (usar check.sh o validate-framework) | [harness-guide-check.mjs](harness-guide-check.mjs) |
 | Probar rutas, recursos y ejemplos en instalación nueva | [test-agent-discovery.mjs](test-agent-discovery.mjs) |
+| Comprobar guías de monorepo sin alterar apps/CI del consumidor | [test-monorepo-guides.mjs](test-monorepo-guides.mjs) |
 | Primera adopción | [bootstrap-harness.sh](bootstrap-harness.sh) y [INSTALL.md](../INSTALL.md) |
 
 ## Distribución y recuperación

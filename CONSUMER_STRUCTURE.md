@@ -8,6 +8,7 @@ La instalación y migración se explican en [INSTALL.md](INSTALL.md).
 proyecto/
 ├── AGENTS.md                         # Región administrada y reglas locales
 ├── CLAUDE.md                         # Importación compartida; preservar texto propio
+├── apps/<app-id>/                    # Apps de producto; no creadas por el updater
 ├── .harness/
 │   ├── README.md
 │   ├── update.sh
@@ -61,6 +62,13 @@ wrappers, adaptadores e instrucciones; no inventa documentación propia ni crea 
 el expediente para cada trabajo. Código, tests y artefactos operativos permanecen
 en sus rutas productivas. El manifest registra ownership y hashes de archivos
 administrados; no incluye contenido privado del proyecto.
+
+Un producto nuevo comienza con `apps/<app-id>/` desde su primera aplicación; el
+[contrato monorepo](policies/development/monorepo.md) y
+[configure-monorepo](skills/configure-monorepo/SKILL.md) definen mapa de apps,
+releases independientes y CI. Bibliotecas/herramientas no necesitan apps ficticias.
+La instalación distribuye la metodología; no crea aplicaciones, reestructura un
+legado ni habilita publicación o previews como efecto lateral.
 
 `docs/README.md` dirige a fuentes de producto, sistema y dominios con la profundidad
 que necesite el proyecto. Investigar un módulo mantiene su AS-IS, mapas e inventarios;

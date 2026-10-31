@@ -5,6 +5,10 @@ Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni document
 <!-- engineering-framework:start -->
 ## Harness de ingeniería
 
+- Producto nuevo o nueva app: `apps/<app-id>/` y releases independientes; consulta
+  `.harness/core/policies/development/monorepo.md` y
+  `.harness/core/skills/configure-monorepo/SKILL.md`.
+  Un legado conserva su layout hasta una adopción autorizada.
 - Preguntas de negocio, otros sistemas o deber ser: conversación normal, sin
   workflows por defecto. Para analizar y documentar un módulo del repositorio actual,
   usa `.harness/core/skills/spec-documentar/SKILL.md`; respeta «solo analiza» o

@@ -14,6 +14,7 @@ import {workCommandContracts,workValueOptions,validateWorkRequirements} from './
 import {validateAssurance} from './harness-assurance.mjs';
 
 const guides={
+  'configure-monorepo':['application-layout.md','releases-and-workflows.md'],
   'coordinate-work':['profiles-and-start.md','workflow-operations.md','individual-tasks.md','delivery-tracks.md'],
   'close-initiative':['closure-and-retention.md'],
   'spec-documentar':['domain-investigation.md'],
@@ -105,6 +106,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
   const installedRouter=layout==='source'?'templates/project/.harness/README.md':'.harness/README.md';
   const routerRead=()=>fs.readFileSync(path.join(root,installedRouter),'utf8');
   const required=['templates/project/.harness/setup.sh','checks/assurance/README.md','checks/security/README.md','policies/security/secret-scanning.md','schemas/assurance.schema.json','schemas/deployment.schema.json','schemas/secret-contract.schema.json','policies/ai-assisted-development/domain-documentation.md','templates/context/docs/domain.md','policies/ai-assisted-development/proportional-delivery.md','policies/README.md','skills/README.md','checks/README.md','templates/context/README.md','templates/project/AGENTS.md','checks/repository-compliance/operations.md',
+    'policies/development/monorepo.md','policies/git/application-releases.md',
     ...['agent-profiles','agent-project','agent-task','agent-result','agent-workflow','closure','compact-closure','project-config','manifest','initiative-state'].map(name=>`schemas/${name}.schema.json`),
     ...Object.entries(guides).flatMap(([skill,names])=>[`skills/${skill}/SKILL.md`,...names.map(name=>`skills/${skill}/references/${name}`)])];
   for(const file of required)add('guide-inventory',core+file,()=>{if(!fs.existsSync(physical(file))||!fs.statSync(physical(file)).size)fail(`Required operational resource missing or empty: ${file}`);});
@@ -117,6 +119,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
     const content=fs.readFileSync(path.join(root,agentsFile),'utf8');
     if(content.replace(/\n$/,'').split('\n').length>100)fail('AGENTS exceeds 100 physical lines');
     for(const target of ['.harness/core/policies/README.md','.harness/core/skills/coordinate-work/SKILL.md','.harness/core/skills/spec-documentar/SKILL.md','.harness/core/policies/ai-assisted-development/domain-documentation.md'])if(!content.includes(target))fail(`Required AGENTS routing missing: ${target}`);
+    for(const target of ['.harness/core/policies/development/monorepo.md','.harness/core/skills/configure-monorepo/SKILL.md'])if(!content.includes(target))fail(`Required monorepo AGENTS routing missing: ${target}`);
   });
   if(layout==='consumer')add('guide-entrypoint','CLAUDE.md',()=>{
     if(!/^@(?:\.\/)?AGENTS\.md\s*$/m.test(fs.readFileSync(path.join(root,'CLAUDE.md'),'utf8')))fail('CLAUDE does not import AGENTS');
@@ -131,6 +134,14 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
   });
   add('guide-routing',core+'policies/ai-assisted-development/README.md',()=>{
     if(!markdownLinks(read('policies/ai-assisted-development/README.md')).includes('domain-documentation.md'))fail('Required domain documentation policy routing missing');
+  });
+  for(const [router,targets] of [
+    ['policies/development/README.md',['monorepo.md']],
+    ['policies/git/README.md',['application-releases.md']],
+    ['policies/development/monorepo.md',['../../skills/configure-monorepo/SKILL.md','../git/application-releases.md']],
+  ])add('guide-routing',core+router,()=>{
+    const links=markdownLinks(read(router));
+    for(const target of targets)if(!links.includes(target))fail(`Required monorepo routing missing: ${target}`);
   });
   let managed=[];
   add('guide-resource-tree',core,()=>{managed=['policies','skills','checks','templates','schemas'].flatMap(directory=>walk(physical(directory)));});

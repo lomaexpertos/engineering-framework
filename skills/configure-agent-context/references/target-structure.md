@@ -17,6 +17,9 @@ no documentación vigente ni catálogos que deban enlazarse individualmente.
 
 ## Convenciones propias
 
+- Producto nuevo o apps nuevas: descubrir `development/monorepo.md` y
+  `configure-monorepo`; conservar layout legado hasta adopción autorizada y evitar
+  confundir las apps con documentación o infraestructura de ambientes.
 - `AGENTS.md` conserva invariantes, routing, precedencia y ownership; no contiene
   catálogos exhaustivos ni procedimientos de un dominio.
 - Su límite de 100 líneas físicas se comprueba sobre el contenido final, antes de

@@ -4,6 +4,7 @@ Consulta este dominio para decisiones generales de implementación y calidad.
 
 ## Routing
 
+- Inicializar producto, agregar aplicaciones o adoptar monorepo: [`monorepo.md`](monorepo.md).
 - Entorno de compilación, pruebas y ejecución: [aislamiento de proyecto](../infrastructure/project-isolation.md).
 
 - Estructura, patrones y autoridad de reglas: [`architecture-and-design.md`](architecture-and-design.md).

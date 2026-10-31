@@ -102,6 +102,13 @@ al inventario de ownership.
 
 ## Usar y validar
 
+Un producto nuevo usa `apps/<app-id>/` desde la primera aplicación. Tras instalar,
+el agente descubre [configure-monorepo](skills/configure-monorepo/SKILL.md) y sus
+guías de estructura, semantic-release y workflows dentro del núcleo. La instalación
+no crea aplicaciones ni modifica `.gitignore`, dependencias o CI del producto;
+adoptarlos es trabajo del proyecto. Un legado conserva sus rutas hasta autorizar
+una migración. `docs/`, `.harness/` y `.harness_work/` mantienen su layout.
+
 ```bash
 bash .harness/check.sh
 bash .harness/check.sh --scope installation --json
