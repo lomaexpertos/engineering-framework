@@ -87,7 +87,7 @@ docker build --target validation -t engineering-harness-validation:local .
 docker run --rm --network none engineering-harness-validation:local
 ```
 
-La imagen declara Node, Bash, Git, ShellCheck y shfmt con versiones explícitas y usa
+La imagen declara Node, Bash, Git, curl, ShellCheck y shfmt con versiones explícitas y usa
 usuario no root. Ejecuta validador, lint y pruebas de distribución, publicación
 simulada, trabajo, checks, runners, perfiles y piloto integrado. El piloto usa
 consumidores de prueba: no certifica versiones reales de clientes ni despliega productos.
