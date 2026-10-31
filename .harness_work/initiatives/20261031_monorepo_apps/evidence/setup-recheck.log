@@ -1,0 +1,4 @@
+Harness setup passed: read-only diagnosis, idempotent versioned cache, compatible personal tools, corruption/symlink/mode rejection, failed download cleanup and concurrent lock preservation.
+Setup bootstrap passed: no-Node diagnostic without writes, pinned bootstrap, checksum rejection, cache reuse/integrity, wrapper resolution and symlink preservation; downloads are synthetic fixtures.
+[sync] install: 3.7.0, 31 Skills, rama feature/setup.
+Installed setup passed: help and read-only no-Node diagnosis, rejected flags before mutation; real downloads opt-in HARNESS_SETUP_REAL=1.

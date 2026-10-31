@@ -1,7 +1,9 @@
 # Contexto operativo
 
-Trabajo activo: [modelo de apps monorepo](../initiatives/20261031_monorepo_apps/acceptance.md).
-Policies y guías redactadas; validación integrada y revisión independiente en curso.
+Sin trabajo de desarrollo activo ni trabajadores pendientes.
+Modelo de apps monorepo disponible: apps poliglotas, releases independientes y
+guías de CI/previews descubribles; instalar no migra apps ni activa workflows.
+La separación de ownership está en [contrato consumidor](../../docs/architecture/consumer-contract.md).
 Preparación unificada disponible: setup o check --setup, con resolución automática
 desde caché privada del usuario y sin editar PATH ni herramientas personales.
 Controles de secretos y contratos de infraestructura disponibles; operación y límites
