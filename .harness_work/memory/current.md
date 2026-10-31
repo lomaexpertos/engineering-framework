@@ -1,6 +1,7 @@
 # Contexto operativo
 
-Sin trabajo de desarrollo activo ni trabajadores pendientes.
+Trabajo activo: [modelo de apps monorepo](../initiatives/20261031_monorepo_apps/acceptance.md).
+Policies y guías redactadas; validación integrada y revisión independiente en curso.
 Preparación unificada disponible: setup o check --setup, con resolución automática
 desde caché privada del usuario y sin editar PATH ni herramientas personales.
 Controles de secretos y contratos de infraestructura disponibles; operación y límites
