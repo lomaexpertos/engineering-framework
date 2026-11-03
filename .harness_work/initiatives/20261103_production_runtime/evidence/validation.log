@@ -1,0 +1,25 @@
+✓ Required structure
+✓ Installation routing
+✓ Workflow suspension
+✓ Operational guides
+✓ Semantic version
+✓ Project registry
+✓ Skill contracts
+✓ Canonical contracts
+✓ Policy routing
+✓ Markdown links
+✓ Agent entrypoint budget
+✓ Source ownership
+✓ Distributable file safety
+✓ Text hygiene
+  Version change omitido: ejecución manual o primer push.
+✓ Version change
+
+Framework validation passed.
+Source lint passed: JavaScript/Bash syntax, ShellCheck, shfmt and credential patterns.
+[sync] install: 3.8.0, 31 Skills, rama feature/guides.
+[sync] install: 3.8.0, 19 Skills, rama feature/core-profile.
+Operational guides passed: source and installed consumers, filtered profiles, real runtime contracts, JSON/shell/CLI/link checks and negative mutation probes; no providers or example execution.
+Deployment contract passed: YAML safety, required fields, identities/dependencies, migration authority, strategy prerequisites, bounded paths and sanitized diagnostics; no deployment or health commands executed.
+[sync] install: 3.8.0, 31 Skills, rama feature/assurance.
+Assurance integration passed: installed vendor/runtime/guides, scoped checks, fail-closed missing tools/configuration, discovered and declared contracts, guide mutation probes and personal tool preservation.

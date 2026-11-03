@@ -1,6 +1,9 @@
 # Contexto operativo
 
 Sin trabajo de desarrollo activo ni trabajadores pendientes.
+4.x fija la raíz productiva de archivos operativos; consultar
+[invariantes](../../docs/invariants.md) y la migración de versión mayor antes de adoptar.
+Actualizar el núcleo no autoriza trasladar estado productivo.
 Modelo de apps monorepo disponible: apps poliglotas, releases independientes y
 guías de CI/previews descubribles; instalar no migra apps ni activa workflows.
 La separación de ownership está en [contrato consumidor](../../docs/architecture/consumer-contract.md).
