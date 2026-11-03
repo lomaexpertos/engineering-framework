@@ -1,8 +1,10 @@
 # Contexto operativo
 
 Sin trabajo de desarrollo activo ni trabajadores pendientes.
-4.x fija la raíz productiva de archivos operativos; consultar
-[invariantes](../../docs/invariants.md) y la migración de versión mayor antes de adoptar.
+Base inicial 0.1.0 sin publicar ni instalaciones; ver
+[versionado](../../docs/governance/versioning.md). No incrementar por iteración del borrador.
+La raíz productiva de archivos operativos está fijada; consultar
+[invariantes](../../docs/invariants.md).
 Actualizar el núcleo no autoriza trasladar estado productivo.
 Modelo de apps monorepo disponible: apps poliglotas, releases independientes y
 guías de CI/previews descubribles; instalar no migra apps ni activa workflows.

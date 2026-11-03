@@ -60,8 +60,8 @@ Docker; los checks declarados requieren además Docker y GNU `timeout`.
 
 ## Distribución
 
-La versión 3.x requiere Node.js nativo y aceptación MAJOR desde 2.x; conserva el
-layout introducido en 2.x. Cada operación fija un SHA antes de validar/aplicar. La actualización conserva
+La versión objetivo inicial es 0.1.0, aún no publicada ni instalada. Requiere Node.js
+nativo. Cada operación fija un SHA antes de validar/aplicar. La actualización conserva
 extensiones, documentación, memoria y cambios ajenos al contenido administrado.
 No crea commits, push, PR ni altera rama o índice del consumidor.
 

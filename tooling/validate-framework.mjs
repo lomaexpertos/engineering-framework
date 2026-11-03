@@ -4,6 +4,7 @@ import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { parseProjects } from "./resolve-projects.mjs";
 import { checkOperationalGuides } from "./harness-guide-check.mjs";
+import {isInitialDraft} from './release-state.mjs';
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(repositoryRoot);
@@ -125,6 +126,7 @@ runCheck("Required structure", () => {
     "README.md",
     "INSTALL.md",
     "VERSION",
+    "RELEASE_STATUS",
     "docs/architecture/distribution.md",
     "docs/governance/decisions/0011-assisted-installation.md",
     "policies/ai-assisted-development/project-artifact-layout.md",
@@ -441,6 +443,7 @@ runCheck("Text hygiene", () => {
 });
 
 runCheck("Version change", () => {
+  const initialDraft=isInitialDraft(fs.readFileSync('VERSION','utf8').trim(),fs.readFileSync('RELEASE_STATUS','utf8').trim());
   const changedFilesPath = process.env.VALIDATION_CHANGED_FILES_PATH?.trim();
   if (!changedFilesPath || !fs.existsSync(changedFilesPath)) {
     console.log("  Version change omitido: ejecución manual o primer push.");
@@ -471,7 +474,7 @@ runCheck("Version change", () => {
       file.startsWith("templates/project/engineering/corporate/"),
   );
 
-  if (changesDistributedContent && !changedFiles.includes("VERSION")) {
+  if (changesDistributedContent && !changedFiles.includes("VERSION") && !initialDraft) {
     addFailure("Version change", "cambió contenido distribuible sin actualizar VERSION");
   }
 });

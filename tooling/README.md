@@ -68,6 +68,11 @@ al runtime. El planner no ejecuta por sí solo los comandos del producto.
 
 ## Validación local reproducible
 
+El ciclo de versión objetivo y `RELEASE_STATUS` se rige por
+[versionado](../docs/governance/versioning.md). El validador admite mantener la
+versión del borrador inicial; las pruebas de migraciones usan versiones sintéticas
+aisladas, sin asumir releases instaladas.
+
 Los contratos de ejecución uniforme, perfiles personales y límites por proyecto se
 explican en [ejecución de agentes](../docs/architecture/agent-execution.md). El wrapper
 `agents.sh` no instala clientes ni guarda sus credenciales. Diagnóstico local,

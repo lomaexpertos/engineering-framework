@@ -1,5 +1,8 @@
 # ADR-0013: Harness de proyecto con conocimiento separado
 
+Los números 2.x/3.x siguientes son etiquetas históricas de desarrollo, sin instalaciones;
+la versión vigente se rige por [versioning.md](../versioning.md).
+
 - Estado: Aceptada.
 - Fecha: 2026-10-28.
 - Sucesor parcial: [ADR-0015](0015-native-harness-runtime.md) cambia el runtime del harness en 3.x; conserva este layout.

@@ -1,14 +1,16 @@
 # Versión y procedencia
 
-Las instalaciones 2.x y 3.x identifican versión, origen y SHA en `.harness/core/manifest.json`.
+La distribución actual identifica versión, origen y SHA en `.harness/core/manifest.json`.
 El preflight del sincronizador valida SemVer y procedencia coherentes, detecta
 instalación incompleta y rechaza downgrades implícitos.
 
-`FRAMEWORK_VERSION` corresponde al formato 1.x. Se reconoce durante migración, no es
-una segunda autoridad vigente de versión en instalaciones 2.x o 3.x.
+`FRAMEWORK_VERSION` corresponde al formato heredado probado en fixtures. Se reconoce
+durante migración; no es una segunda autoridad vigente de versión.
 
-La versión 3.x conserva el schema de metadata 2; el cambio MAJOR requiere Node.js
-22 o 24 nativo para las herramientas del harness y aceptación mediante `--allow-major`.
+La base inicial 0.1.0 aún no está publicada ni instalada. `RELEASE_STATUS` indica
+el estado del productor; los borradores iniciales no exigen incrementar VERSION
+por iteración. El schema de metadata es 2, independiente de SemVer. Node.js 22 o 24
+es requisito del harness; no implica una release 3.x.
 
 El scope installation del runtime consumidor comprueba presencia/formato de manifest
 y contenido administrado. La validación de una futura release sigue requiriendo el

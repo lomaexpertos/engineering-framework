@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
+import {fileURLToPath,pathToFileURL} from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { planConsumer, syncConsumer } from './sync-consumer.mjs';
 import { recoverTransaction } from './distribution-transaction.mjs';
@@ -58,6 +59,14 @@ function assertSafe(directory, relative) {
   }
 }
 try {
+  // Historical migration gates use an isolated hypothetical publisher, never the
+  // actual release number. Keep these tests meaningful during the 0.x series.
+  const publisher=path.join(root,'hypothetical-publisher');
+  const producer=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+  fs.mkdirSync(publisher);
+  for(const directory of ['policies','skills','checks','schemas','templates','tooling'])fs.cpSync(path.join(producer,directory),path.join(publisher,directory),{recursive:true});
+  write(publisher,'VERSION','3.0.0\n');
+  const {syncConsumer:syncMigration,planConsumer:planMigration}=await import(pathToFileURL(path.join(publisher,'tooling/sync-consumer.mjs')).href);
   const consumer = fixture('consumer');
   write(consumer, 'AGENTS.md', '# Local\nPreserve local rules.\n');
   write(consumer, 'docs/business.md', '# Existing knowledge\n');
@@ -132,7 +141,7 @@ try {
   }
   const legacy = fixture('legacy');
   const nativeMigration = fixture('v2-runtime-migration');
-  syncConsumer(nativeMigration);
+  syncMigration(nativeMigration);
   const v2 = JSON.parse(read(nativeMigration, manifestPath));
   v2.framework_version = '2.0.0';
   fs.unlinkSync(path.join(nativeMigration, '.harness/environment.sh'));
@@ -144,9 +153,9 @@ try {
   write(nativeMigration, manifestPath, JSON.stringify(v2));
   commit(nativeMigration);
   const migrationBefore = snapshot(nativeMigration);
-  assert.throws(() => syncConsumer(nativeMigration), /MAJOR/);
+  assert.throws(() => syncMigration(nativeMigration), /MAJOR/);
   assert.deepEqual(snapshot(nativeMigration), migrationBefore);
-  syncConsumer(nativeMigration, {allowMajor: true});
+  syncMigration(nativeMigration, {allowMajor: true});
   assert.ok(fs.existsSync(path.join(nativeMigration, '.harness/environment.sh')));
   assert.ok(!fs.existsSync(path.join(nativeMigration, oldRuntime)));
   const unownedLegacy = fixture('unowned-legacy-symlink');
@@ -192,9 +201,9 @@ try {
   write(legacy, 'engineering/corporate/policies/README.md', '# Old generated policies\n');
   write(legacy, 'engineering/docs/index.md', '# Legacy project knowledge\n');
   commit(legacy);
-  assert.equal(planConsumer(legacy).major_update, true);
-  assert.throws(() => syncConsumer(legacy), /MAJOR/);
-  syncConsumer(legacy, { allowMajor: true });
+  assert.equal(planMigration(legacy).major_update, true);
+  assert.throws(() => syncMigration(legacy), /MAJOR/);
+  syncMigration(legacy, { allowMajor: true });
   assert.ok(!fs.existsSync(path.join(legacy, 'FRAMEWORK_VERSION')));
   assert.equal(read(legacy, 'engineering/docs/index.md'), '# Legacy project knowledge\n');
   const interrupted = fixture('interrupted');

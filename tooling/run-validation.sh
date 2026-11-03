@@ -17,6 +17,7 @@ fi
 if [[ $with_lint == true ]]; then harness_require_tools shellcheck shfmt || exit 2; fi
 cd -- "$root"
 node tooling/validate-framework.mjs
+node tooling/test-release-state.mjs
 if [[ $with_lint == true ]]; then node tooling/lint-source.mjs; fi
 for suite in distribution publication harness-work harness-check harness-runner harness-profiles harness-pilot native-runtime agent-profiles agent-execution agent-integration agent-cli agent-discovery harness-usage guide-check agent-tracks proportional-delivery domain-documentation monorepo-guides deployment-contract secret-contract secret-scan assurance harness-setup setup-bootstrap setup-integration; do
   node "tooling/test-$suite.mjs"

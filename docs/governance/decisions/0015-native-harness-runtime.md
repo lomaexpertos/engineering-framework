@@ -19,8 +19,9 @@ con Node.js 22 o 24, Bash y Git nativos. El preflight comprueba sus dependencias
 antes de mutar el consumidor y entrega un diagnóstico si faltan; nunca instala
 herramientas automáticamente. Las herramientas usan módulos estándar de Node.
 Se eligieron las versiones mayores 22 y 24 por su validación en los entornos disponibles;
-otras mayores requieren validación explícita del contrato. El cambio se versiona como 3.0.0 porque
-añade un requisito obligatorio al host respecto de 2.x y requiere `--allow-major`.
+otras mayores requieren validación explícita del contrato. Se usó 3.0.0 como etiqueta
+interna de desarrollo; no hubo instalaciones. La base vigente es 0.1.0 sin publicar,
+conforme a [versioning.md](../versioning.md). No se exige migrar desde esas etiquetas.
 
 Docker y GNU `timeout` se requieren al ejecutar checks declarados por el consumidor.
 Sus imágenes, argv, scopes, evidencia, aislamiento y límites de ejecución se

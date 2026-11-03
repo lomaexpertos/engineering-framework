@@ -47,9 +47,13 @@ Estos temas no constituyen contratos implementados ni autorizaciones de ejecuci�
 
 ## Operación y distribución
 
+Antes de la primera publicación, implementar el gate de transición de
+`RELEASE_STATUS` y verificación de tags que impida reabrir o sobrescribir una versión
+publicada. El check local valida el estado declarado; no acredita publicaciones remotas.
+
 El canal central y los workflows de Actions continúan suspendidos. Restaurarlos
 requiere decisión y validación aparte; los helpers conservados no equivalen a soporte
-operativo vigente para 2.x. `projects.yml` no dispara instalaciones.
+operativo vigente. `projects.yml` no dispara instalaciones.
 
 La actualización local usa manifest de hashes para integridad; no aporta firmas del
 publicador. Una evolución de autenticidad de releases requiere un contrato adicional.

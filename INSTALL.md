@@ -48,7 +48,7 @@ Desde el consumidor:
 ```bash
 bash .harness/update.sh --check
 bash .harness/update.sh
-bash .harness/update.sh --ref v3.0.0 --check
+bash .harness/update.sh --ref REF --check
 ```
 
 Una llamada normal obtiene, valida y aplica una referencia fijada a SHA. `--check`
@@ -63,22 +63,13 @@ integrarse en Git por el usuario antes de volver a sincronizar.
 
 ## Migración de versión mayor
 
-### De 3.x a 4.x
+No hay instalaciones existentes que migrar: el punto de partida es `0.1.0` sin
+publicar. Las numeraciones 1.x–4.x anteriores son historial de desarrollo, no una
+secuencia de releases adoptadas. No se requiere migrar de ellas para instalar.
 
-4.x fija el estado operativo productivo en `/home/appmanager/<project>-runtime`.
-La antigua obligación de terminar en `/runtime` no aplica a producción. Revisar
-scripts, Compose, jobs y runbooks conforme a
-[runtime-state.md](policies/infrastructure/runtime-state.md). Si una instalación
-usa otra raíz, registrar la desviación y aprobar la migración con recuperación;
-no mover, borrar ni enlazar datos al actualizar el harness. La actualización del
-núcleo usa `--check --allow-major` para revisar el plan y `--allow-major` para
-aceptarlo; esa aceptación no autoriza migrar estado productivo.
-
-### Desde instalaciones anteriores a 3.x
-
-Desde 1.x o 2.x, preparar Node.js 22 o 24 en el host y usar el bootstrap actualizado;
-así la migración no depende del wrapper Docker de la instalación anterior. Revisar
-y aceptar explícitamente el cambio de runtime requerido por 3.x:
+Se conservan protecciones de migración para futuras instalaciones y fixtures.
+Cuando una actualización real aumente el componente mayor, revisar el plan y
+aceptar explícitamente ese salto:
 
 ```bash
 bash /ruta/al/bootstrap-harness.sh /ruta/al/proyecto --check --allow-major

@@ -65,14 +65,15 @@ un script que todavía deba continuar leyéndose para completar la operación.
 
 ## Idempotencia y migración
 
-El salto 2.x a 3.x requiere aceptar la nueva dependencia nativa de Node.js 22 o 24
-mediante `--allow-major`; no cambia el layout ni amplía el inventario administrado.
+La base actual es 0.1.0 sin publicar ni instalaciones reales. Los escenarios de
+compatibilidad prueban layouts/metadata anteriores con versiones sintéticas;
+no acreditan adopción de releases 1.x, 2.x, 3.x o 4.x.
 
 Sobre una instalación guardada en Git, aplicar el mismo snapshot no produce cambios.
 Una instalación recién aplicada debe integrarse antes de volver a sincronizar, para
 no confundir el diff propio pendiente con contenido descartable.
 
-El salto 1.x a 2.x reemplaza contenido administrado antiguo por `.harness/core/` y
+La migración de metadata heredada reemplaza contenido administrado antiguo por `.harness/core/` y
 retira su metadata anterior solo dentro de esa operación revisable. Documentación y
 expedientes heredados permanecen intactos hasta reconciliación autorizada aparte.
 Las skills locales se preservan y una colisión se resuelve antes de escribir.
