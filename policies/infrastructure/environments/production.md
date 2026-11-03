@@ -25,6 +25,9 @@ recuperación sean repetibles y auditables.
 8. La raíz de estado operativo **MUST** ser `/home/appmanager/<project>-runtime`,
    conforme a [runtime-state.md](../runtime-state.md). No se deriva del layout de
    fuentes ni admite otra raíz por decisión técnica del agente.
+9. Cada repositorio con runtime productivo propio **MUST** implementar el
+   [doctor de preparación](../deployment/doctor.md), documentarlo y exigir su
+   aprobación antes del primer arranque y de activar una versión/configuración nueva.
 
 La estructura de artefactos versionados puede variar por tecnología, sin modificar
 la raíz productiva de estado. Debe satisfacer

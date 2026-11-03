@@ -108,6 +108,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
   const required=['templates/project/.harness/setup.sh','checks/assurance/README.md','checks/security/README.md','policies/security/secret-scanning.md','schemas/assurance.schema.json','schemas/deployment.schema.json','schemas/secret-contract.schema.json','policies/ai-assisted-development/domain-documentation.md','templates/context/docs/domain.md','policies/ai-assisted-development/proportional-delivery.md','policies/README.md','skills/README.md','checks/README.md','templates/context/README.md','templates/project/AGENTS.md','checks/repository-compliance/operations.md',
     'policies/development/monorepo.md','policies/git/application-releases.md',
     'policies/infrastructure/runtime-state.md',
+    'policies/infrastructure/deployment/doctor.md',
     ...['agent-profiles','agent-project','agent-task','agent-result','agent-workflow','closure','compact-closure','project-config','manifest','initiative-state'].map(name=>`schemas/${name}.schema.json`),
     ...Object.entries(guides).flatMap(([skill,names])=>[`skills/${skill}/SKILL.md`,...names.map(name=>`skills/${skill}/references/${name}`)])];
   for(const file of required)add('guide-inventory',core+file,()=>{if(!fs.existsSync(physical(file))||!fs.statSync(physical(file)).size)fail(`Required operational resource missing or empty: ${file}`);});
@@ -137,6 +138,9 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
     if(!markdownLinks(read('policies/ai-assisted-development/README.md')).includes('domain-documentation.md'))fail('Required domain documentation policy routing missing');
   });
   for(const [router,targets] of [
+    ['policies/infrastructure/deployment/README.md',['doctor.md']],
+    ['policies/infrastructure/deployment/automation.md',['doctor.md']],
+    ['policies/infrastructure/environments/production.md',['../deployment/doctor.md']],
     ['policies/infrastructure/README.md',['runtime-state.md']],
     ['policies/infrastructure/environments/production.md',['../runtime-state.md']],
     ['policies/infrastructure/deployment/automation.md',['../runtime-state.md']],
@@ -145,7 +149,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
     ['policies/development/monorepo.md',['../../skills/configure-monorepo/SKILL.md','../git/application-releases.md']],
   ])add('guide-routing',core+router,()=>{
     const links=markdownLinks(read(router));
-    for(const target of targets)if(!links.includes(target))fail(`Required monorepo routing missing: ${target}`);
+    for(const target of targets)if(!links.includes(target))fail(`Required operational routing missing: ${target}`);
   });
   let managed=[];
   add('guide-resource-tree',core,()=>{managed=['policies','skills','checks','templates','schemas'].flatMap(directory=>walk(physical(directory)));});

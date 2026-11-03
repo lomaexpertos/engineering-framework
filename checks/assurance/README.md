@@ -109,6 +109,9 @@ La ruta productiva obligatoria es `/home/appmanager/<project>-runtime`, según
 declara esa ruta y el scope deployment no inspecciona scripts/hosts para acreditarla.
 Prechecks y pruebas aisladas del proyecto deben rechazar rutas divergentes antes
 de escribir. Context/documentation comprueban presencia y routing de esa Policy.
+El [doctor del proyecto](../../policies/infrastructure/deployment/doctor.md) es un
+gate distinto: el check del harness valida su guía, no la exhaustividad del catálogo
+de otro repo ni la ejecución del doctor en sus hosts.
 
 Secretos sigue
 [el contrato dotenv](../../policies/security/encrypted-environment-contract.md),

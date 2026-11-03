@@ -11,6 +11,7 @@ Este índice localiza la fuente canónica; las explicaciones se mantienen allí.
 | Cerrar, validar y desplegar son hechos distintos; retención mínima de sesenta días. | [Ciclo de vida](architecture/work-lifecycle.md) |
 | Las normas no se debilitan mediante reglas locales silenciosas. | [Precedencia](../policies/precedence.md) |
 | La raíz productiva de archivos operativos es fija; declararla o pasar un override no autoriza cambiarla. | [Estado runtime](../policies/infrastructure/runtime-state.md#ruta-productiva-canónica) |
+| Un runtime productivo propio requiere doctor determinista antes de arrancar; un diagnóstico incompleto no acredita preparación. | [Doctor de producción](../policies/infrastructure/deployment/doctor.md) |
 | El recorrido reduce ceremonia según riesgo sin rebajar controles intrínsecos ni pisos del proyecto. | [Entrega proporcional](../policies/ai-assisted-development/proportional-delivery.md) |
 | AGENTS conserva routing compacto y no excede cien líneas. | [Contexto](../policies/ai-assisted-development/context-management.md) |
 | Las aplicaciones se ejecutan en Docker; las herramientas transversales del harness admiten Node nativo. | [Aislamiento](../policies/infrastructure/project-isolation.md) |

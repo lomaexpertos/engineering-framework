@@ -17,6 +17,9 @@ Consultar `infrastructure/repository-layout.md`, `deployment/manifest.md`,
 `deployment/automation.md`, `runtime-state.md`, `health-checks.md` y `deployment/rollback.md`
 desde el router. Estrategia/tráfico, secretos y compatibilidad SQL se cargan únicamente
 cuando la decisión o el cambio los afecte.
+Para prechecks y primer arranque, cargar `infrastructure/deployment/doctor.md`:
+doctor ejecutable propio del proyecto, catálogo exhaustivo/determinista y salida
+accionable con gate obligatorio; no copiar los checks ilustrativos como catálogo real.
 
 ## Contrato propio
 

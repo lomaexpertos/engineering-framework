@@ -22,6 +22,9 @@ Adoptar el layout corporativo de infraestructura mediante una migración explíc
 - Mantener las referencias de código, CI, manifests y documentación en la fase que
   cambia la ruta. Retirar heredados solo tras comprobar consumidores y compatibilidad.
 - No desplegar, rotar credenciales, descifrar secretos ni modificar servicios externos.
+- Al adoptar producción propia, incorporar el doctor y su cobertura conforme a
+  `infrastructure/deployment/doctor.md`; no ejecutar diagnósticos contra hosts
+  productivos ni arrancar servicios como efecto de crear esa automatización.
 
 ## Resultado esperado
 

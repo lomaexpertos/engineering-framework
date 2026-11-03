@@ -42,6 +42,10 @@ Un entrypoint productivo **MUST**:
 9. terminar con estado y código de salida inequívocos; y
 10. documentar recuperación y rollback.
 
+`precheck` **MUST** reutilizar el [doctor de preparación](doctor.md); todo camino de
+arranque **MUST** respetar su gate, códigos y diagnóstico completo. Preparación del
+host y comprobaciones de salud posteriores conservan responsabilidades distintas.
+
 ## Safety
 
 - La automatización **MUST NOT** ejecutar una operación global cuando incluya slots

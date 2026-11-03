@@ -6,6 +6,8 @@ Base inicial 0.1.0 sin publicar ni instalaciones; ver
 La raíz productiva de archivos operativos está fijada; consultar
 [invariantes](../../docs/invariants.md).
 Actualizar el núcleo no autoriza trasladar estado productivo.
+Preparación productiva: doctor propio obligatorio, con gate de arranque y cobertura
+determinista según la Policy de infraestructura; el harness no ejecuta ese diagnóstico.
 Modelo de apps monorepo disponible: apps poliglotas, releases independientes y
 guías de CI/previews descubribles; instalar no migra apps ni activa workflows.
 La separación de ownership está en [contrato consumidor](../../docs/architecture/consumer-contract.md).

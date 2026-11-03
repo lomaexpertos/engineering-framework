@@ -33,6 +33,8 @@ function exercise(root,layout) {
   const guide=prefix+'skills/coordinate-work/references/workflow-operations.md';
   clean(root,layout);
   mutate(root,layout,prefix+'policies/infrastructure/runtime-state.md',()=>null,'guide-inventory');
+  mutate(root,layout,prefix+'policies/infrastructure/deployment/doctor.md',()=>null,'guide-inventory');
+  mutate(root,layout,prefix+'policies/infrastructure/deployment/README.md',text=>text.replace('[`doctor.md`](doctor.md)','doctor.md'),'guide-routing');
   mutate(root,layout,prefix+'policies/infrastructure/environments/production.md',text=>text.replace('[runtime-state.md](../runtime-state.md)','runtime-state.md'),'guide-routing');
   mutate(root,layout,prefix+'checks/repository-compliance/operations.md',text=>text.replace('example-project-tests:1.0.0','example-project-tests:latest'),'guide-json-example');
   mutate(root,layout,prefix+'skills/close-initiative/references/closure-and-retention.md',text=>text.replace('[".harness_work/initiatives/20261028_validar_entrada/validation.md"]','[]'),'guide-json-example');
