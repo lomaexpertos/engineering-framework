@@ -112,6 +112,9 @@ de escribir. Context/documentation comprueban presencia y routing de esa Policy.
 El [doctor del proyecto](../../policies/infrastructure/deployment/doctor.md) es un
 gate distinto: el check del harness valida su guía, no la exhaustividad del catálogo
 de otro repo ni la ejecución del doctor en sus hosts.
+Alloy/Loki no son dependencias requeridas por estos checks ni por el doctor del
+producto: su ausencia, acceso fallido o ingestión desconocida solo admite observación,
+sin bloquear ni provocar un código de salida de fallo.
 
 Secretos sigue
 [el contrato dotenv](../../policies/security/encrypted-environment-contract.md),

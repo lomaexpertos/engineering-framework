@@ -8,13 +8,27 @@ El contrato aplicativo se define en
 
 ## Contrato de recolección
 
-La cadena productiva **MUST** ser backend → `stdout`/`stderr` → driver Docker `local`
-→ Grafana Alloy del host → Loki. El repositorio declara la captura/rotación en Compose
+El contrato obligatorio del repositorio es backend → `stdout`/`stderr` → driver
+Docker `local`. Alloy del host → Loki describe el entorno de recolección previsto,
+no un prerrequisito del producto. El repositorio declara la captura/rotación en Compose
 por servicio (o configuración equivalente versionada); no depende de un default
 desconocido del daemon. No instalar plugins de logging ni enviar desde Docker o la
 aplicación directamente a Loki. Alloy y su envío asíncrono no bloqueante pertenecen
 a la infraestructura del host; el repo documenta identidades para discovery/relabeling,
 sin instalar/configurar ese servicio externo por inferencia.
+
+Alloy/Loki **MUST NOT** bloquear instalación, arranque, deployment, CI ni entrega.
+Su ausencia, indisponibilidad, falta de permisos, timeout o ingestión no comprobada
+solo pueden generar `WARN`/observación, nunca `FAIL`, `ERROR` o `BLOCKED`, ni cambiar
+el código de salida a fallo. No convertirlos en checks requeridos ni dependencias
+de un gate. Comprobarlos es opcional y no autoriza instalar o reparar el host.
+
+Con los requisitos propios satisfechos, el diagnóstico puede mostrar:
+
+```text
+[WARN] telemetry.alloy No disponible/no verificable; solo observación
+RESULTADO: PREPARADO | requeridos satisfechos | exit=0
+```
 
 ## Capacidad local y rotación
 
@@ -43,8 +57,8 @@ de la capacidad de retención; ampliarlo con evidencia si la carga lo necesita.
 Docker rota por **tamaño**, no por calendario: esta configuración no acredita por sí
 sola diez días de historial. **MUST** comprobar volumen/ventana efectivos y ampliar
 los límites para cumplirla. Recrear/eliminar contenedores puede perder su historial
-local: Loki conserva la consulta durable, con retención de al menos diez días
-confirmada por el responsable de esa infraestructura, no deducida de Compose.
+local. La retención remota de Loki es contexto externo: documentarla si se conoce,
+sin deducirla de Compose ni exigir confirmación para aprobar el repositorio.
 
 ## Ownership y fiabilidad
 
@@ -52,14 +66,16 @@ confirmada por el responsable de esa infraestructura, no deducida de Compose.
    como arriba. Toda desviación requiere excepción aprobada, no elección del agente.
 2. `mode: non-blocking` **MUST** impedir backpressure de logging sobre el backend.
    Su buffer puede descartar mensajes al llenarse: no promete entrega sin pérdidas.
-   Detectar/operar saturación y fallos de recolección; no tratar logs como ledger.
+   Detectar saturación/fallos de captura local; anomalías externas solo se observan.
+   No tratar logs como ledger.
 3. Los archivos internos creados por el driver **MUST** permanecer bajo control de
    Docker. Collectors externos **MUST** usar una integración soportada con Docker y
    **MUST NOT** depender de leer directamente esos archivos.
 4. Un cambio al driver default **MUST** contemplar que solo afecta contenedores
    creados después del cambio; el rollout **MUST** recrear y verificar los existentes.
-5. Docker/Alloy **MUST NOT** generar envíos duplicados, multiplicar labels de campos
-   arbitrarios ni releer sin control. Labels/campos siguen
+5. El repositorio **MUST NOT** duplicar emisiones/metadata ni multiplicar labels de
+   campos arbitrarios. Anomalías de Alloy/Loki son observaciones no bloqueantes.
+   Labels/campos siguen
    [logging.md](../development/logging.md#campos-y-cardinalidad).
 6. Eventos de auditoría que no puedan perderse **MUST** contar con persistencia
    durable separada; el driver de logs **MUST NOT** tratarse como ledger.
@@ -72,9 +88,10 @@ confirmada por el responsable de esa infraestructura, no deducida de Compose.
    opciones, espacio e identidades; configuración efectiva si ya existen contenedores.
    No exigir eventos de un backend aún sin arrancar. En aceptación posterior, probar
    ambos streams, JSON, correlación, no duplicación y filtrado por ruta normalizada,
-   con fixtures saneados. Acreditar recepción en Alloy/Loki por separado, con
-   autorización: configuración o servicio activo no acreditan ingestión. Evidencia
-   pendiente no equivale a éxito y no autoriza reparar el host.
+   con fixtures saneados. Recepción en Alloy/Loki puede observarse por separado y
+   con autorización; no forma parte de la aceptación requerida. Si no se comprueba,
+   informar la observación sin inventar éxito ni bloquear la entrega. Los fallos
+   propios de emisión o captura local siguen siendo incumplimientos del repositorio.
 
 ## References
 

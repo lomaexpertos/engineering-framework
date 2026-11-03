@@ -22,6 +22,8 @@ doctor ejecutable propio del proyecto, catálogo exhaustivo/determinista y salid
 accionable con gate obligatorio; no copiar los checks ilustrativos como catálogo real.
 Para backends Docker, incluir en prechecks el contrato de
 `infrastructure/container-logging.md` sin instalar Alloy ni modificar el host.
+Alloy/Loki nunca son requisitos bloqueantes: cualquier diagnóstico sobre su ausencia,
+acceso o ingestión es solo observación y no cambia el código de salida a fallo.
 
 ## Contrato propio
 

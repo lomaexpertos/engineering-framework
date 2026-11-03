@@ -1,8 +1,9 @@
 # Contexto operativo
 
 Sin trabajo de desarrollo activo ni trabajadores pendientes.
-Logging backend: stdout/stderr JSON, Docker local con rotación y Alloy del host a
-Loki; campos para endpoint/correlación sin labels de alta cardinalidad. Fuente:
+Logging backend: stdout/stderr JSON y Docker local con rotación. Alloy/Loki son
+contexto externo: ausencia/acceso/ingestión solo observación, nunca bloqueos ni
+checks requeridos. Campos para endpoint/correlación sin labels de alta cardinalidad. Fuente:
 [logging de contenedores](../../policies/infrastructure/container-logging.md).
 Base inicial 0.1.0 sin publicar ni instalaciones; ver
 [versionado](../../docs/governance/versioning.md). No incrementar por iteración del borrador.

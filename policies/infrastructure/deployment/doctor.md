@@ -69,6 +69,12 @@ El resultado **MUST** resumir cobertura y decisión: `PASS`, `FAIL`, `ERROR`, `B
 desconocida **MUST** bloquear el arranque. Un reporte viejo no reemplaza la ejecución
 actual: cambios de versión/configuración o estado invalidan la evidencia anterior.
 
+Alloy/Loki son contexto externo, **MUST NOT** clasificarse como requisitos ni
+dependencias bloqueantes. Ausencia, timeout, falta de acceso o ingestión no verificada
+solo generan `WARN`/observación, sin afectar el resultado ni el exit code. Esta regla
+prevalece sobre el tratamiento genérico de evaluaciones incompletas anterior; ver
+[container-logging.md](../container-logging.md).
+
 Códigos obligatorios: **0** preparado (requeridos satisfechos); **1** requisitos
 incumplidos; **2** evaluación incompleta/error, incluidos requeridos bloqueados.
 Si coinciden errores e incumplimientos, prevalece 2. Mostrar todos los hallazgos.
@@ -89,7 +95,7 @@ runtime=/home/appmanager/acme-runtime | version=1.2.0 | modo=solo lectura
 [PASS] tooling.engine     Versión admitida y acceso al servicio comprobados
 [FAIL] artifact.available Artefacto requerido ausente. Acción: preparar versión 1.2.0
 [BLOCKED] artifact.config Depende de artifact.available; compatibilidad sin evaluar
-[WARN] capacity.margin    Margen recomendado reducido; mínimo requerido satisfecho
+[WARN] telemetry.alloy    No disponible/no verificable; observación no bloqueante
 [N/A] traffic.dual-slot   Estrategia declarada sin doble slot
 RESUMEN total=6 pass=2 fail=1 error=0 blocked=1 warn=1 na=1
 RESULTADO: NO PREPARADO | evaluación requerida incompleta | exit=2
