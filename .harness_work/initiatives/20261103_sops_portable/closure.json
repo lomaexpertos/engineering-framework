@@ -1,0 +1,28 @@
+{
+  "reviewer": "coordinador con revisión independiente infra_consistency",
+  "reviewed_at": "2026-11-03T23:18:54.000Z",
+  "summary": "Política portable SOPS/age integrada por progressive disclosure: identidad y entrada privadas canónicas, roles criptográficos, evolución coherente de dotenv, selección determinista y gates de materialización. Se distinguen reglas de adopción de capacidades del check estático. Solo documentación/validación de guías, sin operaciones sobre secretos o servidores. Versión 0.1.0 unreleased conservada.",
+  "validation": [
+    {
+      "command": "validate-framework con cambios distribuidos, lint-source, test-guide-check y test-secret-contract en Docker",
+      "outcome": "passed",
+      "evidence": "evidence/validation.log: fuente, lint, guías distribuidas/mutaciones negativas y contrato SOPS con fixtures sintéticos aprobados."
+    },
+    {
+      "command": "test-distribution en Docker",
+      "outcome": "passed",
+      "evidence": "evidence/distribution.log: instalación, actualización, ownership y recuperación; versiones mayores solo en fixtures hipotéticos, versión real 0.1.0."
+    },
+    {
+      "command": "validate-framework tras precisiones finales y revisión independiente RF-001 a RF-012",
+      "outcome": "passed",
+      "evidence": "evidence/final-source.log, evidence/closure-source.log y review.md: routing, contratos y límites coherentes; precisión de validación antes de chmod/crear/importar/borrar aplicada."
+    }
+  ],
+  "sources": [
+    "docs/invariants.md",
+    "docs/architecture/assurance.md",
+    "docs/roadmap/README.md",
+    ".harness_work/memory/current.md"
+  ]
+}

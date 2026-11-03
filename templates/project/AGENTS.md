@@ -16,6 +16,8 @@ Este archivo dirige al conocimiento aplicable; no reemplaza Policies ni document
   `.harness/core/policies/ai-assisted-development/domain-documentation.md`.
   Antes de cambiar comportamiento, contrasta las fuentes del área y el código vigente.
 - Reglas corporativas: `.harness/core/policies/README.md`.
+- SOPS/age, entrega de valores o nuevas variables secretas del backend:
+  `.harness/core/policies/security/sops-age.md`; seguir su routing y `manage-secrets`.
 - Recorrido mínimo, estándar o reforzado según riesgo e incertidumbre:
   `.harness/core/policies/ai-assisted-development/proportional-delivery.md`.
 - Compilar, preparar, probar o ejecutar la aplicación: Docker. Las herramientas

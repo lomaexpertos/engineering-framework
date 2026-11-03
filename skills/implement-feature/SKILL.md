@@ -27,6 +27,9 @@ Entregar la capacidad solicitada dentro del estilo y los contratos del proyecto.
 - Backend nuevo o cambio de logger/salida productiva: aplicar `development/logging.md`
   e `infrastructure/container-logging.md`; no inventar transporte directo a Loki,
   archivos de aplicación ni labels por endpoint/identificador.
+- Si crece el contrato de variables secretas, aplicar `security/sops-age.md` y
+  `encrypted-environment-contract.md` con `manage-secrets`; añadir la variable al
+  backend no deja completa su entrega sin ciphertext/manifiesto/sanitizado coherentes.
 - Consultar [references/risk-routing.md](references/risk-routing.md) si el cambio
   cruza dominios; cargar contratos relevantes, no encadenar workflows completos
   únicamente por mencionar una tecnología.

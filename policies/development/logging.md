@@ -35,8 +35,9 @@
    no permitan separar severidades requieren una excepción documentada.
 3. Emitir JSON estructurado, un evento por línea; serializar stack traces en campos,
    sin romper eventos en múltiples líneas. Reutilizar el logger existente.
-4. Docker captura ambos streams con el driver `local`; Grafana Alloy del host los
-   recolecta y envía a Loki de forma asíncrona. **MUST NOT** agregar clientes Loki,
+4. Docker captura ambos streams con el driver `local`; Alloy del host y Loki son
+   contexto de recolección externo, nunca dependencias bloqueantes del backend.
+   Su ausencia o recepción no verificada solo admite observación. **MUST NOT** agregar clientes Loki,
    drivers remotos/plugins, sidecars o collectors alternativos por iniciativa del
    agente. Aplicación y runtime cumplen
    [container-logging.md](../infrastructure/container-logging.md); endpoints y

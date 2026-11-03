@@ -14,7 +14,8 @@
 8. La aplicación **MUST** permanecer desacoplada del collector y backend concretos;
    la entrega base de logs productivos usa `stdout` y `stderr`, y el runtime se encarga
    de recolectarlos.
-9. El transporte productivo de logs usa Alloy del host hacia Loki conforme a
-   [container-logging.md](container-logging.md); campos y labels siguen
+9. Alloy del host hacia Loki es contexto externo no bloqueante conforme a
+   [container-logging.md](container-logging.md), no un gate de disponibilidad,
+   permisos o ingestión. Campos y labels siguen
    [logging.md](../development/logging.md#campos-y-cardinalidad). No convertir la
    búsqueda por endpoint en una nueva dimensión indexada de alta cardinalidad.

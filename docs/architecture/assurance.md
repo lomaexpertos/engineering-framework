@@ -35,6 +35,10 @@ Secretos compara listas independientes de destinos, ciphertexts y variables, ver
 placeholders y recipients contra la primera regla soportada y consulta estado cifrado
 sin descifrar. No prueba autenticidad del MAC, acceso de descifrado, consumo correcto
 por código ni activación; los gates operativos siguen vigentes.
+Las rutas de identidad/entrada son un contrato portable de
+[material privado](../../policies/security/sops-private-material.md), no una función
+de importación o materialización incluida en este runtime. El perfil estático y sus
+límites se describen en [assurance](../../checks/assurance/sops-profile.md).
 
 ## Dependencias y distribución
 

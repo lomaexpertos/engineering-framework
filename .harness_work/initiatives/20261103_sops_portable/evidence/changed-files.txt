@@ -1,0 +1,16 @@
+AGENTS.md
+checks/assurance/README.md
+checks/assurance/sops-profile.md
+docs/architecture/assurance.md
+docs/invariants.md
+policies/security/README.md
+policies/security/encrypted-environment-contract.md
+policies/security/secrets.md
+policies/security/sops-age.md
+policies/security/sops-private-material.md
+skills/implement-deployment-automation/SKILL.md
+skills/implement-feature/SKILL.md
+skills/manage-secrets/SKILL.md
+templates/project/AGENTS.md
+tooling/harness-guide-check.mjs
+tooling/test-guide-check.mjs
