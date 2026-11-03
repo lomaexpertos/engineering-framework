@@ -1,0 +1,26 @@
+{
+  "reviewer": "coordinador con revisión independiente infra_consistency",
+  "reviewed_at": "2026-11-03T17:32:27.000Z",
+  "summary": "Contrato backend stdout/stderr y Docker local reforzado, con capacidad 50 MB/día por diez días, Alloy del host hacia Loki y campos/labels acotados. Solo normas/contexto y checks de guías: sin instalar o ejecutar aplicaciones, collectors o infraestructura. Versión inicial 0.1.0 conservada.",
+  "validation": [
+    {
+      "command": "validate-framework con inventario de cambios, lint-source y test-guide-check en Docker",
+      "outcome": "passed",
+      "evidence": "evidence/validation.log: fuente, lint y consumidores con mutaciones negativas aprobados; evidence/final-validation.log: fuente final tras ajuste de doctor y aceptación."
+    },
+    {
+      "command": "Parseo aislado del fragmento Compose de la Policy",
+      "outcome": "passed",
+      "evidence": "evidence/compose-example.log: YAML válido, opciones string, driver local y modo non-blocking. Sin ejecución de daemon, Alloy o Loki."
+    },
+    {
+      "command": "Revisión funcional independiente de contratos y límites",
+      "outcome": "passed",
+      "evidence": "review.md: hallazgo doctor/primer arranque corregido, relectura independiente sin bloqueantes pendientes."
+    }
+  ],
+  "sources": [
+    "docs/invariants.md",
+    ".harness_work/memory/current.md"
+  ]
+}

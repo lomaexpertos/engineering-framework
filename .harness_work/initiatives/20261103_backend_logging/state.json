@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "id": "20261103_backend_logging",
+  "title": "Contrato homogéneo de logs backend y Docker",
+  "owner": "coordinador",
+  "status": "closed",
+  "revision": 2,
+  "created_at": "2026-11-03T17:31:15.064Z",
+  "updated_at": "2026-11-03T17:33:09.739Z",
+  "closed_at": "2026-11-03T17:33:09.739Z",
+  "retain_until": "2027-01-02T17:33:09.739Z",
+  "hold": null,
+  "active_tasks": [],
+  "blockers": [],
+  "blocked_from": null,
+  "blocked_reason": null,
+  "assessment": {
+    "reason": "Refuerzo normativo y documental compartido, sin operar productos ni infraestructura",
+    "risks": [
+      "shared_surface"
+    ]
+  },
+  "track": "standard"
+}
