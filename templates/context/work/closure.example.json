@@ -1,0 +1,12 @@
+{
+  "reviewer": "",
+  "reviewed_at": "",
+  "validation": {"status": "pending", "reason": "", "sources": []},
+  "reviews": {"status": "pending", "reason": "", "sources": []},
+  "documentation": {"status": "pending", "reason": "", "sources": []},
+  "decisions": {"status": "pending", "reason": "", "sources": []},
+  "invariants": {"status": "pending", "reason": "", "sources": []},
+  "roadmap": {"status": "pending", "reason": "", "sources": []},
+  "backlog": {"status": "pending", "reason": "", "sources": []},
+  "memory": {"status": "pending", "reason": "", "sources": []}
+}

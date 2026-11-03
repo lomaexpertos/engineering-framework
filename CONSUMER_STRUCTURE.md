@@ -1,112 +1,94 @@
-# Estructura publicada en repositorios consumidores
+# Estructura del consumidor
 
-Este documento muestra las carpetas que Engineering Framework administra al instalar
-o publicar la versión `1.2.0` en un repositorio consumidor. Ambos canales utilizan
-`tooling/sync-consumer.mjs`; la estructura no cambia respecto de `1.0.1`.
-Para operar el canal asistido, consulta [`INSTALL.md`](INSTALL.md).
-
-El contrato normativo y los límites de ownership permanecen en
-[`docs/architecture/consumer-contract.md`](docs/architecture/consumer-contract.md) y
-[`docs/architecture/distribution.md`](docs/architecture/distribution.md).
-
-## Vista general
+El contrato normativo está en
+[consumer-contract.md](docs/architecture/consumer-contract.md).
+La instalación y migración se explican en [INSTALL.md](INSTALL.md).
 
 ```text
-<repositorio-consumidor>/
-├── AGENTS.md
-├── FRAMEWORK_VERSION
-├── engineering/
-│   └── corporate/
+proyecto/
+├── AGENTS.md                         # Región administrada y reglas locales
+├── CLAUDE.md                         # Importación compartida; preservar texto propio
+├── apps/<app-id>/                    # Apps de producto; no creadas por el updater
+├── .harness/
+│   ├── README.md
+│   ├── update.sh
+│   ├── check.sh
+│   ├── setup.sh                       # Prepara herramientas o diagnostica con --check
+│   ├── work.sh
+│   ├── agents.sh                      # Opcional para delegar mediante el ejecutor
+│   ├── environment.sh                 # Preflight compartido de herramientas nativas
+│   ├── core/                         # No editar como fuente
+│   │   ├── policies/
+│   │   ├── skills/
+│   │   ├── checks/
+│   │   ├── schemas/
+│   │   ├── templates/
+│   │   ├── runtime/
+│   │   └── manifest.json
+│   └── project/                      # Local; creado según necesidad
 │       ├── README.md
-│       ├── metadata/
-│       │   └── installation.json
-│       └── policies/
-│           ├── README.md
-│           ├── precedence.md
-│           ├── ai-assisted-development/
-│           ├── database/
-│           ├── development/
-│           ├── frontend/
-│           ├── git/
-│           ├── infrastructure/
-│           │   ├── deployment/
-│           │   └── environments/
-│           └── security/
-├── .agents/
-│   └── skills/
-│       └── <una carpeta por Skill>
-└── .claude/
-    └── skills/
-        └── <la misma carpeta por Skill>
+│       ├── config.json
+│       ├── policies/
+│       ├── skills/
+│       └── checks/
+├── docs/                             # Local; no lo administra el updater
+│   ├── README.md
+│   ├── product/
+│   ├── system/
+│   ├── domains/<dominio>/
+│   ├── decisions/
+│   ├── invariants.md
+│   └── roadmap/
+├── .harness_work/                     # Local; se crea al trabajar
+│   ├── README.md
+│   ├── memory/current.md
+│   ├── runtime/                       # Locks/journals; ignorar en Git
+│   └── initiatives/<id>/
+│       ├── state.json
+│       ├── brief.md                   # Reforzado; otros solo si aportan continuidad
+│       ├── resume.md                  # Reforzado; otros solo si se necesita
+│       ├── spec.md                    # Solo si se solicita o necesita aprobación
+│       ├── plan/                      # Solo si aporta planificación útil
+│       ├── agents/
+│       ├── reviews/
+│       ├── evidence/
+│       └── closure.json
+├── .agents/skills/<skill>/
+└── .claude/skills/<skill>/
 ```
 
-## Contenido administrado
+El árbol describe capacidades, no carpetas obligatorias. La instalación crea núcleo,
+wrappers, adaptadores e instrucciones; no inventa documentación propia ni crea todo
+el expediente para cada trabajo. Código, tests y artefactos operativos permanecen
+en sus rutas productivas. El manifest registra ownership y hashes de archivos
+administrados; no incluye contenido privado del proyecto.
 
-- `AGENTS.md`: si no existe, se crea desde la plantilla corporativa. Si ya existe,
-  sólo se agrega o reemplaza la región delimitada por
-  `<!-- engineering-framework:start -->` y
-  `<!-- engineering-framework:end -->`; el contenido propio fuera de esos marcadores
-  se conserva.
-- `FRAMEWORK_VERSION`: contiene únicamente la versión instalada, actualmente
-  `1.2.0`.
-- `engineering/corporate/README.md`: router de la copia corporativa instalada.
-- `engineering/corporate/metadata/installation.json`: registra versión, repositorio y
-  SHA fuente, además de la lista de Skills administradas.
-- `engineering/corporate/policies/`: copia completa y reemplazable de las Policies.
-- `.agents/skills/` y `.claude/skills/`: reciben dos copias idénticas del catálogo de
-  Skills, incluidos sus archivos `SKILL.md` y referencias condicionales.
+Un producto nuevo comienza con `apps/<app-id>/` desde su primera aplicación; el
+[contrato monorepo](policies/development/monorepo.md) y
+[configure-monorepo](skills/configure-monorepo/SKILL.md) definen mapa de apps,
+releases independientes y CI. Bibliotecas/herramientas no necesitan apps ficticias.
+La instalación distribuye la metodología; no crea aplicaciones, reestructura un
+legado ni habilita publicación o previews como efecto lateral.
 
-## Policies incluidas
+`docs/README.md` dirige a fuentes de producto, sistema y dominios con la profundidad
+que necesite el proyecto. Investigar un módulo mantiene su AS-IS, mapas e inventarios;
+la metodología está instalada con `spec-documentar` y la Policy
+`ai-assisted-development/domain-documentation.md`. No se necesita el checkout
+productor para usarla ni se crean carpetas vacías para completar el árbol.
 
-- [`precedence`](policies/precedence.md)
-- [`ai-assisted-development`](policies/ai-assisted-development/README.md)
-- [`database`](policies/database/README.md)
-- [`development`](policies/development/README.md)
-- [`frontend`](policies/frontend/README.md)
-- [`git`](policies/git/README.md)
-- [`infrastructure`](policies/infrastructure/README.md), incluidos `deployment` y
-  `environments`
-- [`security`](policies/security/README.md)
+El coordinador elige recorrido con la
+[Policy de entrega proporcional](policies/ai-assisted-development/proportional-delivery.md).
+Mínimo directo puede omitir `.harness_work/` y perfiles personales. Para un trabajador
+mínimo o un cambio estándar, `work create --track minimal|standard --reason ...`
+crea solo `state.json` en `active`; los demás artefactos aparecen si se necesitan.
+Su cierre conserva `closure.json` compacto, sin ocho categorías ni `closure.md`.
+Reforzado y expedientes heredados sin recorrido mantienen brief/resume, flujo
+completo y cierre de ocho categorías. El árbol no exige crear spec, plan o docs.
 
-## Skills incluidas
+Los wrappers ejecutan el runtime `.mjs` del harness con Node.js 22 o 24, Bash y Git
+nativos, sin imagen propia ni dependencias npm. El helper `environment.sh` verifica
+requisitos antes de mutar el consumidor; no instala herramientas. Los runners de
+checks del producto conservan Docker y GNU `timeout` y sus dependencias declaradas.
 
-- [`add-observability`](skills/add-observability/SKILL.md)
-- [`audit-agent-context`](skills/audit-agent-context/SKILL.md)
-- [`branch-quality-review`](skills/branch-quality-review/SKILL.md)
-- [`configure-agent-context`](skills/configure-agent-context/SKILL.md)
-- [`data-integrity-review`](skills/data-integrity-review/SKILL.md)
-- [`database-data-change`](skills/database-data-change/SKILL.md)
-- [`database-routine-change`](skills/database-routine-change/SKILL.md)
-- [`database-schema-change`](skills/database-schema-change/SKILL.md)
-- [`debug-error`](skills/debug-error/SKILL.md)
-- [`explorador-de-dominio`](skills/explorador-de-dominio/SKILL.md)
-- [`gitcommit`](skills/gitcommit/SKILL.md)
-- [`implement-critical-state-change`](skills/implement-critical-state-change/SKILL.md)
-- [`implement-deployment-automation`](skills/implement-deployment-automation/SKILL.md)
-- [`implement-distributed-integration`](skills/implement-distributed-integration/SKILL.md)
-- [`implement-feature`](skills/implement-feature/SKILL.md)
-- [`implement-ui-change`](skills/implement-ui-change/SKILL.md)
-- [`infra-adopt-framework`](skills/infra-adopt-framework/SKILL.md)
-- [`infra-change`](skills/infra-change/SKILL.md)
-- [`investigate-production-incident`](skills/investigate-production-incident/SKILL.md)
-- [`manage-secrets`](skills/manage-secrets/SKILL.md)
-- [`optimize-database-query`](skills/optimize-database-query/SKILL.md)
-- [`optimize-performance`](skills/optimize-performance/SKILL.md)
-- [`research-best-practices`](skills/research-best-practices/SKILL.md)
-- [`security-review`](skills/security-review/SKILL.md)
-- [`spec-definir`](skills/spec-definir/SKILL.md)
-- [`spec-documentar`](skills/spec-documentar/SKILL.md)
-- [`spec-implementar`](skills/spec-implementar/SKILL.md)
-- [`spec-planear`](skills/spec-planear/SKILL.md)
-
-## Reemplazo, conservación y exclusiones
-
-- `engineering/corporate/` queda exactamente como la fuente en cada sincronización;
-  se escriben diferencias y se retiran archivos obsoletos.
-- Las Skills previamente registradas como corporativas se reemplazan o retiran según
-  el catálogo actual. Una Skill propia con otro nombre se conserva; una colisión con
-  un nombre corporativo detiene la sincronización antes de sobrescribirla.
-- El framework no crea ni administra `engineering/docs/`, `engineering/specs/` o
-  `engineering/quality-review/`; esas rutas pertenecen a cada proyecto.
-- No se copian `docs/`, `tooling/`, `checks/`, `.github/workflows/`, `projects.yml`,
-  `templates/`, `INSTALL.md`, el `README.md` raíz ni las credenciales de este repositorio.
+Las rutas heredadas `engineering/` se conservan hasta una reconciliación autorizada.
+El cambio de metadata administrada no autoriza trasladar documentación propia.

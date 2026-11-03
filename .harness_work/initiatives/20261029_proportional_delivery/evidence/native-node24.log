@@ -1,0 +1,84 @@
+✓ Required structure
+✓ Installation routing
+✓ Workflow suspension
+✓ Operational guides
+✓ Semantic version
+✓ Project registry
+✓ Skill contracts
+✓ Canonical contracts
+✓ Policy routing
+✓ Markdown links
+✓ Agent entrypoint budget
+✓ Source ownership
+✓ Distributable file safety
+✓ Text hygiene
+  Version change omitido: ejecución manual o primer push.
+✓ Version change
+
+Framework validation passed.
+Source lint passed: JavaScript/Bash syntax, ShellCheck, shfmt and credential patterns.
+[sync] install: 3.3.0, 30 Skills, rama feature/harness.
+[sync] unchanged: 3.3.0, 30 Skills, rama feature/harness.
+[sync] repair: 3.3.0, 30 Skills, rama feature/harness.
+[sync] repair: 3.3.0, 30 Skills, rama feature/harness.
+[sync] install: 3.3.0, 30 Skills, rama feature/harness.
+[sync] update: 3.3.0, 30 Skills, rama feature/harness.
+[sync] install: 3.3.0, 30 Skills, rama feature/harness.
+[sync] repair: 3.3.0, 30 Skills, rama feature/harness.
+[sync] install: 3.3.0, 20 Skills, rama feature/harness.
+[sync] repair: 3.3.0, 19 Skills, rama feature/harness.
+[sync] update: 3.3.0, 30 Skills, rama feature/harness.
+[sync] install: 3.3.0, 30 Skills, rama feature/harness.
+[sync] install: 3.3.0, 30 Skills, rama feature/harness.
+[sync] install: 3.3.0, 30 Skills, rama linked.
+Distribution tests passed.
+Publication orchestration tests passed.
+Lifecycle tests passed: transitions, pause, closure, reopen, 60-day boundary, holds, references, clean Git, symlinks, interrupted batch restore and purge.
+Harness check tests passed.
+Runner plan tests passed: literal argv, tagged image, scoped execution, bounded timeout, duplicates and execution results.
+Harness profile selection and local skill adapter tests passed.
+[sync] install: 3.3.0, 30 Skills, rama main.
+pilot: install consumer and discover platform skills
+pilot: define work and bounded handoff
+pilot: worker implementation and observable behavior
+pilot: fresh process reconstructs bounded continuation
+pilot: review and consolidate lasting knowledge
+pilot: enforce retention then purge eligible work
+pilot: lasting knowledge and product tests survive without work archive
+Harness pilot passed: 7 observable stages. Synthetic handoff fixture, not live client certification.
+[sync] install: 3.3.0, 30 Skills, rama feature/native.
+[sync] install: 3.3.0, 30 Skills, rama feature/native.
+Native runtime tests passed: Docker absent/sentinel, built-in checks, work, Node preflight, local-source update and bootstrap.
+Agent profiles: configuración, migración, restricciones, diagnóstico y argv verificados; clientes simulados explícitos.
+Agent execution: synthetic adapter lifecycle, questions, durable answers, cancellation/timeouts, live-session rejoin, ownership enforcement, baseline protection, five reviewers, correction loop, final verification and closure guards passed.
+[sync] install: 3.3.0, 30 Skills, rama feature/agents.
+Agent integration passed: distributed runtime, preserved personal configuration, uncollected tasks and workflow block lifecycle/update.
+Agent CLI: discoverable help without configuration/mutation, exact arity and command-scoped options passed.
+[sync] install: 3.3.0, 30 Skills, rama feature/discovery.
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: bash .harness/work.sh close 20261028_validar_entrada --cancelled --check
+
+{"error":"Closure needs reviewer and reviewed_at"}
+
+
+1 !== 0
+
+    at command (file:///home/aloranca/engineering-framwork/tooling/test-agent-discovery.mjs:20:10)
+    at work (file:///home/aloranca/engineering-framwork/tooling/test-agent-discovery.mjs:24:34)
+    at file:///home/aloranca/engineering-framwork/tooling/test-agent-discovery.mjs:142:16
+    at ModuleJob.run (node:internal/modules/esm/module_job:439:25)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async node:internal/modules/esm/loader:643:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.18.0

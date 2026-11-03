@@ -9,9 +9,18 @@ Entregar la capacidad solicitada dentro del estilo y los contratos del proyecto.
 
 ## Contrato de trabajo
 
+- Elegir recorrido con `ai-assisted-development/proportional-delivery.md` y usar
+  `coordinate-work` para ownership y continuidad. Mínimo permite ejecución directa
+  sin expediente ni revisores adicionales; un expediente usa `close-initiative`.
 - Localizar las Policies y la documentación del área afectada; conservar arquitectura,
   nomenclaturas, contratos y componentes vigentes. No exigir una spec formal para un
   cambio ad hoc; una spec aprobada y planificada usa `spec-implementar`.
+  Comprobar en el código vigente las premisas que afectará el cambio según
+  `ai-assisted-development/domain-documentation.md`; la documentación evita
+  reconstruir el módulo, pero no sustituye esa verificación.
+- Si se crea una aplicación o cambia su frontera/release, aplicar
+  `development/monorepo.md` y `git/application-releases.md` con `configure-monorepo`.
+  Una funcionalidad interna no obliga a configurar de nuevo CI ni todo el monorepo.
 - Aplicar `development/logging.md` desde el mismo cambio cuando se cree o modifique
   una operación crítica. El tamaño del diff no exime motores de cálculo, facturación,
   correcciones, autorizaciones ni efectos financieros o de integridad.
@@ -20,8 +29,9 @@ Entregar la capacidad solicitada dentro del estilo y los contratos del proyecto.
   únicamente por mencionar una tecnología.
 - El modelo elige el diseño, orden de implementación y pruebas dentro de esas
   restricciones. No introducir otra arquitectura, plataforma o entregable ajeno.
-- Actualizar documentación canónica solo ante cambios materiales. No generar
-  reportes persistentes, checklists ni auditorías completas por defecto.
+- Actualizar explicaciones, mapas, inventarios y conteos canónicos afectados ante
+  cambios materiales, con `spec-documentar`; conservar evidencia proporcional cuando
+  se necesite, sin imponer spec extensa ni auditoría completa.
 
 ## Resultado esperado
 

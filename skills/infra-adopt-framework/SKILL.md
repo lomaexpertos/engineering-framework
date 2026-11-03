@@ -11,6 +11,9 @@ Adoptar el layout corporativo de infraestructura mediante una migración explíc
 
 - Aplicar `infrastructure/repository-layout.md` y
   `ai-assisted-development/infrastructure-change-safety.md`.
+- Estado productivo: aplicar `infrastructure/runtime-state.md`; raíz exacta
+  `/home/appmanager/<project>-runtime`. Inventariar divergencias y planear su
+  migración explícita; no conservarlas como otro estándar ni mover estado por instalar.
 - Antes de mover archivos, entregar matriz de rutas actual/destino, responsabilidades,
   referencias y clasificación, junto con alcance, fases, compatibilidad, validación,
   recuperación y aprobaciones necesarias. Evaluar o planear no autoriza ejecutar.
@@ -19,6 +22,9 @@ Adoptar el layout corporativo de infraestructura mediante una migración explíc
 - Mantener las referencias de código, CI, manifests y documentación en la fase que
   cambia la ruta. Retirar heredados solo tras comprobar consumidores y compatibilidad.
 - No desplegar, rotar credenciales, descifrar secretos ni modificar servicios externos.
+- Al adoptar producción propia, incorporar el doctor y su cobertura conforme a
+  `infrastructure/deployment/doctor.md`; no ejecutar diagnósticos contra hosts
+  productivos ni arrancar servicios como efecto de crear esa automatización.
 
 ## Resultado esperado
 

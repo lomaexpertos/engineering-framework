@@ -1,8 +1,13 @@
-# Architecture documentation
+# Arquitectura
 
-- [`overview.md`](overview.md): componentes y límites conceptuales.
-- [`consumer-contract.md`](consumer-contract.md): estructura observable de un repo consumidor.
-- [`distribution.md`](distribution.md): instalación asistida y diseño del canal central suspendido.
-- [`../../INSTALL.md`](../../INSTALL.md): procedimiento para instalar o actualizar
-  desde la rama actual de un consumidor.
-- [`project-registry.md`](project-registry.md): registro conservado del canal central suspendido.
+- Propósito y límites: [overview.md](overview.md).
+- Ownership y estructura instalada: [consumer-contract.md](consumer-contract.md).
+- Obtener, actualizar o recuperar el núcleo: [distribution.md](distribution.md).
+- Delegar, retomar, cerrar o descartar trabajo: [work-lifecycle.md](work-lifecycle.md).
+- Investigar, documentar y mantener módulos vigentes: [domain-knowledge.md](domain-knowledge.md).
+- Elegir recorrido y obligaciones de entrega:
+  [Policy de entrega proporcional](../../policies/ai-assisted-development/proportional-delivery.md).
+- Configurar perfiles personales y ejecutar agentes: [agent-execution.md](agent-execution.md).
+- Comprobar secretos y contratos de infraestructura: [assurance.md](assurance.md).
+- Procedimiento de adopción: [INSTALL.md](../../INSTALL.md).
+- Registro conservado del canal suspendido: [project-registry.md](project-registry.md).

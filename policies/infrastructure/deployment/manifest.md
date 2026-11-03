@@ -31,6 +31,56 @@ La política de migraciones **MUST** usar uno de estos valores:
 - `external`: otro procedimiento es responsable;
 - `automated`: existe una fase automatizada y documentada.
 
+## Formato verificable
+
+El contrato `schema_version: 1` está definido en
+[deployment.schema.json](../../../schemas/deployment.schema.json). `units` y
+`services` son listas con identificadores únicos; no se admiten campos desconocidos.
+`environment` es `production`. Un layout heredado puede conservar su ruta documentada
+de ambiente; no se migra al activar el control. El archivo conserva el nombre
+`deployment.yaml` y vive fuera de las aplicaciones.
+
+Cada unidad declara `id`, `topology`, `runtime`, `artifact` y `automation`.
+Cada servicio declara `id`, `unit`, `strategy`, `health_check`, `depends_on`,
+`modifies_schema` y `migrations`. `health_check` contiene un `command` como argv
+literal o una `reason` explícita de ausencia, nunca ambos. El validador no ejecuta
+ese comando ni los entrypoints.
+
+Un escritor de esquema declara `modifies_schema: true`, `migrations: external` o
+`automated` y `migration_entrypoint`, que apunta al procedimiento o entrypoint
+existente. Los demás declaran `false` y `none`, sin `migration_entrypoint`.
+Blue/green y rolling requieren un comando de salud; blue/green requiere además
+`traffic_controller`. Stateful requiere `recovery`, referencia al procedimiento de
+integridad, respaldo y recuperación. Estos campos permiten comprobar las referencias;
+no prueban capacidad doble, readiness real ni restauración efectiva.
+
+Las rutas declaradas son relativas al directorio del manifest; pueden subir dentro
+del repositorio para reutilizar artefactos. **MUST NOT** escapar del repositorio,
+seguir symlinks ni referenciar archivos inexistentes. YAML admite un solo documento
+de hasta 1 MiB, sin claves duplicadas, aliases ni tags personalizados.
+
+Ejemplo mínimo; las rutas deben existir en el proyecto antes de validarlo:
+
+```yaml
+schema_version: 1
+environment: production
+units:
+  - id: principal
+    topology: single-host
+    runtime: docker-compose
+    artifact: compose/core.yml
+    automation: scripts/deploy.sh
+services:
+  - id: api
+    unit: principal
+    strategy: recreate
+    health_check:
+      command: [curl, --fail, http://api:8080/health]
+    depends_on: []
+    modifies_schema: false
+    migrations: none
+```
+
 ## Integrity
 
 1. Cada ruta declarada **MUST** existir.

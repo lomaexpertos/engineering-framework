@@ -1,5 +1,9 @@
 # Architecture decisions
 
+Las referencias a versiones 1.x–4.x en ADR previas son numeración interna histórica,
+no releases instaladas. La base vigente y el ciclo de publicación están en
+[versioning.md](../versioning.md); no se alteran las decisiones técnicas por renumerar.
+
 - [`0001-automatic-vendoring.md`](0001-automatic-vendoring.md)
 - [`0002-progressive-disclosure.md`](0002-progressive-disclosure.md)
 - [`0003-single-source-skills.md`](0003-single-source-skills.md)
@@ -12,3 +16,8 @@
 - [`0010-practical-database-conventions.md`](0010-practical-database-conventions.md)
 - [`0011-assisted-installation.md`](0011-assisted-installation.md)
 - [`0012-organizational-skills-and-critical-logging.md`](0012-organizational-skills-and-critical-logging.md)
+- [`0013-project-harness.md`](0013-project-harness.md): contrato de layout, distribución y continuidad.
+- [`0014-safe-harness-operations.md`](0014-safe-harness-operations.md): razones de recuperación, ownership e imágenes inmutables.
+- [`0015-native-harness-runtime.md`](0015-native-harness-runtime.md): Node.js 22 o 24 nativo para herramientas transversales; Docker para el producto y sus checks.
+- [`0016-uniform-agent-execution.md`](0016-uniform-agent-execution.md): ejecución uniforme, requisitos de equipo y perfiles personales.
+- [`0017-proportional-delivery-tracks.md`](0017-proportional-delivery-tracks.md): recorridos por riesgo, registro y cierre compactos, sin rebajar controles.

@@ -12,17 +12,34 @@ para la tarea actual.
 
 ## Routing
 
+- Producto nuevo, nueva app o adopción de monorepo: consulta
+  [`monorepo.md`](policies/development/monorepo.md) y
+  [`configure-monorepo`](skills/configure-monorepo/SKILL.md).
+- Antes de modificar comportamiento, consulta la documentación vigente del dominio
+  afectado, si existe.
+
+- Preguntas de negocio, otros sistemas o deber ser: responder en conversación sin
+  activar workflows por defecto. Analizar un módulo del repositorio actual usa
+  [`spec-documentar`](skills/spec-documentar/SKILL.md) para investigar y documentar
+  AS-IS; respetar límites como «solo analiza» o «sin archivos». La frontera está en
+  [`domain-documentation.md`](policies/ai-assisted-development/domain-documentation.md).
 - Para instalar o actualizar el framework en un consumidor desde su rama actual,
   sigue [`INSTALL.md`](INSTALL.md).
 - Para reglas normativas, comienza en [`policies/README.md`](policies/README.md) y
   sigue el router del dominio aplicable.
+- Para elegir recorrido mínimo, estándar o reforzado según riesgo, consulta
+  [`proportional-delivery.md`](policies/ai-assisted-development/proportional-delivery.md).
 - Para ejecutar un workflow repetible, consulta [`skills/README.md`](skills/README.md)
   y después la Skill correspondiente.
 - Para arquitectura, distribución o contratos, consulta
   [`docs/architecture/README.md`](docs/architecture/README.md).
+- Para conocimiento duradero, invariantes y roadmap, consulta
+  [`docs/README.md`](docs/README.md).
+- Para retomar trabajo, consulta `.harness_work/README.md` y solo el expediente activo.
 - Para versionado, ownership o cambios, consulta
   [`docs/governance/README.md`](docs/governance/README.md).
-- Para validaciones automáticas, consulta [`checks/README.md`](checks/README.md).
+- Para validaciones automáticas, consulta [`checks/README.md`](checks/README.md)
+  y ejecuta las aplicables sin reducir controles requeridos del proyecto o CI.
 - Para scripts de construcción o sincronización, consulta
   [`tooling/README.md`](tooling/README.md).
 - Para crear, adelgazar o recablear `AGENTS.md`, READMEs, índices o arquitectura de

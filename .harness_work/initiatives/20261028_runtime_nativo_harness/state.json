@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "id": "20261028_runtime_nativo_harness",
+  "title": "Ejecución nativa de las herramientas del harness",
+  "owner": "coordinador",
+  "status": "closed",
+  "revision": 6,
+  "created_at": "2026-10-28T14:42:10.280Z",
+  "updated_at": "2026-10-28T15:07:26.140Z",
+  "closed_at": "2026-10-28T15:07:26.140Z",
+  "retain_until": "2026-12-27T15:07:26.140Z",
+  "hold": null,
+  "active_tasks": [],
+  "blockers": [],
+  "blocked_from": null,
+  "blocked_reason": null
+}

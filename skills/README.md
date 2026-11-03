@@ -16,6 +16,11 @@ El logging crítico se implementa desde el desarrollo conforme a la Policy
 [`logging.md`](../policies/development/logging.md), aunque no se invoque
 `add-observability`. Cambios triviales sin valor diagnóstico no necesitan nuevos logs.
 
+El coordinador elige recorrido mínimo, estándar o reforzado con
+[`proportional-delivery.md`](../policies/ai-assisted-development/proportional-delivery.md).
+Las Skills de definición, revisión y cierre no agregan etapas a una tarea mínima
+por estar disponibles en el catálogo.
+
 ## Catálogo publicado
 
 ### Contexto y gobernanza
@@ -23,7 +28,10 @@ El logging crítico se implementa desde el desarrollo conforme a la Policy
 | Skill | Propósito |
 | --- | --- |
 | [`configure-agent-context`](configure-agent-context/SKILL.md) | Inicializar, adelgazar o recablear el contexto del repositorio. |
+| [`configure-monorepo`](configure-monorepo/SKILL.md) | Inicializar producto bajo apps/, incorporar aplicaciones y definir releases/CI independientes. |
 | [`audit-agent-context`](audit-agent-context/SKILL.md) | Auditar progressive disclosure sin modificar archivos. |
+| [`coordinate-work`](coordinate-work/SKILL.md) | Delegar, integrar y retomar trabajo con contexto acotado. |
+| [`close-initiative`](close-initiative/SKILL.md) | Consolidar conocimiento, roadmap y memoria antes del cierre. |
 
 ### Infraestructura y operación
 
@@ -40,12 +48,12 @@ El logging crítico se implementa desde el desarrollo conforme a la Policy
 
 | Skill | Propósito |
 | --- | --- |
-| [`explorador-de-dominio`](explorador-de-dominio/SKILL.md) | Contrastar proceso actual, referente y necesidad real, sin imponer un curso. |
+| [`explorador-de-dominio`](explorador-de-dominio/SKILL.md) | Conversar sobre negocio y referentes sin iniciar desarrollo ni inspección local por defecto. |
 | [`research-best-practices`](research-best-practices/SKILL.md) | Investigar evidencia externa actual. |
 | [`spec-definir`](spec-definir/SKILL.md) | Definir o refinar el TO-BE y sus requisitos verificables. |
 | [`spec-planear`](spec-planear/SKILL.md) | Crear un plan técnico proporcional y verificable. |
 | [`spec-implementar`](spec-implementar/SKILL.md) | Ejecutar una spec planificada. |
-| [`spec-documentar`](spec-documentar/SKILL.md) | Mantener documentación AS-IS permanente. |
+| [`spec-documentar`](spec-documentar/SKILL.md) | Investigar módulos actuales de extremo a extremo y mantener su documentación AS-IS. |
 
 ### Implementación
 
@@ -83,8 +91,8 @@ El logging crítico se implementa desde el desarrollo conforme a la Policy
 
 ## Distribución
 
-`skills/<nombre>/` es la única fuente. El sincronizador compartido por ambos canales
-copia el directorio completo
+`skills/<nombre>/` es la única fuente editable en el productor. La instalación
+conserva el contenido común bajo `.harness/core/skills/` y copia el directorio completo
 —incluyendo `SKILL.md` y sus referencias— a `.agents/skills/<nombre>/` y
 `.claude/skills/<nombre>/`. Las diferencias inevitables entre plataformas deben
 resolverse en distribución o metadata compatible, no manteniendo dos Skills.

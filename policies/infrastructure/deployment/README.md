@@ -5,6 +5,7 @@
 | Elegir o revisar una estrategia | [`strategies.md`](strategies.md) |
 | Crear o modificar `deployment.yaml` | [`manifest.md`](manifest.md) |
 | Escribir entrypoints o scripts de deployment | [`automation.md`](automation.md) |
+| Validar preparación antes del primer arranque | [`doctor.md`](doctor.md) |
 | Cambiar proxy, slots, upstreams o cutover | [`traffic-management.md`](traffic-management.md) |
 | Diseñar recuperación o reversión | [`rollback.md`](rollback.md) |
 

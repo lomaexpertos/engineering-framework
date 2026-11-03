@@ -1,0 +1,25 @@
+Agent CLI: discoverable help without configuration/mutation, exact arity and command-scoped options passed.
+Lifecycle tests passed: transitions, pause, closure, reopen, 60-day boundary, holds, references, clean Git, symlinks, interrupted batch restore and purge.
+Runner plan tests passed: literal argv, tagged image, scoped execution, bounded timeout, duplicates and execution results.
+[sync] install: 3.2.0, 30 Skills, rama feature/guides.
+[sync] install: 3.2.0, 18 Skills, rama feature/core-profile.
+Operational guides passed: source and installed consumers, filtered profiles, real runtime contracts, JSON/shell/CLI/link checks and negative mutation probes; no providers or example execution.
+Source lint passed: JavaScript/Bash syntax, ShellCheck, shfmt and credential patterns.
+✓ Required structure
+✓ Installation routing
+✓ Workflow suspension
+✓ Operational guides
+✓ Semantic version
+✓ Project registry
+✓ Skill contracts
+✓ Canonical contracts
+✓ Policy routing
+✓ Markdown links
+✓ Agent entrypoint budget
+✓ Source ownership
+✓ Distributable file safety
+✓ Text hygiene
+  Version change omitido: ejecución manual o primer push.
+✓ Version change
+
+Framework validation passed.

@@ -1,5 +1,10 @@
 # ADR-0009: Proportional spec workflow
 
+Decisión histórica de 1.x. Los recorridos y artefactos vigentes se definen en
+[ADR-0017](0017-proportional-delivery-tracks.md), el layout en
+[ADR-0013](0013-project-harness.md) y la investigación de módulos existentes en
+[conocimiento de dominios](../../architecture/domain-knowledge.md).
+
 - Status: Accepted
 - Date: 2026-09-09
 

@@ -1,0 +1,84 @@
+✓ Required structure
+✓ Installation routing
+✓ Workflow suspension
+✓ Operational guides
+✓ Semantic version
+✓ Project registry
+✓ Skill contracts
+✓ Canonical contracts
+✓ Policy routing
+✓ Markdown links
+✓ Agent entrypoint budget
+✓ Source ownership
+✓ Distributable file safety
+✓ Text hygiene
+  Version change omitido: ejecución manual o primer push.
+✓ Version change
+
+Framework validation passed.
+Source lint passed: JavaScript/Bash syntax, ShellCheck, shfmt and credential patterns.
+[sync] install: 3.6.0, 30 Skills, rama feature/harness.
+[sync] unchanged: 3.6.0, 30 Skills, rama feature/harness.
+[sync] repair: 3.6.0, 30 Skills, rama feature/harness.
+[sync] repair: 3.6.0, 30 Skills, rama feature/harness.
+[sync] install: 3.6.0, 30 Skills, rama feature/harness.
+[sync] update: 3.6.0, 30 Skills, rama feature/harness.
+[sync] install: 3.6.0, 30 Skills, rama feature/harness.
+[sync] repair: 3.6.0, 30 Skills, rama feature/harness.
+[sync] install: 3.6.0, 20 Skills, rama feature/harness.
+[sync] repair: 3.6.0, 19 Skills, rama feature/harness.
+[sync] update: 3.6.0, 30 Skills, rama feature/harness.
+[sync] install: 3.6.0, 30 Skills, rama feature/harness.
+[sync] install: 3.6.0, 30 Skills, rama feature/harness.
+[sync] install: 3.6.0, 30 Skills, rama linked.
+Distribution tests passed.
+Publication orchestration tests passed.
+Lifecycle tests passed: transitions, pause, closure, reopen, 60-day boundary, holds, references, clean Git, symlinks, interrupted batch restore and purge.
+Harness check tests passed.
+Runner plan tests passed: literal argv, tagged image, scoped execution, bounded timeout, duplicates and execution results.
+Harness profile selection and local skill adapter tests passed.
+[sync] install: 3.6.0, 30 Skills, rama main.
+pilot: install consumer and discover platform skills
+pilot: define work and bounded handoff
+pilot: worker implementation and observable behavior
+pilot: fresh process reconstructs bounded continuation
+pilot: review and consolidate lasting knowledge
+pilot: enforce retention then purge eligible work
+pilot: lasting knowledge and product tests survive without work archive
+Harness pilot passed: 7 observable stages. Synthetic handoff fixture, not live client certification.
+[sync] install: 3.6.0, 30 Skills, rama feature/native.
+[sync] install: 3.6.0, 30 Skills, rama feature/native.
+Native runtime tests passed: Docker absent/sentinel, built-in checks, work, Node preflight, local-source update and bootstrap.
+Agent profiles: configuración, migración, restricciones, diagnóstico y argv verificados; clientes simulados explícitos.
+Agent execution: synthetic adapter lifecycle, questions, durable answers, cancellation/timeouts, live-session rejoin, ownership enforcement, baseline protection, five reviewers, correction loop, final verification and closure guards passed.
+[sync] install: 3.6.0, 30 Skills, rama feature/agents.
+Agent integration passed: distributed runtime, preserved personal configuration, uncollected tasks and workflow block lifecycle/update.
+Agent CLI: discoverable help without configuration/mutation, exact arity and command-scoped options passed.
+[sync] install: 3.6.0, 30 Skills, rama feature/discovery.
+Installed consumer discovery passed: complete resources and adapters, reachable operating guides, mutation probes, CLI help, documented JSON examples, incomplete setup/doctor, bounded tasks/workflow and closure retention; no model execution.
+[sync] install: 3.6.0, 30 Skills, rama feature/usage.
+Harness usage passed: installed help without mutation, explicit --root, rejected ignored flags/duplicates, documented runner contract.
+[sync] install: 3.6.0, 30 Skills, rama feature/guides.
+[sync] install: 3.6.0, 18 Skills, rama feature/core-profile.
+Operational guides passed: source and installed consumers, filtered profiles, real runtime contracts, JSON/shell/CLI/link checks and negative mutation probes; no providers or example execution.
+Agent tracks: minimal one worker, standard one reviewer/corrections, final baseline evidence, disposition, risk/project floors, optional definition and legacy defaults passed.
+[sync] install: 3.6.0, 30 Skills, rama feature/proportional.
+[sync] install: 3.6.0, 30 Skills, rama feature/proportional.
+[sync] install: 3.6.0, 30 Skills, rama feature/proportional.
+[sync] install: 3.6.0, 30 Skills, rama feature/proportional.
+[sync] install: 3.6.0, 30 Skills, rama feature/proportional.
+[sync] install: 3.6.0, 30 Skills, rama feature/proportional.
+Proportional delivery passed: direct and delegated minimum, compact truthful closure, standard with optional definition and one grouped reviewer, unchanged legacy full route, risk/project floors, no lowering, review coverage and installed guides. Synthetic protocol client only; no model invoked.
+[sync] install: 3.6.0, 30 Skills, rama feature/domain-docs.
+Domain documentation passed: fresh consumer resources and adapters, routed guide/policy/template, missing-resource and missing-route failures in normal checks, domain JSON syntax without unrelated schemas, explicit risk floors without title inference. Structural instructions only; no product investigation or model execution.
+Deployment contract passed: YAML safety, required fields, identities/dependencies, migration authority, strategy prerequisites, bounded paths and sanitized diagnostics; no deployment or health commands executed.
+Real SOPS checked: disposable fixture encrypted to public recipient, filestatus and metadata checked without private identity or decrypt.
+Secret contracts passed: synthetic SOPS protocol, closed allowlists, keys/placeholders/recipients, first matching rule, safe paths, missing tool/timeout and redacted failures.
+Gitleaks real 8.30.1: clean scope, untracked/staged/index-hidden token, deleted historical token, local config/ignore/comment bypass prevention, shallow rejection and redaction passed.
+Secret scan contract passed: explicit scope, version, sanitized reports/errors, private artifacts, timeout and environment overrides; real scanner executed.
+[sync] install: 3.6.0, 30 Skills, rama feature/assurance.
+Assurance integration passed: installed vendor/runtime/guides, scoped checks, fail-closed missing tools/configuration, discovered and declared contracts, guide mutation probes and personal tool preservation.
+Harness setup passed: read-only diagnosis, idempotent versioned cache, compatible personal tools, corruption/symlink/mode rejection, failed download cleanup and concurrent lock preservation.
+Setup bootstrap passed: no-Node diagnostic without writes, pinned bootstrap, checksum rejection, cache reuse/integrity, wrapper resolution and symlink preservation; downloads are synthetic fixtures.
+[sync] install: 3.6.0, 30 Skills, rama feature/setup.
+Installed setup passed: help and read-only no-Node diagnosis, rejected flags before mutation; real downloads opt-in HARNESS_SETUP_REAL=1.

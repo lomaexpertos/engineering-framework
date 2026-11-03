@@ -8,6 +8,8 @@ Consulta este dominio para cualquier cambio de interfaz o experiencia de usuario
   [`ui-consistency.md`](ui-consistency.md).
 - Antes de crear un componente o patrón nuevo:
   [`../ai-assisted-development/reuse-before-create.md`](../ai-assisted-development/reuse-before-create.md).
+- Revisión UI/UX y evidencia visual frente a inspección de código:
+  [`../ai-assisted-development/change-review.md`](../ai-assisted-development/change-review.md).
 
 ## Planned coverage
 

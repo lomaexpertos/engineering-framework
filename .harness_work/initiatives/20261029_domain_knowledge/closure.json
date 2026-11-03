@@ -1,0 +1,22 @@
+{
+  "reviewer": "coordinator",
+  "reviewed_at": "2026-10-29T04:14:08.271Z",
+  "summary": "Metodología de conocimiento AS-IS documentada, distribuida y revisada de forma independiente; conversación normal excluida y actualización incremental enlazada a cierre.",
+  "validation": [
+    {
+      "command": "bash tooling/run-validation.sh --with-lint",
+      "outcome": "passed",
+      "evidence": "Suite completa Node24, incluida instalación nueva y regresiones de rutas/recursos. Ver evidence/native-node24.log."
+    },
+    {
+      "command": "Revisión funcional independiente de Policy, Skill y plantillas",
+      "outcome": "passed",
+      "evidence": "reviews/domain-review.md: intención, cobertura y conteos revisados; sin hallazgos."
+    }
+  ],
+  "sources": [
+    "docs/architecture/domain-knowledge.md",
+    "docs/roadmap/README.md",
+    ".harness_work/memory/current.md"
+  ]
+}

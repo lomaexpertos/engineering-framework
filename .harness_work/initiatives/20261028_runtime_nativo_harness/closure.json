@@ -1,0 +1,64 @@
+{
+  "reviewer": "coordinador, con revisión de native_tests sobre wrappers de native_wrappers",
+  "reviewed_at": "2026-10-28T15:07:26.126Z",
+  "validation": {
+    "status": "complete",
+    "reason": "Suite completa Node24 y Node22, más runner Docker real aprobados.",
+    "sources": [
+      ".harness_work/initiatives/20261028_runtime_nativo_harness/evidence/native-node24.log",
+      ".harness_work/initiatives/20261028_runtime_nativo_harness/evidence/optional-node22.log",
+      ".harness_work/initiatives/20261028_runtime_nativo_harness/evidence/docker-runners.log"
+    ]
+  },
+  "reviews": {
+    "status": "complete",
+    "reason": "Revisión de wrappers independiente de su autor y revisión de integración por coordinador; sin bloqueantes.",
+    "sources": [
+      ".harness_work/initiatives/20261028_runtime_nativo_harness/brief.md",
+      ".harness_work/initiatives/20261028_runtime_nativo_harness/evidence/docker-runners.log"
+    ]
+  },
+  "documentation": {
+    "status": "complete",
+    "reason": "Operación nativa y migración documentadas.",
+    "sources": [
+      "docs/architecture/distribution.md",
+      "docs/architecture/consumer-contract.md"
+    ]
+  },
+  "decisions": {
+    "status": "complete",
+    "reason": "Decisión y compatibilidad consolidadas.",
+    "sources": [
+      "docs/governance/decisions/0015-native-harness-runtime.md"
+    ]
+  },
+  "invariants": {
+    "status": "complete",
+    "reason": "Aplicación aislada y herramientas transversales nativas distinguidas.",
+    "sources": [
+      "docs/invariants.md"
+    ]
+  },
+  "roadmap": {
+    "status": "complete",
+    "reason": "Capacidad nativa registrada como entregada.",
+    "sources": [
+      "docs/roadmap/README.md"
+    ]
+  },
+  "backlog": {
+    "status": "complete",
+    "reason": "No quedan pendientes bloqueantes del alcance; evolución previa conservada.",
+    "sources": [
+      "docs/roadmap/backlog.md"
+    ]
+  },
+  "memory": {
+    "status": "complete",
+    "reason": "Sin otros trabajos activos; prioridades permanecen en fuentes canónicas.",
+    "sources": [
+      ".harness_work/memory/current.md"
+    ]
+  }
+}

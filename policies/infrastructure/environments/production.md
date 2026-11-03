@@ -22,7 +22,14 @@ recuperación sean repetibles y auditables.
    estado, diagnóstico, estrategias por servicio y operaciones restringidas.
 7. Archivos descifrados, locks y estado generado **MUST NOT** formar parte de las
    fuentes versionadas.
+8. La raíz de estado operativo **MUST** ser `/home/appmanager/<project>-runtime`,
+   conforme a [runtime-state.md](../runtime-state.md). No se deriva del layout de
+   fuentes ni admite otra raíz por decisión técnica del agente.
+9. Cada repositorio con runtime productivo propio **MUST** implementar el
+   [doctor de preparación](../deployment/doctor.md), documentarlo y exigir su
+   aprobación antes del primer arranque y de activar una versión/configuración nueva.
 
-La estructura exacta puede variar por runtime, pero debe satisfacer
+La estructura de artefactos versionados puede variar por tecnología, sin modificar
+la raíz productiva de estado. Debe satisfacer
 [`../repository-layout.md`](../repository-layout.md) y declarar sus servicios mediante
 [`../deployment/manifest.md`](../deployment/manifest.md).

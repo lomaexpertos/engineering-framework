@@ -17,6 +17,9 @@ Consultar `infrastructure/repository-layout.md`, `deployment/manifest.md`,
 `deployment/automation.md`, `runtime-state.md`, `health-checks.md` y `deployment/rollback.md`
 desde el router. Estrategia/tráfico, secretos y compatibilidad SQL se cargan únicamente
 cuando la decisión o el cambio los afecte.
+Para prechecks y primer arranque, cargar `infrastructure/deployment/doctor.md`:
+doctor ejecutable propio del proyecto, catálogo exhaustivo/determinista y salida
+accionable con gate obligatorio; no copiar los checks ilustrativos como catálogo real.
 
 ## Contrato propio
 
@@ -24,8 +27,11 @@ cuando la decisión o el cambio los afecte.
   `deploy.sh <precheck|install|release|status|diagnose|rollback> <unidad> [versión]`
   y la correspondencia con `deployment.yaml`.
 - Usar `scripts/lib/` para módulos y `scripts/privileged/` solo para helpers cerrados.
-  Estado, locks, temporales y material sensible viven en el `RUNTIME_DIR` declarado,
-  no en fuentes ni en `/tmp` como fallback.
+  Estado, locks, temporales y material sensible viven en
+  `RUNTIME_DIR=/home/appmanager/<project>-runtime`, según `runtime-state.md`.
+  No aceptar `<project>-production/runtime`, derivaciones de HOME/checkout ni
+  overrides; comprobar la raíz y confinamiento antes de escribir. Si el legado
+  difiere, reportar desviación y migración pendiente, sin moverlo automáticamente.
 - Confirmar unidad, artefacto, estrategia, salud, migraciones, runtime y recuperación;
   no inferir zero downtime ni una estrategia ausente. Una API sin estrategia
   documentada requiere la decisión responsable entre `blue-green` y `recreate`

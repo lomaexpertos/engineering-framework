@@ -3,6 +3,8 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { parseProjects } from "./resolve-projects.mjs";
+import { checkOperationalGuides } from "./harness-guide-check.mjs";
+import {isInitialDraft} from './release-state.mjs';
 
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 process.chdir(repositoryRoot);
@@ -124,6 +126,7 @@ runCheck("Required structure", () => {
     "README.md",
     "INSTALL.md",
     "VERSION",
+    "RELEASE_STATUS",
     "docs/architecture/distribution.md",
     "docs/governance/decisions/0011-assisted-installation.md",
     "policies/ai-assisted-development/project-artifact-layout.md",
@@ -136,6 +139,8 @@ runCheck("Required structure", () => {
     "tooling/sync-consumer.mjs",
     "tooling/test-distribution.mjs",
     "tooling/test-publication.mjs",
+    "tooling/harness-check.mjs",
+    "tooling/harness-work.mjs",
   ];
 
   for (const requiredPath of requiredPaths) {
@@ -165,6 +170,12 @@ runCheck("Workflow suspension", () => {
     if (/^\.github\/workflows\/[^/]+\.ya?ml$/i.test(file)) {
       addFailure("Workflow suspension", `${file}: los workflows están retirados por decisión del mantenedor`);
     }
+  }
+});
+
+runCheck("Operational guides", () => {
+  for (const item of checkOperationalGuides(repositoryRoot, { layout: 'source' })) {
+    if (item.status === 'failed') addFailure('Operational guides', `${item.file}: ${item.message}`);
   }
 });
 
@@ -336,8 +347,8 @@ runCheck("Canonical contracts", () => {
   }
 
   const documentationSkill = fs.readFileSync("skills/spec-documentar/SKILL.md", "utf8");
-  if (!documentationSkill.includes("engineering/docs/<modulo>/README.md")) {
-    addFailure("Canonical contracts", "spec-documentar no usa engineering/docs por módulo");
+  if (!documentationSkill.includes("docs/domains/<dominio>/README.md")) {
+    addFailure("Canonical contracts", "spec-documentar no declara documentación canónica por dominio");
   }
 });
 
@@ -357,15 +368,25 @@ runCheck("Policy routing", () => {
 runCheck("Markdown links", () => {
   for (const file of files.filter((candidate) => candidate.endsWith(".md"))) {
     for (const target of markdownTargets(file)) {
-      if (!fs.existsSync(target)) {
+      const generatedCore = path.resolve("templates/project/.harness/core");
+      const templateSource = file.startsWith("templates/project/.harness/") && target.startsWith(`${generatedCore}${path.sep}`)
+        ? path.resolve(repositoryRoot, path.relative(generatedCore, target)) : target;
+      if (!fs.existsSync(templateSource)) {
         addFailure("Markdown links", `${file} referencia una ruta inexistente: ${target}`);
       }
     }
   }
 });
 
+runCheck("Agent entrypoint budget", () => {
+  for (const file of files.filter(candidate => path.basename(candidate) === "AGENTS.md")) {
+    const count = fs.readFileSync(file, "utf8").replace(/\n$/, "").split("\n").length;
+    if (count > 100) addFailure("Agent entrypoint budget", `${file}: ${count} líneas; máximo 100`);
+  }
+});
+
 runCheck("Source ownership", () => {
-  const forbiddenPrefixes = [".agents/", ".claude/", "engineering/corporate/"];
+  const forbiddenPrefixes = [".agents/", ".claude/", ".harness/", "engineering/corporate/"];
   for (const file of files) {
     if (forbiddenPrefixes.some((prefix) => file.startsWith(prefix))) {
       addFailure("Source ownership", `${file} es una copia consumidora dentro de la fuente`);
@@ -401,7 +422,8 @@ runCheck("Distributable file safety", () => {
 runCheck("Text hygiene", () => {
   const textExtensions = new Set([".js", ".json", ".md", ".mjs", ".sh", ".yaml", ".yml"]);
   const textFiles = files.filter(
-    (file) => textExtensions.has(path.extname(file)) || path.basename(file) === "VERSION",
+    // Preserve upstream vendor bytes; local whitespace conventions apply to our sources.
+    (file) => !file.startsWith('tooling/vendor/') && (textExtensions.has(path.extname(file)) || path.basename(file) === "VERSION"),
   );
 
   for (const file of textFiles) {
@@ -421,6 +443,7 @@ runCheck("Text hygiene", () => {
 });
 
 runCheck("Version change", () => {
+  const initialDraft=isInitialDraft(fs.readFileSync('VERSION','utf8').trim(),fs.readFileSync('RELEASE_STATUS','utf8').trim());
   const changedFilesPath = process.env.VALIDATION_CHANGED_FILES_PATH?.trim();
   if (!changedFilesPath || !fs.existsSync(changedFilesPath)) {
     console.log("  Version change omitido: ejecución manual o primer push.");
@@ -442,11 +465,16 @@ runCheck("Version change", () => {
     (file) =>
       file.startsWith("policies/") ||
       /^skills\/[^/]+\//.test(file) ||
+      file.startsWith("checks/") ||
+      file.startsWith("schemas/") ||
+      file.startsWith("templates/") ||
+      /^tooling\/(?:harness|agent)-[^/]+\.mjs$/.test(file) ||
+      file.startsWith('tooling/vendor/') || file === 'tooling/harness-tools.json' || file === 'tooling/harness-node.json' ||
       file === "templates/project/AGENTS.md" ||
       file.startsWith("templates/project/engineering/corporate/"),
   );
 
-  if (changesDistributedContent && !changedFiles.includes("VERSION")) {
+  if (changesDistributedContent && !changedFiles.includes("VERSION") && !initialDraft) {
     addFailure("Version change", "cambió contenido distribuible sin actualizar VERSION");
   }
 });

@@ -20,6 +20,11 @@ Entregar la interfaz solicitada dentro del lenguaje visual y funcional del proye
   verificar el logging requerido por `development/logging.md` en la frontera
   responsable; no sustituir evidencia confiable por logs de cada clic.
 - El modelo decide composición y técnica; no imponer una receta de componentes.
+- Aplicar `ai-assisted-development/change-review.md` al diff integrado: estados,
+  comprensión, feedback, recuperación y observación visual cuando sea requerida.
+  Validar tamaños/estados afectados, sin matriz global para un ajuste local.
+  Texto sin impacto visual material puede comprobar contenido; CSS/layout requiere
+  observación visual focalizada. Declarar límites si solo se inspeccionó código.
 
 ## Resultado esperado
 

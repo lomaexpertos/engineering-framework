@@ -42,6 +42,10 @@ Un entrypoint productivo **MUST**:
 9. terminar con estado y código de salida inequívocos; y
 10. documentar recuperación y rollback.
 
+`precheck` **MUST** reutilizar el [doctor de preparación](doctor.md); todo camino de
+arranque **MUST** respetar su gate, códigos y diagnóstico completo. Preparación del
+host y comprobaciones de salud posteriores conservan responsabilidades distintas.
+
 ## Safety
 
 - La automatización **MUST NOT** ejecutar una operación global cuando incluya slots
@@ -57,5 +61,10 @@ Un entrypoint productivo **MUST**:
 - Repetir una operación exitosa **SHOULD** converger al mismo estado sin trabajo
   destructivo innecesario.
 - La automatización **MUST NOT** escribir fuera de la raíz del repositorio y del
-  `RUNTIME_DIR` declarado. Durante su ejecución, todo estado mutable **MUST** escribirse
-  bajo `RUNTIME_DIR`, no sobre fuentes versionadas.
+  `RUNTIME_DIR` canónico de [runtime-state.md](../runtime-state.md):
+  `/home/appmanager/<project>-runtime`. Declarar otra ruta no la autoriza. Antes de
+  escribir **MUST** rechazar overrides, enlaces y destinos fuera de la raíz.
+  Durante su ejecución, todo archivo mutable gestionado directamente por la
+  automatización **MUST** escribirse bajo `RUNTIME_DIR`, no sobre fuentes versionadas.
+  El almacenamiento interno de Docker conserva su ownership según runtime-state;
+  helpers privilegiados no amplían la frontera de escritura autorizada.

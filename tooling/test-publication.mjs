@@ -159,18 +159,15 @@ esac
 
   const branch = `refs/heads/engineering-framework/update-v${frameworkVersion}`;
   requireSuccess("git", ["--git-dir", remote, "show-ref", "--verify", branch]);
-  assert.equal(
-    requireSuccess("git", ["--git-dir", remote, "show", `${branch}:FRAMEWORK_VERSION`]).stdout,
-    `${frameworkVersion}\n`,
-  );
   const installation = JSON.parse(
     requireSuccess("git", [
       "--git-dir",
       remote,
       "show",
-      `${branch}:engineering/corporate/metadata/installation.json`,
+      `${branch}:.harness/core/manifest.json`,
     ]).stdout,
   );
+  assert.equal(installation.framework_version, frameworkVersion);
   assert.equal(installation.source_repository, "lomaexpertos/engineering-framework");
   assert.equal(installation.source_commit, baseEnvironment.GITHUB_SHA);
   requireSuccess("git", [

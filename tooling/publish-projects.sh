@@ -23,7 +23,7 @@ if [[ ! -r "$ENGINEERING_FRAMEWORK_PROJECTS_FILE" ]]; then
   exit 1
 fi
 
-framework_version="$(tr -d '[:space:]' < "$ENGINEERING_FRAMEWORK_ROOT/VERSION")"
+framework_version="$(tr -d '[:space:]' <"$ENGINEERING_FRAMEWORK_ROOT/VERSION")"
 branch_name="engineering-framework/update-v${framework_version}"
 work_root="$(mktemp -d "${RUNNER_TEMP:-/tmp}/engineering-framework-publish.XXXXXX")"
 summary_file="${GITHUB_STEP_SUMMARY:-$work_root/publication-summary.md}"
@@ -58,7 +58,7 @@ append_result() {
   local status="$3"
   local detail="$4"
   detail="${detail//|/\\|}"
-  printf '| `%s` | %s | %s | %s |\n' "$repository" "$stage" "$status" "$detail" >> "$summary_file"
+  printf '| `%s` | %s | %s | %s |\n' "$repository" "$stage" "$status" "$detail" >>"$summary_file"
 }
 
 start_group() {
@@ -109,18 +109,18 @@ version_is_older_than() {
   local candidate_major candidate_minor candidate_patch
   local installed_major installed_minor installed_patch
 
-  IFS=. read -r candidate_major candidate_minor candidate_patch <<< "$candidate"
-  IFS=. read -r installed_major installed_minor installed_patch <<< "$installed"
+  IFS=. read -r candidate_major candidate_minor candidate_patch <<<"$candidate"
+  IFS=. read -r installed_major installed_minor installed_patch <<<"$installed"
 
-  if (( candidate_major != installed_major )); then
-    (( candidate_major < installed_major ))
+  if ((candidate_major != installed_major)); then
+    ((candidate_major < installed_major))
     return
   fi
-  if (( candidate_minor != installed_minor )); then
-    (( candidate_minor < installed_minor ))
+  if ((candidate_minor != installed_minor)); then
+    ((candidate_minor < installed_minor))
     return
   fi
-  (( candidate_patch < installed_patch ))
+  ((candidate_patch < installed_patch))
 }
 
 if ! is_semver "$framework_version"; then
@@ -150,14 +150,14 @@ while IFS=$'\t' read -r repository auto_merge extra; do
   fi
   repositories+=("$repository")
   auto_merge_values+=("$auto_merge")
-done < "$ENGINEERING_FRAMEWORK_PROJECTS_FILE"
+done <"$ENGINEERING_FRAMEWORK_PROJECTS_FILE"
 
 {
   echo "## Consumer results"
   echo
   echo "| Repository | Stage | Status | Detail |"
   echo "|---|---|---|---|"
-} >> "$summary_file"
+} >>"$summary_file"
 
 current_stage="authenticate"
 start_group "Authenticate GitHub App bot"
@@ -194,7 +194,7 @@ preflight_repository() {
 
   IFS=$'\t' read -r \
     default_branch archived disabled allow_squash allow_auto_merge delete_branch push_permission \
-    <<< "$metadata"
+    <<<"$metadata"
 
   log "Metadata: default=${default_branch:-<none>}, archived=${archived:-unknown}, disabled=${disabled:-unknown}, push=${push_permission:-unknown}, squash=${allow_squash:-unknown}, auto_merge=${allow_auto_merge:-unknown}, delete_branch=${delete_branch:-unknown}."
 
@@ -241,12 +241,12 @@ for index in "${!repositories[@]}"; do
   run_isolated preflight_repository "${repositories[$index]}" "${auto_merge_values[$index]}"
   operation_status="$?"
   set -e
-  if (( operation_status != 0 )); then
+  if ((operation_status != 0)); then
     ((preflight_failures += 1))
   fi
 done
 
-if (( preflight_failures != 0 )); then
+if ((preflight_failures != 0)); then
   current_repository="registry"
   current_stage="preflight"
   echo "::error title=Publication preflight failed::${preflight_failures} consumer repository preflight(s) failed. No consumer branch was modified."
@@ -289,8 +289,11 @@ publish_repository() {
     log "No existing update branch found; this publication will create it."
   fi
 
-  if [[ -f "$checkout/FRAMEWORK_VERSION" ]]; then
-    previous_version="$(tr -d '[:space:]' < "$checkout/FRAMEWORK_VERSION")"
+  if [[ -f "$checkout/.harness/core/manifest.json" ]]; then
+    previous_version="$(node -e 'const fs=require("node:fs"); console.log(JSON.parse(fs.readFileSync(process.argv[1], "utf8")).framework_version)' "$checkout/.harness/core/manifest.json")"
+    log "Installed harness version: ${previous_version:-<empty>}."
+  elif [[ -f "$checkout/FRAMEWORK_VERSION" ]]; then
+    previous_version="$(tr -d '[:space:]' <"$checkout/FRAMEWORK_VERSION")"
     log "Installed framework version: ${previous_version:-<empty>}."
   else
     log "No installed FRAMEWORK_VERSION found; treating this as a first installation."
@@ -302,7 +305,7 @@ publish_repository() {
     if version_is_older_than "$framework_version" "$previous_version"; then
       fail "Refusing to downgrade ${repository} from ${previous_version} to ${framework_version}."
     fi
-    if (( 10#${framework_version%%.*} > 10#${previous_version%%.*} )); then
+    if ((10#${framework_version%%.*} > 10#${previous_version%%.*})); then
       is_major_update="true"
     fi
   fi
@@ -311,17 +314,20 @@ publish_repository() {
   log "Resetting the deterministic update branch from origin/main."
   git -C "$checkout" checkout -B "$branch_name" origin/main
   log "Synchronizing corporate Policies, metadata, AGENTS routing and both Skill catalogs."
-  node "$ENGINEERING_FRAMEWORK_ROOT/tooling/sync-consumer.mjs" "$checkout"
+  node "$ENGINEERING_FRAMEWORK_ROOT/tooling/sync-consumer.mjs" --allow-major "$checkout"
 
   current_stage="commit"
   git -C "$checkout" config user.name "$bot_user"
   git -C "$checkout" config user.email "$bot_email"
-  git -C "$checkout" add -- \
+  git -C "$checkout" add --all -- \
     AGENTS.md \
-    FRAMEWORK_VERSION \
-    engineering/corporate \
+    CLAUDE.md \
+    .harness \
     .agents/skills \
     .claude/skills
+  if [[ -n "$(git -C "$checkout" ls-files -- FRAMEWORK_VERSION engineering/corporate)" ]]; then
+    git -C "$checkout" add --all -- FRAMEWORK_VERSION engineering/corporate
+  fi
 
   if git -C "$checkout" diff --cached --quiet; then
     log "No managed-file changes detected; ${repository} already matches ${framework_version}."
@@ -332,7 +338,7 @@ publish_repository() {
   log "Managed diff contains $(git -C "$checkout" diff --cached --name-only | wc -l | tr -d '[:space:]') files."
   git -C "$checkout" commit \
     -m "chore(engineering): actualiza framework a ${framework_version}" \
-    -m "- Sincroniza Policies corporativas bajo engineering/corporate
+    -m "- Sincroniza núcleo administrado bajo .harness/core
 - Instala el mismo catálogo de Skills para Codex y Claude Code
 - Actualiza versión y routing corporativo administrado"
   head_sha="$(git -C "$checkout" rev-parse HEAD)"
@@ -355,13 +361,13 @@ publish_repository() {
   {
     echo "Actualización automática de Engineering Framework ${framework_version}."
     echo
-    echo "- Policies corporativas en \`engineering/corporate/\`."
+    echo "- Núcleo administrado en \`.harness/core/\`."
     echo "- Skills idénticas en \`.agents/skills/\` y \`.claude/skills/\`."
     echo "- Fuente inmutable: \`${GITHUB_REPOSITORY}@${GITHUB_SHA}\`."
     echo "- Commit consumidor: \`${head_sha}\`."
     echo
     echo "Este contenido es administrado por \`${bot_user}\`."
-  } > "$pr_body_file"
+  } >"$pr_body_file"
 
   pull_request_record="$(
     gh pr list \
@@ -375,7 +381,7 @@ publish_repository() {
   )"
 
   if [[ -n "$pull_request_record" ]]; then
-    IFS=$'\t' read -r pull_request_number pull_request_url <<< "$pull_request_record"
+    IFS=$'\t' read -r pull_request_number pull_request_url <<<"$pull_request_record"
     log "Reusing PR #${pull_request_number}; refreshing its title and provenance."
     gh pr edit "$pull_request_number" \
       --repo "$repository" \
@@ -434,7 +440,7 @@ for index in "${!repositories[@]}"; do
   run_isolated publish_repository "${repositories[$index]}" "${auto_merge_values[$index]}"
   operation_status="$?"
   set -e
-  if (( operation_status != 0 )); then
+  if ((operation_status != 0)); then
     current_repository="${repositories[$index]}"
     current_stage="publication"
     log "Stopping after the first mutation-phase failure; inspect the summary for repositories already processed." >&2

@@ -1,5 +1,8 @@
 # ADR-0008: Project artifact layout
 
+Para versiones 2.x, sustituido por [ADR-0013](0013-project-harness.md).
+El contenido siguiente conserva la decisión histórica de versiones 1.x.
+
 - Status: Accepted
 - Date: 2026-09-09
 

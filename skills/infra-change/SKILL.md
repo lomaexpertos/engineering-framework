@@ -11,6 +11,8 @@ Entregar un cambio de infraestructura adoptada sin ampliar su autoridad operativ
 
 - Consultar el router `infrastructure/`, su layout y las Policies del componente afectado.
   Conservar ambientes, rutas y entrypoints canónicos; no crear capacidades vacías.
+- Para rutas/estado productivo, leer `infrastructure/runtime-state.md`: raíz exacta
+  `/home/appmanager/<project>-runtime`, sin overrides ni migraciones implícitas.
 - Una adopción completa usa `infra-adopt-framework`; automatización Bash del perfil
   de servidor fijo usa `implement-deployment-automation`; secretos usan `manage-secrets`.
   No aplicar esos workflows completos a una modificación que no los requiera.
@@ -19,8 +21,15 @@ Entregar un cambio de infraestructura adoptada sin ampliar su autoridad operativ
 - Mantener consistencia entre manifests, configuración, scripts y documentación
   cuando el contrato cambie; conservar la recuperación correspondiente.
 - Validar en infraestructura aislada, sin alterar ambientes operativos.
+- Si cambia un prerrequisito o una entrada de arranque, actualizar el doctor y su
+  cobertura según `infrastructure/deployment/doctor.md`, sin ejecutarlo en producción
+  por inferencia de esta Skill.
 
 ## Resultado esperado
+
+Validar manifests y contratos afectados con los scopes `deployment` y `secrets`
+según `.harness/core/checks/assurance/README.md`; conservar gates operativos y
+escaneo `security` aplicable. Esas comprobaciones no ejecutan deployments.
 
 Cambio y evidencia, ambientes/unidades afectados y operaciones pendientes.
 El modelo decide la técnica y el orden dentro de los contratos corporativos.

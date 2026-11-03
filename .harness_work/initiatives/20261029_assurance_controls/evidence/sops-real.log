@@ -1,0 +1,2 @@
+Real SOPS checked: disposable fixture encrypted to public recipient, filestatus and metadata checked without private identity or decrypt.
+Secret contracts passed: synthetic SOPS protocol, closed allowlists, keys/placeholders/recipients, first matching rule, safe paths, missing tool/timeout and redacted failures.

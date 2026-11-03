@@ -1,0 +1,16 @@
+INSTALL.md
+VERSION
+checks/assurance/README.md
+docs/governance/pending-decisions.md
+docs/invariants.md
+docs/roadmap/README.md
+policies/ai-assisted-development/infrastructure-change-safety.md
+policies/infrastructure/README.md
+policies/infrastructure/deployment/automation.md
+policies/infrastructure/environments/production.md
+policies/infrastructure/runtime-state.md
+skills/implement-deployment-automation/SKILL.md
+skills/infra-adopt-framework/SKILL.md
+skills/infra-change/SKILL.md
+tooling/harness-guide-check.mjs
+tooling/test-guide-check.mjs

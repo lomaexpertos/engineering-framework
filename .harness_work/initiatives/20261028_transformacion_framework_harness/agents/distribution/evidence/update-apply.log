@@ -1,0 +1,68 @@
+From file:///tmp/harness-distribution-pilot.sHhh3Dn0/source
+ * branch            main       -> FETCH_HEAD
+ * [new branch]      main       -> origin/main
+✓ Required structure
+✓ Installation routing
+✓ Workflow suspension
+✓ Semantic version
+✓ Project registry
+✓ Skill contracts
+✓ Canonical contracts
+✓ Policy routing
+✓ Markdown links
+✓ Agent entrypoint budget
+✓ Source ownership
+✓ Distributable file safety
+✓ Text hygiene
+  Version change omitido: ejecución manual o primer push.
+✓ Version change
+
+Framework validation passed.
+[sync] repair: 2.0.0, 30 Skills, rama pilot/harness.
+{
+  "operation": "repair",
+  "consumer": "/consumer",
+  "branch": "pilot/harness",
+  "previous_version": "2.0.0",
+  "framework_version": "2.0.0",
+  "source_repository": "lomaexpertos/engineering-framework",
+  "source_commit": "cbea0e1f5ad5e1627e17758eec13ac45a9343ed5",
+  "major_update": false,
+  "skills": [
+    "add-observability",
+    "audit-agent-context",
+    "branch-quality-review",
+    "close-initiative",
+    "configure-agent-context",
+    "coordinate-work",
+    "data-integrity-review",
+    "database-data-change",
+    "database-routine-change",
+    "database-schema-change",
+    "debug-error",
+    "explorador-de-dominio",
+    "gitcommit",
+    "implement-critical-state-change",
+    "implement-deployment-automation",
+    "implement-distributed-integration",
+    "implement-feature",
+    "implement-ui-change",
+    "infra-adopt-framework",
+    "infra-change",
+    "investigate-production-incident",
+    "manage-secrets",
+    "optimize-database-query",
+    "optimize-performance",
+    "research-best-practices",
+    "security-review",
+    "spec-definir",
+    "spec-documentar",
+    "spec-implementar",
+    "spec-planear"
+  ],
+  "added": [],
+  "updated": [
+    ".harness/core/manifest.json"
+  ],
+  "removed": []
+}

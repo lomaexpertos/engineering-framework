@@ -1,17 +1,20 @@
 ---
 name: spec-planear
-description: Convierte una especificación existente bajo engineering/specs/ en un plan técnico proporcional y verificable. Usar cuando el usuario pida planear, aterrizar o descomponer la implementación de un slug antes de modificar código.
+description: Convierte una especificación existente bajo .harness_work/initiatives/ en un plan técnico proporcional y verificable. Usar cuando el usuario pida planear, aterrizar o descomponer la implementación de un slug antes de modificar código.
 ---
 
 # Spec Planear
 
 Entregar un plan del comportamiento aprobado, sin imponer una receta de diseño.
+Este flujo de spec no se activa por defecto para cambios claros. Crear artefactos
+solo cuando aporten aprobación o continuidad según
+`ai-assisted-development/proportional-delivery.md`.
 
 ## Ubicación y autoridad
 
-- Leer `engineering/specs/<slug>/spec.md`; escribir solo en su carpeta `plan/`.
+- Leer `.harness_work/initiatives/<slug>/spec.md`; escribir solo en su carpeta `plan/`.
   Crear `plan/plan.md`; `tasks.md` y `test-plan.md` separados solo si aportan utilidad.
-- `spec.md` gobierna comportamiento futuro y `engineering/docs/` el estado vigente.
+- `spec.md` gobierna comportamiento futuro y `docs/` el estado vigente.
   No modificar código ni documentación canónica en esta etapa.
 - Si falta la spec o una decisión material, señalar la ruta o bloqueo; no inventar
   la entrada ni presentar el plan como listo.

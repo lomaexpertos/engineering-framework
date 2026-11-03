@@ -1,0 +1,71 @@
+{
+  "scope": "complete mixed executor workflows with real CLIs, deterministic loopback model transport and fictional credentials; no model intelligence certification",
+  "report": [
+    {
+      "coordinator_profile": "claude",
+      "worker": "opencode",
+      "versions": {
+        "claude": "2.1.312 (Claude Code)",
+        "opencode": "opencode v2.2.0"
+      },
+      "stages": [
+        "definition",
+        "implementation",
+        "review",
+        "verification"
+      ],
+      "review_count": 5,
+      "terminal": "ready_to_close",
+      "executions": [
+        {
+          "task": "mixed-claude-definition-0-definition",
+          "adapter": "claude",
+          "permission": "read-only",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-claude-implementation-0-implementation",
+          "adapter": "opencode",
+          "permission": "workspace-write",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-claude-review-0-functional",
+          "adapter": "claude",
+          "permission": "read-only",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-claude-review-0-security",
+          "adapter": "claude",
+          "permission": "read-only",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-claude-review-0-logging",
+          "adapter": "claude",
+          "permission": "read-only",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-claude-review-0-ui",
+          "adapter": "claude",
+          "permission": "read-only",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-claude-review-0-ux",
+          "adapter": "claude",
+          "permission": "read-only",
+          "result": "completed"
+        },
+        {
+          "task": "mixed-claude-verification-0-functional",
+          "adapter": "claude",
+          "permission": "read-only",
+          "result": "completed"
+        }
+      ]
+    }
+  ]
+}

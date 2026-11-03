@@ -1,0 +1,50 @@
+✓ Required structure
+✓ Installation routing
+✓ Workflow suspension
+✓ Semantic version
+✓ Project registry
+✓ Skill contracts
+✓ Canonical contracts
+✓ Policy routing
+✓ Markdown links
+✓ Agent entrypoint budget
+✓ Source ownership
+✓ Distributable file safety
+✓ Text hygiene
+  Version change omitido: ejecución manual o primer push.
+✓ Version change
+
+Framework validation passed.
+Source lint passed: JavaScript/Bash syntax, ShellCheck, shfmt and credential patterns.
+[sync] install: 3.0.0, 30 Skills, rama feature/harness.
+[sync] unchanged: 3.0.0, 30 Skills, rama feature/harness.
+[sync] repair: 3.0.0, 30 Skills, rama feature/harness.
+[sync] repair: 3.0.0, 30 Skills, rama feature/harness.
+[sync] install: 3.0.0, 30 Skills, rama feature/harness.
+[sync] update: 3.0.0, 30 Skills, rama feature/harness.
+[sync] install: 3.0.0, 30 Skills, rama feature/harness.
+[sync] repair: 3.0.0, 30 Skills, rama feature/harness.
+[sync] install: 3.0.0, 20 Skills, rama feature/harness.
+[sync] repair: 3.0.0, 19 Skills, rama feature/harness.
+[sync] update: 3.0.0, 30 Skills, rama feature/harness.
+[sync] install: 3.0.0, 30 Skills, rama feature/harness.
+[sync] install: 3.0.0, 30 Skills, rama feature/harness.
+[sync] install: 3.0.0, 30 Skills, rama linked.
+Distribution tests passed.
+Publication orchestration tests passed.
+Lifecycle tests passed: transitions, pause, closure, reopen, 60-day boundary, holds, references, clean Git, symlinks, interrupted batch restore and purge.
+Harness check tests passed.
+Runner plan tests passed: literal argv, tagged image, scoped execution, bounded timeout, duplicates and execution results.
+Harness profile selection and local skill adapter tests passed.
+[sync] install: 3.0.0, 30 Skills, rama main.
+pilot: install consumer and discover platform skills
+pilot: define work and bounded handoff
+pilot: worker implementation and observable behavior
+pilot: fresh process reconstructs bounded continuation
+pilot: review and consolidate lasting knowledge
+pilot: enforce retention then purge eligible work
+pilot: lasting knowledge and product tests survive without work archive
+Harness pilot passed: 7 observable stages. Synthetic handoff fixture, not live client certification.
+[sync] install: 3.0.0, 30 Skills, rama feature/native.
+[sync] install: 3.0.0, 30 Skills, rama feature/native.
+Native runtime tests passed: Docker absent/sentinel, built-in checks, work, Node preflight, local-source update and bootstrap.

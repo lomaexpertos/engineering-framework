@@ -1,5 +1,10 @@
 # 2026-09-09 Skills reconciliation
 
+Registro histórico de la reconciliación 1.x; sus rutas y cantidades describen esa
+versión. El layout vigente está en [ADR-0013](../decisions/0013-project-harness.md),
+los recorridos en [ADR-0017](../decisions/0017-proportional-delivery-tracks.md) y el
+catálogo actual en [skills](../../../skills/README.md).
+
 ## Source and authority
 
 Se revisó `/home/aloranca/skills` después de los commits `05a3f06` y `b9868c4`; el

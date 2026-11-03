@@ -1,0 +1,34 @@
+[sync] install: 3.3.0, 30 Skills, rama feature/discovery.
+Installed consumer discovery passed: complete resources and adapters, reachable operating guides, mutation probes, CLI help, documented JSON examples, incomplete setup/doctor, bounded tasks/workflow and closure retention; no model execution.
+[sync] install: 3.3.0, 30 Skills, rama feature/usage.
+Harness usage passed: installed help without mutation, explicit --root, rejected ignored flags/duplicates, documented runner contract.
+[sync] install: 3.3.0, 30 Skills, rama feature/guides.
+[sync] install: 3.3.0, 18 Skills, rama feature/core-profile.
+Operational guides passed: source and installed consumers, filtered profiles, real runtime contracts, JSON/shell/CLI/link checks and negative mutation probes; no providers or example execution.
+Agent tracks: minimal one worker, standard one reviewer/corrections, final baseline evidence, disposition, risk/project floors, optional definition and legacy defaults passed.
+[sync] install: 3.3.0, 30 Skills, rama feature/proportional.
+[sync] install: 3.3.0, 30 Skills, rama feature/proportional.
+[sync] install: 3.3.0, 30 Skills, rama feature/proportional.
+[sync] install: 3.3.0, 30 Skills, rama feature/proportional.
+[sync] install: 3.3.0, 30 Skills, rama feature/proportional.
+[sync] install: 3.3.0, 30 Skills, rama feature/proportional.
+Proportional delivery passed: direct and delegated minimum, compact truthful closure, standard with optional definition and one grouped reviewer, unchanged legacy full route, risk/project floors, no lowering, review coverage and installed guides. Synthetic protocol client only; no model invoked.
+Source lint passed: JavaScript/Bash syntax, ShellCheck, shfmt and credential patterns.
+✓ Required structure
+✓ Installation routing
+✓ Workflow suspension
+✓ Operational guides
+✓ Semantic version
+✓ Project registry
+✓ Skill contracts
+✓ Canonical contracts
+✓ Policy routing
+✓ Markdown links
+✓ Agent entrypoint budget
+✓ Source ownership
+✓ Distributable file safety
+✓ Text hygiene
+  Version change omitido: ejecución manual o primer push.
+✓ Version change
+
+Framework validation passed.

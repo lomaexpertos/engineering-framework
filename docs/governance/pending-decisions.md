@@ -1,72 +1,60 @@
-# Pending decisions and work
+# Pendientes de evolución
 
-Este archivo registra deliberadamente lo que no quedó resuelto durante la primera
-transformación de los estándares de infraestructura. Un pendiente no constituye una
-Policy vigente.
+Estos temas no constituyen contratos implementados ni autorizaciones de ejecución.
 
-## Decisions required
+## Compatibilidad y adopción
 
-Las decisiones de aplicabilidad originales quedaron aceptadas en
-[`decisions/0004-infrastructure-policy-applicability.md`](decisions/0004-infrastructure-policy-applicability.md).
-Permanecen por definir únicamente estos contratos de implementación:
+- Extender la validación de clientes a flujos reales de adopción y subagentes.
+  Discovery de instrucciones y skills tiene smoke reproducible con CLI reales;
+  no equivale a certificar comportamiento de modelos, GUI ni providers productivos.
+- Adoptar un consumidor real con reconciliación explícita de contexto heredado; el
+  actualizador nunca traslada su documentación por su cuenta.
+- Extender los adaptadores de ejecución a Pi y nuevas versiones cuando exista
+  evidencia de su contrato; mantener explícita la diferencia entre integración
+  de CLI y comportamiento de modelos en proyectos reales.
+- Resolver skills homónimas instaladas globalmente en equipos adoptados, sin borrarlas
+  como efecto de actualizar un proyecto.
 
-| Decision | Why it matters | Recommended default |
-| --- | --- | --- |
-| Schema de metadata de Policies | Falta convertir la metadata aprobada en un contrato legible por herramientas. | Front matter mínimo con identificador estable, status, owners, versión de introducción y aplicabilidad. |
-| Schema de excepciones | Ya se aprobaron sus datos mínimos, pero faltan formato, ubicación y reglas de aprobación verificables. | Un archivo estructurado por repositorio consumidor y JSON Schema compartido. |
+## Contratos especializados
 
-## Enforcement to implement
+- Homogeneizar identidad operativa y nombres de Compose/redes/volúmenes y decidir
+  si las rutas Compose hoy recomendadas se vuelven obligatorias. La raíz productiva
+  ya está fijada en [runtime-state.md](../../policies/infrastructure/runtime-state.md);
+  las subcarpetas funcionales siguen declaradas por proyecto, sin catálogo corporativo.
+- Precisar el contrato de persistencia administrada (bind mounts, volúmenes y backups)
+  y los parámetros explícitos de salud, logs y retención. No relocalizar datos o
+  almacenamiento del daemon por inferencia de la raíz runtime.
+- Metadata normativa de Policies y formato verificable de excepciones, conservando
+  los datos mínimos y aprobación definidos por la Policy de precedencia.
+- Adoptar validadores de deployment y dotenv/SOPS en proyectos reales; ampliar
+  formatos/proveedores con contratos comprobados. Los checks estáticos no sustituyen
+  descifrado autorizado, activación, restauración ni validación operativa de ambientes.
+- Ampliar adaptadores de linters por stacks usados en proyectos reales, sin imponer
+  un analizador único ni instalar dependencias del producto en el host.
+- Completar normas organizacionales de IaC, contenedores, red, cifrado general,
+  control de acceso y restauración cuando existan decisiones propias verificables.
+- Definir por motor y proyecto las versiones/extensiones soportadas, representación
+  física de UUID, charset/collation y defaults temporales/transaccionales; las
+  convenciones compartidas de PostgreSQL/MySQL no fijan esas elecciones.
+- Precisar TTL y responsable de previews, objetivos de recuperación de datos y
+  servicio (RPO/RTO), y periodicidad de pruebas de restauración.
+- Aclarar el alcance de «valor productivo» en la Policy de configuración frente a
+  valores públicos comunes declarados por ambiente; el aislamiento de secretos y
+  recursos productivos sigue vigente.
+- Delimitar rutas y autoridad cuando la instalación requiera escribir fuera del
+  repositorio y de `RUNTIME_DIR`, por ejemplo configuración del sistema o servicios
+  del host; los helpers privilegiados no amplían autorización por sí solos.
 
-- Schema y validador de `deployment.yaml`.
-- Consistencia entre ciphertext, manifest cerrado y esquema sanitizado.
-- Verificación SOPS sin revelar valores.
-- Detección de secretos en Git, logs y artefactos.
-- Validación de rutas, relaciones, documentación y enlaces del layout de infraestructura.
-- Check de que entrypoints declarados proporcionen diagnóstico y validación.
-- Metadata de checksums de integridad generada por el sincronizador para el contenido
-  corporativo; la metadata de procedencia/versionado ya existe.
+## Operación y distribución
 
-## Corporate content still missing
+Antes de la primera publicación, implementar el gate de transición de
+`RELEASE_STATUS` y verificación de tags que impida reabrir o sobrescribir una versión
+publicada. El check local valida el estado declarado; no acredita publicaciones remotas.
 
-Los estándares fuente no alcanzan para publicar Policies completas de:
+El canal central y los workflows de Actions continúan suspendidos. Restaurarlos
+requiere decisión y validación aparte; los helpers conservados no equivalen a soporte
+operativo vigente. `projects.yml` no dispara instalaciones.
 
-- infrastructure as code;
-- containers;
-- encryption general en tránsito y reposo;
-- networking;
-- access control;
-- backups y restauración organizacional.
-
-La plataforma central de recolección, almacenamiento y consulta de observabilidad
-permanece deliberadamente fuera del repositorio aplicativo. El framework solo define
-el contrato de emisión y la configuración de runtime que sí corresponde al consumidor.
-
-## Distribution status
-
-`INSTALL.md` define instalación y actualización asistidas desde el último snapshot
-de `main`, con previsualización y reporte de documentación heredada.
-Los workflows de validación y publicación fueron retirados el 2026-10-09; el canal
-central conserva helpers y registro, pero requiere restauración explícita.
-Cada consumidor recibe únicamente este contenido bajo `engineering/corporate/`:
-
-```text
-engineering/corporate/
-├── README.md
-├── policies/
-└── metadata/
-```
-
-Cada Skill se copia desde una sola fuente hacia `.agents/skills/` y
-`.claude/skills/`. Los namespaces `engineering/docs/`, `engineering/specs/` y
-`engineering/quality-review/` pertenecen al proyecto y no son administrados por el
-sincronizador. `berhok-logistics` y `timbrado` permanecen registrados pero
-deshabilitados en `projects.yml`. Sigue pendiente probar una instalación asistida
-en un consumidor real; el canal central permanece suspendido y sin workflows.
-
-La arquitectura del workflow, configuración del bot, registro de consumidores y
-documentación de gobierno permanecen exclusivamente en este repositorio.
-
-Después del primer piloto exitoso deben desactivarse las copias personales homónimas
-de Skills corporativas en los equipos adoptados. Codex no fusiona Skills de distinto
-scope con el mismo nombre; mantener ambas activas introduce routing ambiguo y consume
-el presupuesto de discovery.
+La actualización local usa manifest de hashes para integridad; no aporta firmas del
+publicador. Una evolución de autenticidad de releases requiere un contrato adicional.
+No hay scheduler de purga ni plataforma de observabilidad central incluida.
