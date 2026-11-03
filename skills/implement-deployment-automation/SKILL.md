@@ -24,6 +24,9 @@ Para backends Docker, incluir en prechecks el contrato de
 `infrastructure/container-logging.md` sin instalar Alloy ni modificar el host.
 Alloy/Loki nunca son requisitos bloqueantes: cualquier diagnóstico sobre su ausencia,
 acceso o ingestión es solo observación y no cambia el código de salida a fallo.
+Al materializar secretos, leer `security/sops-age.md`, `sops-private-material.md` y
+`encrypted-environment-contract.md`; la identidad vive en el home del usuario
+operativo, mientras los dotenv se publican bajo RUNTIME_DIR, sin llegar a la imagen.
 
 ## Contrato propio
 

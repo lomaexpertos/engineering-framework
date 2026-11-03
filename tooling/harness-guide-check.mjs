@@ -110,6 +110,9 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
     'policies/infrastructure/runtime-state.md',
     'policies/infrastructure/deployment/doctor.md',
     'policies/development/logging.md','policies/infrastructure/container-logging.md',
+    'policies/security/sops-age.md','policies/security/sops-private-material.md',
+    'policies/security/encrypted-environment-contract.md','checks/assurance/sops-profile.md',
+    'skills/manage-secrets/SKILL.md',
     ...['agent-profiles','agent-project','agent-task','agent-result','agent-workflow','closure','compact-closure','project-config','manifest','initiative-state'].map(name=>`schemas/${name}.schema.json`),
     ...Object.entries(guides).flatMap(([skill,names])=>[`skills/${skill}/SKILL.md`,...names.map(name=>`skills/${skill}/references/${name}`)])];
   for(const file of required)add('guide-inventory',core+file,()=>{if(!fs.existsSync(physical(file))||!fs.statSync(physical(file)).size)fail(`Required operational resource missing or empty: ${file}`);});
@@ -123,6 +126,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
     if(content.replace(/\n$/,'').split('\n').length>100)fail('AGENTS exceeds 100 physical lines');
     for(const target of ['.harness/core/policies/README.md','.harness/core/skills/coordinate-work/SKILL.md','.harness/core/skills/spec-documentar/SKILL.md','.harness/core/policies/ai-assisted-development/domain-documentation.md'])if(!content.includes(target))fail(`Required AGENTS routing missing: ${target}`);
     for(const target of ['.harness/core/policies/development/monorepo.md','.harness/core/skills/configure-monorepo/SKILL.md'])if(!content.includes(target))fail(`Required monorepo AGENTS routing missing: ${target}`);
+    if(!content.includes('.harness/core/policies/security/sops-age.md'))fail('Required SOPS policy entrypoint missing');
   });
   if(layout==='consumer')add('guide-entrypoint','CLAUDE.md',()=>{
     if(!/^@(?:\.\/)?AGENTS\.md\s*$/m.test(fs.readFileSync(path.join(root,'CLAUDE.md'),'utf8')))fail('CLAUDE does not import AGENTS');
@@ -139,6 +143,8 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
     if(!markdownLinks(read('policies/ai-assisted-development/README.md')).includes('domain-documentation.md'))fail('Required domain documentation policy routing missing');
   });
   for(const [router,targets] of [
+    ['policies/security/README.md',['sops-age.md','sops-private-material.md','encrypted-environment-contract.md']],
+    ['policies/security/sops-age.md',['sops-private-material.md','encrypted-environment-contract.md','../../checks/assurance/sops-profile.md']],
     ['policies/development/README.md',['logging.md']],
     ['policies/infrastructure/README.md',['container-logging.md']],
     ['policies/development/logging.md',['../infrastructure/container-logging.md']],

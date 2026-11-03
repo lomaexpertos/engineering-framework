@@ -9,7 +9,8 @@ identidad, exposición o recuperación.
 | --- | --- |
 | Crear, consumir, registrar o transportar secretos | [`secrets.md`](secrets.md) |
 | Detectar secretos en archivos, cambios o historial | [`secret-scanning.md`](secret-scanning.md) |
-| Versionar secretos productivos con SOPS y age | [`sops-age.md`](sops-age.md) |
+| Adoptar SOPS/age, editar ciphertext o gestionar públicas | [`sops-age.md`](sops-age.md) |
+| Ubicar identidad privada, entregar/importar un valor o diagnosticar acceso | [`sops-private-material.md`](sops-private-material.md) |
 | Mantener dotenv cifrado y sus contratos | [`encrypted-environment-contract.md`](encrypted-environment-contract.md) |
 | Autorización, entrada no confiable, permisos o abuso | [`application-security.md`](application-security.md) |
 | Dependencias, acciones CI, imágenes o procedencia | [`supply-chain.md`](supply-chain.md) |

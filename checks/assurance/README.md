@@ -129,9 +129,14 @@ autorizado, rotación, materialización atómica y activación sigue siendo requ
 del deployment; este check estático no los acredita.
 
 Los contratos SOPS admiten age directo y la primera regla aplicable de `.sops.yaml`
-en raíz, con regex portable documentada. Otras autoridades anidadas, proveedores o
+en raíz, con [perfil/regex soportados](sops-profile.md). Otras autoridades anidadas, proveedores o
 formas no soportadas fallan explícitamente. Un error no muestra ciphertext,
 plaintext, stdout/stderr del proceso ni coincidencias de secretos.
+
+Identidad y entrega privada siguen [sus rutas canónicas](../../policies/security/sops-private-material.md).
+Este check no requiere claves privadas ni valida identidades/inputs, archivos de
+públicas o materializadores del proyecto. Esas garantías requieren pruebas propias,
+sin acceso productivo; no se acreditan por pasar `secrets`.
 
 Salidas: 0 aprobado o no aplicable; 1 incumplimientos; 2 configuración/herramienta o
 ejecución incompleta. `not_applicable` no equivale a haber inspeccionado una capacidad.

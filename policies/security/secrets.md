@@ -25,6 +25,9 @@ creación, almacenamiento, distribución, uso y eliminación.
 10. Un cambio de secretos **MUST** validar que ningún plaintext, export, respaldo,
     archivo de editor o identidad privada haya quedado en el estado de Git.
 
+Para SOPS/age, la autoridad específica es [sops-age.md](sops-age.md); rutas privadas
+y entrega de valores se definen en [sops-private-material.md](sops-private-material.md).
+
 ## Ephemeral credentials
 
 Una credencial local o de preview **MAY** versionarse en texto plano únicamente si:

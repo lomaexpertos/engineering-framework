@@ -36,6 +36,9 @@ function exercise(root,layout) {
   mutate(root,layout,prefix+'policies/infrastructure/deployment/doctor.md',()=>null,'guide-inventory');
   mutate(root,layout,prefix+'policies/development/logging.md',()=>null,'guide-inventory');
   mutate(root,layout,prefix+'policies/infrastructure/container-logging.md',()=>null,'guide-inventory');
+  mutate(root,layout,prefix+'policies/security/sops-private-material.md',()=>null,'guide-inventory');
+  mutate(root,layout,prefix+'checks/assurance/sops-profile.md',()=>null,'guide-inventory');
+  mutate(root,layout,prefix+'policies/security/README.md',text=>text.replace('[`sops-private-material.md`](sops-private-material.md)','sops-private-material.md'),'guide-routing');
   mutate(root,layout,prefix+'policies/development/README.md',text=>text.replace('[`logging.md`](logging.md)','logging.md'),'guide-routing');
   mutate(root,layout,prefix+'policies/infrastructure/deployment/README.md',text=>text.replace('[`doctor.md`](doctor.md)','doctor.md'),'guide-routing');
   mutate(root,layout,prefix+'policies/infrastructure/environments/production.md',text=>text.replace('[runtime-state.md](../runtime-state.md)','runtime-state.md'),'guide-routing');

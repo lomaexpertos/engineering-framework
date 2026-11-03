@@ -12,6 +12,8 @@ para la tarea actual.
 
 ## Routing
 
+- SOPS/age, entrega privada o cambios de variables secretas: consulta
+  [`sops-age.md`](policies/security/sops-age.md) y usa `manage-secrets`.
 - Producto nuevo, nueva app o adopción de monorepo: consulta
   [`monorepo.md`](policies/development/monorepo.md) y
   [`configure-monorepo`](skills/configure-monorepo/SKILL.md).

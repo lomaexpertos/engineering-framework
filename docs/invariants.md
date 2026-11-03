@@ -11,6 +11,7 @@ Este índice localiza la fuente canónica; las explicaciones se mantienen allí.
 | Cerrar, validar y desplegar son hechos distintos; retención mínima de sesenta días. | [Ciclo de vida](architecture/work-lifecycle.md) |
 | Las normas no se debilitan mediante reglas locales silenciosas. | [Precedencia](../policies/precedence.md) |
 | La raíz productiva de archivos operativos es fija; declararla o pasar un override no autoriza cambiarla. | [Estado runtime](../policies/infrastructure/runtime-state.md#ruta-productiva-canónica) |
+| Identidad age y entrega privada tienen rutas únicas; añadir variables no autoriza cambiar recipients ni revelar valores. | [Material privado SOPS](../policies/security/sops-private-material.md) |
 | Un runtime productivo propio requiere doctor determinista antes de arrancar; un diagnóstico incompleto no acredita preparación. | [Doctor de producción](../policies/infrastructure/deployment/doctor.md) |
 | Backend emite a stdout/stderr y Docker local captura; Alloy/Loki son contexto externo no bloqueante y los labels permanecen acotados. | [Logging de contenedores](../policies/infrastructure/container-logging.md) |
 | El recorrido reduce ceremonia según riesgo sin rebajar controles intrínsecos ni pisos del proyecto. | [Entrega proporcional](../policies/ai-assisted-development/proportional-delivery.md) |
