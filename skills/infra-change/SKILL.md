@@ -21,6 +21,9 @@ Entregar un cambio de infraestructura adoptada sin ampliar su autoridad operativ
 - Mantener consistencia entre manifests, configuración, scripts y documentación
   cuando el contrato cambie; conservar la recuperación correspondiente.
 - Validar en infraestructura aislada, sin alterar ambientes operativos.
+- Cambios de logs Docker/Compose usan `infrastructure/container-logging.md`:
+  opciones versionadas y verificables, capacidad por contenedor y captura local para
+  Alloy del host; no administrar el collector ni inferir retención por días del tamaño.
 - Si cambia un prerrequisito o una entrada de arranque, actualizar el doctor y su
   cobertura según `infrastructure/deployment/doctor.md`, sin ejecutarlo en producción
   por inferencia de esta Skill.

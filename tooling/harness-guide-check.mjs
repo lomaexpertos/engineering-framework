@@ -109,6 +109,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
     'policies/development/monorepo.md','policies/git/application-releases.md',
     'policies/infrastructure/runtime-state.md',
     'policies/infrastructure/deployment/doctor.md',
+    'policies/development/logging.md','policies/infrastructure/container-logging.md',
     ...['agent-profiles','agent-project','agent-task','agent-result','agent-workflow','closure','compact-closure','project-config','manifest','initiative-state'].map(name=>`schemas/${name}.schema.json`),
     ...Object.entries(guides).flatMap(([skill,names])=>[`skills/${skill}/SKILL.md`,...names.map(name=>`skills/${skill}/references/${name}`)])];
   for(const file of required)add('guide-inventory',core+file,()=>{if(!fs.existsSync(physical(file))||!fs.statSync(physical(file)).size)fail(`Required operational resource missing or empty: ${file}`);});
@@ -138,6 +139,9 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
     if(!markdownLinks(read('policies/ai-assisted-development/README.md')).includes('domain-documentation.md'))fail('Required domain documentation policy routing missing');
   });
   for(const [router,targets] of [
+    ['policies/development/README.md',['logging.md']],
+    ['policies/infrastructure/README.md',['container-logging.md']],
+    ['policies/development/logging.md',['../infrastructure/container-logging.md']],
     ['policies/infrastructure/deployment/README.md',['doctor.md']],
     ['policies/infrastructure/deployment/automation.md',['doctor.md']],
     ['policies/infrastructure/environments/production.md',['../deployment/doctor.md']],

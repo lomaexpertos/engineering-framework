@@ -26,16 +26,47 @@
 
 ## Application output
 
-1. En producción, la aplicación **MUST** emitir su flujo principal de logs por
-   `stdout` y `stderr`; **MUST NOT** depender de archivos internos, montajes o de un
-   backend específico para entregar logs.
-2. Eventos informativos **SHOULD** emitirse por `stdout` y errores por `stderr` cuando
-   el framework permita diferenciarlos sin fragmentar el contrato.
-3. La aplicación **MUST NOT** depender directamente de Grafana Alloy, Loki ni otro
-   collector o backend para cumplir su contrato base de logging. La recolección y el
-   transporte son responsabilidades del runtime y de la infraestructura.
-4. Local y preview **MAY** agregar formatos o destinos para facilitar el desarrollo,
+1. Toda aplicación backend **MUST** emitir sus logs productivos directamente a
+   `stdout`/`stderr`, también fuera de flujos críticos. Configurar el logger/framework
+   para consola; **MUST NOT** usar archivos como destino principal, leerlos con un
+   proceso `tail` ni montar volúmenes de logs de aplicación para suplir este contrato.
+2. Eventos debug/info/warn usan `stdout`; errores/fatales usan `stderr`. Cada evento
+   **MUST** emitirse una sola vez, no duplicarse en ambos streams. Integraciones que
+   no permitan separar severidades requieren una excepción documentada.
+3. Emitir JSON estructurado, un evento por línea; serializar stack traces en campos,
+   sin romper eventos en múltiples líneas. Reutilizar el logger existente.
+4. Docker captura ambos streams con el driver `local`; Grafana Alloy del host los
+   recolecta y envía a Loki de forma asíncrona. **MUST NOT** agregar clientes Loki,
+   drivers remotos/plugins, sidecars o collectors alternativos por iniciativa del
+   agente. Aplicación y runtime cumplen
+   [container-logging.md](../infrastructure/container-logging.md); endpoints y
+   credenciales de Alloy/Loki no pertenecen a la aplicación.
+5. Local y preview **MAY** agregar formatos o destinos para facilitar el desarrollo,
    siempre que el comportamiento productivo pueda probarse.
+
+## Campos y cardinalidad
+
+- Campos base **MUST** incluir `timestamp` UTC, `level`, `event`, `message`, `project`,
+  `app` y `environment`; identidades estables y coherentes con el deployment.
+  Pueden añadirse en el logger común o enriquecerse en infraestructura cuando su
+  correspondencia sea inequívoca, sin repetir identidades contradictorias.
+- Eventos HTTP incluyen `method`, `route` como plantilla (p. ej. `/orders/{id}`),
+  `status` y `duration_ms` cuando existan. Rutas no resueltas usan un valor acotado
+  como `unmatched`; no registrar URL cruda, query strings ni parámetros sensibles.
+- `request_id`/`trace_id`, versión y demás contexto útil son campos del evento,
+  no etiquetas indexadas. No generar ambos identificadores si la correlación
+  existente basta. Registrar solo lo necesario; conservar evidencia crítica.
+- Labels base en Loki: `project`, `app`, `environment`, con valores acotados.
+  `route`, IDs de petición/usuario/entidad/contenedor, timestamps, mensajes, versiones
+  y URLs **MUST NOT** convertirse automáticamente en labels. Filtrar endpoint y
+  correlación mediante campos JSON en la consulta. Otros labels necesitan utilidad,
+  cardinalidad acotada y contrato explícitos, no expansión automática de campos.
+
+Ejemplo de consulta (campos ilustrativos, sin datos reales):
+
+```text
+{project="acme", app="api", environment="production"} | json | route="/orders/{id}" | level="error"
+```
 
 ## Operational and business events
 

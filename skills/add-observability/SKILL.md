@@ -14,6 +14,9 @@ Entregar las señales solicitadas o necesarias para cumplir el contrato operativ
 - Para salida productiva/Docker, consultar `development/logging.md` e
   `infrastructure/container-logging.md`; para otras señales, `infrastructure/observability.md`.
   Cargar únicamente el perfil afectado.
+- Backend: JSON a stdout/stderr, driver local con capacidad/rotación explícitas y
+  Alloy del host hacia Loki. Endpoint como ruta normalizada en campos consultables,
+  no nuevo label; no instalar collectors ni plugins alternativos en el producto.
 - Conservar naming de eventos, campos y correlación del proyecto. Reutilizar su
   logger/instrumentación; no instalar otro backend o collector por iniciativa propia.
 - No exigir métricas, trazas, alertas, dashboards ni runbooks por un cambio que solo

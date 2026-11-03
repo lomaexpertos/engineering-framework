@@ -1,6 +1,9 @@
 # Contexto operativo
 
 Sin trabajo de desarrollo activo ni trabajadores pendientes.
+Logging backend: stdout/stderr JSON, Docker local con rotación y Alloy del host a
+Loki; campos para endpoint/correlación sin labels de alta cardinalidad. Fuente:
+[logging de contenedores](../../policies/infrastructure/container-logging.md).
 Base inicial 0.1.0 sin publicar ni instalaciones; ver
 [versionado](../../docs/governance/versioning.md). No incrementar por iteración del borrador.
 La raíz productiva de archivos operativos está fijada; consultar
