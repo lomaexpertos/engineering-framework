@@ -14,7 +14,7 @@ conocimiento duradero que sobreviva al descarte del trabajo minucioso.
 | Operación autosuficiente para el agente | delivered | Guías instaladas, ayuda y contratos de uso verificables; controles de contexto/documentación detectan recursos o ejemplos inválidos. Siguiente: observar adopción del equipo. |
 | Entrega proporcional al riesgo | delivered | Mínimo directo o un worker, estándar con revisión agrupada y reforzado con controles completos; siguiente paso: adopción y observación del equipo. |
 | Conocimiento vigente de módulos y dominios | delivered | Investigación AS-IS de extremo a extremo, inventarios reconciliables y mantenimiento incremental disponibles; siguiente: documentar módulos reales según solicitud. La conversación general no abre workflows. |
-| Controles de secretos y contratos de infraestructura | delivered | Gitleaks y validadores de deployment/dotenv/SOPS distribuidos; siguiente adopción con contratos reales y gates operativos propios. |
+| Controles de secretos y contratos de infraestructura | delivered | Gitleaks y validadores estáticos disponibles; política portable SOPS/age, rutas privadas y evolución de variables documentadas. Siguiente: adopción con ejecutores y gates operativos propios. |
 | Raíz productiva y límites de decisión de infraestructura | delivered | Ruta fija y doctor determinista definidos por Policy, con ejemplo de salida y gate de arranque. Implementación/cobertura del doctor y adopción efectiva corresponden a cada proyecto. |
 | Modelo de aplicaciones de producto en monorepo | delivered | Apps poliglotas bajo apps/, releases independientes y guías de CI/previews descubribles; instalación sin migración ni activación de workflows. Siguiente: adopción y prueba de publicación en consumidores. |
 

@@ -69,3 +69,12 @@ identidad en lectura; los dotenv resultantes pertenecen al runtime de su unidad.
 Al faltar material, comunicar solo rutas y nombres necesarios. Al cerrar, informar
 archivos/variables afectados, validaciones, commit/publicación/activación y pendientes,
 sin valores. Recibir un archivo no autoriza nuevas operaciones sobre servidores.
+
+## Verificación al adoptar
+
+El proyecto **MUST** contrastar ejecutores/materializador/CI con estas reglas y
+probarlas con identidades/valores exclusivamente sintéticos: selección canónica frente
+a overrides, ausencia/identidad incorrecta/quórum, permisos/enlaces, entradas inválidas,
+preservación de espacios/valores, concurrencia, retirada solo tras confirmación y
+ausencia de filtraciones. No basta comparar README ni ejecutar contra producción.
+Los cambios dotenv y la recuperación siguen sus [gates](encrypted-environment-contract.md#publication-gates).

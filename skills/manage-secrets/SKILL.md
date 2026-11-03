@@ -26,8 +26,8 @@ Entregar un cambio compatible del contrato de secretos sin revelar valores ni de
   públicas y consumidores y revisar ejecutores/materializador/CI frente a las Policies.
   Identificar overrides heredados; no afirmar que documentar ya los eliminó del código.
   Los ejecutores deben usar la ruta privada canónica; fixtures sintéticos son aislados.
-  Probar ausencia/privada incorrecta, permisos/enlaces, preservación y concurrencia,
-  coherencia de altas/rotaciones/bajas y materialización/recuperación, sin producción.
+  Aplicar los criterios de adopción de `sops-private-material.md` y los gates dotenv;
+  no usar operaciones productivas para probar la política.
 - Plaintext versionado solo para credenciales descartables de local/preview,
   aisladas de producción y sin acceso productivo, conforme a la Policy.
 - No ejecutar el deployment ni alterar servicios externos.
