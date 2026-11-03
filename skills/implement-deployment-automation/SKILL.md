@@ -20,6 +20,8 @@ cuando la decisión o el cambio los afecte.
 Para prechecks y primer arranque, cargar `infrastructure/deployment/doctor.md`:
 doctor ejecutable propio del proyecto, catálogo exhaustivo/determinista y salida
 accionable con gate obligatorio; no copiar los checks ilustrativos como catálogo real.
+Para backends Docker, incluir en prechecks el contrato de
+`infrastructure/container-logging.md` sin instalar Alloy ni modificar el host.
 
 ## Contrato propio
 

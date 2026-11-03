@@ -24,6 +24,9 @@ Entregar la capacidad solicitada dentro del estilo y los contratos del proyecto.
 - Aplicar `development/logging.md` desde el mismo cambio cuando se cree o modifique
   una operación crítica. El tamaño del diff no exime motores de cálculo, facturación,
   correcciones, autorizaciones ni efectos financieros o de integridad.
+- Backend nuevo o cambio de logger/salida productiva: aplicar `development/logging.md`
+  e `infrastructure/container-logging.md`; no inventar transporte directo a Loki,
+  archivos de aplicación ni labels por endpoint/identificador.
 - Consultar [references/risk-routing.md](references/risk-routing.md) si el cambio
   cruza dominios; cargar contratos relevantes, no encadenar workflows completos
   únicamente por mencionar una tecnología.
