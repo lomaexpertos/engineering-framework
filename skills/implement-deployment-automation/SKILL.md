@@ -24,8 +24,11 @@ cuando la decisión o el cambio los afecte.
   `deploy.sh <precheck|install|release|status|diagnose|rollback> <unidad> [versión]`
   y la correspondencia con `deployment.yaml`.
 - Usar `scripts/lib/` para módulos y `scripts/privileged/` solo para helpers cerrados.
-  Estado, locks, temporales y material sensible viven en el `RUNTIME_DIR` declarado,
-  no en fuentes ni en `/tmp` como fallback.
+  Estado, locks, temporales y material sensible viven en
+  `RUNTIME_DIR=/home/appmanager/<project>-runtime`, según `runtime-state.md`.
+  No aceptar `<project>-production/runtime`, derivaciones de HOME/checkout ni
+  overrides; comprobar la raíz y confinamiento antes de escribir. Si el legado
+  difiere, reportar desviación y migración pendiente, sin moverlo automáticamente.
 - Confirmar unidad, artefacto, estrategia, salud, migraciones, runtime y recuperación;
   no inferir zero downtime ni una estrategia ausente. Una API sin estrategia
   documentada requiere la decisión responsable entre `blue-green` y `recreate`

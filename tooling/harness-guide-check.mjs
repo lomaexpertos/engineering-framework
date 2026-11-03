@@ -107,6 +107,7 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
   const routerRead=()=>fs.readFileSync(path.join(root,installedRouter),'utf8');
   const required=['templates/project/.harness/setup.sh','checks/assurance/README.md','checks/security/README.md','policies/security/secret-scanning.md','schemas/assurance.schema.json','schemas/deployment.schema.json','schemas/secret-contract.schema.json','policies/ai-assisted-development/domain-documentation.md','templates/context/docs/domain.md','policies/ai-assisted-development/proportional-delivery.md','policies/README.md','skills/README.md','checks/README.md','templates/context/README.md','templates/project/AGENTS.md','checks/repository-compliance/operations.md',
     'policies/development/monorepo.md','policies/git/application-releases.md',
+    'policies/infrastructure/runtime-state.md',
     ...['agent-profiles','agent-project','agent-task','agent-result','agent-workflow','closure','compact-closure','project-config','manifest','initiative-state'].map(name=>`schemas/${name}.schema.json`),
     ...Object.entries(guides).flatMap(([skill,names])=>[`skills/${skill}/SKILL.md`,...names.map(name=>`skills/${skill}/references/${name}`)])];
   for(const file of required)add('guide-inventory',core+file,()=>{if(!fs.existsSync(physical(file))||!fs.statSync(physical(file)).size)fail(`Required operational resource missing or empty: ${file}`);});
@@ -136,6 +137,9 @@ export function checkOperationalGuides(root,{layout='consumer'}={}) {
     if(!markdownLinks(read('policies/ai-assisted-development/README.md')).includes('domain-documentation.md'))fail('Required domain documentation policy routing missing');
   });
   for(const [router,targets] of [
+    ['policies/infrastructure/README.md',['runtime-state.md']],
+    ['policies/infrastructure/environments/production.md',['../runtime-state.md']],
+    ['policies/infrastructure/deployment/automation.md',['../runtime-state.md']],
     ['policies/development/README.md',['monorepo.md']],
     ['policies/git/README.md',['application-releases.md']],
     ['policies/development/monorepo.md',['../../skills/configure-monorepo/SKILL.md','../git/application-releases.md']],

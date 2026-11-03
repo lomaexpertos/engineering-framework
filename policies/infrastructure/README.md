@@ -10,7 +10,7 @@ router; no obliga a cargar todo el dominio.
 | Compilar, probar, preparar o ejecutar un proyecto | [`project-isolation.md`](project-isolation.md) |
 | Crear o reorganizar `infra/` | [`repository-layout.md`](repository-layout.md) |
 | Cambiar configuración versionada | [`configuration.md`](configuration.md) |
-| Modificar locks, slots, tags o archivos generados | [`runtime-state.md`](runtime-state.md) |
+| Definir rutas productivas, RUNTIME_DIR, locks, slots o estado generado | [`runtime-state.md`](runtime-state.md) |
 | Crear o modificar un ambiente | [`environments/`](environments/README.md) |
 | Elegir estrategia, automatizar o ejecutar un deployment | [`deployment/`](deployment/README.md) |
 | Definir o revisar señales de salud | [`health-checks.md`](health-checks.md) |

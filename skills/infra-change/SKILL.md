@@ -11,6 +11,8 @@ Entregar un cambio de infraestructura adoptada sin ampliar su autoridad operativ
 
 - Consultar el router `infrastructure/`, su layout y las Policies del componente afectado.
   Conservar ambientes, rutas y entrypoints canónicos; no crear capacidades vacías.
+- Para rutas/estado productivo, leer `infrastructure/runtime-state.md`: raíz exacta
+  `/home/appmanager/<project>-runtime`, sin overrides ni migraciones implícitas.
 - Una adopción completa usa `infra-adopt-framework`; automatización Bash del perfil
   de servidor fijo usa `implement-deployment-automation`; secretos usan `manage-secrets`.
   No aplicar esos workflows completos a una modificación que no los requiera.

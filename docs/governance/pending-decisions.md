@@ -17,6 +17,13 @@ Estos temas no constituyen contratos implementados ni autorizaciones de ejecuci�
 
 ## Contratos especializados
 
+- Homogeneizar identidad operativa y nombres de Compose/redes/volúmenes y decidir
+  si las rutas Compose hoy recomendadas se vuelven obligatorias. La raíz productiva
+  ya está fijada en [runtime-state.md](../../policies/infrastructure/runtime-state.md);
+  las subcarpetas funcionales siguen declaradas por proyecto, sin catálogo corporativo.
+- Precisar el contrato de persistencia administrada (bind mounts, volúmenes y backups)
+  y los parámetros explícitos de salud, logs y retención. No relocalizar datos o
+  almacenamiento del daemon por inferencia de la raíz runtime.
 - Metadata normativa de Policies y formato verificable de excepciones, conservando
   los datos mínimos y aprobación definidos por la Policy de precedencia.
 - Adoptar validadores de deployment y dotenv/SOPS en proyectos reales; ampliar

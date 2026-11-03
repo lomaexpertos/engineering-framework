@@ -104,6 +104,12 @@ manifest, IDs únicos y referencias existentes, estrategias, salud y autoridad d
 migración. Comprueba declaraciones y rutas; no ejecuta salud, scripts ni despliegues,
 ni demuestra coherencia operativa con un servidor.
 
+La ruta productiva obligatoria es `/home/appmanager/<project>-runtime`, según
+[runtime-state.md](../../policies/infrastructure/runtime-state.md). El manifest no
+declara esa ruta y el scope deployment no inspecciona scripts/hosts para acreditarla.
+Prechecks y pruebas aisladas del proyecto deben rechazar rutas divergentes antes
+de escribir. Context/documentation comprueban presencia y routing de esa Policy.
+
 Secretos sigue
 [el contrato dotenv](../../policies/security/encrypted-environment-contract.md),
 [SOPS/age](../../policies/security/sops-age.md) y

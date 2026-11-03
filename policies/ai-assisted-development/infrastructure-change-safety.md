@@ -27,6 +27,13 @@ se convierta en una modificación operativa no autorizada.
    redundantes; debe comprobar referencias y obtener la autoridad necesaria.
 10. Durante la ejecución, cada fase **MUST** conservar trazabilidad con el plan y
     evidencia de validación antes de avanzar.
+11. Rutas, identidades y entrypoints fijados por una Policy **MUST NOT** reinterpretarse
+    como ejemplos. Una decisión técnica no autoriza cambiarlos. Para producción,
+    aplicar [runtime-state.md](../infrastructure/runtime-state.md); una discrepancia
+    exige resolver la decisión afectada antes de escribir, sin fallback ni migración
+    implícita. Una elección no fijada por Policy debe reutilizar el contrato vigente
+    del proyecto; si falta una decisión operativa material, hacerla explícita con el
+    responsable en vez de inventar una convención persistente.
 
 El procedimiento detallado de adopción usa `infra-adopt-framework`; los cambios
 posteriores usan `infra-change`. Esta Policy define únicamente sus límites

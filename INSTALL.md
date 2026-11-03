@@ -63,6 +63,19 @@ integrarse en Git por el usuario antes de volver a sincronizar.
 
 ## Migración de versión mayor
 
+### De 3.x a 4.x
+
+4.x fija el estado operativo productivo en `/home/appmanager/<project>-runtime`.
+La antigua obligación de terminar en `/runtime` no aplica a producción. Revisar
+scripts, Compose, jobs y runbooks conforme a
+[runtime-state.md](policies/infrastructure/runtime-state.md). Si una instalación
+usa otra raíz, registrar la desviación y aprobar la migración con recuperación;
+no mover, borrar ni enlazar datos al actualizar el harness. La actualización del
+núcleo usa `--check --allow-major` para revisar el plan y `--allow-major` para
+aceptarlo; esa aceptación no autoriza migrar estado productivo.
+
+### Desde instalaciones anteriores a 3.x
+
 Desde 1.x o 2.x, preparar Node.js 22 o 24 en el host y usar el bootstrap actualizado;
 así la migración no depende del wrapper Docker de la instalación anterior. Revisar
 y aceptar explícitamente el cambio de runtime requerido por 3.x:
